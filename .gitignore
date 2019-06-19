@@ -1,0 +1,5 @@
+.vscode
+build
+glide.lock
+vendor
+*debug.test*
