@@ -1,0 +1,2 @@
+# monetd
+Monet Hub Daemon
