@@ -1,6 +1,7 @@
 package commands
 
 import (
+	"github.com/mosaicnetworks/monetd/cmd/monetcli/commands/config"
 	"github.com/mosaicnetworks/monetd/cmd/monetcli/commands/keys"
 	"github.com/mosaicnetworks/monetd/cmd/monetcli/commands/network"
 	"github.com/spf13/cobra"
@@ -16,6 +17,7 @@ func init() {
 	RootCmd.AddCommand(
 		keys.KeysCmd,
 		network.NetworkCmd,
+		config.ConfigCmd,
 		VersionCmd,
 	)
 	//do not print usage when error occurs
