@@ -26,7 +26,17 @@ installcli:
 		--ldflags "-X github.com/mosaicnetworks/evm-lite/src/version.GitCommit=`git rev-parse HEAD`" \
 		./cmd/monetcli
 
+docker:
+	go build \
+		--ldflags '-extldflags "-static"' \
+		-o ./docker/monetd ./cmd/monetd/
+	go build \
+		--ldflags '-extldflags "-static"' \
+		-o ./docker/monetcli ./cmd/monetcli/
+
+
+
 test:
 	glide novendor | xargs go test
 
-.PHONY: all vendor install installd installcli test update
+.PHONY: all vendor install installd installcli test update docker
