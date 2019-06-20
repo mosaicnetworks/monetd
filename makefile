@@ -21,10 +21,12 @@ installd:
 		--ldflags "-X github.com/mosaicnetworks/evm-lite/src/version.GitCommit=`git rev-parse HEAD`" \
 		./cmd/monetd
 
+
 installcli:
 	go install \
 		--ldflags "-X github.com/mosaicnetworks/evm-lite/src/version.GitCommit=`git rev-parse HEAD`" \
 		./cmd/monetcli
+
 
 docker:
 	go build \
