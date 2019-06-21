@@ -7,7 +7,7 @@ import (
 //RootCmd is the root command for monetd
 var RootCmd = &cobra.Command{
 	Use:   "monetd",
-	Short: "Monet-Daemon",
+	Short: "MONET-Daemon",
 }
 
 func init() {
@@ -18,4 +18,3 @@ func init() {
 	//do not print usage when error occurs
 	RootCmd.SilenceUsage = true
 }
-
