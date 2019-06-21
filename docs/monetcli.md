@@ -1,26 +1,22 @@
 # Monet-CLI
 ## Monet Hub tools
 
-## USAGE
 
 
-```
-Monet-CLI
+# USAGE
 
-Usage:
-  monetcli [command]
+There are n subcommands exposed by *monetcli*:
 
-Available Commands:
-  help        Help about any command
-  keys        An Ethereum key manager
-  version     Show version info
+- **keys** - to manage key pairs
+- **network** - to manage network.toml to define a network
+- **config** - to manage the config for a node as built from network.toml
+- **version** - to display version information
+- **help** - to find help on all of the commands
 
-Flags:
-  -h, --help   help for monetcli
+Each subcommand has a separate section below.
 
-Use "monetcli [command] --help" for more information about a command.
-```
 
+## keys
 The keys subcommand is used to manage ethereum keys.
 
 ```bash
@@ -42,9 +38,15 @@ Flags:
 Use "monetcli keys [command] --help" for more information about a command.
 ```
 
-## Configuration
+## network
 
-### Network
+```bash
+$ monetcli help network
+
+TODO
+
+```
+
 
 The network subcommand deals with **network.toml**, a new file that defines a network. It can be used to generate the datadir files - although it contains no private keys. All network commands can take a flag overriding the default directory - but we anticipate it being little used. 
 
@@ -75,11 +77,48 @@ The network configuration filter will look like:
 **This functionality is currently implemented in bash scripts calling solcs. This may end up not being a go command. **
 
 
-### Config
+## config
 The config subcommand deals with the actual monetd configuration datadir. 
+
+
+
+```bash
+$ monetcli help config
+
+TODO
+
+```
+
 
 **monet config check** sanity checks the datadir configuration. 
 
 
 
+## version
 
+
+```bash
+$ monetcli help version
+
+TODO
+
+```
+
+
+
+## help
+
+
+```bash
+$ monetcli help help
+
+TODO
+
+```
+
+
+
+# Worked Example: Creating a Network
+
+
+TODO
