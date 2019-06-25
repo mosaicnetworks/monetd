@@ -1,5 +1,6 @@
-# EVM-LITE
-## A lean Ethereum node with interchangeable consensus.
+# monetd
+
+## Ethereum with Babble consensus
 
 We took the [Go-Ethereum](https://github.com/ethereum/go-ethereum)
 implementation (Geth) and extracted the EVM and Trie components to create a
@@ -16,109 +17,56 @@ The EVM is meant to be used in conjunction with a system that broadcasts
 transactions across network participants and ensures that everyone executes the
 same transactions in the same order. Ethereum uses a Blockchain and a Proof of
 Work consensus algorithm. EVM-Lite makes it easy to use any consensus system,
-including [Babble](https://github.com/mosaicnetworks/babble) .
-
-## ARCHITECTURE
-
-```
-                +-------------------------------------------+
-+----------+    |  +-------------+         +-------------+  |       
-|          |    |  | Service     |         | State       |  |
-|  Client  <-----> |             | <------ |             |  |
-|          |    |  | -API        |         | -EVM        |  |
-+----------+    |  | -Keystore   |         | -Trie       |  |
-                |  |             |         | -Database   |  |
-                |  +-------------+         +-------------+  |
-                |         |                       ^         |     
-                |         v                       |         |
-                |  +-------------------------------------+  |
-                |  | Engine                              |  |
-                |  |                                     |  |
-                |  |       +----------------------+      |  |
-                |  |       | Consensus            |      |  |
-                |  |       +----------------------+      |  |
-                |  |                                     |  |
-                |  +-------------------------------------+  |
-                |                                           |
-                +-------------------------------------------+
-
-```
-
-## Consensus Implementations:
-
-- **SOLO**: No Consensus. Transactions are relayed directly from Service to
-  State.
-
-- **[BABBLE](https://github.com/mosaicnetworks/babble)**: Inmemory Babble node.
-  EVM-Lite does not support Babble's FastSync and Dynamic Membership protocols
-  yet, so it is important to set the `--store` flag, and a high `--sync-limit` 
-  value. 
-
-- **[RAFT](https://github.com/hashicorp/raft)**: Hashicorp implementation of
-  Raft (limited).
-
-more to come...
+including [Babble](https://github.com/mosaicnetworks/babble).
 
 ## USAGE
 
-There are two sub-commands: `keys` and `run`.
+All the configuration required to run a node is stored under a directory with a 
+very specific structure. By default, `monetd` will look for this directory in 
+`$HOME/.monet` (on UNIX systems), but it is possible to override this with the 
+`--datadir` flag.
+
+`datadir` must contain a set of files defining the network that this node is 
+attempting to join or create. Please refer to `monetcli` for a tool to manage 
+this configuration. 
+
+In particular:
+
+* **eth/genesis.json**: defines the accounts prefunded in the state, and the POA 
+                        smart-contract.
+* **babble/genesis.peers.json**: defines Babble's initial peer-set.
+* **babble/peers.json**: defines Babble's current peer-set
+* **babble/priv_key**: contains the validator's private key for Babble.
+
+Further options pertaining to the operation of the node are read from the 
+[datadir]/monetd.toml file, or overwritten by the following flags.
 
 ```
-EVM-Lite
-
-Usage:
-  evml [command]
-
-Available Commands:
-  help        Help about any command
-  keys        An Ethereum key manager
-  run         Run a node
-  version     Show version info
-
 Flags:
-  -h, --help   help for evml
-
-Use "evml [command] --help" for more information about a command.
+      --babble.cache-size int          Number of items in LRU caches (default 50000)
+      --babble.heartbeat duration      Heartbeat time milliseconds (time between gossips) (default 500ms)
+      --babble.listen string           IP:PORT of Babble node (default ":1337")
+      --babble.max-pool int            Max number of pool connections (default 2)
+      --babble.service-listen string   IP:PORT of Babble HTTP API service (default ":8000")
+      --babble.sync-limit int          Max number of Events per sync (default 1000)
+      --babble.timeout duration        TCP timeout milliseconds (default 1s)
+  -d, --datadir string                 Top-level directory for configuration and data (default "/home/martin/.monet")
+      --eth.cache int                  Megabytes of memory allocated to internal caching (min 16MB / database forced) (default 128)
+      --eth.listen string              IP:PORT of Monet HTTP API service (default ":8080")
+  -h, --help                           help for run
 ```
 
-Each consensus has its own sub-sub-command `evml run [consensus]`, and its own
-configuration flags.
+Example of a monet.toml file:
 
 ```
-Run a node
-
-Usage:
-  evml run [command]
-
-Available Commands:
-  babble      Run the evm-lite node with Babble consensus
-  raft        Run the evm-lite node with Raft consensus
-  solo        Run the evm-lite node with Solo consensus (no consensus)
-
-Flags:
-  -d, --datadir string        Top-level directory for configuration and data (default "/home/martin/.evm-lite")
-      --eth.cache int         Megabytes of memory allocated to internal caching (min 16MB / database forced) (default 128)
-      --eth.db string         Eth database file (default "/home/martin/.evm-lite/eth/chaindata")
-      --eth.genesis string    Location of genesis file (default "/home/martin/.evm-lite/eth/genesis.json")
-      --eth.keystore string   Location of Ethereum account keys (default "/home/martin/.evm-lite/eth/keystore")
-      --eth.listen string     Address of HTTP API service (default ":8080")
-      --eth.pwd string        Password file to unlock accounts (default "/home/martin/.evm-lite/eth/pwd.txt")
-  -h, --help                  help for run
-      --log string            debug, info, warn, error, fatal, panic (default "debug")
-
-Use "evml run [command] --help" for more information about a command.
-
-```
-
-Options can also be specified in a `evml.toml` file in the `datadir`.
-
-ex (evml.toml):
-``` toml
-log=info
-[eth]
-db = "/eth.db"
 [babble]
-listen="127.0.0.1:1337"
+heartbeat = "50ms"
+timeout = "200ms"
+listen = ":1337"
+sync-limit = 500
+
+[eth]
+listen = ":8080"
 ```
 
 ## Configuration
@@ -128,21 +76,14 @@ by the --datadir flag. The directory structure must respect the following
 stucture:
 
 ```
-host:~/.evm-lite$ tree
+host:~/.monetd$ tree
 ├── babble
 │   ├── peers.json
-│   └── priv_key.pem
+│   └── priv_key
 ├── eth
 │   ├── genesis.json
-│   ├── keystore
-│   │   └── UTC--2018-10-14T11-12-24.412349157Z--633139fa62d5c27f454259ba59fc34773bd19457
-│   └── pwd.txt
-└── evml.toml
+└── monetd.toml
 ```
-
-The above example shows a `babble` folder, but the general idea is that
-consensus  configuration goes in a separate folder from the Ethereum
-configuration.
 
 The Ethereum genesis file defines Ethereum accounts and is stripped of all the 
 Ethereum POW stuff. This file is useful to predefine a set of accounts that own 
@@ -160,34 +101,11 @@ Example Ethereum genesis.json defining two account:
         }
    }
 }
-```
-
-It is possible to enable evm-lite to control certain accounts by providing a
-list of encrypted private keys in the keystore directory. With these private
-keys, evm-lite will be able to sign transactions on behalf of the accounts
-associated with the keys.  
-
-```
-host:~/.evm-lite/eth/keystore$ tree
-.
-├── UTC--2016-02-01T16-52-27.910165812Z--629007eb99ff5c3539ada8a5800847eacfc25727
-├── UTC--2016-02-01T16-52-28.021010343Z--e32e14de8b81d8d3aedacb1868619c74a68feab0
-```
-
-These keys are protected by a password. Use the `eth.pwd` flag to specify the
-location of the password file.
-
-**Needless to say you should not reuse these addresses and private keys**
-
-## Database
-
-EVM-Lite will use a LevelDB database to persist state objects. The file of the  
-database can be specified with the `eth.db` flag which defaults to
-`<datadir>/eth/chaindata`.  
+```  
 
 ## API
 The Service exposes an API at the address specified by the --eth.listen flag for
-clients to interact with Ethereum.  
+clients to interact with the node and the network.  
 
 ### Get controlled accounts
 
@@ -279,7 +197,7 @@ host:~$ curl -X POST http://[api_addr]/rawtx -d '0xf8628080830f424094564686380e2
 The `/info` endpoint exposes a map of information provided by the consensus
 system.
 
-example (with Babble consensus):
+example:
 ```bash
 host:-$ curl http://[api_addr]/info | json_pp
 {
@@ -305,33 +223,3 @@ host:-$ curl http://[api_addr]/info | json_pp
 
 Please refer to [EVM-Lite CLI](https://github.com/mosaicnetworks/evm-lite-cli)
 for Javascript utilities and a CLI to interact with the API.
-
-## DEV
-
-DEPENDENCIES
-
-We use glide to manage dependencies:
-
-```bash
-[...]/evm-lite$ curl https://glide.sh/get | sh
-[...]/evm-lite$ glide install
-```
-This will download all dependencies and put them in the **vendor** folder; it
-could take a few minutes.
-
-CONSENSUS
-
-To add a new consensus system:
-
-- implement the consensus interface (consensus/consensus.go)
-- add a property to the the global configuration object (config/config.go)
-- create the corresponding CLI subcommand in cmd/evml/commands/
-- register that command to the root command
-
-## DEPLOY
-
-We provide a set of scripts to automate the deployment of testnets. This
-requires [terraform](https://www.terraform.io/) and
-[docker](https://www.docker.com/).
-
-Support for AWS is also available (cf. deploy/)

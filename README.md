@@ -1,12 +1,26 @@
 # Monet Hub
+
 **This is a work in progress and not yet complete**
 
-This repository is a single repository to build a Monet Hub. It builds uses a EVM_lite VM running on a Babble consensus. No other consensus is supported. It also creates tools for the management of the hub. 
+This repo is a thin wrapper around evm-lite, focused on exposing only the 
+functionnality required for operating a Monet Hub node. 
 
-The outputs from this repository are 
+The executables defined in this repository are: 
 
-- [monetd](docs/monetd.md) - the actual Monet Hub Server
-- [monetcli](docs/monetcli.md) - useful tools including key management. 
+- [monetd](docs/monetd.md) - the actual Monet Hub node daemon.
+- [monetcli](docs/monetcli.md) - a tool to manage configuration for monetd. 
+
+## Overview
+
+The Monet Hub is an always-on blockchain that supports other Mobile ad-hoc 
+blockchains as defined in the MONET whitepaper. It is a smart-contract platform
+based on the Ethereum Virtual Machine and a BFT consensus algorithm inspired by
+Hashgraph.
+
+Nodes on the Monet Hub run the `monetd` daemon, which is a specific instance of 
+[mosaicnetwork](https://mosaicnetworks.io)'s 
+[evm-lite](https://github.com/mosaicnetworks/evm-lite)  with 
+[Babble consensus](https://github.com/mosaicnetworks/babble).
 
 ## Installation
 
@@ -16,10 +30,11 @@ First install dependencies. We use glide to manage dependencies:
 [...]/monetd$ curl https://glide.sh/get | sh
 [...]/monetd$ make vendor
 ```
+
 This will download all dependencies and put them in the **vendor** folder; it
 could take a few minutes.
 
-Then we build and install:
+Then build and install:
 
 ```bash
 [...]/monetd$ make install
@@ -27,10 +42,9 @@ Then we build and install:
 
 ## Usage
 
-Please see the documentation for each separate function:
+Please see the documentation for each separate program:
 
-
-- [monetd](docs/monetd.md) - the actual Monet Hub Server
+- [monetd](docs/monetd.md) - the actual Monet Hub node daemon.
 - [monetcli](docs/monetcli.md) - useful tools including key management. 
 
 ## Developer

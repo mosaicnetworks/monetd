@@ -2,6 +2,10 @@ package commands
 
 import (
 	"fmt"
+	"os"
+	"os/user"
+	"path/filepath"
+	"runtime"
 
 	_config "github.com/mosaicnetworks/evm-lite/src/config"
 	"github.com/mosaicnetworks/evm-lite/src/consensus/babble"
@@ -12,58 +16,58 @@ import (
 )
 
 var (
-	config = _config.DefaultConfig()
-	logger = logrus.New()
+	config = monetConfig(defaultHomeDir())
+	logger = defaultLogger()
 )
 
-//AddBabbleFlags adds flags to the Babble command
-func AddBabbleFlags(cmd *cobra.Command) {
-	cmd.Flags().String("babble.datadir", config.Babble.DataDir, "Directory contaning priv_key.pem and peers.json files")
-	cmd.Flags().String("babble.listen", config.Babble.BindAddr, "IP:PORT of Babble node")
-	cmd.Flags().String("babble.service-listen", config.Babble.ServiceAddr, "IP:PORT of Babble HTTP API service")
-	cmd.Flags().Duration("babble.heartbeat", config.Babble.Heartbeat, "Heartbeat time milliseconds (time between gossips)")
-	cmd.Flags().Duration("babble.timeout", config.Babble.TCPTimeout, "TCP timeout milliseconds")
-	cmd.Flags().Int("babble.cache-size", config.Babble.CacheSize, "Number of items in LRU caches")
-	cmd.Flags().Int("babble.sync-limit", config.Babble.SyncLimit, "Max number of Events per sync")
-	cmd.Flags().Bool("babble.enable-fast-sync", config.Babble.EnableFastSync, "Enable FastSync")
-	cmd.Flags().Int("babble.max-pool", config.Babble.MaxPool, "Max number of pool connections")
-	cmd.Flags().Bool("babble.store", config.Babble.Store, "use persistent store")
-	viper.BindPFlags(cmd.Flags())
+func monetConfig(dataDir string) *_config.Config {
+	config := _config.DefaultConfig()
+
+	config.Babble.EnableFastSync = false
+	config.Babble.Store = true
+
+	config.SetDataDir(dataDir)
+
+	return config
 }
+
+func defaultLogger() *logrus.Logger {
+	logger := logrus.New()
+	logger.Level = logrus.DebugLevel
+	return logger
+}
+
+/*******************************************************************************
+RunCmd
+*******************************************************************************/
 
 //RunCmd is launches a node
 var RunCmd = &cobra.Command{
-	Use:              "run",
-	Short:            "Run a Monet node",
-	TraverseChildren: true,
-	PersistentPreRunE: func(cmd *cobra.Command, args []string) (err error) {
-		if err := bindFlagsLoadViper(cmd); err != nil {
-			return err
-		}
+	Use:   "run",
+	Short: "Run a MONET node",
+	Long: `Run a MONET node.
 
-		config, err = parseConfig()
-		if err != nil {
-			return err
-		}
+  Start a daemon which acts as a full node on a MONET network. All data and 
+  configuration are stored under a directory [datadir] controlled by the 
+  --datadir flag ($HOME/.monet by default on UNIX systems). 
+  
+  [datadir] must contain a set of files defining the network that this node is 
+  attempting to join or create. Please refer to monetcli for a tool to manage 
+  this configuration. 
+  
+  Further options pertaining to the operation of the node are read from the 
+  [datadir]/monetd.toml file, or overwritten by the following flags.`,
 
-		logger = logrus.New()
-		logger.Level = logLevel(config.BaseConfig.LogLevel)
-
-		config.SetDataDir(config.BaseConfig.DataDir)
-
-		logger.WithFields(logrus.Fields{
-			"Base": config.BaseConfig,
-			"Eth":  config.Eth}).Debug("Config")
-
-		return nil
-	},
 	PreRunE: func(cmd *cobra.Command, args []string) (err error) {
+		if err := readConfig(cmd); err != nil {
+			return err
+		}
 
-		config.SetDataDir(config.BaseConfig.DataDir)
+		logger.Level = logLevel(config.LogLevel)
 
-		logger.WithFields(logrus.Fields{
-			"Babble": config.Babble,
-		}).Debug("Config")
+		logger.WithField("Base", fmt.Sprintf("%+v", config.BaseConfig)).Debug("Config Base")
+		logger.WithField("Babble", fmt.Sprintf("%+v", config.Babble)).Debug("Config Babble")
+		logger.WithField("Eth", fmt.Sprintf("%+v", config.Eth)).Debug("Config Eth")
 
 		return nil
 	},
@@ -71,71 +75,108 @@ var RunCmd = &cobra.Command{
 }
 
 func init() {
-	//Subcommands
-	//	RunCmd.AddCommand(
-	//		NewBabbleCmd(),
-	//		NewRaftCmd(),
-	//		NewSoloCmd())
+	// Base config
+	RunCmd.Flags().StringP("datadir", "d", config.DataDir, "Top-level directory for configuration and data")
 
-	//Base config
-	RunCmd.Flags().StringP("datadir", "d", config.BaseConfig.DataDir, "Top-level directory for configuration and data")
-	RunCmd.Flags().String("log", config.BaseConfig.LogLevel, "debug, info, warn, error, fatal, panic")
-
-	//Eth config
-	RunCmd.Flags().String("eth.genesis", config.Eth.Genesis, "Location of genesis file")
-	RunCmd.Flags().String("eth.keystore", config.Eth.Keystore, "Location of Ethereum account keys")
-	RunCmd.Flags().String("eth.pwd", config.Eth.PwdFile, "Password file to unlock accounts")
-	RunCmd.Flags().String("eth.db", config.Eth.DbFile, "Eth database file")
-	RunCmd.Flags().String("eth.listen", config.Eth.EthAPIAddr, "Address of HTTP API service")
-	RunCmd.Flags().Int("eth.cache", config.Eth.Cache, "Megabytes of memory allocated to internal caching (min 16MB / database forced)")
-	//Babble config
-	RunCmd.Flags().String("babble.datadir", config.Babble.DataDir, "Directory contaning priv_key.pem and peers.json files")
+	// Babble config
 	RunCmd.Flags().String("babble.listen", config.Babble.BindAddr, "IP:PORT of Babble node")
 	RunCmd.Flags().String("babble.service-listen", config.Babble.ServiceAddr, "IP:PORT of Babble HTTP API service")
 	RunCmd.Flags().Duration("babble.heartbeat", config.Babble.Heartbeat, "Heartbeat time milliseconds (time between gossips)")
 	RunCmd.Flags().Duration("babble.timeout", config.Babble.TCPTimeout, "TCP timeout milliseconds")
 	RunCmd.Flags().Int("babble.cache-size", config.Babble.CacheSize, "Number of items in LRU caches")
 	RunCmd.Flags().Int("babble.sync-limit", config.Babble.SyncLimit, "Max number of Events per sync")
-	RunCmd.Flags().Bool("babble.enable-fast-sync", config.Babble.EnableFastSync, "Enable FastSync")
 	RunCmd.Flags().Int("babble.max-pool", config.Babble.MaxPool, "Max number of pool connections")
-	RunCmd.Flags().Bool("babble.store", config.Babble.Store, "use persistent store")
+
+	// Eth config
+	RunCmd.PersistentFlags().String("eth.listen", config.Eth.EthAPIAddr, "IP:PORT of Monet HTTP API service")
+	RunCmd.PersistentFlags().Int("eth.cache", config.Eth.Cache, "Megabytes of memory allocated to internal caching (min 16MB / database forced)")
+
 	viper.BindPFlags(RunCmd.Flags())
 }
 
-//------------------------------------------------------------------------------
+/*******************************************************************************
+READ CONFIG AND RUN
+*******************************************************************************/
 
-//Retrieve the default environment configuration.
-func parseConfig() (*_config.Config, error) {
-	conf := _config.DefaultConfig()
-	err := viper.Unmarshal(conf)
-	if err != nil {
-		return nil, err
-	}
-	return conf, err
-}
+// Read Config into Viper
+func readConfig(cmd *cobra.Command) error {
+	config = _config.DefaultConfig()
 
-//Bind all flags and read the config into viper
-func bindFlagsLoadViper(cmd *cobra.Command) error {
-	// cmd.Flags() includes flags from this command and all persistent flags from the parent
-	if err := viper.BindPFlags(cmd.Flags()); err != nil {
+	// unmarshal a first time to read from cli flags
+	if err := viper.Unmarshal(config); err != nil {
 		return err
 	}
 
-	viper.SetConfigName("evml")                    // name of config file (without extension)
-	viper.AddConfigPath(config.BaseConfig.DataDir) // search root directory
+	// EnableFastSync and Store are not configurable, they MUST have these
+	// values:
+	config.Babble.EnableFastSync = false
+	config.Babble.Store = true
+
+	config.SetDataDir(config.DataDir)
+
+	viper.SetConfigName("monetd")       // name of config file (without extension)
+	viper.AddConfigPath(config.DataDir) // search root directory
 
 	// If a config file is found, read it in.
 	if err := viper.ReadInConfig(); err == nil {
 		// stderr, so if we redirect output to json file, this doesn't appear
 		logger.Debugf("Using config file: %s", viper.ConfigFileUsed())
 	} else if _, ok := err.(viper.ConfigFileNotFoundError); ok {
-		logger.Debugf("No config file found in %s", config.DataDir)
+		logger.Debugf("No config file monetd.toml found in %s", config.DataDir)
 	} else {
+		return err
+	}
 
+	// unmarshal a second time to read from config file
+	if err := viper.Unmarshal(config); err != nil {
 		return err
 	}
 
 	return nil
+}
+
+// Run the EVM-Lite / Babble engine
+func runBabble(cmd *cobra.Command, args []string) error {
+
+	babble := babble.NewInmemBabble(config.Babble, logger)
+	engine, err := engine.NewEngine(*config, babble, logger)
+	if err != nil {
+		return fmt.Errorf("Error building Engine: %s", err)
+	}
+
+	engine.Run()
+
+	return nil
+}
+
+/*******************************************************************************
+HELPERS
+*******************************************************************************/
+
+func defaultHomeDir() string {
+	// Try to place the data folder in the user's home dir
+	home := homeDir()
+	if home != "" {
+		if runtime.GOOS == "darwin" {
+			return filepath.Join(home, "Library", "MONET")
+		} else if runtime.GOOS == "windows" {
+			return filepath.Join(home, "AppData", "Roaming", "MONET")
+		} else {
+			return filepath.Join(home, ".monet")
+		}
+	}
+	// As we cannot guess a stable location, return empty and handle later
+	return ""
+}
+
+func homeDir() string {
+	if home := os.Getenv("HOME"); home != "" {
+		return home
+	}
+	if usr, err := user.Current(); err == nil {
+		return usr.HomeDir
+	}
+	return ""
 }
 
 func logLevel(l string) logrus.Level {
@@ -155,17 +196,4 @@ func logLevel(l string) logrus.Level {
 	default:
 		return logrus.DebugLevel
 	}
-}
-
-func runBabble(cmd *cobra.Command, args []string) error {
-
-	babble := babble.NewInmemBabble(config.Babble, logger)
-	engine, err := engine.NewEngine(*config, babble, logger)
-	if err != nil {
-		return fmt.Errorf("Error building Engine: %s", err)
-	}
-
-	engine.Run()
-
-	return nil
 }
