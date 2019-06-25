@@ -1,69 +1,73 @@
 package network
 
 import (
+	"fmt"
+
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
+)
+
+const (
+	defaultSolidityContract = "https://raw.githubusercontent.com/mosaicnetworks/evm-lite/poa/e2e/smart-contracts/genesis_array.sol"
+	templateContract        = "template.sol"
+	genesisContract         = "contract0.sol"
+	genesisABI              = "contract0.abi"
 )
 
 //NetworkCmd controls network configuration
-var NetworkCmd = &cobra.Command{
-	Use:              "network",
-	Short:            "manage monet network configuration",
-	TraverseChildren: true,
-}
+var (
+	NetworkCmd = &cobra.Command{
+		Use:              "network",
+		Short:            "manage monet network configuration",
+		TraverseChildren: true,
+	}
+
+	configDir      string
+	force          bool
+	verboseLogging = true
+)
 
 func init() {
 	//Subcommands
 	NetworkCmd.AddCommand(
-		NewNewCmd(),
-		NewCheckCmd(),
-		NewAddCmd(),
-		NewGenerateCmd(),
-		NewCompileCmd(),
+		newNewCmd(),   // Barebones implemented.
+		newCheckCmd(), // Framework implemented. Only checks contract address.
+		newAddCmd(),
+		newShowCmd(), // Complete.
+		newGenerateCmd(),
+		newCompileCmd(),
 	)
 
-	//Commonly used command line flags
-	//	NetworkCmd.PersistentFlags().StringVar(&passwordFile, "passfile", "", "the file that contains the passphrase for the keyfile")
+	var defaultConfigDir, err = defaultHomeDir()
+
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
+	NetworkCmd.PersistentFlags().StringVar(&configDir, "config-dir", defaultConfigDir, "the directory containing the network.toml file")
+	NetworkCmd.PersistentFlags().BoolVar(&verboseLogging, "verbose", false, "verbose messages")
+
 	//	NetworkCmd.PersistentFlags().BoolVar(&outputJSON, "json", false, "output JSON instead of human-readable format")
-	//	viper.BindPFlags(NetworkCmd.Flags())
+	viper.BindPFlags(NetworkCmd.Flags())
 }
 
 //check add generate compile
 
-func NewCheckCmd() *cobra.Command {
+func newAddCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "check",
-		Short: "check configuration",
-		Long: `
-Check configuration.`,
-		Args: cobra.ExactArgs(1),
-		RunE: checkconfig,
-	}
-	return cmd
-}
-
-func checkconfig(cmd *cobra.Command, args []string) error {
-	return nil
-}
-
-func NewAddCmd() *cobra.Command {
-	cmd := &cobra.Command{
-		Use:   "add",
+		Use:   "add [moniker] [address] [ip] [isValidator]",
 		Short: "add key pair",
 		Long: `
 Add a key pair to the configuration.`,
-		Args: cobra.ExactArgs(1),
-		RunE: addkeypair,
+		Args: cobra.ExactArgs(4),
+		RunE: addValidator,
 	}
 	return cmd
 }
 
-func addkeypair(cmd *cobra.Command, args []string) error {
-	return nil
-}
-
-func NewGenerateCmd() *cobra.Command {
+func newGenerateCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "generate",
+		Use:   "generate [moniker]",
 		Short: "generate and add key pair",
 		Long: `
 Generate and add a key pair to the configuration.`,
@@ -77,18 +81,14 @@ func generatekeypair(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
-func NewCompileCmd() *cobra.Command {
+func newCompileCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "compile",
 		Short: "compile configuration",
 		Long: `
 compile network configuration.`,
-		Args: cobra.ExactArgs(1),
-		RunE: compileconfig,
+		Args: cobra.ExactArgs(0),
+		RunE: compileConfig,
 	}
 	return cmd
-}
-
-func compileconfig(cmd *cobra.Command, args []string) error {
-	return nil
 }

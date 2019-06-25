@@ -1,22 +1,26 @@
 # Monet-CLI
 ## Monet Hub tools
 
+## USAGE
 
 
-# USAGE
+```
+Monet-CLI
 
-There are n subcommands exposed by *monetcli*:
+Usage:
+  monetcli [command]
 
-- **keys** - to manage key pairs
-- **network** - to manage network.toml to define a network
-- **config** - to manage the config for a node as built from network.toml
-- **version** - to display version information
-- **help** - to find help on all of the commands
+Available Commands:
+  help        Help about any command
+  keys        An Ethereum key manager
+  version     Show version info
 
-Each subcommand has a separate section below.
+Flags:
+  -h, --help   help for monetcli
 
+Use "monetcli [command] --help" for more information about a command.
+```
 
-## keys
 The keys subcommand is used to manage ethereum keys.
 
 ```bash
@@ -38,15 +42,9 @@ Flags:
 Use "monetcli keys [command] --help" for more information about a command.
 ```
 
-## network
+## Configuration
 
-```bash
-$ monetcli help network
-
-TODO
-
-```
-
+### Network
 
 The network subcommand deals with **network.toml**, a new file that defines a network. It can be used to generate the datadir files - although it contains no private keys. All network commands can take a flag overriding the default directory - but we anticipate it being little used. 
 
@@ -58,6 +56,8 @@ The network subcommand deals with **network.toml**, a new file that defines a ne
 - which smart contract to use - default to the one in the repo
 
 **monetcli network check** checks whether the network.toml file defines a valid configuration. If the network.toml includes bytecode and solcs version information, it attempt to compile the smart contract and verify the result matches the supplied version. 
+
+**monetcli network show** outputs the current *network.toml* file. 
 
 **monetcli network generate key [ip] [nodename]** generates a new key and adds them as peers / validators. The private keys are placed in a keystore subfolder. 
 
@@ -76,49 +76,11 @@ The network configuration filter will look like:
 
 **This functionality is currently implemented in bash scripts calling solcs. This may end up not being a go command. **
 
-
-## config
+### Config
 The config subcommand deals with the actual monetd configuration datadir. 
-
-
-
-```bash
-$ monetcli help config
-
-TODO
-
-```
-
 
 **monet config check** sanity checks the datadir configuration. 
 
 
 
-## version
 
-
-```bash
-$ monetcli help version
-
-TODO
-
-```
-
-
-
-## help
-
-
-```bash
-$ monetcli help help
-
-TODO
-
-```
-
-
-
-# Worked Example: Creating a Network
-
-
-TODO
