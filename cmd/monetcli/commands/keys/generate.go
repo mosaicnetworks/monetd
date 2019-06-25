@@ -15,7 +15,7 @@ import (
 )
 
 var (
-	defaultKeyfile = "keyfile.json"
+	DefaultKeyfile = "keyfile.json"
 
 	privateKeyfile string
 )
@@ -54,14 +54,19 @@ If you want to encrypt an existing private key, it can be specified by setting
 
 func generate(cmd *cobra.Command, args []string) error {
 	// Check if keyfile path given and make sure it doesn't already exist.
-	keyfilepath := args[0]
+	_, err := GenerateKeyPair(args[0])
+	// message("Address is: ", key.Address)
+	return err
+}
+
+func GenerateKeyPair(keyfilepath string) (*keystore.Key, error) {
 	if keyfilepath == "" {
-		keyfilepath = defaultKeyfile
+		keyfilepath = DefaultKeyfile
 	}
 	if _, err := os.Stat(keyfilepath); err == nil {
-		return fmt.Errorf("Keyfile already exists at %s", keyfilepath)
+		return nil, fmt.Errorf("Keyfile already exists at %s", keyfilepath)
 	} else if !os.IsNotExist(err) {
-		return fmt.Errorf("Error checking if keyfile exists: %v", err)
+		return nil, fmt.Errorf("Error checking if keyfile exists: %v", err)
 	}
 
 	var privateKey *ecdsa.PrivateKey
@@ -70,13 +75,13 @@ func generate(cmd *cobra.Command, args []string) error {
 		// Load private key from file.
 		privateKey, err = crypto.LoadECDSA(file)
 		if err != nil {
-			return fmt.Errorf("Can't load private key: %v", err)
+			return nil, fmt.Errorf("Can't load private key: %v", err)
 		}
 	} else {
 		// If not loaded, generate random.
 		privateKey, err = crypto.GenerateKey()
 		if err != nil {
-			return fmt.Errorf("Failed to generate random private key: %v", err)
+			return nil, fmt.Errorf("Failed to generate random private key: %v", err)
 		}
 	}
 
@@ -91,20 +96,20 @@ func generate(cmd *cobra.Command, args []string) error {
 	// Encrypt key with passphrase.
 	passphrase, err := getPassphrase()
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	keyjson, err := keystore.EncryptKey(key, passphrase, keystore.StandardScryptN, keystore.StandardScryptP)
 	if err != nil {
-		return fmt.Errorf("Error encrypting key: %v", err)
+		return nil, fmt.Errorf("Error encrypting key: %v", err)
 	}
 
 	// Store the file to disk.
 	if err := os.MkdirAll(filepath.Dir(keyfilepath), 0700); err != nil {
-		return fmt.Errorf("Could not create directory %s: %v", filepath.Dir(keyfilepath), err)
+		return nil, fmt.Errorf("Could not create directory %s: %v", filepath.Dir(keyfilepath), err)
 	}
 	if err := ioutil.WriteFile(keyfilepath, keyjson, 0600); err != nil {
-		return fmt.Errorf("Failed to write keyfile to %s: %v", keyfilepath, err)
+		return nil, fmt.Errorf("Failed to write keyfile to %s: %v", keyfilepath, err)
 	}
 
 	// Output some information.
@@ -118,5 +123,5 @@ func generate(cmd *cobra.Command, args []string) error {
 		fmt.Println("Address:", out.Address)
 	}
 
-	return nil
+	return key, nil
 }

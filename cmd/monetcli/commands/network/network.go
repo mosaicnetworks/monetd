@@ -1,7 +1,9 @@
 package network
 
 import (
+	"errors"
 	"fmt"
+	"path/filepath"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -30,12 +32,13 @@ var (
 func init() {
 	//Subcommands
 	NetworkCmd.AddCommand(
-		newNewCmd(),   // Barebones implemented.
-		newCheckCmd(), // Framework implemented. Only checks contract address.
-		newAddCmd(),
-		newShowCmd(), // Complete.
-		newGenerateCmd(),
-		newCompileCmd(),
+		newNewCmd(),      // Barebones implemented. Need to add more parameters
+		newCheckCmd(),    // Framework implemented. Only checks contract address.
+		newAddCmd(),      // Add Peers, framework in place
+		newShowCmd(),     // Complete.
+		newGenerateCmd(), // Complete
+		newContractCmd(), // Complete
+		newCompileCmd(),  // Solidity Compile in place, need to finish peers amendments to solidity, generation of .monetd files
 	)
 
 	var defaultConfigDir, err = defaultHomeDir()
@@ -49,6 +52,36 @@ func init() {
 
 	//	NetworkCmd.PersistentFlags().BoolVar(&outputJSON, "json", false, "output JSON instead of human-readable format")
 	viper.BindPFlags(NetworkCmd.Flags())
+}
+
+func newContractCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "contract [contract]",
+		Short: "set solidity contract",
+		Long: `
+Sets the solidity contract to use for poa.`,
+		Args: cobra.ExactArgs(1),
+		RunE: setContract,
+	}
+	return cmd
+}
+
+func setContract(cmd *cobra.Command, args []string) error {
+	sol := args[0]
+
+	if !checkIfExists(sol) {
+		message("Cannot read solidity contract file: ", sol)
+		return errors.New("cannot read contract file")
+	}
+
+	targetFile := filepath.Join(configDir, templateContract)
+
+	message("Copying sol file: ", sol, targetFile)
+
+	// Cut and paste copy files
+	err := copyFileContents(sol, targetFile)
+
+	return err
 }
 
 //check add generate compile
@@ -67,18 +100,14 @@ Add a key pair to the configuration.`,
 
 func newGenerateCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "generate [moniker]",
+		Use:   "generate [moniker] [ip] [isValidator]",
 		Short: "generate and add key pair",
 		Long: `
 Generate and add a key pair to the configuration.`,
-		Args: cobra.ExactArgs(1),
+		Args: cobra.ExactArgs(3),
 		RunE: generatekeypair,
 	}
 	return cmd
-}
-
-func generatekeypair(cmd *cobra.Command, args []string) error {
-	return nil
 }
 
 func newCompileCmd() *cobra.Command {

@@ -8,6 +8,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"strconv"
 	"strings"
 
 	compile "github.com/ethereum/go-ethereum/common/compiler"
@@ -89,54 +90,48 @@ func compileConfig(cmd *cobra.Command, args []string) error {
 	isvalidatorArray := strings.Split(isvalidators, ";")
 	ipArray := strings.Split(ips, ";")
 
-	// If any of the Peers arrays are of different lengths 
+	// If any of the Peers arrays are of different lengths
 	if len(monikerArray) != len(addressArray) || len(addressArray) != len(isvalidatorArray) || len(isvalidatorArray) != len(ipArray) || len(ipArray) != len(monikerArray) {
 		return errors.New("peers configutation is inconsistent")
 	}
 
-
-
 	var consts, addTo, checks []string
 
-	for  i, value := range addressArray
-	{
-		consts = append(consts, "    address constant initWhitelist"+i+" = "+addressArray[i] +";" )
-		consts = append(consts, "    bytes32 constant initWhitelistMoniker"+i+" = \""+monikerArray[i] +"\";" )
+	for i, value := range addressArray {
+		consts = append(consts, "    address constant initWhitelist"+strconv.Itoa(i)+" = "+value+";")
+		consts = append(consts, "    bytes32 constant initWhitelistMoniker"+strconv.Itoa(i)+" = \""+monikerArray[i]+"\";")
 
-
-		addTo = append(addTo,   "     addToWhitelist(initWhitelist"+i+", initWhitelistMoniker"+i+");")
-		checks = append(checks, " ( initWhitelist"+i+" == _address ) ")
+		addTo = append(addTo, "     addToWhitelist(initWhitelist"+strconv.Itoa(i)+", initWhitelistMoniker"+strconv.Itoa(i)+");")
+		checks = append(checks, " ( initWhitelist"+strconv.Itoa(i)+" == _address ) ")
 
 	}
 
+	generatedSol := "GENERATED GENESIS BEGIN \n " +
+		" \n" +
+		strings.Join(consts, "\n") +
+		" \n" +
+		" \n" +
+		" \n" +
+		"    function processGenesisWhitelist() private \n" +
+		"    { \n" +
+		strings.Join(addTo, "\n") +
+		" \n" +
+		"    } \n" +
+		" \n" +
+		" \n" +
+		"    function isGenesisWhitelisted(address _address) pure private returns (bool) \n" +
+		"    { \n" +
+		"        return ( " + strings.Join(checks, "||") + "); \n" +
+		"    } \n" +
 
-	generatedSol := " //GENERATED GENESIS BEGIN \n " +
-	" \n" +	
+		" \n" +
+		" //GENERATED GENESIS END \n "
 
-	strings.Join(consts, "\n")+
-	" \n" +	
-	" \n" +	
-	" \n" +	
-  "    function processGenesisWhitelist() private \n" +
-  "    { \n" +
-  strings.Join(addTo, "\n")+
-	" \n" +	
-  "    } \n" +
-	" \n" +	
-	" \n" +	
-  "    function isGenesisWhitelisted(address _address) pure private returns (bool) \n"+
-  "    { \n"+
-  "        return ( "+strings.Join(checks,"||") + "); \n"+
-  "    } \n"+
+	// replace
 
-	" \n" +	
-  " //GENERATED GENESIS END \n " ;
+	reg := regexp.MustCompile(`(?s)GENERATED GENESIS BEGIN.*GENERATED GENESIS END`)
+	finalSoliditySource := reg.ReplaceAllString(soliditySource, generatedSol)
 
-
-// replace 
-
-
-	finalSoliditySource := soliditySource // TODO Prepopulate the genesis whitelist from code
 	writeToFile(filepath.Join(configDir, genesisContract), finalSoliditySource)
 
 	contractInfo, err := compile.CompileSolidityString("solc", finalSoliditySource)

@@ -10,17 +10,21 @@ import (
 
 func addValidator(cmd *cobra.Command, args []string) error {
 
+	moniker := args[0]
+	addr := args[1]
+	ip := args[2]
+	isValidator, _ := strconv.ParseBool(args[3])
+
+	return addValidatorParamaterised(moniker, addr, ip, isValidator)
+}
+
+func addValidatorParamaterised(moniker string, addr string, ip string, isValidator bool) error {
 	var config configurationRecord
 
 	err := loadConfig()
 	if err != nil {
 		return err
 	}
-
-	moniker := args[0]
-	addr := args[1]
-	ip := args[2]
-	isValidator, _ := strconv.ParseBool(args[3])
 
 	err = networkViper.Unmarshal(&config)
 

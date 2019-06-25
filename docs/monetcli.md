@@ -83,4 +83,58 @@ The config subcommand deals with the actual monetd configuration datadir.
 
 
 
+####
+
+# Examples
+
+
+First we create a new network.
+```bash
+$ monetcli network new
+``` 
+
+If you get a message that the configuration directory exists, then you need to add the **force** parameter. No data is lost, the existing directory is renamed with a .~n~ where n is the lowest non-clashing positive integer.
+
+
+```bash
+$ monetcli network new --force 
+``` 
+
+All of the network commands have a **verbose** option to display more information.  
+
+Next we generate some keys. Here we specify the moniker, ip address and whether the node is a validator on the commands line. 
+
+```bash
+$ monetcli network generate node0 172.77.5.1 true
+Passphrase: 
+Address: 0x7e42c360141DA6d5B80109eF3101f3A210BbaA32
+```
+
+At any point we can view the configuration so far. 
+
+```bash
+$ monetcli network show
+
+[config]
+  datadir = "/home/jon/.monetcli"
+
+[poa]
+  compilerversion = ""
+  contractaddress = "abbaabbaabbaabbaabbaabbaabbaabbaabbaabba"
+  contractname = "genesis_array.sol"
+
+[validators]
+  addresses = "0x7e42c360141DA6d5B80109eF3101f3A210BbaA32"
+  ips = "172.77.5.1"
+  isvalidator = "true"
+  monikers = "node0"
+``` 
+
+By default the POA smart contract is downloaded from github directly if not previously specified. You may overwrite this default by using the **contract** subcommand. 
+
+```bash
+$ monetcli network contract ../evm-lite/e2e/smart-contracts/genesis_array.sol 
+```
+
+
 
