@@ -16,24 +16,10 @@ import (
 var (
 	config = monetConfig(defaultHomeDir())
 	logger = defaultLogger()
+
+	passwordFile string
+	outputJSON   bool
 )
-
-func monetConfig(dataDir string) *_config.Config {
-	config := _config.DefaultConfig()
-
-	config.Babble.EnableFastSync = false
-	config.Babble.Store = true
-
-	config.SetDataDir(dataDir)
-
-	return config
-}
-
-func defaultLogger() *logrus.Logger {
-	logger := logrus.New()
-	logger.Level = logrus.DebugLevel
-	return logger
-}
 
 /*******************************************************************************
 RootCmd
@@ -74,7 +60,7 @@ func init() {
 HELPERS
 *******************************************************************************/
 
-// Read Config into Viper
+// read config into Viper
 func readConfig(cmd *cobra.Command) error {
 
 	// Register flags with viper
@@ -112,7 +98,7 @@ func readConfig(cmd *cobra.Command) error {
 	if err := viper.ReadInConfig(); err == nil {
 		fmt.Printf("Using config file: %s\n", viper.ConfigFileUsed())
 	} else if _, ok := err.(viper.ConfigFileNotFoundError); ok {
-		fmt.Printf("No config file monetd.toml found in %s\n", config.DataDir)
+		// fmt.Printf("No config file monetd.toml found in %s\n", config.DataDir)
 	} else {
 		return err
 	}
@@ -123,6 +109,25 @@ func readConfig(cmd *cobra.Command) error {
 	}
 
 	return nil
+}
+
+// default config for monetd
+func monetConfig(dataDir string) *_config.Config {
+	config := _config.DefaultConfig()
+
+	config.Babble.EnableFastSync = false
+	config.Babble.Store = true
+
+	config.SetDataDir(dataDir)
+
+	return config
+}
+
+// default logger (debug)
+func defaultLogger() *logrus.Logger {
+	logger := logrus.New()
+	logger.Level = logrus.DebugLevel
+	return logger
 }
 
 func defaultHomeDir() string {
