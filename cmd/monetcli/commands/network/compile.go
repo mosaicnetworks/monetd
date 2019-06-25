@@ -40,7 +40,9 @@ func compileConfig(cmd *cobra.Command, args []string) error {
 
 	networkViper.Set("poa.compilerversion", version) // version)
 
-	// TODO - check if this has been overridden
+	//When contracts are "set" for a network, the solidity source is copied into the monetcli config directory
+	//with a name of template.sol (defined by constant templateContract). Thus we can check just for that file.
+	//If not found, then we download a fresh contract.
 	filename := filepath.Join(configDir, templateContract)
 	message("Checking for file: ", filename)
 
@@ -55,7 +57,7 @@ func compileConfig(cmd *cobra.Command, args []string) error {
 
 		b, err := ioutil.ReadAll(file)
 		soliditySource = string(b)
-	} else {
+	} else { // NB, we do not write the downloaded template to file. Preferable to get fresh is regenerating.
 		message("Loading: ", defaultSolidityContract)
 		resp, err := http.Get(defaultSolidityContract)
 		if err != nil {
