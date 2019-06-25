@@ -1,10 +1,12 @@
 package network
 
 import (
+	"encoding/hex"
 	"errors"
 	"path/filepath"
 	"strconv"
 
+	"github.com/ethereum/go-ethereum/crypto"
 	keys "github.com/mosaicnetworks/monetd/cmd/monetcli/commands/keys"
 	"github.com/spf13/cobra"
 )
@@ -41,6 +43,10 @@ func generatekeypair(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	return addValidatorParamaterised(moniker, key.Address.Hex(), ip, isValidator)
+	pubkey := hex.EncodeToString(
+		crypto.FromECDSAPub(&key.PrivateKey.PublicKey))
+
+	return addValidatorParamaterised(moniker, key.Address.Hex(),
+		pubkey, ip, isValidator)
 	//	return nil
 }

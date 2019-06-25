@@ -17,6 +17,7 @@ const (
 	genesisABI              = "contract0.abi"
 	defaultAccountBalance   = "1234000000000000000000"
 	genesisFileName         = "genesis.json"
+	peersFileName           = "peers.json"
 )
 
 //NetworkCmd controls network configuration
@@ -91,7 +92,7 @@ func setContract(cmd *cobra.Command, args []string) error {
 
 func newAddCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "add [moniker] [address] [ip] [isValidator]",
+		Use:   "add [moniker] [publickey] [ip] [isValidator]",
 		Short: "add key pair",
 		Long: `
 Add a key pair to the configuration.`,

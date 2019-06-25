@@ -22,6 +22,7 @@ type poaRecord struct {
 type validatorRecord struct {
 	moniker            string `mapstructure:"monikers"`
 	address            string `mapstructure:"addresses"`
+	pubkeys            string `mapstructure:"pubkeys"`
 	ip                 string `mapstructure:"ips"`
 	isInitialValidator string `mapstructure:"isvalidator"`
 }
@@ -43,6 +44,14 @@ type genesisFile struct {
 	Alloc *genesisAlloc `json:"alloc"`
 	Poa   *genesisPOA   `json:"poa"`
 }
+
+type peerRecord struct {
+	NetAddr   string `json:"NetAddr"`
+	PubKeyHex string `json:"PubKeyHex"`
+	Moniker   string `json:"Moniker"`
+}
+
+type peerRecordList []*peerRecord
 
 var (
 	config       configurationRecord
@@ -66,6 +75,7 @@ func defaultConfig() {
 	networkViper.SetDefault("poa.compilerversion", "")
 	networkViper.SetDefault("validators.monikers", "")
 	networkViper.SetDefault("validators.addresses", "")
+	networkViper.SetDefault("validators.pubkeys", "")
 	networkViper.SetDefault("validators.ips", "")
 	networkViper.SetDefault("validators.isvalidator", "")
 }

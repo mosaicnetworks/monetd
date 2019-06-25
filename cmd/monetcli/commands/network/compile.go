@@ -80,28 +80,32 @@ func compileConfig(cmd *cobra.Command, args []string) error {
 	// Get Peers
 	monikers := networkViper.GetString("validators.monikers")
 	addresses := networkViper.GetString("validators.addresses")
+	pubkeys := networkViper.GetString("validators.pubkeys")
 	isvalidators := networkViper.GetString("validators.isvalidator")
 	ips := networkViper.GetString("validators.ips")
 
 	// Reject if no peers set
-	if monikers == "" || addresses == "" || isvalidators == "" || ips == "" {
+	if monikers == "" || addresses == "" || isvalidators == "" || ips == "" || pubkeys == "" {
 		return errors.New("Peerset is empty")
 	}
 
 	// Parse Peers Config into Arrays
 	monikerArray := strings.Split(monikers, ";")
 	addressArray := strings.Split(addresses, ";")
+	pubkeyArray := strings.Split(pubkeys, ";")
 	isvalidatorArray := strings.Split(isvalidators, ";")
 	ipArray := strings.Split(ips, ";")
 
 	// If any of the Peers arrays are of different lengths
-	if len(monikerArray) != len(addressArray) || len(addressArray) != len(isvalidatorArray) || len(isvalidatorArray) != len(ipArray) || len(ipArray) != len(monikerArray) {
+	if len(monikerArray) != len(addressArray) || len(addressArray) != len(isvalidatorArray) ||
+		len(pubkeyArray) != len(ipArray) || len(isvalidatorArray) != len(ipArray) || len(ipArray) != len(monikerArray) {
 		return errors.New("peers configutation is inconsistent")
 	}
 
 	var consts, addTo, checks []string
 
 	var alloc = make(genesisAlloc)
+	var peers peerRecordList
 
 	for i, value := range addressArray {
 
@@ -118,9 +122,12 @@ func compileConfig(cmd *cobra.Command, args []string) error {
 
 			addTo = append(addTo, "     addToWhitelist(initWhitelist"+strconv.Itoa(i)+", initWhitelistMoniker"+strconv.Itoa(i)+");")
 			checks = append(checks, " ( initWhitelist"+strconv.Itoa(i)+" == _address ) ")
+			peer := peerRecord{NetAddr: ipArray[i], PubKeyHex: pubkeyArray[i], Moniker: monikerArray[i]}
+			peers = append(peers, &peer)
 		}
 		rec := genesisAllocRecord{Moniker: monikerArray[i], Balance: defaultAccountBalance}
 		alloc[addr] = &rec
+
 	}
 
 	generatedSol := "GENERATED GENESIS BEGIN \n " +
@@ -192,6 +199,13 @@ func compileConfig(cmd *cobra.Command, args []string) error {
 
 	jsonFileName := filepath.Join(configDir, genesisFileName)
 	writeToFile(jsonFileName, string(genesisjson))
+
+	peersjson, err := json.MarshalIndent(peers, "", "\t")
+	if err != nil {
+		return err
+	}
+	jsonFileName = filepath.Join(configDir, peersFileName)
+	writeToFile(jsonFileName, string(peersjson))
 
 	return nil
 }
