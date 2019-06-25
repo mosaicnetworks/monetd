@@ -11,7 +11,9 @@ import (
 	"strconv"
 	"strings"
 
+	types "github.com/ethereum/go-ethereum/common"
 	compile "github.com/ethereum/go-ethereum/common/compiler"
+
 	"github.com/spf13/cobra"
 )
 
@@ -97,13 +99,26 @@ func compileConfig(cmd *cobra.Command, args []string) error {
 
 	var consts, addTo, checks []string
 
+	var alloc = make(genesisAlloc)
+
 	for i, value := range addressArray {
-		consts = append(consts, "    address constant initWhitelist"+strconv.Itoa(i)+" = "+value+";")
-		consts = append(consts, "    bytes32 constant initWhitelistMoniker"+strconv.Itoa(i)+" = \""+monikerArray[i]+"\";")
 
-		addTo = append(addTo, "     addToWhitelist(initWhitelist"+strconv.Itoa(i)+", initWhitelistMoniker"+strconv.Itoa(i)+");")
-		checks = append(checks, " ( initWhitelist"+strconv.Itoa(i)+" == _address ) ")
+		// Convert Hex to Address and back out to get a EIP55 compliant address
+		addr := types.HexToAddress(value).Hex()
 
+		val, err := strconv.ParseBool(isvalidatorArray[i])
+		if err != nil {
+			return err
+		}
+		if val {
+			consts = append(consts, "    address constant initWhitelist"+strconv.Itoa(i)+" = "+addr+";")
+			consts = append(consts, "    bytes32 constant initWhitelistMoniker"+strconv.Itoa(i)+" = \""+monikerArray[i]+"\";")
+
+			addTo = append(addTo, "     addToWhitelist(initWhitelist"+strconv.Itoa(i)+", initWhitelistMoniker"+strconv.Itoa(i)+");")
+			checks = append(checks, " ( initWhitelist"+strconv.Itoa(i)+" == _address ) ")
+		}
+		rec := genesisAllocRecord{Moniker: monikerArray[i], Balance: defaultAccountBalance}
+		alloc[addr] = &rec
 	}
 
 	generatedSol := "GENERATED GENESIS BEGIN \n " +
@@ -135,9 +150,12 @@ func compileConfig(cmd *cobra.Command, args []string) error {
 	writeToFile(filepath.Join(configDir, genesisContract), finalSoliditySource)
 
 	contractInfo, err := compile.CompileSolidityString("solc", finalSoliditySource)
+	var poagenesis genesisPOA
+
+	// message("Contract Compiled: ", contractInfo)
 
 	for k, v := range contractInfo {
-
+		message("Processing Contract: ", k)
 		jsonabi, err := json.MarshalIndent(v.Info.AbiDefinition, "", "\t")
 		if err != nil {
 			message("ABI error:", err)
@@ -149,9 +167,29 @@ func compileConfig(cmd *cobra.Command, args []string) error {
 
 		writeToFile(filepath.Join(configDir, genesisABI), string(jsonabi))
 		networkViper.Set("poa.bytecode", v.RuntimeCode)
+
+		poagenesis.Abi = string(jsonabi)
+		poagenesis.Address = types.HexToAddress(networkViper.GetString("poa.contractaddress")).Hex() //EIP55 compliant
+		poagenesis.Code = v.RuntimeCode
+
+		message("Set Contract Items")
 		break // We only have one contract ever so no need to loop. We use the for loop as k is indeterminate
 	}
 
 	writeConfig()
+
+	var genesis genesisFile
+
+	genesis.Alloc = &alloc
+	genesis.Poa = &poagenesis
+
+	genesisjson, err := json.MarshalIndent(genesis, "", "\t")
+	if err != nil {
+		return err
+	}
+
+	jsonFileName := filepath.Join(configDir, genesisFileName)
+	writeToFile(jsonFileName, string(genesisjson))
+
 	return nil
 }

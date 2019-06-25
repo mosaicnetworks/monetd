@@ -9,11 +9,14 @@ import (
 	"github.com/spf13/viper"
 )
 
+// This section defines some constants used throughout this package.
 const (
 	defaultSolidityContract = "https://raw.githubusercontent.com/mosaicnetworks/evm-lite/poa/e2e/smart-contracts/genesis_array.sol"
 	templateContract        = "template.sol"
 	genesisContract         = "contract0.sol"
 	genesisABI              = "contract0.abi"
+	defaultAccountBalance   = "1234000000000000000000"
+	genesisFileName         = "genesis.json"
 )
 
 //NetworkCmd controls network configuration

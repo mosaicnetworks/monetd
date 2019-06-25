@@ -26,6 +26,24 @@ type validatorRecord struct {
 	isInitialValidator string `mapstructure:"isvalidator"`
 }
 
+type genesisAllocRecord struct {
+	Balance string `json:"balance"`
+	Moniker string `json:"moniker"`
+}
+
+type genesisAlloc map[string]*genesisAllocRecord
+
+type genesisPOA struct {
+	Address string `json:"address"`
+	Abi     string `json:"abi"`
+	Code    string `json:"code"`
+}
+
+type genesisFile struct {
+	Alloc *genesisAlloc `json:"alloc"`
+	Poa   *genesisPOA   `json:"poa"`
+}
+
 var (
 	config       configurationRecord
 	configConfig configRecord
