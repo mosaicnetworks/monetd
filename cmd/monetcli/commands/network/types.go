@@ -13,7 +13,6 @@ type configRecord struct {
 
 type poaRecord struct {
 	contractAddress string `mapstructure:"contractaddress"`
-	contractName    string `mapstructure:"contractname"`
 	compilerVersion string `mapstructure:"compilerversion"`
 	byteCode        string `mapstructure:"bytecode"`
 	abi             string `mapstructure:"abi"`
@@ -59,11 +58,6 @@ var (
 	poa          poaRecord
 )
 
-const (
-	defaultContractAddress = "abbaabbaabbaabbaabbaabbaabbaabbaabbaabba"
-	defaultContractName    = "genesis_array.sol"
-)
-
 func defaultConfig() {
 
 	home, err := defaultHomeDir()
@@ -71,7 +65,6 @@ func defaultConfig() {
 		networkViper.SetDefault("config.datadir", home)
 	}
 	networkViper.SetDefault("poa.contractaddress", defaultContractAddress)
-	networkViper.SetDefault("poa.contractname", defaultContractName)
 	networkViper.SetDefault("poa.compilerversion", "")
 	networkViper.SetDefault("validators.monikers", "")
 	networkViper.SetDefault("validators.addresses", "")
@@ -83,7 +76,7 @@ func defaultConfig() {
 func newConfigurationRecord() *configurationRecord {
 
 	configConfig = configRecord{dataDir: ""}
-	poa = poaRecord{contractAddress: defaultContractAddress, contractName: defaultContractName}
+	poa = poaRecord{contractAddress: defaultContractAddress}
 
 	config = configurationRecord{config: &configConfig, poa: &poa}
 

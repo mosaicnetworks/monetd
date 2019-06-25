@@ -121,7 +121,6 @@ $ monetcli network show
 [poa]
   compilerversion = ""
   contractaddress = "abbaabbaabbaabbaabbaabbaabbaabbaabbaabba"
-  contractname = "genesis_array.sol"
 
 [validators]
   addresses = "0x7e42c360141DA6d5B80109eF3101f3A210BbaA32"

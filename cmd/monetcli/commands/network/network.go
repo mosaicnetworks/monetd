@@ -18,6 +18,7 @@ const (
 	defaultAccountBalance   = "1234000000000000000000"
 	genesisFileName         = "genesis.json"
 	peersFileName           = "peers.json"
+	defaultContractAddress  = "abbaabbaabbaabbaabbaabbaabbaabbaabbaabba"
 )
 
 //NetworkCmd controls network configuration
