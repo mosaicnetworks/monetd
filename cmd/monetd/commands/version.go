@@ -3,7 +3,7 @@ package commands
 import (
 	"fmt"
 
-	"github.com/mosaicnetworks/evm-lite/src/version"
+	monet "github.com/mosaicnetworks/monetd/src/version"
 	"github.com/spf13/cobra"
 )
 
@@ -11,8 +11,8 @@ import (
 var VersionCmd = &cobra.Command{
 	Use:   "version",
 	Short: "Show version info",
+	Long:  `Monetd Version information`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println(version.Version)
+		fmt.Print(monet.FullVersion())
 	},
 }
-
