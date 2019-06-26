@@ -104,19 +104,19 @@ func publishConfig(cmd *cobra.Command, args []string) error {
 		if file.transformation {
 			switch file.label {
 			case "toml":
-				tr, err := LoadToml(fileWithPath)
+				tr, err := common.LoadToml(fileWithPath)
 				if err != nil {
 					common.Message("Cannot load toml file")
 					return err
 				}
 				// Delete extraneous keys and apply defaults
-				err = transformCliTomlToD(tr)
+				err = common.TransformCliTomlToD(tr, monetConfigDir)
 				if err != nil {
 					common.Message("Cannot transform toml file", fileWithPath)
 					return err
 				}
 
-				err = SaveToml(tr, outFileWithPath)
+				err = common.SaveToml(tr, outFileWithPath)
 				if err != nil {
 					common.Message("Cannot save toml file")
 					return err

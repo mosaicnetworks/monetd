@@ -68,7 +68,7 @@ func defaultConfig() {
 	if err == nil {
 		networkViper.SetDefault("config.datadir", home)
 	}
-	networkViper.SetDefault("poa.contractaddress", defaultContractAddress)
+	networkViper.SetDefault("poa.contractaddress", common.DefaultContractAddress)
 	networkViper.SetDefault("poa.compilerversion", "")
 	networkViper.SetDefault("validators.monikers", "")
 	networkViper.SetDefault("validators.addresses", "")
@@ -80,7 +80,7 @@ func defaultConfig() {
 func newConfigurationRecord() *configurationRecord {
 
 	configConfig = configRecord{dataDir: ""}
-	poa = poaRecord{contractAddress: defaultContractAddress}
+	poa = poaRecord{contractAddress: common.DefaultContractAddress}
 
 	config = configurationRecord{config: &configConfig, poa: &poa}
 

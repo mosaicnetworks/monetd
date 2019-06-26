@@ -1,5 +1,7 @@
 package common
 
+// This is not yet implemented
+
 // This file wraps zip functions
 
 type FileEntry struct {

@@ -11,18 +11,6 @@ import (
 	"github.com/spf13/viper"
 )
 
-// This section defines some constants used throughout this package.
-const (
-	defaultSolidityContract = "https://raw.githubusercontent.com/mosaicnetworks/evm-lite/poa/e2e/smart-contracts/genesis_array.sol"
-	templateContract        = "template.sol"
-	genesisContract         = "contract0.sol"
-	genesisABI              = "contract0.abi"
-	defaultAccountBalance   = "1234000000000000000000"
-	genesisFileName         = "genesis.json"
-	peersFileName           = "peers.json"
-	defaultContractAddress  = "abbaabbaabbaabbaabbaabbaabbaabbaabbaabba"
-)
-
 //NetworkCmd controls network configuration
 var (
 	NetworkCmd = &cobra.Command{
@@ -37,14 +25,15 @@ var (
 
 func init() {
 	//Subcommands
-	NetworkCmd.AddCommand(
-		newNewCmd(),      // Barebones implemented. Need to add more parameters
+	NetworkCmd.AddCommand( //TODO remove these comments when all complete
+		newNewCmd(),      // Barebones implemented. Need to add more parameters.
 		newCheckCmd(),    // Framework implemented. Only checks contract address.
 		newAddCmd(),      // Add Peers, framework in place
 		newShowCmd(),     // Complete.
 		newGenerateCmd(), // Complete
 		newContractCmd(), // Complete
-		newCompileCmd(),  // Solidity Compile in place, need to finish peers amendments to solidity, generation of .monetd files
+		newParamsCmd(),   //
+		newCompileCmd(),  // Functionally complete
 	)
 
 	defaultConfigDir, err := common.DefaultHomeDir(common.MonetcliTomlDir)
@@ -71,6 +60,19 @@ Sets the solidity contract to use for poa.`,
 	return cmd
 }
 
+func newParamsCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "params",
+		Short: "Update parameters interactively",
+		Long: `
+Update Parameters interactively`,
+		Args: cobra.ExactArgs(0),
+		RunE: setParams,
+	}
+
+	return cmd
+}
+
 func setContract(cmd *cobra.Command, args []string) error {
 	sol := args[0]
 
@@ -79,7 +81,7 @@ func setContract(cmd *cobra.Command, args []string) error {
 		return errors.New("cannot read contract file")
 	}
 
-	targetFile := filepath.Join(configDir, templateContract)
+	targetFile := filepath.Join(configDir, common.TemplateContract)
 
 	message("Copying sol file: ", sol, targetFile)
 

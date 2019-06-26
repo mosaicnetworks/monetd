@@ -14,3 +14,5 @@ import:
   version: =1.8.27
 - package: github.com/gorilla/mux
   version: ^1.7.2
+- package: github.com/manifoldco/promptui
+  version: master

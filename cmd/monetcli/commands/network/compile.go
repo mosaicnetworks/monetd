@@ -43,9 +43,9 @@ func compileConfig(cmd *cobra.Command, args []string) error {
 	networkViper.Set("poa.compilerversion", version) // version)
 
 	//When contracts are "set" for a network, the solidity source is copied into the monetcli config directory
-	//with a name of template.sol (defined by constant templateContract). Thus we can check just for that file.
+	//with a name of template.sol (defined by constant common.TemplateContract). Thus we can check just for that file.
 	//If not found, then we download a fresh contract.
-	filename := filepath.Join(configDir, templateContract)
+	filename := filepath.Join(configDir, common.TemplateContract)
 	message("Checking for file: ", filename)
 
 	if _, err := os.Stat(filename); err == nil {
@@ -60,10 +60,10 @@ func compileConfig(cmd *cobra.Command, args []string) error {
 		b, err := ioutil.ReadAll(file)
 		soliditySource = string(b)
 	} else { // NB, we do not write the downloaded template to file. Preferable to get fresh is regenerating.
-		message("Loading: ", defaultSolidityContract)
-		resp, err := http.Get(defaultSolidityContract)
+		message("Loading: ", common.DefaultSolidityContract)
+		resp, err := http.Get(common.DefaultSolidityContract)
 		if err != nil {
-			message("Error loading: ", defaultSolidityContract)
+			message("Error loading: ", common.DefaultSolidityContract)
 			return err
 		}
 		defer resp.Body.Close()
@@ -108,6 +108,7 @@ func compileConfig(cmd *cobra.Command, args []string) error {
 
 	var alloc = make(genesisAlloc)
 	var peers peerRecordList
+	var genesisPeers peerRecordList
 
 	for i, value := range addressArray {
 
@@ -118,16 +119,20 @@ func compileConfig(cmd *cobra.Command, args []string) error {
 		if err != nil {
 			return err
 		}
+		// Non-validators are added to the peer set, but not to the genesis peer set.
+		peer := peerRecord{NetAddr: ipArray[i], PubKeyHex: pubkeyArray[i], Moniker: monikerArray[i]}
+		peers = append(peers, &peer)
+
 		if val {
 			consts = append(consts, "    address constant initWhitelist"+strconv.Itoa(i)+" = "+addr+";")
 			consts = append(consts, "    bytes32 constant initWhitelistMoniker"+strconv.Itoa(i)+" = \""+monikerArray[i]+"\";")
 
 			addTo = append(addTo, "     addToWhitelist(initWhitelist"+strconv.Itoa(i)+", initWhitelistMoniker"+strconv.Itoa(i)+");")
 			checks = append(checks, " ( initWhitelist"+strconv.Itoa(i)+" == _address ) ")
-			peer := peerRecord{NetAddr: ipArray[i], PubKeyHex: pubkeyArray[i], Moniker: monikerArray[i]}
-			peers = append(peers, &peer)
+			genesisPeers = append(genesisPeers, &peer)
 		}
-		rec := genesisAllocRecord{Moniker: monikerArray[i], Balance: defaultAccountBalance}
+
+		rec := genesisAllocRecord{Moniker: monikerArray[i], Balance: common.DefaultAccountBalance}
 		alloc[addr] = &rec
 
 	}
@@ -160,7 +165,7 @@ func compileConfig(cmd *cobra.Command, args []string) error {
 
 	//TODO parse return values of write to file
 
-	common.WriteToFile(filepath.Join(configDir, genesisContract), finalSoliditySource)
+	common.WriteToFile(filepath.Join(configDir, common.GenesisContract), finalSoliditySource)
 
 	contractInfo, err := compile.CompileSolidityString("solc", finalSoliditySource)
 	var poagenesis genesisPOA
@@ -178,7 +183,7 @@ func compileConfig(cmd *cobra.Command, args []string) error {
 		networkViper.Set("poa.contractclass", strings.TrimPrefix(k, "<stdin>:"))
 		networkViper.Set("poa.abi", string(jsonabi))
 
-		common.WriteToFile(filepath.Join(configDir, genesisABI), string(jsonabi))
+		common.WriteToFile(filepath.Join(configDir, common.GenesisABI), string(jsonabi))
 		networkViper.Set("poa.bytecode", v.RuntimeCode)
 
 		poagenesis.Abi = string(jsonabi)
@@ -201,14 +206,21 @@ func compileConfig(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	jsonFileName := filepath.Join(configDir, genesisFileName)
+	jsonFileName := filepath.Join(configDir, common.GenesisJSON)
 	common.WriteToFile(jsonFileName, string(genesisjson))
 
 	peersjson, err := json.MarshalIndent(peers, "", "\t")
 	if err != nil {
 		return err
 	}
-	jsonFileName = filepath.Join(configDir, peersFileName)
+	jsonFileName = filepath.Join(configDir, common.PeersJSON)
+	common.WriteToFile(jsonFileName, string(peersjson))
+
+	peersjson, err = json.MarshalIndent(genesisPeers, "", "\t")
+	if err != nil {
+		return err
+	}
+	jsonFileName = filepath.Join(configDir, common.PeersGenesisJSON)
 	common.WriteToFile(jsonFileName, string(peersjson))
 
 	return nil
