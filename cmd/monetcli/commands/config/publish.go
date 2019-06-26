@@ -11,27 +11,17 @@ import (
 )
 
 var (
-	configFileList configFiles
+	configFileList = []*configFile{
+		&configFile{sourcefilename: common.MonetcliTomlName + ".toml",
+			targetfilename: common.MonetdTomlName + ".toml", label: "toml", required: true, transformation: true},
+		&configFile{sourcefilename: common.PeersJSON,
+			targetfilename: common.PeersJSONTarget, label: "peers", required: true, transformation: false},
+		&configFile{sourcefilename: common.PeersGenesisJSON,
+			targetfilename: common.PeersGenesisJSONTarget, label: "genesispeers", required: true, transformation: false},
+		&configFile{sourcefilename: common.GenesisJSON,
+			targetfilename: common.GenesisJSONTarget, label: "genesis", required: true, transformation: false},
+	}
 )
-
-/*
-PeersJSON        = "peers.json"
-PeersGenesisJSON = "peers.genesis.json"
-GenesisJSON      = "genesis.json"
-*/
-
-func init() {
-	// Build a structure defining the transformations:
-	configFileList = append(configFileList, &configFile{sourcefilename: common.MonetcliTomlName + ".toml",
-		targetfilename: common.MonetdTomlName + ".toml", label: "toml", required: true, transformation: true})
-	configFileList = append(configFileList, &configFile{sourcefilename: common.PeersJSON,
-		targetfilename: common.PeersJSONTarget, label: "peers", required: true, transformation: false})
-	configFileList = append(configFileList, &configFile{sourcefilename: common.PeersGenesisJSON,
-		targetfilename: common.PeersGenesisJSONTarget, label: "genesispeers", required: false, transformation: false})
-	configFileList = append(configFileList, &configFile{sourcefilename: common.GenesisJSON,
-		targetfilename: common.GenesisJSONTarget, label: "genesis", required: true, transformation: false})
-
-}
 
 func publishConfig(cmd *cobra.Command, args []string) error {
 
@@ -119,7 +109,12 @@ func publishConfig(cmd *cobra.Command, args []string) error {
 					common.Message("Cannot load toml file")
 					return err
 				}
-				_ = transformCliTomlToD(tr)
+				// Delete extraneous keys and apply defaults
+				err = transformCliTomlToD(tr)
+				if err != nil {
+					common.Message("Cannot transform toml file", fileWithPath)
+					return err
+				}
 
 				err = SaveToml(tr, outFileWithPath)
 				if err != nil {

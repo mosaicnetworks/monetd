@@ -7,5 +7,3 @@ type configFile struct {
 	required       bool
 	transformation bool
 }
-
-type configFiles []*configFile

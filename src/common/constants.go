@@ -4,7 +4,7 @@ package common
 
 const (
 	MonetdTomlDir    = ".monet"
-	MonetdTomlName   = "monet"
+	MonetdTomlName   = "monetd"
 	MonetcliTomlDir  = ".monetcli"
 	MonetcliTomlName = "network"
 
