@@ -108,6 +108,7 @@ func publishConfig(cmd *cobra.Command, args []string) error {
 				return errors.New("missing file " + file.label + ". Try running: monetcli network compile")
 			}
 			common.Message("Optional config file " + file.sourcefilename + " not found.")
+			continue
 		}
 
 		if file.transformation {
@@ -125,6 +126,12 @@ func publishConfig(cmd *cobra.Command, args []string) error {
 					common.Message("Cannot save toml file")
 					return err
 				}
+			}
+		} else {
+			err := common.CopyFileContents(fileWithPath, outFileWithPath)
+			if err != nil {
+				common.Message("Cannot copy file from " + fileWithPath + " to " + outFileWithPath)
+				return err
 			}
 		}
 	}

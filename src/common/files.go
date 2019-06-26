@@ -78,6 +78,8 @@ func SafeRenameDir(origDir string) error {
 }
 
 func CopyFileContents(src, dst string) (err error) {
+
+	Message("Copying from " + src + " to " + dst)
 	in, err := os.Open(src)
 	if err != nil {
 		return

@@ -41,7 +41,7 @@ func SaveToml(tree *toml.Tree, tomlFile string) error {
 
 func transformCliTomlToD(tree *toml.Tree) error {
 
-	delKeys := []string{"poa.bytecode", "poa.abi"}
+	delKeys := []string{"poa.bytecode", "poa.abi", "validators", "config.datadir"}
 
 	for _, key := range delKeys {
 
