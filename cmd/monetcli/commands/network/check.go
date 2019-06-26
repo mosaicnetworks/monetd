@@ -4,6 +4,8 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/mosaicnetworks/monetd/src/common"
+
 	"github.com/spf13/cobra"
 )
 
@@ -13,12 +15,12 @@ func newCheckCmd() *cobra.Command {
 		Short: "check configuration",
 		Long: `
 Check configuration.`,
-		RunE: checkconfig,
+		RunE: checkConfig,
 	}
 	return cmd
 }
 
-func checkconfig(cmd *cobra.Command, args []string) error {
+func checkConfig(cmd *cobra.Command, args []string) error {
 
 	err := loadConfig()
 
@@ -34,11 +36,11 @@ func checkconfig(cmd *cobra.Command, args []string) error {
 
 	//	message("Loaded configuration: ", config)
 
-	if verboseLogging {
+	if common.VerboseLogging {
 		fmt.Printf("%+v\n", config)
 	}
 
-	if addr := networkViper.GetString("poa.contractaddress"); isValidAddress(addr) {
+	if addr := networkViper.GetString("poa.contractaddress"); common.IsValidAddress(addr) {
 		message("poa.contractaddress is a valid address: ", addr)
 	} else {
 		fmt.Println("Invalid address: ", "\""+addr+"\"")

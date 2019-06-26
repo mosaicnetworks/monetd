@@ -11,6 +11,8 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/mosaicnetworks/monetd/src/common"
+
 	types "github.com/ethereum/go-ethereum/common"
 	compile "github.com/ethereum/go-ethereum/common/compiler"
 
@@ -156,7 +158,9 @@ func compileConfig(cmd *cobra.Command, args []string) error {
 	reg := regexp.MustCompile(`(?s)GENERATED GENESIS BEGIN.*GENERATED GENESIS END`)
 	finalSoliditySource := reg.ReplaceAllString(soliditySource, generatedSol)
 
-	writeToFile(filepath.Join(configDir, genesisContract), finalSoliditySource)
+	//TODO parse return values of write to file
+
+	common.WriteToFile(filepath.Join(configDir, genesisContract), finalSoliditySource)
 
 	contractInfo, err := compile.CompileSolidityString("solc", finalSoliditySource)
 	var poagenesis genesisPOA
@@ -174,7 +178,7 @@ func compileConfig(cmd *cobra.Command, args []string) error {
 		networkViper.Set("poa.contractclass", strings.TrimPrefix(k, "<stdin>:"))
 		networkViper.Set("poa.abi", string(jsonabi))
 
-		writeToFile(filepath.Join(configDir, genesisABI), string(jsonabi))
+		common.WriteToFile(filepath.Join(configDir, genesisABI), string(jsonabi))
 		networkViper.Set("poa.bytecode", v.RuntimeCode)
 
 		poagenesis.Abi = string(jsonabi)
@@ -198,14 +202,14 @@ func compileConfig(cmd *cobra.Command, args []string) error {
 	}
 
 	jsonFileName := filepath.Join(configDir, genesisFileName)
-	writeToFile(jsonFileName, string(genesisjson))
+	common.WriteToFile(jsonFileName, string(genesisjson))
 
 	peersjson, err := json.MarshalIndent(peers, "", "\t")
 	if err != nil {
 		return err
 	}
 	jsonFileName = filepath.Join(configDir, peersFileName)
-	writeToFile(jsonFileName, string(peersjson))
+	common.WriteToFile(jsonFileName, string(peersjson))
 
 	return nil
 }

@@ -4,7 +4,10 @@ import (
 	"github.com/mosaicnetworks/monetd/cmd/monetcli/commands/config"
 	"github.com/mosaicnetworks/monetd/cmd/monetcli/commands/keys"
 	"github.com/mosaicnetworks/monetd/cmd/monetcli/commands/network"
+	"github.com/mosaicnetworks/monetd/cmd/monetcli/commands/wizard"
+	"github.com/mosaicnetworks/monetd/src/common"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 //RootCmd is the root command for monetcli
@@ -14,12 +17,17 @@ var RootCmd = &cobra.Command{
 }
 
 func init() {
+
 	RootCmd.AddCommand(
 		keys.KeysCmd,
 		network.NetworkCmd,
 		config.ConfigCmd,
 		VersionCmd,
+		wizard.WizardCmd,
 	)
 	//do not print usage when error occurs
 	RootCmd.SilenceUsage = true
+
+	RootCmd.PersistentFlags().BoolVarP(&common.VerboseLogging, "verbose", "v", false, "verbose messages")
+	viper.BindPFlags(RootCmd.Flags())
 }

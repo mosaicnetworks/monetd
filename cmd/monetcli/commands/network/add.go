@@ -9,6 +9,8 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/spf13/cobra"
+
+	com "github.com/mosaicnetworks/monetd/src/common"
 )
 
 func addValidator(cmd *cobra.Command, args []string) error {
@@ -57,7 +59,7 @@ func addValidatorParamaterised(moniker string, addr string, pubkey string, ip st
 		}
 	}
 
-	if !isValidAddress(addr) {
+	if !com.IsValidAddress(addr) {
 		message("Invalid address: ", addr)
 		return errors.New("Invalid Address")
 	}

@@ -1,12 +1,11 @@
 package network
 
-import "fmt"
+import (
+	"github.com/mosaicnetworks/monetd/src/common"
+)
 
+//Wrapper code to use common version of message.
+//Ongoing call common.Message directly
 func message(a ...interface{}) (n int, err error) {
-	if verboseLogging {
-		n, err = fmt.Println(a...)
-		return n, err
-	}
-
-	return 0, nil
+	return common.Message(a)
 }

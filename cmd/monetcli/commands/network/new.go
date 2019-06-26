@@ -5,6 +5,8 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/mosaicnetworks/monetd/src/common"
+
 	"github.com/spf13/cobra"
 )
 
@@ -18,7 +20,7 @@ Create a new configuration.`,
 		RunE: newConfig,
 	}
 
-	cmd.Flags().BoolVar(&force, "force", false, "force the creation of a new config file")
+	cmd.Flags().BoolVarP(&force, "force", "f", false, "force the creation of a new config file")
 
 	return cmd
 }
@@ -38,9 +40,9 @@ func newConfig(cmd *cobra.Command, args []string) error {
 
 	createDir := true
 	// Makes sure that we either have an empty directory or we error out
-	if checkIfExists(fullConfigDir) {
+	if common.CheckIfExists(fullConfigDir) {
 		message("Directory Exists")
-		isDir, err := checkIsDir(fullConfigDir)
+		isDir, err := common.CheckIsDir(fullConfigDir)
 		if !isDir {
 			return errors.New("requested directory is an extant file")
 		}
@@ -59,7 +61,7 @@ func newConfig(cmd *cobra.Command, args []string) error {
 				return err
 			}
 			// Rename the existing file
-			err := safeRenameDir(fullConfigDir)
+			err := common.SafeRenameDir(fullConfigDir)
 			if err != nil {
 				return err
 

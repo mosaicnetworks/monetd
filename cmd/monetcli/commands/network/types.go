@@ -1,5 +1,9 @@
 package network
 
+import (
+	"github.com/mosaicnetworks/monetd/src/common"
+)
+
 type configurationRecord struct {
 	//location of the network.toml file
 	config     *configRecord    `mapstructure:"config"`
@@ -60,7 +64,7 @@ var (
 
 func defaultConfig() {
 
-	home, err := defaultHomeDir()
+	home, err := common.DefaultHomeDir(common.MonetcliTomlDir)
 	if err == nil {
 		networkViper.SetDefault("config.datadir", home)
 	}

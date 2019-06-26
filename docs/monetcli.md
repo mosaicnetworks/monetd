@@ -1,9 +1,13 @@
 # Monet-CLI
-## Monet Hub tools
+# Monet Hub tools
 
-## USAGE
+monetcli provides a suite of tools for configuring and managing a Monet Hub.
 
+There are currently 5 subcommands.
 
+##help
+
+You can get more information about the commands available by using the help command or the \-\-help flag. 
 ```
 Monet-CLI
 
@@ -11,8 +15,10 @@ Usage:
   monetcli [command]
 
 Available Commands:
+  config      manage monetd configuration
   help        Help about any command
   keys        An Ethereum key manager
+  network     manage monet network configuration
   version     Show version info
 
 Flags:
@@ -21,6 +27,8 @@ Flags:
 Use "monetcli [command] --help" for more information about a command.
 ```
 
+
+###keys
 The keys subcommand is used to manage ethereum keys.
 
 ```bash
@@ -41,6 +49,52 @@ Flags:
 
 Use "monetcli keys [command] --help" for more information about a command.
 ```
+The generate command generates a new key pair. You either need to use the \-\-passfile option or enter a pass phrase when prompted by the application.
+```bash
+$ monetcli keys generate keys.json
+Passphrase: 
+Address: 0x83434e68b52Ef809538224BF78472cc3F6a17bcC
+$ cat keys.json
+{"address":"83434e68b52ef809538224bf78472cc3f6a17bcc","crypto":{"cipher":"aes-128-ctr","ciphertext":"878c888d14cd407af2f99061f432cef2c08232b4a2f99f80d9240b9ac5cb6b24","cipherparams":{"iv":"c2ac23f51d5d79fb45ead639fa7f9d7f"},"kdf":"scrypt","kdfparams":{"dklen":32,"n":262144,"p":1,"r":8,"salt":"064cac9be036d0eae1c24ebc0073e02ad773289a16c7c19235dc567d957d08df"},"mac":"1f34dbe8d834911fe5048e7c183eb0608d75719a6a989c99d243bc09fb292bb3"},"id":"54d565f2-2fe1-4ee7-af5d-8619dc6bdcce","version":3}
+```
+
+You can inspect key files using the inspect command:
+```bash
+$ monetcli keys inspect keys.json
+Passphrase: 
+Address:        0x83434e68b52Ef809538224BF78472cc3F6a17bcC
+Public key:     043b463098401fe38241174a9bf28e6b1d64b2b1f7061c2d4d4a2a8a73a8e389c53547bb99fb5f93579b31ca5aeb975e3d1f4577fbf05b0698a11deb720e2670c0
+```
+
+You can change the passphrase for the key with the update command:
+
+```bash
+$ monetcli keys update keys.json
+Passphrase: 
+Please provide a new passphrase
+Passphrase: 
+Repeat passphrase: 
+```
+
+##version
+
+This commands displays version information:
+
+```bash
+$ monetcli version
+Monet Version: 0.0.1
+     EVM-Lite Version: 0.2.0
+     Babble Version: 0.4.2
+     Geth Version: 1.8.27
+```
+
+
+---
+
+---
+
+---
+
 
 ## Configuration
 
@@ -121,6 +175,7 @@ $ monetcli network show
 [poa]
   compilerversion = ""
   contractaddress = "abbaabbaabbaabbaabbaabbaabbaabbaabbaabba"
+  contractname = "genesis_array.sol"
 
 [validators]
   addresses = "0x7e42c360141DA6d5B80109eF3101f3A210BbaA32"
@@ -135,5 +190,28 @@ By default the POA smart contract is downloaded from github directly if not prev
 $ monetcli network contract ../evm-lite/e2e/smart-contracts/genesis_array.sol 
 ```
 
+You can add a peer with existing keys as follows:
+```bash
+$ monetcli network add node1 1bbabaababbabaababbabaababbabaababbabaab 192.168.0.1 true --verbose
+```
+There is inbuilt validation of the configuration settings that are run before compiling the network configuration. This can also be invoked directly:
 
+```bash
+$ monetcli network check
+All checks passed
+```
+
+When you are satisfied with the configuration the actual config files for the node can be built. 
+
+```bash
+$ monetcli network compile
+```
+The compile option, takes the specified contract if provided, otherwise it downloads a contract from github, and inserts the initial peer set into the smart contract. This contract is then compiled and inserted into a generated genesis.json file. 
+
+
+
+
+##TO DO List
+
++ Add a passfile parameter to the network add and network generate commands.
 

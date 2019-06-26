@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"path/filepath"
 
+	"github.com/mosaicnetworks/monetd/src/common"
+
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -29,9 +31,8 @@ var (
 		TraverseChildren: true,
 	}
 
-	configDir      string
-	force          bool
-	verboseLogging = true
+	configDir string
+	force     bool
 )
 
 func init() {
@@ -46,14 +47,12 @@ func init() {
 		newCompileCmd(),  // Solidity Compile in place, need to finish peers amendments to solidity, generation of .monetd files
 	)
 
-	var defaultConfigDir, err = defaultHomeDir()
-
+	defaultConfigDir, err := common.DefaultHomeDir(common.MonetcliTomlDir)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
 
-	NetworkCmd.PersistentFlags().StringVar(&configDir, "config-dir", defaultConfigDir, "the directory containing the network.toml file")
-	NetworkCmd.PersistentFlags().BoolVar(&verboseLogging, "verbose", false, "verbose messages")
+	NetworkCmd.PersistentFlags().StringVarP(&configDir, "config-dir", "c", defaultConfigDir, "the directory containing the network.toml file holding the monetcli configuration")
 
 	//	NetworkCmd.PersistentFlags().BoolVar(&outputJSON, "json", false, "output JSON instead of human-readable format")
 	viper.BindPFlags(NetworkCmd.Flags())
@@ -68,13 +67,14 @@ Sets the solidity contract to use for poa.`,
 		Args: cobra.ExactArgs(1),
 		RunE: setContract,
 	}
+
 	return cmd
 }
 
 func setContract(cmd *cobra.Command, args []string) error {
 	sol := args[0]
 
-	if !checkIfExists(sol) {
+	if !common.CheckIfExists(sol) {
 		message("Cannot read solidity contract file: ", sol)
 		return errors.New("cannot read contract file")
 	}
@@ -84,7 +84,7 @@ func setContract(cmd *cobra.Command, args []string) error {
 	message("Copying sol file: ", sol, targetFile)
 
 	// Cut and paste copy files
-	err := copyFileContents(sol, targetFile)
+	err := common.CopyFileContents(sol, targetFile)
 
 	return err
 }

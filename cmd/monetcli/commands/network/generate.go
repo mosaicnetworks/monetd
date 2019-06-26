@@ -6,6 +6,8 @@ import (
 	"path/filepath"
 	"strconv"
 
+	"github.com/mosaicnetworks/monetd/src/common"
+
 	"github.com/ethereum/go-ethereum/crypto"
 	keys "github.com/mosaicnetworks/monetd/cmd/monetcli/commands/keys"
 	"github.com/spf13/cobra"
@@ -22,7 +24,7 @@ func generatekeypair(cmd *cobra.Command, args []string) error {
 
 	message("Generate to :", targetDir)
 
-	if checkIfExists(targetDir) {
+	if common.CheckIfExists(targetDir) {
 		message("Key Pair for " + moniker + " already exists. Aborting.")
 		return errors.New("key pair for " + moniker + " already exists")
 	}
