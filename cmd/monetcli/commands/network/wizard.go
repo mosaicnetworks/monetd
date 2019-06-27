@@ -1,26 +1,10 @@
-package wizard
+package network
 
 import (
 	"path/filepath"
 
-	"github.com/mosaicnetworks/monetd/cmd/monetcli/commands/network"
 	"github.com/mosaicnetworks/monetd/src/common"
 	"github.com/spf13/cobra"
-)
-
-const (
-	WizardExit                                            = "Exit"
-	WizardTextCreateNewConfiguration                      = "Create New Configuration"
-	WizardExitWithoutSavingChanges                        = "Exit Without Saving Changes"
-	WizardEditExistingConfiguration                       = "Edit Existing Configuration"
-	WizardChangeConfigDir                                 = "Change Configuration Directory"
-	WizardRenameCurrentDirectoryandCreateNewConfiguration = "Rename Current Directory and Create New Configuration"
-	WizardAddKeyPair                                      = "Add Key Pair"
-	WizardCheckConfiguration                              = "Check Configuration"
-	WizardCompile                                         = "Compile POA Contract"
-	WizardGenerate                                        = "Generate Key Pair"
-	WizardParams                                          = "Edit Params"
-	WizardShow                                            = "Show Configuration"
 )
 
 var WizardCmd = &cobra.Command{
@@ -51,16 +35,16 @@ configloop:
 
 			common.MessageWithType(common.MsgInformation, "Folder "+userConfigDir+" does not exist.")
 
-			confirm := requestSelect("Please select an option: ", []string{WizardExitWithoutSavingChanges, WizardChangeConfigDir, WizardTextCreateNewConfiguration}, WizardTextCreateNewConfiguration)
+			confirm := RequestSelect("Please select an option: ", []string{common.WizardExitWithoutSavingChanges, common.WizardChangeConfigDir, common.WizardTextCreateNewConfiguration}, common.WizardTextCreateNewConfiguration)
 
 			switch confirm {
-			case WizardExit:
+			case common.WizardExit:
 				break configloop
-			case WizardChangeConfigDir:
+			case common.WizardChangeConfigDir:
 				continue configloop
 			}
 
-			err := network.CreateNewConfig(userConfigDir)
+			err := common.CreateNewConfig(userConfigDir)
 			if err != nil {
 				common.Message("Error creating new config: ", err)
 				return err
@@ -68,20 +52,20 @@ configloop:
 
 		} else {
 			common.MessageWithType(common.MsgInformation, "Folder "+userConfigDir+" already exists.")
-			confirmSelection := requestSelect("Please select an option: ",
+			confirmSelection := RequestSelect("Please select an option: ",
 				[]string{
-					WizardExitWithoutSavingChanges,
-					WizardChangeConfigDir,
-					WizardEditExistingConfiguration,
-					WizardRenameCurrentDirectoryandCreateNewConfiguration},
-				WizardRenameCurrentDirectoryandCreateNewConfiguration)
+					common.WizardExitWithoutSavingChanges,
+					common.WizardChangeConfigDir,
+					common.WizardEditExistingConfiguration,
+					common.WizardRenameCurrentDirectoryandCreateNewConfiguration},
+				common.WizardRenameCurrentDirectoryandCreateNewConfiguration)
 
 			switch confirmSelection {
-			case WizardExitWithoutSavingChanges:
+			case common.WizardExitWithoutSavingChanges:
 				break configloop
-			case WizardChangeConfigDir:
+			case common.WizardChangeConfigDir:
 				continue configloop
-			case WizardRenameCurrentDirectoryandCreateNewConfiguration:
+			case common.WizardRenameCurrentDirectoryandCreateNewConfiguration:
 
 				// Safe Rename
 				err := common.SafeRenameDir(userConfigDir)
@@ -90,7 +74,7 @@ configloop:
 					return err
 				}
 
-				err = network.CreateNewConfig(userConfigDir)
+				err = common.CreateNewConfig(userConfigDir)
 				if err != nil {
 					common.Message("Error creating new config: ", err)
 					return err
@@ -124,37 +108,37 @@ editloop:
 	for {
 
 		common.MessageWithType(common.MsgInformation, "Edit menu for   "+configDir+" ")
-		confirmSelection := requestSelect("Please select an option: ",
+		confirmSelection := RequestSelect("Please select an option: ",
 			[]string{ //TODO remove these comments
-				WizardAddKeyPair,         // Skeleton
-				WizardCheckConfiguration, // Skeleton
-				WizardCompile,            // Skeleton
-				WizardGenerate,           // Skeleton
-				WizardParams,             // Complete
-				WizardShow,               // Complete
-				WizardExit,               // Complete
+				common.WizardAddKeyPair,         // Skeleton
+				common.WizardCheckConfiguration, // Skeleton
+				common.WizardCompile,            // Skeleton
+				common.WizardGenerate,           // Skeleton
+				common.WizardParams,             // Complete
+				common.WizardShow,               // Complete
+				common.WizardExit,               // Complete
 			},
-			WizardShow)
+			common.WizardShow)
 
 		switch confirmSelection {
-		case WizardExit:
+		case common.WizardExit:
 			return true, nil
 			break editloop
-		case WizardShow:
+		case common.WizardShow:
 			_ = common.ShowConfigFile(configFile)
-		case WizardParams:
-			network.SetParamsWithParams(configDir)
-		case WizardAddKeyPair:
+		case common.WizardParams:
+			common.SetParamsWithParams(configDir)
+		case common.WizardAddKeyPair:
 			err := addPeerWizard(configDir)
 			if err != nil {
 				return false, err
 			}
-		case WizardCheckConfiguration:
+		case common.WizardCheckConfiguration:
 			err := checkConfigurationWizard(configDir)
 			if err != nil {
 				return false, err
 			}
-		case WizardCompile:
+		case common.WizardCompile:
 			err := compileWizard(configDir)
 			if err != nil {
 				return false, err
@@ -167,7 +151,7 @@ editloop:
 
 			break editloop
 
-		case WizardGenerate:
+		case common.WizardGenerate:
 			err := generateKeyPairWizard(configDir)
 			if err != nil {
 				return false, err
@@ -188,17 +172,31 @@ func monetDConfigWizard() error {
 }
 
 func checkConfigurationWizard(configDir string) error {
-	return network.CheckConfigWithParams(configDir)
+	return CheckConfigWithParams(configDir)
 }
 
 func generateKeyPairWizard(configDir string) error {
 	var nodename, ip string
 	var isValidator bool
 
+	currentNodes, err := GetPeersLabelsListFromToml(configDir)
+	if err != nil {
+		return err
+	}
+
 nodeloop:
 	for {
 		nodename = requestString("Node Name: ", "")
 		//TODO Check if the moniker is already in use
+
+		safeLabel := common.GetNodeSafeLabel(nodename)
+		for _, node := range currentNodes {
+			if node == safeLabel {
+				common.MessageWithType(common.MsgError, "That Moniker has already been used", nodename)
+				continue nodeloop
+			}
+
+		}
 
 		break nodeloop
 	}
@@ -213,11 +211,12 @@ iploop:
 	isValidator = requestBool("Is validator in initial peer set: ", true)
 	//TODO Check if the ip is already in use
 
-	return network.GenerateKeyPair(configDir, nodename, ip, isValidator)
+	//TODO generate passwordfile as the last parameter of this call
+	return GenerateKeyPair(configDir, nodename, ip, isValidator, "")
 }
 
 func compileWizard(configDir string) error {
-	return network.CompileConfigWithParam(configDir)
+	return CompileConfigWithParam(configDir)
 }
 
 func addPeerWizard(configDir string) error {

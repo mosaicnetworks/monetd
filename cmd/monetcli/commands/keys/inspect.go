@@ -54,7 +54,7 @@ func inspect(cmd *cobra.Command, args []string) error {
 	}
 
 	// Decrypt key with passphrase.
-	passphrase, err := getPassphrase()
+	passphrase, err := getPassphrase(passwordFile)
 	if err != nil {
 		return err
 	}

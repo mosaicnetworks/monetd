@@ -6,10 +6,14 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"reflect"
 
 	"github.com/ethereum/go-ethereum/crypto"
 	keys "github.com/mosaicnetworks/monetd/cmd/monetcli/commands/keys"
 	"github.com/mosaicnetworks/monetd/src/common"
+	com "github.com/mosaicnetworks/monetd/src/common"
+	"github.com/pelletier/go-toml"
+	"github.com/pelletier/go-toml/query"
 	"github.com/spf13/viper"
 )
 
@@ -85,8 +89,21 @@ func isEmptyDir(dir string) (bool, error) {
 	return len(entries) == 0, nil
 }
 
-func GenerateKeyPair(configDir string, moniker string, ip string, isValidator bool) error {
+func GenerateKeyPair(configDir string, moniker string, ip string, isValidator bool, passwordFile string) error {
 	message("Generating key pair for: ", moniker)
+
+	//Enhancement - pass safeLabel into this function. Validation should have happened further up the stack
+	safeLabel := common.GetNodeSafeLabel(moniker)
+
+	tree, err := com.LoadTomlConfig(configDir)
+	if err != nil {
+		return err
+	}
+
+	if tree.HasPath([]string{"validators", safeLabel}) {
+		// Duplicate Node
+		return errors.New("cannot generate a node with a duplicate moniker")
+	}
 
 	targetDir := filepath.Join(configDir, moniker)
 
@@ -99,15 +116,7 @@ func GenerateKeyPair(configDir string, moniker string, ip string, isValidator bo
 
 	targetFile := filepath.Join(targetDir, keys.DefaultKeyfile)
 
-	/*   // Not required, handled by GenerateKeyPair
-	message("Creating dir: ", targetDir)
-	err := os.MkdirAll(targetDir, os.ModePerm)
-	if err != nil {
-		return err
-	}
-	*/
-
-	key, err := keys.GenerateKeyPair(targetFile)
+	key, err := keys.GenerateKeyPair(targetFile, passwordFile)
 
 	if err != nil {
 		return err
@@ -116,7 +125,38 @@ func GenerateKeyPair(configDir string, moniker string, ip string, isValidator bo
 	pubkey := hex.EncodeToString(
 		crypto.FromECDSAPub(&key.PrivateKey.PublicKey))
 
-	return addValidatorParamaterised(moniker, key.Address.Hex(),
+	return addValidatorParamaterised(moniker, safeLabel, key.Address.Hex(),
 		pubkey, ip, isValidator)
-	//	return nil
+
+}
+
+func GetPeersLabelsListFromToml(configDir string) ([]string, error) {
+	tree, err := common.LoadTomlConfig(configDir)
+	if err != nil {
+		return nil, err
+	}
+
+	return GetPeersLabelsList(tree), nil
+}
+
+func GetPeersLabelsList(tree *toml.Tree) []string {
+	var rtn []string
+
+	validators, err := query.CompileAndExecute("$.validators", tree)
+	if err != nil {
+		common.Message("Error Getting Peers Labels")
+		return rtn
+	}
+
+	for _, value := range validators.Values() {
+
+		if reflect.TypeOf(value).String() == "*toml.Tree" {
+			v := value.(*toml.Tree)
+
+			keys := v.Keys()
+			return keys
+		}
+	}
+
+	return rtn
 }

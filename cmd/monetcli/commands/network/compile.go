@@ -26,10 +26,14 @@ func compileConfig(cmd *cobra.Command, args []string) error {
 func CompileConfigWithParam(configDir string) error {
 	var soliditySource string
 	// Load the Current Config
-	err := loadConfig()
+
+	tree, err := common.LoadTomlConfig(configDir)
 	if err != nil {
 		return err
 	}
+	if tree.Has("arse") {
+		message("bum note")
+	} //TODO delete this line
 
 	// Retrieve and set the version number
 	s, err := compile.SolidityVersion("")
@@ -188,7 +192,7 @@ func CompileConfigWithParam(configDir string) error {
 		networkViper.Set("poa.abi", string(jsonabi))
 
 		common.WriteToFile(filepath.Join(configDir, common.GenesisABI), string(jsonabi))
-		networkViper.Set("poa.bytecode", v.RuntimeCode)
+		networkViper.Set("poa.bytecode", strings.TrimPrefix(v.RuntimeCode, "0x"))
 
 		poagenesis.Abi = string(jsonabi)
 		poagenesis.Address = types.HexToAddress(networkViper.GetString("poa.contractaddress")).Hex() //EIP55 compliant

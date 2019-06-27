@@ -54,12 +54,12 @@ If you want to encrypt an existing private key, it can be specified by setting
 
 func generate(cmd *cobra.Command, args []string) error {
 	// Check if keyfile path given and make sure it doesn't already exist.
-	_, err := GenerateKeyPair(args[0])
+	_, err := GenerateKeyPair(args[0], passwordFile)
 	// message("Address is: ", key.Address)
 	return err
 }
 
-func GenerateKeyPair(keyfilepath string) (*keystore.Key, error) {
+func GenerateKeyPair(keyfilepath, passwordFile string) (*keystore.Key, error) {
 	if keyfilepath == "" {
 		keyfilepath = DefaultKeyfile
 	}
@@ -94,7 +94,7 @@ func GenerateKeyPair(keyfilepath string) (*keystore.Key, error) {
 	key.PrivateKey = privateKey
 
 	// Encrypt key with passphrase.
-	passphrase, err := getPassphrase()
+	passphrase, err := getPassphrase(passwordFile)
 	if err != nil {
 		return nil, err
 	}

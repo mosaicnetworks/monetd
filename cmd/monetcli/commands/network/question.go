@@ -1,4 +1,4 @@
-package wizard
+package network
 
 import (
 	"errors"
@@ -38,7 +38,7 @@ func requestString(promptText string, defaultValue string) string {
 func requestBool(promptText string, defaultValue bool) bool {
 
 	defaultStr := strconv.FormatBool(defaultValue)
-	strVal := requestSelect(promptText, []string{"true", "false"}, defaultStr)
+	strVal := RequestSelect(promptText, []string{"true", "false"}, defaultStr)
 
 	rtnVal, _ := strconv.ParseBool(strVal)
 
@@ -58,7 +58,7 @@ func validateString(input string) error {
 	return nil
 }
 
-func requestSelect(promptText string, answerSet []string, defaultValue string) string {
+func RequestSelect(promptText string, answerSet []string, defaultValue string) string {
 	var result string
 	var err error
 
@@ -69,11 +69,12 @@ func requestSelect(promptText string, answerSet []string, defaultValue string) s
 	}
 
 	scrollPos := -1
-
-	for i, v := range answerSet {
-		if v == defaultValue {
-			scrollPos = i
-			break
+	if defaultValue != "" {
+		for i, v := range answerSet {
+			if v == defaultValue {
+				scrollPos = i
+				break
+			}
 		}
 	}
 

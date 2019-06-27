@@ -23,12 +23,15 @@ type poaRecord struct {
 }
 
 type validatorRecord struct {
-	moniker            string `mapstructure:"monikers"`
-	address            string `mapstructure:"addresses"`
-	pubkeys            string `mapstructure:"pubkeys"`
-	ip                 string `mapstructure:"ips"`
-	isInitialValidator string `mapstructure:"isvalidator"`
+	moniker     string `mapstructure:"moniker"`
+	label       string `mapstructure:"label"`
+	address     string `mapstructure:"address"`
+	pubkey      string `mapstructure:"pubkey"`
+	ip          string `mapstructure:"ip"`
+	isValidator bool   `mapstructure:"validator"`
 }
+
+type validatorRecordList map[string]*validatorRecord
 
 type genesisAllocRecord struct {
 	Balance string `json:"balance"`
@@ -48,6 +51,7 @@ type genesisFile struct {
 	Poa   *genesisPOA   `json:"poa"`
 }
 
+//Peers.json format
 type peerRecord struct {
 	NetAddr   string `json:"NetAddr"`
 	PubKeyHex string `json:"PubKeyHex"`

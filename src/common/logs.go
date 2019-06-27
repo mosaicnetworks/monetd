@@ -1,6 +1,10 @@
 package common
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/fatih/color"
+)
 
 var (
 	//VerboseLogging controls where Message produces any output
@@ -18,7 +22,7 @@ const (
 //Message is a simple wrapper for stdout logging. Setting VerboseLayout to false disables its output
 func Message(a ...interface{}) (n int, err error) {
 	if VerboseLogging {
-		n, err = fmt.Println(a...)
+		n, err = MessageWithType(MsgDebug, a...)
 		return n, err
 	}
 
@@ -27,21 +31,39 @@ func Message(a ...interface{}) (n int, err error) {
 
 //TODO Change the prefix to be colour codes
 func MessageWithType(msgType int, a ...interface{}) (n int, err error) {
+
+	color.Set(color.FgYellow)
+
 	var prefix = ""
 
 	switch msgType {
 	case MsgInformation:
-		prefix = "Info: "
+		color.Set(color.FgGreen)
+		//		prefix = "Info: "
 	case MsgWarning:
-		prefix = "Warn: "
+		color.Set(color.FgHiMagenta)
+		//		prefix = "Warn: "
 	case MsgError:
-		prefix = "Error: "
+		color.Set(color.FgHiRed)
+		//		prefix = "Error: "
 	case MsgPrompt:
-		prefix = ""
+		color.Set(color.FgHiYellow)
+		//		prefix = ""
 	case MsgDebug:
-		prefix = "Debug: "
+		if !VerboseLogging {
+			return 0, nil
+		}
+		color.Set(color.FgCyan)
+		//		prefix = "Debug: "
 	}
 
-	n, err = fmt.Println(append([]interface{}{prefix}, a...))
+	if prefix == "" {
+		n, err = fmt.Println(a...)
+
+	} else {
+		n, err = fmt.Println(append([]interface{}{prefix}, a...))
+	}
+	color.Unset()
+
 	return n, err
 }

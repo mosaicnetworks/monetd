@@ -32,8 +32,9 @@ func init() {
 		newShowCmd(),     // Complete.
 		newGenerateCmd(), // Complete
 		newContractCmd(), // Complete
-		newParamsCmd(),   //
+		newParamsCmd(),   // Complete
 		newCompileCmd(),  // Functionally complete
+		newPeersCmd(),
 	)
 
 	defaultConfigDir, err := common.DefaultHomeDir(common.MonetcliTomlDir)
@@ -45,6 +46,19 @@ func init() {
 
 	//	NetworkCmd.PersistentFlags().BoolVar(&outputJSON, "json", false, "output JSON instead of human-readable format")
 	viper.BindPFlags(NetworkCmd.Flags())
+}
+
+func newPeersCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "peers",
+		Short: "review peers list",
+		Long: `
+Review the Peers list.`,
+		Args: cobra.ExactArgs(0),
+		RunE: reviewPeers,
+	}
+
+	return cmd
 }
 
 func newContractCmd() *cobra.Command {
@@ -71,6 +85,11 @@ Update Parameters interactively`,
 	}
 
 	return cmd
+}
+
+func reviewPeers(cmd *cobra.Command, args []string) error {
+
+	return PeersWizard(configDir)
 }
 
 func setContract(cmd *cobra.Command, args []string) error {

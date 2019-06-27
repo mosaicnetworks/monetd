@@ -4,8 +4,6 @@ import (
 	"errors"
 	"os"
 
-	"github.com/pelletier/go-toml"
-
 	"github.com/mosaicnetworks/monetd/src/common"
 
 	"github.com/spf13/cobra"
@@ -83,42 +81,7 @@ func newConfig(cmd *cobra.Command, args []string) error {
 		}
 	}
 
-	CreateNewConfig(configDir)
-
-	return nil
-}
-
-func CreateNewConfig(configDir string) error {
-
-	/*
-		tree, err := LoadTomlConfig(configDir)
-		if err != nil {
-			common.Message("Error Loading TOML")
-		}
-	*/
-
-	if !common.CheckIfExists(configDir) {
-		err := os.MkdirAll(configDir, os.ModePerm)
-		if err != nil {
-			common.Message("Error creating empty config folder: ", err)
-			return err
-		}
-	}
-
-	tree, err := toml.Load("")
-
-	if err != nil {
-		common.Message("Error in CreateNewConfig: ", err)
-		return err
-	}
-
-	tree.Set("poa.contractaddress", common.DefaultContractAddress)
-
-	err = common.SaveTomlConfig(configDir, tree)
-	if err != nil {
-		common.Message("Error saving in CreateNewConfig: ", err)
-		return err
-	}
+	common.CreateNewConfig(configDir)
 
 	return nil
 }

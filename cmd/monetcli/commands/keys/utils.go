@@ -33,7 +33,7 @@ func promptPassphrase(confirmation bool) (string, error) {
 // getPassphrase obtains a passphrase given by the user.  It first checks the
 // --passfile command line flag and ultimately prompts the user for a
 // passphrase.
-func getPassphrase() (string, error) {
+func getPassphrase(passwordFile string) (string, error) {
 	// Look for the --passfile flag.
 	if passwordFile != "" {
 		content, err := ioutil.ReadFile(passwordFile)
