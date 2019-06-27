@@ -15,6 +15,7 @@ func requestFile(promptText string, defaultValue string) string {
 		Label:    promptText + "  ",
 		Validate: validateFile,
 		Default:  defaultValue,
+		Pointer:  promptui.PipeCursor,
 	}
 
 	result, _ := prompt.Run()
@@ -28,6 +29,7 @@ func requestString(promptText string, defaultValue string) string {
 		Label:    promptText + "  ",
 		Validate: validateString,
 		Default:  defaultValue,
+		Pointer:  promptui.PipeCursor,
 	}
 
 	result, _ := prompt.Run()
