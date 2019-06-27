@@ -11,6 +11,8 @@ import (
 	"path/filepath"
 	"runtime"
 	"strconv"
+
+	"github.com/fatih/color"
 )
 
 //General file wrapper code
@@ -105,6 +107,9 @@ func CopyFileContents(src, dst string) (err error) {
 }
 
 func ShowConfigFile(filename string) error {
+
+	color.Set(ColourOutput)
+
 	file, err := os.Open(filename)
 	if err != nil {
 		log.Fatal(err)
@@ -117,6 +122,8 @@ func ShowConfigFile(filename string) error {
 		return err
 	}
 	fmt.Print(string(b))
+
+	color.Unset()
 	return nil
 }
 

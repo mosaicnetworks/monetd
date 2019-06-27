@@ -32,22 +32,22 @@ func Message(a ...interface{}) (n int, err error) {
 //TODO Change the prefix to be colour codes
 func MessageWithType(msgType int, a ...interface{}) (n int, err error) {
 
-	color.Set(color.FgYellow)
+	color.Set(ColourOther)
 
 	var prefix = ""
 
 	switch msgType {
 	case MsgInformation:
-		color.Set(color.FgGreen)
+		color.Set(ColourInfo)
 		//		prefix = "Info: "
 	case MsgWarning:
-		color.Set(color.FgHiMagenta)
+		color.Set(ColourWarning)
 		//		prefix = "Warn: "
 	case MsgError:
-		color.Set(color.FgHiRed)
+		color.Set(ColourError)
 		//		prefix = "Error: "
 	case MsgPrompt:
-		color.Set(color.FgHiYellow)
+		color.Set(ColourPrompt)
 		//		prefix = ""
 	case MsgDebug:
 		if !VerboseLogging {

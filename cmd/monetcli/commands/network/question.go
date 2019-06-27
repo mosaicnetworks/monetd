@@ -60,6 +60,7 @@ func validateString(input string) error {
 	return nil
 }
 
+//RequestSelect is a wrapper to a promptui selecting one from an option
 func RequestSelect(promptText string, answerSet []string, defaultValue string) string {
 	var result string
 	var err error

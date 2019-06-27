@@ -24,6 +24,7 @@ func checkConfig(cmd *cobra.Command, args []string) error {
 	return CheckConfigWithParams(configDir)
 }
 
+//CheckConfigWithParams checks the monetcli configuration.
 func CheckConfigWithParams(configDir string) error {
 
 	err := loadConfig()

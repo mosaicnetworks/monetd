@@ -15,6 +15,7 @@ import (
 )
 
 var (
+	//DefaultKeyfile is the default name of the file containing a generated private key
 	DefaultKeyfile = "keyfile.json"
 
 	privateKeyfile string
@@ -59,6 +60,7 @@ func generate(cmd *cobra.Command, args []string) error {
 	return err
 }
 
+//GenerateKeyPair generates an Ethereum key pair
 func GenerateKeyPair(keyfilepath, passwordFile string) (*keystore.Key, error) {
 	if keyfilepath == "" {
 		keyfilepath = DefaultKeyfile

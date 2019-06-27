@@ -65,12 +65,11 @@ func publishConfig(cmd *cobra.Command, args []string) error {
 		if !force {
 			common.Message("directory already exists. ", monetConfigDir)
 			return errors.New("output config directory already exists. Use --force to rename existing config")
-		} else {
-			err := common.SafeRenameDir(monetConfigDir)
-			if err != nil {
-				common.Message("Cannot rename existing configuration: ", monetConfigDir)
-				return errors.New("cannot rename existing config. Try manually renaming it")
-			}
+		}
+		err := common.SafeRenameDir(monetConfigDir)
+		if err != nil {
+			common.Message("Cannot rename existing configuration: ", monetConfigDir)
+			return errors.New("cannot rename existing config. Try manually renaming it")
 		}
 
 	}

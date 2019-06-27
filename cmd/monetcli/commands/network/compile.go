@@ -23,6 +23,8 @@ func compileConfig(cmd *cobra.Command, args []string) error {
 	return CompileConfigWithParam(configDir)
 }
 
+//CompileConfigWithParam "finishes" the monetcli configuration, compiling the POA smart contract
+//in preparation for a call to monetcli config publish
 func CompileConfigWithParam(configDir string) error {
 	var soliditySource string
 	// Load the Current Config

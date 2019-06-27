@@ -6,6 +6,7 @@ import (
 	"github.com/mosaicnetworks/monetd/src/common"
 )
 
+//PeersWizard implements interactive management of the Peers in the MonetCli Config
 func PeersWizard(configDir string) error {
 
 	var err error

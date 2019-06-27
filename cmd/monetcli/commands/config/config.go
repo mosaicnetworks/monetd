@@ -8,6 +8,7 @@ import (
 
 //NetworkCmd controls network configuration
 var (
+	//ConfigCmd implements the config CLI subcommand
 	ConfigCmd = &cobra.Command{
 		Use:              "config",
 		Short:            "manage monetd configuration",
@@ -38,6 +39,7 @@ func init() {
 	viper.BindPFlags(ConfigCmd.Flags())
 }
 
+//NewCheckCmd defines the CLI command config check
 func NewCheckCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "check",
@@ -50,6 +52,7 @@ Check the configuration.`,
 	return cmd
 }
 
+//NewPublishCmd implements the "config publish" CLI subcommand
 func NewPublishCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "publish",

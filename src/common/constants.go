@@ -3,6 +3,8 @@ package common
 import (
 	"path/filepath"
 	"time"
+
+	"github.com/fatih/color"
 )
 
 //Constants used across the MonetCLI command packages
@@ -66,3 +68,12 @@ func GetMonetDefaultConfigKeys(monetConfigDir string) []KeyValue {
 		KeyValue{Key: "babble.store", Value: true, Override: true},
 	}
 }
+
+const (
+	ColourInfo    = color.FgGreen
+	ColourWarning = color.FgHiMagenta
+	ColourError   = color.FgHiRed
+	ColourPrompt  = color.FgHiYellow
+	ColourOther   = color.FgYellow
+	ColourOutput  = color.FgHiCyan
+)

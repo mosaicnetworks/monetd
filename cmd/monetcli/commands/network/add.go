@@ -88,6 +88,7 @@ func addValidatorParamaterised(moniker string, labelsafe string, addr string, pu
 	return nil
 }
 
+//PublicKeyHexToAddressHex takes a Hex string public key and returns a hex string Ethereum style address
 func PublicKeyHexToAddressHex(publicKey string) (string, error) {
 
 	//	message("Pub Key: ", publicKey)
