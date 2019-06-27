@@ -3,7 +3,8 @@ package network
 import (
 	"errors"
 	"os"
-	"path/filepath"
+
+	"github.com/pelletier/go-toml"
 
 	"github.com/mosaicnetworks/monetd/src/common"
 
@@ -82,17 +83,42 @@ func newConfig(cmd *cobra.Command, args []string) error {
 		}
 	}
 
-	// Set up defaults
-	setUpConfigFile()
-	networkViper.AddConfigPath(fullConfigDir)
-	message("Added viper config path: ", fullConfigDir)
+	CreateNewConfig(configDir)
 
-	// Viper will not create a config file where none exists
-	// So we have to create an empty one, just so we can overwrite it
-	createEmptyFile(filepath.Join(fullConfigDir, tomlName+".toml"))
+	return nil
+}
 
-	// Write default configuration out
-	writeConfig()
+func CreateNewConfig(configDir string) error {
+
+	/*
+		tree, err := LoadTomlConfig(configDir)
+		if err != nil {
+			common.Message("Error Loading TOML")
+		}
+	*/
+
+	if !common.CheckIfExists(configDir) {
+		err := os.MkdirAll(configDir, os.ModePerm)
+		if err != nil {
+			common.Message("Error creating empty config folder: ", err)
+			return err
+		}
+	}
+
+	tree, err := toml.Load("")
+
+	if err != nil {
+		common.Message("Error in CreateNewConfig: ", err)
+		return err
+	}
+
+	tree.Set("poa.contractaddress", common.DefaultContractAddress)
+
+	err = common.SaveTomlConfig(configDir, tree)
+	if err != nil {
+		common.Message("Error saving in CreateNewConfig: ", err)
+		return err
+	}
 
 	return nil
 }

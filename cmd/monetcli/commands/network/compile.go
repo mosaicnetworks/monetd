@@ -20,6 +20,10 @@ import (
 )
 
 func compileConfig(cmd *cobra.Command, args []string) error {
+	return CompileConfigWithParam(configDir)
+}
+
+func CompileConfigWithParam(configDir string) error {
 	var soliditySource string
 	// Load the Current Config
 	err := loadConfig()
@@ -34,7 +38,7 @@ func compileConfig(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	message("Path         : ", s.Path)
+	common.Message("Path         : ", s.Path)
 	message("Full Version : \n", s.FullVersion)
 	version := s.FullVersion
 	re := regexp.MustCompile(`\r?\n`)

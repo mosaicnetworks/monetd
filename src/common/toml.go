@@ -1,6 +1,8 @@
 package common
 
 import (
+	"path/filepath"
+
 	"github.com/pelletier/go-toml"
 )
 
@@ -67,5 +69,33 @@ func TransformCliTomlToD(tree *toml.Tree, monetConfigDir string) error {
 		}
 	}
 
+	return nil
+}
+
+func LoadTomlConfig(configDir string) (*toml.Tree, error) {
+
+	Message("Starting to load configuration")
+
+	tree, err := LoadToml(filepath.Join(configDir, MonetcliTomlName+".toml"))
+
+	if err != nil {
+		Message("loadConfig: ", err)
+		return nil, err
+	}
+	Message("Loaded Config")
+	return tree, nil
+}
+
+func SaveTomlConfig(configDir string, tree *toml.Tree) error {
+
+	Message("Starting to save configuration")
+
+	err := SaveToml(tree, filepath.Join(configDir, MonetcliTomlName+".toml"))
+
+	if err != nil {
+		Message("saveConfig: ", err)
+		return err
+	}
+	Message("Saved Config")
 	return nil
 }

@@ -21,6 +21,10 @@ Check configuration.`,
 }
 
 func checkConfig(cmd *cobra.Command, args []string) error {
+	return CheckConfigWithParams(configDir)
+}
+
+func CheckConfigWithParams(configDir string) error {
 
 	err := loadConfig()
 

@@ -1,11 +1,9 @@
 package network
 
 import (
-	"fmt"
-	"io/ioutil"
-	"log"
-	"os"
 	"path/filepath"
+
+	"github.com/mosaicnetworks/monetd/src/common"
 
 	"github.com/spf13/cobra"
 )
@@ -24,21 +22,8 @@ Show configuration.`,
 }
 
 func showConfig(cmd *cobra.Command, args []string) error {
-
 	filename := filepath.Join(configDir, tomlName+".toml")
 	message("Displaying file: ", filename)
 
-	file, err := os.Open(filename)
-	if err != nil {
-		log.Fatal(err)
-		return err
-	}
-	defer file.Close()
-
-	b, err := ioutil.ReadAll(file)
-	if err != nil {
-		return err
-	}
-	fmt.Print(string(b))
-	return nil
+	return common.ShowConfigFile(filename)
 }

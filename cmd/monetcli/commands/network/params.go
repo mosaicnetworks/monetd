@@ -17,10 +17,10 @@ const (
 
 func setParams(cmd *cobra.Command, args []string) error {
 	// Call a wrapper function to ease calling from outside cobra
-	return setParamsWithParams()
+	return SetParamsWithParams(configDir)
 }
 
-func setParamsWithParams() error {
+func SetParamsWithParams(configDir string) error {
 	var result string
 	// We assume the default here, but all the file path stuff is overwritten in the
 	// config publish actions any way so there is no lasting impact

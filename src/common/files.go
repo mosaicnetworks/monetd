@@ -4,6 +4,8 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"io/ioutil"
+	"log"
 	"os"
 	"os/user"
 	"path/filepath"
@@ -100,6 +102,22 @@ func CopyFileContents(src, dst string) (err error) {
 	}
 	err = out.Sync()
 	return
+}
+
+func ShowConfigFile(filename string) error {
+	file, err := os.Open(filename)
+	if err != nil {
+		log.Fatal(err)
+		return err
+	}
+	defer file.Close()
+
+	b, err := ioutil.ReadAll(file)
+	if err != nil {
+		return err
+	}
+	fmt.Print(string(b))
+	return nil
 }
 
 /* Helper Functions */
