@@ -66,7 +66,7 @@ var (
 	poa          poaRecord
 )
 
-func defaultConfig() {
+/* func defaultConfig() {
 
 	home, err := common.DefaultHomeDir(common.MonetcliTomlDir)
 	if err == nil {
@@ -79,7 +79,7 @@ func defaultConfig() {
 	networkViper.SetDefault("validators.pubkeys", "")
 	networkViper.SetDefault("validators.ips", "")
 	networkViper.SetDefault("validators.isvalidator", "")
-}
+} */
 
 func newConfigurationRecord() *configurationRecord {
 

@@ -90,6 +90,7 @@ configloop:
 
 		shouldBreak, err := editWizard(userConfigDir)
 		if err != nil {
+			common.MessageWithType(common.MsgError, "Error in compiling: ", err)
 			return err
 		}
 		if shouldBreak {
@@ -141,6 +142,7 @@ editloop:
 		case common.WizardCompile:
 			err := compileWizard(configDir)
 			if err != nil {
+				common.MessageWithType(common.MsgError, "Error Compiling: ", err)
 				return false, err
 			}
 
@@ -168,6 +170,9 @@ editloop:
 
 func monetDConfigWizard() error {
 	//TODO
+
+	common.MessageWithType(common.MsgInformation, "MonetD Config will be here.")
+
 	return nil
 }
 
@@ -223,6 +228,6 @@ func addPeerWizard(configDir string) error {
 
 	//TODO
 
-	//	func addValidatorParamaterised(moniker string, addr string, pubkey string, ip string, isValidator bool) error {
+	//	func AddValidatorParamateriseda(configDir, moniker string, addr string, pubkey string, ip string, isValidator bool) error {
 	return nil
 }

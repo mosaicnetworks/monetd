@@ -34,10 +34,10 @@ func addValidator(cmd *cobra.Command, args []string) error {
 		}
 	}
 
-	return addValidatorParamaterised(moniker, safeLabel, "", pubkey, ip, isValidator)
+	return AddValidatorParamaterised(configDir, moniker, safeLabel, "", pubkey, ip, isValidator)
 }
 
-func addValidatorParamaterised(moniker string, labelsafe string, addr string, pubkey string, ip string, isValidator bool) error {
+func AddValidatorParamaterised(configDir string, moniker string, labelsafe string, addr string, pubkey string, ip string, isValidator bool) error {
 
 	tree, err := com.LoadTomlConfig(configDir)
 	if err != nil {
@@ -84,7 +84,6 @@ func addValidatorParamaterised(moniker string, labelsafe string, addr string, pu
 		return err
 	}
 
-	//	writeConfig()
 	return nil
 }
 

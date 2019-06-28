@@ -33,9 +33,6 @@ func CompileConfigWithParam(configDir string) error {
 	if err != nil {
 		return err
 	}
-	if tree.Has("arse") {
-		message("bum note")
-	} //TODO delete this line
 
 	// Retrieve and set the version number
 	s, err := compile.SolidityVersion("")
@@ -50,7 +47,7 @@ func CompileConfigWithParam(configDir string) error {
 	re := regexp.MustCompile(`\r?\n`)
 	version = re.ReplaceAllString(version, " ")
 
-	networkViper.Set("poa.compilerversion", version) // version)
+	tree.SetPath([]string{"poa", "compilerverison"}, version)
 
 	//When contracts are "set" for a network, the solidity source is copied into the monetcli config directory
 	//with a name of template.sol (defined by constant common.TemplateContract). Thus we can check just for that file.
@@ -89,29 +86,13 @@ func CompileConfigWithParam(configDir string) error {
 
 	// message(soliditySource)
 
-	// Get Peers
-	monikers := networkViper.GetString("validators.monikers")
-	addresses := networkViper.GetString("validators.addresses")
-	pubkeys := networkViper.GetString("validators.pubkeys")
-	isvalidators := networkViper.GetString("validators.isvalidator")
-	ips := networkViper.GetString("validators.ips")
-
-	// Reject if no peers set
-	if monikers == "" || addresses == "" || isvalidators == "" || ips == "" || pubkeys == "" {
-		return errors.New("Peerset is empty")
+	currentNodes, err := GetPeersLabelsListFromToml(configDir)
+	if err != nil {
+		return err
 	}
 
-	// Parse Peers Config into Arrays
-	monikerArray := strings.Split(monikers, ";")
-	addressArray := strings.Split(addresses, ";")
-	pubkeyArray := strings.Split(pubkeys, ";")
-	isvalidatorArray := strings.Split(isvalidators, ";")
-	ipArray := strings.Split(ips, ";")
-
-	// If any of the Peers arrays are of different lengths
-	if len(monikerArray) != len(addressArray) || len(addressArray) != len(isvalidatorArray) ||
-		len(pubkeyArray) != len(ipArray) || len(isvalidatorArray) != len(ipArray) || len(ipArray) != len(monikerArray) {
-		return errors.New("peers configutation is inconsistent")
+	if len(currentNodes) < 1 {
+		return errors.New("Peerset is empty")
 	}
 
 	var consts, addTo, checks []string
@@ -120,29 +101,35 @@ func CompileConfigWithParam(configDir string) error {
 	var peers peerRecordList
 	var genesisPeers peerRecordList
 
-	for i, value := range addressArray {
+	for i, value := range currentNodes {
+
+		rawaddr := tree.GetPath([]string{"validators", value, "address"}).(string)
+		rawmoniker := tree.GetPath([]string{"validators", value, "moniker"}).(string)
+		rawpubkey := tree.GetPath([]string{"validators", value, "pubkey"}).(string)
+		rawisvalidator := tree.GetPath([]string{"validators", value, "validator"}).(bool)
+		//	rawip := tree.GetPath([]string{"validators", value, "ip"}).(string)
 
 		// Convert Hex to Address and back out to get a EIP55 compliant address
-		addr := types.HexToAddress(value).Hex()
+		addr := types.HexToAddress(rawaddr).Hex()
 
-		val, err := strconv.ParseBool(isvalidatorArray[i])
-		if err != nil {
-			return err
-		}
+		/*	val, err := strconv.ParseBool(rawisvalidator)
+			if err != nil {
+				return err
+			} */
 		// Non-validators are added to the peer set, but not to the genesis peer set.
-		peer := peerRecord{NetAddr: ipArray[i], PubKeyHex: pubkeyArray[i], Moniker: monikerArray[i]}
+		peer := peerRecord{NetAddr: rawaddr, PubKeyHex: rawpubkey, Moniker: rawmoniker}
 		peers = append(peers, &peer)
 
-		if val {
+		if rawisvalidator {
 			consts = append(consts, "    address constant initWhitelist"+strconv.Itoa(i)+" = "+addr+";")
-			consts = append(consts, "    bytes32 constant initWhitelistMoniker"+strconv.Itoa(i)+" = \""+monikerArray[i]+"\";")
+			consts = append(consts, "    bytes32 constant initWhitelistMoniker"+strconv.Itoa(i)+" = \""+rawmoniker+"\";")
 
 			addTo = append(addTo, "     addToWhitelist(initWhitelist"+strconv.Itoa(i)+", initWhitelistMoniker"+strconv.Itoa(i)+");")
 			checks = append(checks, " ( initWhitelist"+strconv.Itoa(i)+" == _address ) ")
 			genesisPeers = append(genesisPeers, &peer)
 		}
 
-		rec := genesisAllocRecord{Moniker: monikerArray[i], Balance: common.DefaultAccountBalance}
+		rec := genesisAllocRecord{Moniker: rawmoniker, Balance: common.DefaultAccountBalance}
 		alloc[addr] = &rec
 
 	}
@@ -190,21 +177,25 @@ func CompileConfigWithParam(configDir string) error {
 			return err
 		}
 
-		networkViper.Set("poa.contractclass", strings.TrimPrefix(k, "<stdin>:"))
-		networkViper.Set("poa.abi", string(jsonabi))
+		tree.SetPath([]string{"poa", "contractclass"}, strings.TrimPrefix(k, "<stdin>:"))
+		tree.SetPath([]string{"poa", "abi"}, string(jsonabi))
 
 		common.WriteToFile(filepath.Join(configDir, common.GenesisABI), string(jsonabi))
-		networkViper.Set("poa.bytecode", strings.TrimPrefix(v.RuntimeCode, "0x"))
+		tree.SetPath([]string{"poa", "bytecode"}, strings.TrimPrefix(v.RuntimeCode, "0x"))
 
 		poagenesis.Abi = string(jsonabi)
-		poagenesis.Address = types.HexToAddress(networkViper.GetString("poa.contractaddress")).Hex() //EIP55 compliant
+		poagenesis.Address = types.HexToAddress(tree.Get("poa.contractaddress").(string)).Hex() //EIP55 compliant
 		poagenesis.Code = v.RuntimeCode
 
 		message("Set Contract Items")
 		break // We only have one contract ever so no need to loop. We use the for loop as k is indeterminate
 	}
 
-	writeConfig()
+	err = common.SaveTomlConfig(configDir, tree)
+	if err != nil {
+		common.MessageWithType(common.MsgDebug, "Cannot save TOML file")
+		return err
+	}
 
 	var genesis genesisFile
 

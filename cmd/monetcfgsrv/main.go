@@ -45,6 +45,7 @@ var (
 	peerlist    peers
 	isPublished = false
 	genesisJSON string
+	networkTOML = "unused"
 )
 
 /*
@@ -75,10 +76,14 @@ func cfgHandler(w http.ResponseWriter, r *http.Request) {
 		outputIsPublished(w)
 	case "/genesisjson":
 		outputGenesisJSON(w)
+	case "/networktoml":
+		outputNetworkTOML(w)
 	case "/addpeer":
 		addPeer(w, r)
 	case "/setgenesisjson":
 		addGenesisJSON(w, r)
+	case "/setnetworktoml":
+		addNetworkTOML(w, r)
 	case "/publish":
 		publish(w)
 	default:
@@ -89,7 +94,7 @@ func cfgHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func publish(w http.ResponseWriter) {
-	if genesisJSON == "" || len(peerlist) < 1 {
+	if genesisJSON == "" || networkTOML == "" || len(peerlist) < 1 {
 		fmt.Fprintln(w, "false")
 	} else {
 		isPublished = true
@@ -105,6 +110,17 @@ func addGenesisJSON(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	genesisJSON = string(b)
+	fmt.Fprint(w, "true")
+}
+
+func addNetworkTOML(w http.ResponseWriter, r *http.Request) {
+	b, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		fmt.Println("Error in addNetworkTOML: ", err.Error())
+		fmt.Fprint(w, "false")
+		return
+	}
+	networkTOML = string(b)
 	fmt.Fprint(w, "true")
 }
 
@@ -142,6 +158,15 @@ func outputPeers(w http.ResponseWriter) {
 func outputGenesisJSON(w http.ResponseWriter) {
 	if isPublished {
 		fmt.Fprintln(w, genesisJSON)
+	} else {
+		fmt.Fprint(w, "false")
+	}
+
+}
+
+func outputNetworkTOML(w http.ResponseWriter) {
+	if isPublished {
+		fmt.Fprintln(w, networkTOML)
 	} else {
 		fmt.Fprint(w, "false")
 	}

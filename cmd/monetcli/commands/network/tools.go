@@ -14,46 +14,12 @@ import (
 	com "github.com/mosaicnetworks/monetd/src/common"
 	"github.com/pelletier/go-toml"
 	"github.com/pelletier/go-toml/query"
-	"github.com/spf13/viper"
 )
 
 const tomlDir = ".monetcli"
 const (
 	tomlName = "network"
 )
-
-// We declare our own instance of viper to avoid any possibility of a clash
-var (
-	networkViper *viper.Viper
-)
-
-func setUpConfigFile() {
-	networkViper = viper.New()
-	networkViper.SetConfigName(tomlName) // name of config file (without extension)
-	networkViper.SetConfigType("toml")
-	defaultConfig()
-}
-
-// Write configure to file
-func writeConfig() {
-
-	message("Writing toml file")
-	err := networkViper.WriteConfig()
-	if err != nil {
-		message("writeConfig error: ", err)
-	}
-}
-
-func safeWriteConfig() {
-
-	message("Writing toml file")
-	err := networkViper.SafeWriteConfig()
-	if err != nil {
-		message("safeWriteConfig error: ", err)
-		message(networkViper.AllSettings())
-		networkViper.Debug()
-	}
-}
 
 func createEmptyFile(f string) {
 	emptyFile, err := os.Create(f)
@@ -63,22 +29,6 @@ func createEmptyFile(f string) {
 		return
 	}
 	emptyFile.Close()
-}
-
-func loadConfig() error {
-
-	message("Starting to load configuration")
-	setUpConfigFile()
-	networkViper.AddConfigPath(configDir)
-	message("Added viper config path: ", configDir)
-	err := networkViper.ReadInConfig() // Find and read the config file
-
-	if err != nil {
-		message("loadConfig: ", err)
-		return err
-	}
-	message("Loaded Config")
-	return nil
 }
 
 func isEmptyDir(dir string) (bool, error) {
@@ -125,7 +75,7 @@ func GenerateKeyPair(configDir string, moniker string, ip string, isValidator bo
 	pubkey := hex.EncodeToString(
 		crypto.FromECDSAPub(&key.PrivateKey.PublicKey))
 
-	return addValidatorParamaterised(moniker, safeLabel, key.Address.Hex(),
+	return AddValidatorParamaterised(configDir, moniker, safeLabel, key.Address.Hex(),
 		pubkey, ip, isValidator)
 
 }

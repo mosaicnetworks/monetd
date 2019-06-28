@@ -27,14 +27,15 @@ func checkConfig(cmd *cobra.Command, args []string) error {
 //CheckConfigWithParams checks the monetcli configuration.
 func CheckConfigWithParams(configDir string) error {
 
-	err := loadConfig()
-
+	tree, err := common.LoadTomlConfig(configDir)
 	if err != nil {
 		fmt.Println("Cannot load configuration: ", err)
 		return err
 	}
 
-	err = networkViper.Unmarshal(&config)
+	tree.Unmarshal(&config)
+
+	err = tree.Unmarshal(&config)
 	if err != nil {
 		fmt.Println("Error loading configuration: ", err)
 	}
@@ -45,15 +46,12 @@ func CheckConfigWithParams(configDir string) error {
 		fmt.Printf("%+v\n", config)
 	}
 
-	if addr := networkViper.GetString("poa.contractaddress"); common.IsValidAddress(addr) {
+	if addr := tree.Get("poa.contractaddress").(string); common.IsValidAddress(addr) {
 		message("poa.contractaddress is a valid address: ", addr)
 	} else {
 		fmt.Println("Invalid address: ", "\""+addr+"\"")
 		return errors.New("poa.contractaddress is not a valid address")
 	}
-
-	//	message("Address: ", networkViper.GetString("poa.contractaddress"))
-	// networkViper.Debug()
 
 	fmt.Println("All checks passed")
 	return nil
