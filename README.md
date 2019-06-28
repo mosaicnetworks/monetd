@@ -1,9 +1,9 @@
 # Monet Hub
 
-**This is a work in progress and not yet complete**
+**WIP**
 
-This repo is a thin wrapper around evm-lite, focused on exposing only the 
-functionnality required for operating a Monet Hub node. 
+This repo is a thin wrapper around evm-lite which exposes only the 
+functionnality required to operate a node on the MONET Hub. 
 
 The executables defined in this repository are: 
 
@@ -14,8 +14,8 @@ The executables defined in this repository are:
 
 The Monet Hub is an always-on blockchain that supports other Mobile ad-hoc 
 blockchains as defined in the MONET whitepaper. It is a smart-contract platform
-based on the Ethereum Virtual Machine and a BFT consensus algorithm inspired by
-Hashgraph.
+based on the Ethereum Virtual Machine and a BFT consensus algorithm called
+Babble (inspired by Hashgraph).
 
 Nodes on the Monet Hub run the `monetd` daemon, which is a specific instance of 
 [mosaicnetwork](https://mosaicnetworks.io)'s 
