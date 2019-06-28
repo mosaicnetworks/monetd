@@ -41,12 +41,12 @@ func NewRunCmd() *cobra.Command {
 		RunE: runBabble,
 	}
 
-	bindFlags(cmd)
+	bindRunFlags(cmd)
 
 	return cmd
 }
 
-func bindFlags(cmd *cobra.Command) {
+func bindRunFlags(cmd *cobra.Command) {
 	// Babble config
 	cmd.Flags().String("babble.listen", config.Babble.BindAddr, "IP:PORT of Babble node")
 	cmd.Flags().String("babble.service-listen", config.Babble.ServiceAddr, "IP:PORT of Babble HTTP API service")

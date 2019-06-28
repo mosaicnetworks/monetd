@@ -7,10 +7,12 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"net/http"
 	"os"
 	"path/filepath"
 	"strings"
 	"text/template"
+	"time"
 
 	"github.com/ethereum/go-ethereum/accounts/keystore"
 	"github.com/ethereum/go-ethereum/common/compiler"
@@ -25,13 +27,33 @@ var (
 	defaultKeyfile = "keyfile.json"
 	privateKeyfile string
 	passphrase     string
+	downloadAddr   string
 )
 
-var InitCmd = &cobra.Command{
-	Use:   "init",
-	Short: "Interactive configuration wizard",
-	RunE:  initialise,
+/*******************************************************************************
+InitCmd
+*******************************************************************************/
+
+// NewInitCmd returns the command that initialises the node's configuration
+func NewInitCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "init",
+		Short: "Interactive configuration wizard",
+		RunE:  initialise,
+	}
+
+	bindInitFlags(cmd)
+
+	return cmd
 }
+
+func bindInitFlags(cmd *cobra.Command) {
+	cmd.Flags().StringVar(&downloadAddr, "src", "", "IP:PORT of configuration server")
+}
+
+/*******************************************************************************
+Inititalise Config
+*******************************************************************************/
 
 /*
 1) Private Key
@@ -41,25 +63,25 @@ var InitCmd = &cobra.Command{
 */
 func initialise(cmd *cobra.Command, args []string) error {
 
-	fmt.Printf("\n Step 1) Private Key \n\n")
+	fmt.Printf("\n 1/4) Private Key \n\n")
 
 	if err := initPrivateKey(); err != nil {
 		return err
 	}
 
-	fmt.Printf("\n Step 2) Create Babble peers.json \n\n")
+	fmt.Printf("\n 2/4) Create Babble peers.json \n\n")
 
 	if err := initPeersJSON(); err != nil {
 		return err
 	}
 
-	fmt.Printf("\n Step 3) Create genesis.json \n\n")
+	fmt.Printf("\n 3/4) Create genesis.json \n\n")
 
 	if err := initGenesisJSON(); err != nil {
 		return err
 	}
 
-	fmt.Printf("\n Step 4) Create default monetd.toml \n\n")
+	fmt.Printf("\n 4/4) Create default monetd.toml \n\n")
 
 	if err := initMonetTOML(); err != nil {
 		return err
@@ -80,7 +102,7 @@ func initPrivateKey() error {
 	jsonKeyFilepath := fmt.Sprintf("%s/%s", config.DataDir, defaultKeyfile)
 	rawKeyFilepath := fmt.Sprintf("%s/priv_key", config.Babble.DataDir)
 
-	// return with no error ff a key already exists and the user does not wish
+	// return with no error if a key already exists and the user does not wish
 	// to generate a new one
 
 	generateNew, err := shouldGenerateNew(config.DataDir, defaultKeyfile)
@@ -161,6 +183,11 @@ func initPeersJSON() error {
 		return nil
 	}
 
+	if downloadAddr != "" {
+		fmt.Printf("--src flag specified: %s\n", downloadAddr)
+		return downloadPeersJSON()
+	}
+
 	privateKey, err := getPrivateKey()
 	if err != nil {
 		return err
@@ -185,6 +212,37 @@ func initPeersJSON() error {
 	return nil
 }
 
+// download peers.json file from address specified by --src flag, and copy it to
+// [datadir]/babble/peers.json
+func downloadPeersJSON() error {
+
+	fmt.Printf("Downloading peers.json from %s...\n", downloadAddr)
+
+	var client = &http.Client{Timeout: time.Second}
+
+	r, err := client.Get(fmt.Sprintf("http://%s/genesispeers", downloadAddr))
+	if err != nil {
+		return err
+	}
+	defer r.Body.Close()
+
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		return err
+	}
+
+	if err := os.MkdirAll(config.Babble.DataDir, 0700); err != nil {
+		return fmt.Errorf("Could not create directory %s: %v", config.Babble.DataDir, err)
+	}
+	if err := ioutil.WriteFile(fmt.Sprintf("%s/peers.json", config.Babble.DataDir), body, 0600); err != nil {
+		return err
+	}
+
+	fmt.Println("OK")
+
+	return nil
+}
+
 // Create [datadir]/eth/genesis.json and use the key generated in step 1 to
 // prefund the corresponding account and set it as a validator in the POA
 // smart-contract.
@@ -197,6 +255,11 @@ func initGenesisJSON() error {
 
 	if !generateNew {
 		return nil
+	}
+
+	if downloadAddr != "" {
+		fmt.Printf("--src flag specified: %s\n", downloadAddr)
+		return downloadGenesisJSON()
 	}
 
 	privateKey, err := getPrivateKey()
@@ -249,6 +312,37 @@ func initGenesisJSON() error {
 	return nil
 }
 
+// download genesis.json file from address specified by --src flag, and copy it
+// to [datadir]/eth/genesis.json
+func downloadGenesisJSON() error {
+
+	fmt.Printf("Downloading genesis.json from %s...\n", downloadAddr)
+
+	var client = &http.Client{Timeout: time.Second}
+
+	r, err := client.Get(fmt.Sprintf("http://%s/genesis", downloadAddr))
+	if err != nil {
+		return err
+	}
+	defer r.Body.Close()
+
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		return err
+	}
+
+	if err := os.MkdirAll(filepath.Dir(config.Eth.Genesis), 0700); err != nil {
+		return fmt.Errorf("Could not create directory %s: %v", filepath.Dir(config.Eth.Genesis), err)
+	}
+	if err = ioutil.WriteFile(config.Eth.Genesis, body, 0600); err != nil {
+		return err
+	}
+
+	fmt.Println("OK")
+
+	return nil
+}
+
 // Generate default configuration file in [datadir]/monetd.toml
 func initMonetTOML() error {
 
@@ -284,6 +378,7 @@ func initMonetTOML() error {
 	return nil
 }
 
+// Check if file already exist; if so ask user if they want to override it.
 func shouldGenerateNew(path string, name string) (bool, error) {
 
 	filePath := fmt.Sprintf("%s/%s", path, name)
