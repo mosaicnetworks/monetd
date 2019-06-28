@@ -23,6 +23,9 @@ import (
 	"github.com/spf13/viper"
 )
 
+//TODO the configuration path locations for Macs are wrong.
+//Need either to allow specifying them, or just overwriting it.
+
 //NetworkCmd controls network configuration
 var (
 	publishTarget    string
@@ -228,7 +231,14 @@ func sendJSON(url string, b []byte, contenttype string) error {
 }
 
 func checkIsLiveServer(addr string) bool {
-	//TODO load a page from server to confirm it is live
+	// Load a page, id we get an error, we reject the server config
+	url := CfgServer + "/ispublished"
+
+	_, err := getRequest(url)
+	if err != nil {
+		return false
+	}
+
 	return true
 }
 

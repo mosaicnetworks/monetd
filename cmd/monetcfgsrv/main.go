@@ -48,17 +48,6 @@ var (
 	networkTOML = "unused"
 )
 
-/*
-//TODO remove this
-func init() {
-	peerlist = append(peerlist, &peer{
-		NetAddr:   "192.168.1.3:1337",
-		PubKeyHex: "0X04541909581932BD007515661FCA68FF9607447C5ECCFD262E33A74ECA2E5DE0428BCA9261D7E1D52513F38DB5A6EE100689A1C5FD6CB605EDE45AEEBF90D4AE82",
-		Moniker:   "banquet",
-	})
-}
-*/
-
 func main() {
 	http.HandleFunc("/", cfgHandler)
 

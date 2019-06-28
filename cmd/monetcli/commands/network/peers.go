@@ -55,15 +55,15 @@ peerloop:
 
 func viewPeer(configDir string, peername string) error {
 	return nil
-	//TODO
+	//TODO add new View Peer code
 }
 
 func editPeer(configDir string, peername string) error {
 	return nil
-	//TODO
+	//TODO add new edit peer code
 }
 
 func deletePeer(configDir string, peername string) error {
 	return nil
-	//TODO
+	//TODO add new delete peer code
 }

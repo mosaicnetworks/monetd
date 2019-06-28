@@ -28,7 +28,5 @@ func generatekeypair(cmd *cobra.Command, args []string) error {
 		}
 	}
 
-	//TODO enable password file and pass as the last parameter
-
-	return GenerateKeyPair(configDir, moniker, ip, isValidator, "")
+	return GenerateKeyPair(configDir, moniker, ip, isValidator, passwordFile)
 }

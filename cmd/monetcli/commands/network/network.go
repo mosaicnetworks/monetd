@@ -19,21 +19,22 @@ var (
 		TraverseChildren: true,
 	}
 
-	configDir string
-	force     bool
+	configDir    string
+	force        bool
+	passwordFile string
 )
 
 func init() {
 	//Subcommands
-	NetworkCmd.AddCommand( //TODO remove these comments when all complete
-		newNewCmd(),      // Barebones implemented. Need to add more parameters.
-		newCheckCmd(),    // Framework implemented. Only checks contract address.
-		newAddCmd(),      // Add Peers, framework in place
-		newShowCmd(),     // Complete.
-		newGenerateCmd(), // Complete
-		newContractCmd(), // Complete
-		newParamsCmd(),   // Complete
-		newCompileCmd(),  // Functionally complete
+	NetworkCmd.AddCommand(
+		newNewCmd(),
+		newCheckCmd(),
+		newAddCmd(),
+		newShowCmd(),
+		newGenerateCmd(),
+		newContractCmd(),
+		newParamsCmd(),
+		newCompileCmd(),
 		newPeersCmd(),
 	)
 
@@ -43,8 +44,6 @@ func init() {
 	}
 
 	NetworkCmd.PersistentFlags().StringVarP(&configDir, "config-dir", "c", defaultConfigDir, "the directory containing the network.toml file holding the monetcli configuration")
-
-	//	NetworkCmd.PersistentFlags().BoolVar(&outputJSON, "json", false, "output JSON instead of human-readable format")
 	viper.BindPFlags(NetworkCmd.Flags())
 }
 
@@ -133,6 +132,10 @@ Generate and add a key pair to the configuration.`,
 		Args: cobra.ExactArgs(3),
 		RunE: generatekeypair,
 	}
+
+	cmd.PersistentFlags().StringVar(&passwordFile, "passfile", "", "the file that contains the passphrase for the keyfile")
+	viper.BindPFlags(cmd.Flags())
+
 	return cmd
 }
 

@@ -29,7 +29,6 @@ func Message(a ...interface{}) (n int, err error) {
 	return 0, nil
 }
 
-//TODO Change the prefix to be colour codes
 func MessageWithType(msgType int, a ...interface{}) (n int, err error) {
 
 	color.Set(ColourOther)

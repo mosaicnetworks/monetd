@@ -82,7 +82,7 @@ paramloop:
 
 				if err != nil {
 					Message("Error entering parameters: ", err)
-					//TODO - do we return this error, or just not save the mangled result as per now.
+					//We don't return this error, and just not save the mangled result
 				} else {
 					if keys.DataType == "bool" {
 						boolResult, err := strconv.ParseBool(result)
@@ -106,7 +106,7 @@ paramloop:
 				result, err := prompt.Run()
 				if err != nil {
 					Message("Error entering parameters: ", err)
-					//TODO - do we return this error, or just not save the mangled result as per now.
+					//NB, the error is not returned, the mangled data just is not saved.
 				} else {
 					tree.Set(keys.Key, result)
 				}

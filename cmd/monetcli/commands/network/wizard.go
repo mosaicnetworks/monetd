@@ -110,14 +110,14 @@ editloop:
 
 		common.MessageWithType(common.MsgInformation, "Edit menu for   "+configDir+" ")
 		confirmSelection := common.RequestSelect("Please select an option: ",
-			[]string{ //TODO remove these comments
-				common.WizardAddKeyPair,         // Skeleton
-				common.WizardCheckConfiguration, // Skeleton
-				common.WizardCompile,            // Skeleton
-				common.WizardGenerate,           // Skeleton
-				common.WizardParams,             // Complete
-				common.WizardShow,               // Complete
-				common.WizardExit,               // Complete
+			[]string{
+				common.WizardAddKeyPair,
+				common.WizardCheckConfiguration,
+				common.WizardCompile,
+				common.WizardGenerate,
+				common.WizardParams,
+				common.WizardShow,
+				common.WizardExit,
 			},
 			common.WizardShow)
 
@@ -169,7 +169,10 @@ editloop:
 }
 
 func monetDConfigWizard() error {
-	//TODO
+	//TODO - New code
+
+	// The delivery process putting files into the correct place is by and large complete for the
+	// testnet command - parameterise it and move it into common
 
 	common.MessageWithType(common.MsgInformation, "MonetD Config will be here.")
 
@@ -192,7 +195,6 @@ func generateKeyPairWizard(configDir string) error {
 nodeloop:
 	for {
 		nodename = common.RequestString("Node Name: ", "")
-		//TODO Check if the moniker is already in use
 
 		safeLabel := common.GetNodeSafeLabel(nodename)
 		for _, node := range currentNodes {
@@ -209,15 +211,37 @@ nodeloop:
 iploop:
 	for {
 		ip = common.RequestString("Node Address: ", nodename+":1337")
-		//TODO Check if the ip is already in use
+		//Enhancement -  Check if the ip is already in use
 		break iploop
 	}
 
-	isValidator = common.RequestBool("Is validator in initial peer set: ", true)
-	//TODO Check if the ip is already in use
+	// We decided that non-validators is a configuration too far.
+	// We will leave the parameter in place, but set it silently
+	// just in case we change our minds later.
+	isValidator = true
+	// isValidator = common.RequestBool("Is validator in initial peer set: ", true)
 
-	//TODO generate passwordfile as the last parameter of this call
-	return GenerateKeyPair(configDir, nodename, ip, isValidator, "")
+	var password string
+
+passwordloop:
+	for {
+		password = common.RequestPassword("Enter Keystore Password: ", "")
+		password2 := common.RequestPassword("Confirm Keystore Password: ", "")
+
+		if password == password2 {
+			break passwordloop
+		}
+	}
+
+	passwordFile := filepath.Join(configDir, "pwd.txt")
+
+	err = common.WriteToFile(passwordFile, password)
+	if err != nil {
+		common.MessageWithType(common.MsgError, "Error saving password: ", err)
+		return err
+	}
+
+	return GenerateKeyPair(configDir, nodename, ip, isValidator, passwordFile)
 }
 
 func compileWizard(configDir string) error {
@@ -226,7 +250,7 @@ func compileWizard(configDir string) error {
 
 func addPeerWizard(configDir string) error {
 
-	//TODO
+	//TODO - hook up wizard to add peer function req
 
 	//	func AddValidatorParamateriseda(configDir, moniker string, addr string, pubkey string, ip string, isValidator bool) error {
 	return nil

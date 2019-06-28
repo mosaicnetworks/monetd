@@ -160,9 +160,11 @@ func CompileConfigWithParam(configDir string) error {
 	reg := regexp.MustCompile(`(?s)GENERATED GENESIS BEGIN.*GENERATED GENESIS END`)
 	finalSoliditySource := reg.ReplaceAllString(soliditySource, generatedSol)
 
-	//TODO parse return values of write to file
-
-	common.WriteToFile(filepath.Join(configDir, common.GenesisContract), finalSoliditySource)
+	err = common.WriteToFile(filepath.Join(configDir, common.GenesisContract), finalSoliditySource)
+	if err != nil {
+		message("Error writing genesis contract:", err)
+		return err
+	}
 
 	contractInfo, err := compile.CompileSolidityString("solc", finalSoliditySource)
 	var poagenesis genesisPOA
