@@ -185,7 +185,7 @@ func CompileConfigWithParam(configDir string) error {
 
 		poagenesis.Abi = string(jsonabi)
 		poagenesis.Address = types.HexToAddress(tree.Get("poa.contractaddress").(string)).Hex() //EIP55 compliant
-		poagenesis.Code = v.RuntimeCode
+		poagenesis.Code = strings.TrimPrefix(v.RuntimeCode, "0x")
 
 		message("Set Contract Items")
 		break // We only have one contract ever so no need to loop. We use the for loop as k is indeterminate

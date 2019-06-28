@@ -30,6 +30,7 @@ var (
 	jumpToPublish    bool
 	testConfigDir    string
 	CfgServer        string
+	myAddress        string
 )
 
 type peer struct {
@@ -170,6 +171,8 @@ passwordloop:
 	common.MessageWithType(common.MsgInformation, "IP       : ", ip)
 	common.MessageWithType(common.MsgInformation, "Pub Key  : ", pubkey)
 	common.MessageWithType(common.MsgInformation, "Address  : ", key.Address.String())
+
+	myAddress = key.Address.String()
 
 	peer := peer{
 		NetAddr:   ip + ":1337",
@@ -509,6 +512,9 @@ confirmloop:
 
 		copyFile{SourceFile: filepath.Join(testConfigDir, keys.DefaultKeyfile),
 			TargetFile: filepath.Join(defaultMonetConfigDir, "eth", "keystore", keys.DefaultKeyfile)},
+
+		copyFile{SourceFile: filepath.Join(testConfigDir, keys.DefaultKeyfile),
+			TargetFile: filepath.Join(defaultMonetConfigDir, keys.DefaultKeyfile)},
 	}
 
 	for i, cf := range copyfiles {
@@ -520,6 +526,12 @@ confirmloop:
 		}
 	}
 
+	common.MessageWithType(common.MsgInformation, "Updating evmlc config")
+	err = updateEvmlcConfig()
+	if err != nil {
+		common.MessageWithType(common.MsgError, "Error Updating evmlc config ", err)
+		return err
+	}
 	common.MessageWithType(common.MsgWarning, "Try running:  monetd run")
 
 	return nil
@@ -532,20 +544,20 @@ func generateMonetdToml() error {
 	defaultMonetConfigDir, _ := common.DefaultHomeDir(common.MonetdTomlDir)
 
 	toml := `datadir = "` + defaultMonetConfigDir + `"
-	log = "debug"
-	
-	[babble]
-	listen = "` + ip + `:1337"
-	service-listen = ":8000"
-	heartbeat = "500ms"
-	timeout = "1s"
-	cache-size = 50000
-	sync-limit = 1000
-	max-pool = 2
-	
-	[eth]
-	listen = "` + ip + `:8080"
-	cache = 128
+log = "debug"
+
+[babble]
+listen = "` + ip + `:1337"
+service-listen = ":8000"
+heartbeat = "500ms"
+timeout = "1s"
+cache-size = 50000
+sync-limit = 1000
+max-pool = 2
+
+[eth]
+listen = ":8080"
+cache = 128
 `
 
 	err := common.WriteToFile(filepath.Join(testConfigDir, "monetd.toml"), toml)
@@ -556,4 +568,33 @@ func generateMonetdToml() error {
 
 	return nil
 
+}
+
+func updateEvmlcConfig() error {
+	defaultEVMLCConfigDir, _ := common.DefaultHomeDir(".evmlc")
+	defaultMonetConfigDir, _ := common.DefaultHomeDir(common.MonetdTomlDir)
+	tomlFile := filepath.Join(defaultEVMLCConfigDir, "config.toml")
+	keystoreFile := filepath.Join(defaultMonetConfigDir, "eth", "keystore")
+
+	tree, err := common.LoadToml(tomlFile)
+	if err != nil {
+		common.MessageWithType(common.MsgError, "Error loading toml: ", tomlFile)
+	}
+
+	tree.SetPath([]string{"storage", "keystore"}, keystoreFile)
+	tree.SetPath([]string{"connection", "host"}, getMyIP())
+
+	if myAddress != "" {
+		tree.SetPath([]string{"defaults", "from"}, myAddress)
+	}
+	tree.SetPath([]string{"defaults", "gas"}, 100000000.0)
+	tree.SetPath([]string{"defaults", "gasPrice"}, 0.0)
+
+	err = common.SaveToml(tree, tomlFile)
+	if err != nil {
+		common.Message("Cannot save toml file")
+		return err
+	}
+
+	return nil
 }
