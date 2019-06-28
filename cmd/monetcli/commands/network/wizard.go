@@ -27,7 +27,7 @@ func runWizard() error {
 	// Infinite loop that we need to explicitly break out of
 configloop:
 	for {
-		userConfigDir = requestFile("MonetCLI Configuration Directory Location: ", userConfigDir)
+		userConfigDir = common.RequestFile("MonetCLI Configuration Directory Location: ", userConfigDir)
 
 		DirExists := common.CheckIfExists(userConfigDir)
 
@@ -35,7 +35,7 @@ configloop:
 
 			common.MessageWithType(common.MsgInformation, "Folder "+userConfigDir+" does not exist.")
 
-			confirm := RequestSelect("Please select an option: ", []string{common.WizardExitWithoutSavingChanges, common.WizardChangeConfigDir, common.WizardTextCreateNewConfiguration}, common.WizardTextCreateNewConfiguration)
+			confirm := common.RequestSelect("Please select an option: ", []string{common.WizardExitWithoutSavingChanges, common.WizardChangeConfigDir, common.WizardTextCreateNewConfiguration}, common.WizardTextCreateNewConfiguration)
 
 			switch confirm {
 			case common.WizardExit:
@@ -52,7 +52,7 @@ configloop:
 
 		} else {
 			common.MessageWithType(common.MsgInformation, "Folder "+userConfigDir+" already exists.")
-			confirmSelection := RequestSelect("Please select an option: ",
+			confirmSelection := common.RequestSelect("Please select an option: ",
 				[]string{
 					common.WizardExitWithoutSavingChanges,
 					common.WizardChangeConfigDir,
@@ -108,7 +108,7 @@ editloop:
 	for {
 
 		common.MessageWithType(common.MsgInformation, "Edit menu for   "+configDir+" ")
-		confirmSelection := RequestSelect("Please select an option: ",
+		confirmSelection := common.RequestSelect("Please select an option: ",
 			[]string{ //TODO remove these comments
 				common.WizardAddKeyPair,         // Skeleton
 				common.WizardCheckConfiguration, // Skeleton
@@ -159,7 +159,7 @@ editloop:
 
 		}
 
-		_ = requestFile("Press Enter to Continue", "")
+		_ = common.RequestFile("Press Enter to Continue", "")
 
 	}
 
@@ -186,7 +186,7 @@ func generateKeyPairWizard(configDir string) error {
 
 nodeloop:
 	for {
-		nodename = requestString("Node Name: ", "")
+		nodename = common.RequestString("Node Name: ", "")
 		//TODO Check if the moniker is already in use
 
 		safeLabel := common.GetNodeSafeLabel(nodename)
@@ -203,12 +203,12 @@ nodeloop:
 
 iploop:
 	for {
-		ip = requestString("Node Address: ", nodename+":1337")
+		ip = common.RequestString("Node Address: ", nodename+":1337")
 		//TODO Check if the ip is already in use
 		break iploop
 	}
 
-	isValidator = requestBool("Is validator in initial peer set: ", true)
+	isValidator = common.RequestBool("Is validator in initial peer set: ", true)
 	//TODO Check if the ip is already in use
 
 	//TODO generate passwordfile as the last parameter of this call

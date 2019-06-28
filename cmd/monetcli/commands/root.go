@@ -4,6 +4,7 @@ import (
 	"github.com/mosaicnetworks/monetd/cmd/monetcli/commands/config"
 	"github.com/mosaicnetworks/monetd/cmd/monetcli/commands/keys"
 	"github.com/mosaicnetworks/monetd/cmd/monetcli/commands/network"
+	"github.com/mosaicnetworks/monetd/cmd/monetcli/commands/testnet"
 	"github.com/mosaicnetworks/monetd/src/common"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -23,6 +24,7 @@ func init() {
 		config.ConfigCmd,
 		VersionCmd,
 		network.WizardCmd,
+		testnet.NewTestNetCmd(),
 	)
 	//do not print usage when error occurs
 	RootCmd.SilenceUsage = true

@@ -22,6 +22,13 @@ installd:
 		./cmd/monetd
 
 
+
+installcfg:
+	go install \
+		--ldflags "-X github.com/mosaicnetworks/monetd/src/version.GitCommit=`git rev-parse HEAD`" \
+		./cmd/monetcfgsrv
+
+
 installcli:
 	go install \
 		--ldflags "-X github.com/mosaicnetworks/monetd/src/version.GitCommit=`git rev-parse HEAD`" \

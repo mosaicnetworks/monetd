@@ -22,13 +22,13 @@ func PeersWizard(configDir string) error {
 
 peerloop:
 	for {
-		selectedPeer := RequestSelect("Choose a peer", peers, "")
+		selectedPeer := common.RequestSelect("Choose a peer", peers, "")
 		if selectedPeer == common.WizardExit {
 			break peerloop
 		}
 	actionloop:
 		for {
-			action := RequestSelect("Choose an Action: ", []string{common.WizardView, common.WizardEdit, common.WizardDelete, common.WizardExit}, "")
+			action := common.RequestSelect("Choose an Action: ", []string{common.WizardView, common.WizardEdit, common.WizardDelete, common.WizardExit}, "")
 
 			switch action {
 			case common.WizardView:
@@ -55,12 +55,15 @@ peerloop:
 
 func viewPeer(configDir string, peername string) error {
 	return nil
+	//TODO
 }
 
 func editPeer(configDir string, peername string) error {
 	return nil
+	//TODO
 }
 
 func deletePeer(configDir string, peername string) error {
 	return nil
+	//TODO
 }

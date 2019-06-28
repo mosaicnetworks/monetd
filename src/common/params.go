@@ -100,6 +100,7 @@ paramloop:
 					Label:    promptText + "  ",
 					Validate: validateFunc,
 					Default:  defaultAnswer,
+					Pointer:  promptui.PipeCursor,
 				}
 
 				result, err := prompt.Run()
