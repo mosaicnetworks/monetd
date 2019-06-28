@@ -15,6 +15,7 @@ import (
 	"github.com/mosaicnetworks/monetd/cmd/monetcli/commands/network"
 
 	"github.com/ethereum/go-ethereum/crypto"
+	bkeys "github.com/mosaicnetworks/babble/src/crypto/keys"
 	"github.com/mosaicnetworks/monetd/cmd/monetcli/commands/keys"
 
 	"github.com/mosaicnetworks/monetd/src/common"
@@ -167,12 +168,20 @@ passwordloop:
 	pubkey = hex.EncodeToString(
 		crypto.FromECDSAPub(&key.PrivateKey.PublicKey))
 
+	privateKey := key.PrivateKey
 	common.MessageWithType(common.MsgInformation, "Moniker  : ", moniker)
 	common.MessageWithType(common.MsgInformation, "IP       : ", ip)
 	common.MessageWithType(common.MsgInformation, "Pub Key  : ", pubkey)
 	common.MessageWithType(common.MsgInformation, "Address  : ", key.Address.String())
 
 	myAddress = key.Address.String()
+
+	rawKeyFilepath := filepath.Join(testConfigDir, "priv_key")
+
+	simpleKeyfile := bkeys.NewSimpleKeyfile(rawKeyFilepath)
+	if err := simpleKeyfile.WriteKey(privateKey); err != nil {
+		return fmt.Errorf("Error saving private key: %s", err)
+	}
 
 	peer := peer{
 		NetAddr:   ip + ":1337",
@@ -504,6 +513,8 @@ confirmloop:
 			TargetFile: filepath.Join(defaultMonetConfigDir, "eth", "genesis.json")},
 		copyFile{SourceFile: filepath.Join(testConfigDir, "peers.json"),
 			TargetFile: filepath.Join(defaultMonetConfigDir, "babble", "peers.json")},
+		copyFile{SourceFile: filepath.Join(testConfigDir, "priv_key"),
+			TargetFile: filepath.Join(defaultMonetConfigDir, "babble", "priv_key")},
 		copyFile{SourceFile: filepath.Join(testConfigDir, "peers.json"),
 			TargetFile: filepath.Join(defaultMonetConfigDir, "babble", "peers.genesis.json")},
 
