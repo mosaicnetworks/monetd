@@ -47,10 +47,10 @@ type copyFile struct {
 	TargetFile string
 }
 
-func init() {
-	//	defaultConfigDir, _ := common.DefaultHomeDir(common.MonetcliTomlDir)
-	//	defaultMonetConfigDir, _ := common.DefaultHomeDir(common.MonetdTomlDir)
-}
+// func init() {
+//	defaultConfigDir, _ := common.DefaultHomeDir(common.MonetcliTomlDir)
+//	defaultMonetConfigDir, _ := common.DefaultHomeDir(common.MonetdTomlDir)
+// }
 
 //NewCheckCmd defines the CLI command config check
 func NewTestNetCmd() *cobra.Command {

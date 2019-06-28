@@ -63,6 +63,7 @@ func RequestPassword(promptText string, defaultValue string) string {
 		Label:    promptText + "  ",
 		Validate: validateString,
 		Default:  defaultValue,
+		Mask:     '#',
 		Pointer:  promptui.PipeCursor,
 	}
 
