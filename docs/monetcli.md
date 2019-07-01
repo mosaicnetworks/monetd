@@ -11,6 +11,7 @@ There are currently 7 subcommands (listed here in the order they are in this doc
 + **network** is a set of subcommands for building and configuring a new monet network of hubs. These tools would normally be used before a network is started
 + **config** is a set of subcommands for managing the .monet configuration files of an extant network. 
 + **testnet** is a menu driven wizard for building a test network, enabling peers to create and share a common configuration, via a server, before starting the network
++ **testjoin** is a menu driven wizard for joining an existing network
 + **wizard** is a menu driven front end to the network subcommands to guide the creation of a new network of hubs.
 
 ## help
@@ -189,6 +190,61 @@ Flags:
 Global Flags:
   -v, --verbose   verbose messages
  ``` 
+
+
+## testjoin
+
+
+
+```
+$ monetcli testjoin
+✔ Existing peer:  : |the.existing.peer
+```
+
+```
+Downloading files from  the.existing.peer
+Downloaded  /home/jon/.monetcli/testnet/peers.genesis.json
+Downloaded  /home/jon/.monetcli/testnet/peers.json
+Downloaded  /home/jon/.monetcli/testnet/genesis.json
+```
+
+
+```
+Enter Keystore Password:   : #|
+Confirm Keystore Password:   : #|
+Address: 0x9B39Af7F8C599e67379Ec429d41A0B71Dc21F24e
+Building Data to push to Configuration Server
+Pub Key  :  046a0dc579184801c1ab4144f93005af0f73778d2bad5f755bd98ad499934e6c6869c34cd8252ff79cadf1b829ecb328bb03717593c558be7b0c6040543944393d
+Address  :  0x9B39Af7F8C599e67379Ec429d41A0B71Dc21F24e
+```
+
+
+```
+Enter your ip without the port:   : |192.168.1.18
+```
+
+
+
+```
+Use the arrow keys to navigate: ↓ ↑ → ← 
+? Confirm Overwriting Existing Configuration  : 
+  ▸ No
+    Yes
+```
+
+```
+Renaming /home/jon/.monet to /home/jon/.monet.~11~
+Copying to  0 /home/jon/.monet/monetd.toml
+Copying to  1 /home/jon/.monet/eth/genesis.json
+Copying to  2 /home/jon/.monet/babble/peers.json
+Copying to  3 /home/jon/.monet/babble/priv_key
+Copying to  4 /home/jon/.monet/babble/peers.genesis.json
+Copying to  5 /home/jon/.monet/eth/pwd.txt
+Copying to  6 /home/jon/.monet/eth/keystore/keyfile.json
+Copying to  7 /home/jon/.monet/keyfile.json
+Updating evmlc config
+Try running:  monetd run
+```
 
 
 ## wizard
