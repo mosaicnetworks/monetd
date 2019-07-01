@@ -76,7 +76,7 @@ func LoadTomlConfig(configDir string) (*toml.Tree, error) {
 
 	Message("Starting to load configuration")
 
-	tree, err := LoadToml(filepath.Join(configDir, MonetcliTomlName+".toml"))
+	tree, err := LoadToml(filepath.Join(configDir, MonetcliTomlName+TomlSuffix))
 
 	if err != nil {
 		Message("loadConfig: ", err)
@@ -90,7 +90,7 @@ func SaveTomlConfig(configDir string, tree *toml.Tree) error {
 
 	Message("Starting to save configuration")
 
-	err := SaveToml(tree, filepath.Join(configDir, MonetcliTomlName+".toml"))
+	err := SaveToml(tree, filepath.Join(configDir, MonetcliTomlName+TomlSuffix))
 
 	if err != nil {
 		Message("saveConfig: ", err)

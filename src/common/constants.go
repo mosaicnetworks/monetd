@@ -2,6 +2,7 @@ package common
 
 import (
 	"path/filepath"
+	"runtime"
 	"time"
 
 	"github.com/fatih/color"
@@ -9,11 +10,26 @@ import (
 
 //Constants used across the MonetCLI command packages
 
+var (
+	MonetdTomlDir   string
+	MonetcliTomlDir string
+	EvmlcTomlDir    string
+)
+
 const (
-	MonetdTomlDir    = ".monet"
+	MonetdTomlDirDot    = ".monet"
+	MonetcliTomlDirDot  = ".monetcli"
+	MonetdTomlDirCaps   = "MONET"
+	MonetcliTomlDirCaps = "MONETCLI"
+
+	EvmlcTomlDirCaps = "EVMLC"
+	EvmlcTomlDirDot  = ".evmlc"
+
+	TomlSuffix = ".toml"
+
 	MonetdTomlName   = "monetd"
-	MonetcliTomlDir  = ".monetcli"
 	MonetcliTomlName = "network"
+	EvmlcTomlName    = "config"
 
 	PeersJSON        = "peers.json"
 	PeersGenesisJSON = "peers.genesis.json"
@@ -30,6 +46,19 @@ const (
 	DefaultAccountBalance   = "1234000000000000000000"
 	DefaultContractAddress  = "abbaabbaabbaabbaabbaabbaabbaabbaabbaabba"
 )
+
+func init() {
+	if runtime.GOOS == "darwin" || runtime.GOOS == "windows" {
+		MonetdTomlDir = MonetdTomlDirCaps
+		MonetcliTomlDir = MonetcliTomlDirCaps
+		EvmlcTomlDir = EvmlcTomlDirCaps
+		return
+	}
+	MonetdTomlDir = MonetdTomlDirDot
+	MonetcliTomlDir = MonetcliTomlDirDot
+	EvmlcTomlDir = EvmlcTomlDirDot
+
+}
 
 //KeyValue is a struct for holding toml keys, default values and whether the default overrides the monetcli supplied value
 type KeyValue struct {

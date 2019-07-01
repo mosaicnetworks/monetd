@@ -14,7 +14,7 @@ func SetParamsWithParams(configDir string) error {
 	assumedMonetDir, _ := DefaultHomeDir(MonetdTomlDir)
 	keySet := GetMonetDefaultConfigKeys(assumedMonetDir)
 
-	configFile := filepath.Join(configDir, MonetcliTomlName+".toml")
+	configFile := filepath.Join(configDir, MonetcliTomlName+TomlSuffix)
 	tree, err := LoadToml(configFile)
 	if err != nil {
 		Message("Cannot load configuration toml file: ", configFile)

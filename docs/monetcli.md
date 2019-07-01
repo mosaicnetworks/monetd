@@ -3,12 +3,21 @@
 
 monetcli provides a suite of tools for configuring and managing a Monet Hub.
 
-There are currently 5 subcommands.
+There are currently 7 subcommands (listed here in the order they are in this document). 
 
-##help
++ **help** offers more help on individual commands. 
++ **version** shows a version number
++ **keys** is an Ethereum key manager with commands for generating new keys, inspecting existing keys and changing passphrases. 
++ **network** is a set of subcommands for building and configuring a new monet network of hubs. These tools would normally be used before a network is started
++ **config** is a set of subcommands for managing the .monet configuration files of an extant network. 
++ **testnet** is a menu driven wizard for building a test network, enabling peers to create and share a common configuration, via a server, before starting the network
++ **wizard** is a menu driven front end to the network subcommands to guide the creation of a new network of hubs.
 
-You can get more information about the commands available by using the help command or the \-\-help flag. 
+## help
+
+You can get more information about the commands available by using the help command or the \-\-help flag. Thus you can get top level help: 
 ```
+$ monetcli help
 Monet-CLI
 
 Usage:
@@ -16,19 +25,61 @@ Usage:
 
 Available Commands:
   config      manage monetd configuration
-  help        Help about any command
-  keys        An Ethereum key manager
+  help        help about any command
+  keys        an Ethereum key manager
   network     manage monet network configuration
-  version     Show version info
+  testnet     manage monetd testnets
+  version     show version info
+  wizard      wizard to set up a Monet Network
 
 Flags:
-  -h, --help   help for monetcli
+  -h, --help      help for monetcli
+  -v, --verbose   verbose messages
 
 Use "monetcli [command] --help" for more information about a command.
 ```
 
+Or you can get details of a subcommand:
 
-###keys
+```bash
+$ monetcli help keys
+An Ethereum key manager
+
+Usage:
+  monetcli keys [command]
+
+Available Commands:
+  generate    Generate a new keyfile
+  inspect     Inspect a keyfile
+  update      change the passphrase on a keyfile
+
+Flags:
+  -h, --help              help for keys
+      --json              output JSON instead of human-readable format
+      --passfile string   the file that contains the passphrase for the keyfile
+
+Global Flags:
+  -v, --verbose   verbose messages
+
+Use "monetcli keys [command] --help" for more information about a command.
+```
+
+
+## version
+
+This commands displays version information:
+
+```bash
+$ monetcli version
+Monet Version: 0.0.1
+     EVM-Lite Version: 0.2.0
+     Babble Version: 0.4.2
+     Geth Version: 1.8.27
+```
+
+
+
+## keys
 The keys subcommand is used to manage ethereum keys.
 
 ```bash
@@ -38,8 +89,8 @@ Usage:
   monetcli keys [command]
 
 Available Commands:
-  generate    Generate a new keyfile
-  inspect     Inspect a keyfile
+  generate    generate a new keyfile
+  inspect     inspect a keyfile
   update      change the passphrase on a keyfile
 
 Flags:
@@ -76,29 +127,7 @@ Passphrase:
 Repeat passphrase: 
 ```
 
-##version
-
-This commands displays version information:
-
-```bash
-$ monetcli version
-Monet Version: 0.0.1
-     EVM-Lite Version: 0.2.0
-     Babble Version: 0.4.2
-     Geth Version: 1.8.27
-```
-
-
----
-
----
-
----
-
-
-## Configuration
-
-### Network
+## network
 
 The network subcommand deals with **network.toml**, a new file that defines a network. It can be used to generate the datadir files - although it contains no private keys. All network commands can take a flag overriding the default directory - but we anticipate it being little used. 
 
@@ -130,12 +159,59 @@ The network configuration filter will look like:
 
 **This functionality is currently implemented in bash scripts calling solcs. This may end up not being a go command. **
 
-### Config
+## config
 The config subcommand deals with the actual monetd configuration datadir. 
 
 **monet config check** sanity checks the datadir configuration. 
 
 
+
+## testnet
+**testnet** is a menu driven wizard for building a test network, enabling peers to create and share a common configuration, via a server, before starting the network
+
+This command is documented in [Testnet Docs](testnet.md) 
+
+```
+$ monetcli help testnet
+TestNet Config
+
+This subcommand facilitates the process of building a testnet 
+on a set of separate servers (i.e. not Docker). It is a menu driven 
+guided process. Take a look at docs/testnet.md for fuller instructions.
+
+Usage:
+  monetcli testnet [flags]
+
+Flags:
+  -h, --help      help for testnet
+  -p, --publish   jump straight to polling for a configuration
+
+Global Flags:
+  -v, --verbose   verbose messages
+ ``` 
+
+
+## wizard
+**wizard** is a menu driven front end to the network subcommands to guide the creation of a new network of hubs.
+
+
+```bash
+help wizard
+Wizard to set up a Monet Network
+
+        This command provides a wizard interface to the 
+        "monetcli network" commands. This provides a guided interface
+        through the process of configuring a network.
+
+Usage:
+  monetcli wizard [flags]
+
+Flags:
+  -h, --help   help for wizard
+
+Global Flags:
+  -v, --verbose   verbose messages
+```
 
 ####
 
@@ -211,7 +287,7 @@ The compile option, takes the specified contract if provided, otherwise it downl
 
 
 
-##TO DO List
+## TO DO List
 
 + Add a passfile parameter to the network add and network generate commands.
 

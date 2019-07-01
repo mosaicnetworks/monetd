@@ -10,8 +10,12 @@ import (
 var WizardCmd = &cobra.Command{
 	Use:   "wizard",
 	Short: "wizard to set up a Monet Network",
-	Long:  `Wizard to set up a Monet Network`,
-	RunE:  runWizardCmd,
+	Long: `Wizard to set up a Monet Network
+	
+	This command provides a wizard interface to the 
+	"monetcli network" commands. This provides a guided interface
+	through the process of configuring a network.`,
+	RunE: runWizardCmd,
 }
 
 func runWizardCmd(cmd *cobra.Command, args []string) error {
@@ -103,7 +107,7 @@ configloop:
 
 func editWizard(configDir string) (bool, error) {
 
-	configFile := filepath.Join(configDir, common.MonetcliTomlName+".toml")
+	configFile := filepath.Join(configDir, common.MonetcliTomlName+common.TomlSuffix)
 
 editloop:
 	for {

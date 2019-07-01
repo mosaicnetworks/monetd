@@ -147,3 +147,23 @@ monetd run
 On all the other nodes, select  Check if published, which will then perform the same workflow (minus the smart contract compilation - they will use the genesis.json file generated above. 
 
 
+## Developer Details
+
+
+
+The testnet wizard places its files in $HOME/.monetcli/testnet (on Linux, other OS may vary) as below. The files marked (*) are only created on the device that publishes the network details.   
+
+```
+├── contract0.abi   (*)
+├── contract0.sol   (*)
+├── genesis.json
+├── keyfile.json
+├── monetd.toml
+├── network.toml    (*)
+├── peers.genesis.json
+├── peers.json
+├── priv_key
+└── pwd.txt
+```
+
+

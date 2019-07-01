@@ -61,7 +61,12 @@ func NewTestNetCmd() *cobra.Command {
 		Use:   "testnet",
 		Short: "manage monetd testnets",
 		Long: `
-TestNet Config.`,
+TestNet Config
+
+This subcommand facilitates the process of building a testnet 
+on a set of separate servers (i.e. not Docker). It is a menu driven 
+guided process. Take a look at docs/testnet.md for fuller instructions.
+`,
 		Args: cobra.ArbitraryArgs,
 		RunE: testnetCmd,
 	}
@@ -592,9 +597,9 @@ cache = 128
 }
 
 func updateEvmlcConfig() error {
-	defaultEVMLCConfigDir, _ := common.DefaultHomeDir(".evmlc")
+	defaultEVMLCConfigDir, _ := common.DefaultHomeDir(common.EvmlcTomlDir)
 	defaultMonetConfigDir, _ := common.DefaultHomeDir(common.MonetdTomlDir)
-	tomlFile := filepath.Join(defaultEVMLCConfigDir, "config.toml")
+	tomlFile := filepath.Join(defaultEVMLCConfigDir, common.EvmlcTomlName+common.TomlSuffix)
 	keystoreFile := filepath.Join(defaultMonetConfigDir, "eth", "keystore")
 
 	tree, err := common.LoadToml(tomlFile)

@@ -12,8 +12,8 @@ import (
 
 var (
 	configFileList = []*configFile{
-		&configFile{sourcefilename: common.MonetcliTomlName + ".toml",
-			targetfilename: common.MonetdTomlName + ".toml", label: "toml", required: true, transformation: true},
+		&configFile{sourcefilename: common.MonetcliTomlName + common.TomlSuffix,
+			targetfilename: common.MonetdTomlName + common.TomlSuffix, label: "toml", required: true, transformation: true},
 		&configFile{sourcefilename: common.PeersJSON,
 			targetfilename: common.PeersJSONTarget, label: "peers", required: true, transformation: false},
 		&configFile{sourcefilename: common.PeersGenesisJSON,
@@ -74,7 +74,12 @@ func publishConfig(cmd *cobra.Command, args []string) error {
 
 	}
 
-	dirList := []string{monetConfigDir, filepath.Join(monetConfigDir, "babble"), filepath.Join(monetConfigDir, "eth")}
+	dirList := []string{
+		monetConfigDir,
+		filepath.Join(monetConfigDir, "babble"),
+		filepath.Join(monetConfigDir, "eth"),
+		filepath.Join(monetConfigDir, "eth", "keystore"),
+	}
 
 	for _, dir := range dirList {
 		err := os.MkdirAll(dir, os.ModePerm)
@@ -130,7 +135,7 @@ func publishConfig(cmd *cobra.Command, args []string) error {
 		}
 	}
 
-	//	toml := filepath.Join(networkConfigDir, common.MonetcliTomlName+".toml")
+	//	toml := filepath.Join(networkConfigDir, common.MonetcliTomlName+common.TomlSuffix)
 
 	switch publishTarget {
 	case "simple":

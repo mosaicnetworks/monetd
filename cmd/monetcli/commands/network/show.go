@@ -22,7 +22,7 @@ Show configuration.`,
 }
 
 func showConfig(cmd *cobra.Command, args []string) error {
-	filename := filepath.Join(configDir, tomlName+".toml")
+	filename := filepath.Join(configDir, tomlName+common.TomlSuffix)
 	message("Displaying file: ", filename)
 
 	return common.ShowConfigFile(filename)
