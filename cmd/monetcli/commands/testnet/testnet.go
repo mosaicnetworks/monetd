@@ -163,10 +163,13 @@ func testJoinWizard() error {
 	}
 	common.MessageWithType(common.MsgInformation, "Downloaded ", fileGenesisJSON)
 
-	_, err = generateKey()
+	peer, err := generateKey()
 	if err != nil {
 		return err
 	}
+
+	b, err := json.Marshal(peer)
+	common.WriteToFile(filepath.Join(testConfigDir, "join.json"), string(b))
 
 	common.MessageWithType(common.MsgInformation, "Downloaded ", fileGenesisJSON)
 
@@ -240,24 +243,9 @@ cfgserverloop:
 }
 
 func enterParams() error {
-	var moniker, ip string
-	// request name
-	moniker = common.RequestString("Enter your moniker: ", "")
-
-	// confirm your ipS
-	ip = common.RequestString("Enter your ip without the port: ", getMyIP())
-
-	pubkey, err := generateKey()
+	peer, err := generateKey()
 	if err != nil {
 		return err
-	}
-	common.MessageWithType(common.MsgInformation, "Moniker  : ", moniker)
-	common.MessageWithType(common.MsgInformation, "IP       : ", ip)
-
-	peer := peer{
-		NetAddr:   ip + ":1337",
-		PubKeyHex: "0x" + pubkey,
-		Moniker:   moniker,
 	}
 
 	b, err := json.Marshal(peer)
@@ -278,8 +266,13 @@ func enterParams() error {
 
 }
 
-func generateKey() (string, error) {
-	var password, pubkey string
+func generateKey() (peer, error) {
+	var password, pubkey, moniker, ip string
+	// request name
+	moniker = common.RequestString("Enter your moniker: ", "")
+
+	// confirm your ipS
+	ip = common.RequestString("Enter your ip without the port: ", getMyIP())
 
 	// request password
 passwordloop:
@@ -297,7 +290,7 @@ passwordloop:
 	err := common.WriteToFile(passwordFile, password)
 	if err != nil {
 		common.MessageWithType(common.MsgError, "Error saving password: ", err)
-		return "", err
+		return peer{}, err
 
 	}
 
@@ -305,7 +298,7 @@ passwordloop:
 	key, err := keys.GenerateKeyPair(keyfilepath, passwordFile)
 	if err != nil {
 		common.MessageWithType(common.MsgError, "Error generating key: ", err)
-		return "", err
+		return peer{}, err
 	}
 
 	common.MessageWithType(common.MsgInformation, "Building Data to push to Configuration Server")
@@ -314,8 +307,8 @@ passwordloop:
 		crypto.FromECDSAPub(&key.PrivateKey.PublicKey))
 
 	privateKey := key.PrivateKey
-	//	common.MessageWithType(common.MsgInformation, "Moniker  : ", moniker)
-	//	common.MessageWithType(common.MsgInformation, "IP       : ", ip)
+	common.MessageWithType(common.MsgInformation, "Moniker  : ", moniker)
+	common.MessageWithType(common.MsgInformation, "IP       : ", ip)
 	common.MessageWithType(common.MsgInformation, "Pub Key  : ", pubkey)
 	common.MessageWithType(common.MsgInformation, "Address  : ", key.Address.String())
 
@@ -325,10 +318,16 @@ passwordloop:
 
 	simpleKeyfile := bkeys.NewSimpleKeyfile(rawKeyFilepath)
 	if err := simpleKeyfile.WriteKey(privateKey); err != nil {
-		return pubkey, fmt.Errorf("Error saving private key: %s", err)
+		return peer{}, fmt.Errorf("Error saving private key: %s", err)
 	}
 
-	return pubkey, nil
+	peer := peer{
+		NetAddr:   ip + ":1337",
+		PubKeyHex: "0x" + pubkey,
+		Moniker:   moniker,
+	}
+
+	return peer, nil
 }
 
 func sendJSON(url string, b []byte, contenttype string) error {

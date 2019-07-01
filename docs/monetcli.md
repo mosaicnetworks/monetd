@@ -194,13 +194,15 @@ Global Flags:
 
 ## testjoin
 
+Test join is a command to allow the menu driven configuration for joining an existing network. There are no options as the command is interactive.
 
-
+Invoke it thus:
 ```
 $ monetcli testjoin
-✔ Existing peer:  : |the.existing.peer
+✔ Existing peer:  : the.existing.peer
 ```
 
+Once you have specified a peer, it is queried for a genesis file and the two peers files. 
 ```
 Downloading files from  the.existing.peer
 Downloaded  /home/jon/.monetcli/testnet/peers.genesis.json
@@ -208,7 +210,7 @@ Downloaded  /home/jon/.monetcli/testnet/peers.json
 Downloaded  /home/jon/.monetcli/testnet/genesis.json
 ```
 
-
+You then enter a passphrase for the key pair that you are about to generate. 
 ```
 Enter Keystore Password:   : #|
 Confirm Keystore Password:   : #|
@@ -218,13 +220,12 @@ Pub Key  :  046a0dc579184801c1ab4144f93005af0f73778d2bad5f755bd98ad499934e6c6869
 Address  :  0x9B39Af7F8C599e67379Ec429d41A0B71Dc21F24e
 ```
 
-
+You then enter your IP address. This is used by Babble as part of its join request. 
 ```
 Enter your ip without the port:   : |192.168.1.18
 ```
 
-
-
+There is a final confirmation as the overwritten of .monet is a destructive operation. 
 ```
 Use the arrow keys to navigate: ↓ ↑ → ← 
 ? Confirm Overwriting Existing Configuration  : 
@@ -232,6 +233,7 @@ Use the arrow keys to navigate: ↓ ↑ → ←
     Yes
 ```
 
+Files are copied from .monetcli/testnet to the appropriate folders under .monetd. NB you .evmlc config is also amended with connection details to the new network.  
 ```
 Renaming /home/jon/.monet to /home/jon/.monet.~11~
 Copying to  0 /home/jon/.monet/monetd.toml
@@ -245,6 +247,7 @@ Copying to  7 /home/jon/.monet/keyfile.json
 Updating evmlc config
 Try running:  monetd run
 ```
+N.B. at this point you are not authorised. You will need to pass the join.json details to an existing validator. They will nominate your node, and the existing validators need to vote on your nomination. The person who nominated you will inform you when (and if) you are approved and can thus start your node successfully. 
 
 
 ## wizard
