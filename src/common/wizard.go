@@ -27,6 +27,7 @@ const (
 	WizardSaveChanges                                     = "Save Changes"
 	WizardCancelChanges                                   = "Cancel Changes"
 	WizardEditAgain                                       = "Edit Again"
+	WizardPeers                                           = "Peers"
 )
 
 func RequestFile(promptText string, defaultValue string) string {

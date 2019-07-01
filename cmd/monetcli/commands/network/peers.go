@@ -20,23 +20,40 @@ func PeersWizard(configDir string) error {
 	peers := GetPeersLabelsList(tree)
 	peers = append(peers, common.WizardExit)
 
+	refreshPeerList := false
 peerloop:
 	for {
+
+		if refreshPeerList {
+			tree, err := common.LoadTomlConfig(configDir)
+			if err != nil {
+				return err
+			}
+
+			peers := GetPeersLabelsList(tree)
+			peers = append(peers, common.WizardExit)
+		}
+
+		refreshPeerList = false
+
 		selectedPeer := common.RequestSelect("Choose a peer", peers, "")
 		if selectedPeer == common.WizardExit {
 			break peerloop
 		}
 	actionloop:
 		for {
-			action := common.RequestSelect("Choose an Action: ", []string{common.WizardView, common.WizardEdit, common.WizardDelete, common.WizardExit}, "")
+			_ = viewPeer(configDir, selectedPeer)
+
+			action := common.RequestSelect("Choose an Action: ", []string{common.WizardEdit, common.WizardDelete, common.WizardExit}, "")
 
 			switch action {
-			case common.WizardView:
-				err = viewPeer(configDir, action)
 			case common.WizardEdit:
-				err = editPeer(configDir, action)
+				err = editPeer(configDir, selectedPeer)
+				refreshPeerList = true
 			case common.WizardDelete:
-				err = deletePeer(configDir, action)
+				err = deletePeer(configDir, selectedPeer)
+				refreshPeerList = true
+				break actionloop
 			case common.WizardExit:
 				break actionloop
 
@@ -54,6 +71,15 @@ peerloop:
 }
 
 func viewPeer(configDir string, peername string) error {
+	tree, err := common.LoadTomlConfig(configDir)
+	if err != nil {
+		return err
+	}
+
+	peer := tree.GetPath([]string{"validators", peername})
+
+	common.MessageWithType(common.MsgInformation, peer)
+
 	return nil
 	//TODO add new View Peer code
 }

@@ -37,6 +37,7 @@ func addValidator(cmd *cobra.Command, args []string) error {
 	return AddValidatorParamaterised(configDir, moniker, safeLabel, "", pubkey, ip, isValidator)
 }
 
+//AddValidatorParamaterised adds an entry to the peers list.
 func AddValidatorParamaterised(configDir string, moniker string, labelsafe string, addr string, pubkey string, ip string, isValidator bool) error {
 
 	tree, err := com.LoadTomlConfig(configDir)

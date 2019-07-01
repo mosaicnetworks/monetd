@@ -116,6 +116,7 @@ editloop:
 				common.WizardCompile,
 				common.WizardGenerate,
 				common.WizardParams,
+				common.WizardPeers,
 				common.WizardShow,
 				common.WizardExit,
 			},
@@ -129,6 +130,12 @@ editloop:
 			_ = common.ShowConfigFile(configFile)
 		case common.WizardParams:
 			common.SetParamsWithParams(configDir)
+		case common.WizardPeers:
+			err := PeersWizard(configDir)
+			if err != nil {
+				common.MessageWithType(common.MsgError, "Error in Peers wizard: ", common.MsgError)
+				return false, err
+			}
 		case common.WizardAddKeyPair:
 			err := addPeerWizard(configDir)
 			if err != nil {
