@@ -25,6 +25,7 @@ func init() {
 		VersionCmd,
 		network.WizardCmd,
 		testnet.NewTestNetCmd(),
+		testnet.NewTestJoinCmd(),
 	)
 	//do not print usage when error occurs
 	RootCmd.SilenceUsage = true

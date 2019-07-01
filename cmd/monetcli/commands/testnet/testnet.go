@@ -55,6 +55,28 @@ type copyFile struct {
 //	defaultMonetConfigDir, _ := common.DefaultHomeDir(common.MonetdTomlDir)
 // }
 
+func NewTestJoinCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "testjoin",
+		Short: "join monetd testnets",
+		Long: `
+TestJoin Config
+
+This subcommand facilitates the process of joining an extant testnet. It is a menu driven 
+guided process. Take a look at docs/testnet.md for fuller instructions.
+`,
+		Args: cobra.ArbitraryArgs,
+		RunE: testjoinCmd,
+	}
+
+	return cmd
+}
+
+func testjoinCmd(cmd *cobra.Command, args []string) error {
+
+	return testJoinWizard()
+}
+
 //NewCheckCmd defines the CLI command config check
 func NewTestNetCmd() *cobra.Command {
 	cmd := &cobra.Command{
@@ -80,6 +102,90 @@ guided process. Take a look at docs/testnet.md for fuller instructions.
 func testnetCmd(cmd *cobra.Command, args []string) error {
 
 	return testNetWizard()
+}
+
+func testJoinWizard() error {
+
+	// Check we have no previous in /monetcli/testnet
+
+	defaultConfigDir, _ := common.DefaultHomeDir(common.MonetcliTomlDir)
+	testConfigDir = filepath.Join(defaultConfigDir, "testnet")
+
+	if common.CheckIfExists(testConfigDir) {
+		common.MessageWithType(common.MsgWarning, "This is a destructive operation. Remove/rename the following folder to proceed.")
+		common.MessageWithType(common.MsgInformation, testConfigDir)
+		return nil
+	} else {
+		err := os.MkdirAll(testConfigDir, os.ModePerm)
+		if err != nil {
+			common.MessageWithType(common.MsgError, "Error creating config folder: ", testConfigDir)
+			return err
+		}
+	}
+
+	Peer := common.RequestString("Existing peer:", "localhost")
+
+	// Hacky, but an empty server string means that we want to abort
+	if Peer == "" {
+		return nil
+	}
+
+	common.MessageWithType(common.MsgInformation, "Contacting ", Peer)
+
+	urlGenesisPeersJSON := "http://" + Peer + ":8000/genesispeers"
+	urlPeersJSON := "http://" + Peer + ":8000/peers"
+	urlGenesisJSON := "http://" + Peer + ":8080/genesis"
+
+	common.MessageWithType(common.MsgInformation, "Downloading files from ", Peer)
+
+	fileGenesisPeersJSON := filepath.Join(testConfigDir, "peers.genesis.json")
+	filePeersJSON := filepath.Join(testConfigDir, "peers.json")
+	fileGenesisJSON := filepath.Join(testConfigDir, "genesis.json")
+
+	err := downloadFile(urlGenesisPeersJSON, fileGenesisPeersJSON)
+	if err != nil {
+		common.MessageWithType(common.MsgError, "Error downloading genesis peers")
+		return err
+	}
+	common.MessageWithType(common.MsgInformation, "Downloaded ", fileGenesisPeersJSON)
+
+	err = downloadFile(urlPeersJSON, filePeersJSON)
+	if err != nil {
+		common.MessageWithType(common.MsgError, "Error downloading peers")
+		return err
+	}
+	common.MessageWithType(common.MsgInformation, "Downloaded ", filePeersJSON)
+
+	err = downloadFile(urlGenesisJSON, fileGenesisJSON)
+	if err != nil {
+		common.MessageWithType(common.MsgError, "Error downloading genesis json")
+		return err
+	}
+	common.MessageWithType(common.MsgInformation, "Downloaded ", fileGenesisJSON)
+
+	_, err = generateKey()
+	if err != nil {
+		return err
+	}
+
+	common.MessageWithType(common.MsgInformation, "Downloaded ", fileGenesisJSON)
+
+	err = generateMonetdToml()
+	if err != nil {
+		return err
+	}
+
+	// Copy files into place
+
+	err = copyConfigIntoPlace()
+	if err != nil {
+		return nil
+	}
+	return nil
+
+	//	Generate New Key / Add key
+
+	return nil
 }
 
 func testNetWizard() error {
@@ -134,62 +240,19 @@ cfgserverloop:
 }
 
 func enterParams() error {
-	var password, moniker, ip, pubkey string
-
-	// request password
-passwordloop:
-	for {
-		password = common.RequestPassword("Enter Keystore Password: ", "")
-		password2 := common.RequestPassword("Confirm Keystore Password: ", "")
-
-		if password == password2 {
-			break passwordloop
-		}
-	}
-
-	passwordFile := filepath.Join(testConfigDir, "pwd.txt")
-
-	err := common.WriteToFile(passwordFile, password)
-	if err != nil {
-		common.MessageWithType(common.MsgError, "Error saving password: ", err)
-		return err
-
-	}
-
+	var moniker, ip string
 	// request name
 	moniker = common.RequestString("Enter your moniker: ", "")
 
 	// confirm your ipS
 	ip = common.RequestString("Enter your ip without the port: ", getMyIP())
 
-	// generate key
-
-	keyfilepath := filepath.Join(testConfigDir, keys.DefaultKeyfile)
-	key, err := keys.GenerateKeyPair(keyfilepath, passwordFile)
+	pubkey, err := generateKey()
 	if err != nil {
-		common.MessageWithType(common.MsgError, "Error generating key: ", err)
 		return err
 	}
-
-	common.MessageWithType(common.MsgInformation, "Building Data to push to Configuration Server")
-
-	pubkey = hex.EncodeToString(
-		crypto.FromECDSAPub(&key.PrivateKey.PublicKey))
-
-	privateKey := key.PrivateKey
 	common.MessageWithType(common.MsgInformation, "Moniker  : ", moniker)
 	common.MessageWithType(common.MsgInformation, "IP       : ", ip)
-	common.MessageWithType(common.MsgInformation, "Pub Key  : ", pubkey)
-	common.MessageWithType(common.MsgInformation, "Address  : ", key.Address.String())
-
-	myAddress = key.Address.String()
-
-	rawKeyFilepath := filepath.Join(testConfigDir, "priv_key")
-
-	simpleKeyfile := bkeys.NewSimpleKeyfile(rawKeyFilepath)
-	if err := simpleKeyfile.WriteKey(privateKey); err != nil {
-		return fmt.Errorf("Error saving private key: %s", err)
-	}
 
 	peer := peer{
 		NetAddr:   ip + ":1337",
@@ -213,6 +276,59 @@ passwordloop:
 	}
 	return nil
 
+}
+
+func generateKey() (string, error) {
+	var password, pubkey string
+
+	// request password
+passwordloop:
+	for {
+		password = common.RequestPassword("Enter Keystore Password: ", "")
+		password2 := common.RequestPassword("Confirm Keystore Password: ", "")
+
+		if password == password2 {
+			break passwordloop
+		}
+	}
+
+	passwordFile := filepath.Join(testConfigDir, "pwd.txt")
+
+	err := common.WriteToFile(passwordFile, password)
+	if err != nil {
+		common.MessageWithType(common.MsgError, "Error saving password: ", err)
+		return "", err
+
+	}
+
+	keyfilepath := filepath.Join(testConfigDir, keys.DefaultKeyfile)
+	key, err := keys.GenerateKeyPair(keyfilepath, passwordFile)
+	if err != nil {
+		common.MessageWithType(common.MsgError, "Error generating key: ", err)
+		return "", err
+	}
+
+	common.MessageWithType(common.MsgInformation, "Building Data to push to Configuration Server")
+
+	pubkey = hex.EncodeToString(
+		crypto.FromECDSAPub(&key.PrivateKey.PublicKey))
+
+	privateKey := key.PrivateKey
+	//	common.MessageWithType(common.MsgInformation, "Moniker  : ", moniker)
+	//	common.MessageWithType(common.MsgInformation, "IP       : ", ip)
+	common.MessageWithType(common.MsgInformation, "Pub Key  : ", pubkey)
+	common.MessageWithType(common.MsgInformation, "Address  : ", key.Address.String())
+
+	myAddress = key.Address.String()
+
+	rawKeyFilepath := filepath.Join(testConfigDir, "priv_key")
+
+	simpleKeyfile := bkeys.NewSimpleKeyfile(rawKeyFilepath)
+	if err := simpleKeyfile.WriteKey(privateKey); err != nil {
+		return pubkey, fmt.Errorf("Error saving private key: %s", err)
+	}
+
+	return pubkey, nil
 }
 
 func sendJSON(url string, b []byte, contenttype string) error {
@@ -423,61 +539,47 @@ func getRequest(url string) ([]byte, error) {
 	return bytes, nil
 }
 
-func buildConfig() error {
-
-	common.MessageWithType(common.MsgInformation, "Getting peers.json")
-	url := CfgServer + "/peersjson"
+func downloadFile(url string, writefile string) error {
 	b, err := getRequest(url)
 	if err != nil {
-		common.MessageWithType(common.MsgError, "Error getting peers", err)
+		common.MessageWithType(common.MsgError, "Error getting "+url, err)
 		return err
 	}
 
-	err = common.WriteToFile(filepath.Join(testConfigDir, "peers.json"), string(b))
+	err = common.WriteToFile(writefile, string(b))
 	if err != nil {
-		common.MessageWithType(common.MsgError, "Error writing peers", err)
+		common.MessageWithType(common.MsgError, "Error writing "+writefile, err)
 		return err
 	}
+	return nil
+}
 
-	common.MessageWithType(common.MsgInformation, "Getting genesis.json")
-	url = CfgServer + "/genesisjson"
-	b, err = getRequest(url)
-	if err != nil {
-		common.MessageWithType(common.MsgError, "Error getting genesis json", err)
-		return err
-	}
+func buildConfig() error {
 
-	err = common.WriteToFile(filepath.Join(testConfigDir, "genesis.json"), string(b))
+	err := downloadFile(CfgServer+"/peersjson", filepath.Join(testConfigDir, "peers.json"))
 	if err != nil {
-		common.MessageWithType(common.MsgError, "Error writing peers", err)
+		common.MessageWithType(common.MsgError, "Error downloading peers")
 		return err
 	}
+	common.MessageWithType(common.MsgInformation, "Downloaded peersjson")
+
+	err = downloadFile(CfgServer+"/genesisjson", filepath.Join(testConfigDir, "genesis.json"))
+	if err != nil {
+		common.MessageWithType(common.MsgError, "Error downloading genesis json")
+		return err
+	}
+	common.MessageWithType(common.MsgInformation, "Downloaded genesisjson")
 
 	err = generateMonetdToml()
 	if err != nil {
 		return err
 	}
-
-	/*
-		common.MessageWithType(common.MsgInformation, "Getting network.toml")
-		url = CfgServer + "/networktoml"
-		b, err = getRequest(url)
-		if err != nil {
-			common.MessageWithType(common.MsgError, "Error getting peers", err)
-			return err
-		}
-
-		err = common.WriteToFile(filepath.Join(testConfigDir, "network.toml"), string(b))
-		if err != nil {
-			common.MessageWithType(common.MsgError, "Error writing network.toml", err)
-			return err
-		}
-	*/
-	// Get Genesis JSON
-	// Get Peers JSON
-
 	common.MessageWithType(common.MsgInformation, "All files downloaded")
 
+	return copyConfigIntoPlace()
+}
+
+func copyConfigIntoPlace() error {
 	// Copy stuff into place
 
 	/*
@@ -514,7 +616,7 @@ confirmloop:
 	}
 
 	for _, dir := range newdirs {
-		err = os.MkdirAll(dir, os.ModePerm)
+		err := os.MkdirAll(dir, os.ModePerm)
 		if err != nil {
 			common.Message("Error creating empty config folder: ", err)
 			return err
@@ -545,7 +647,7 @@ confirmloop:
 
 	for i, cf := range copyfiles {
 		common.MessageWithType(common.MsgInformation, "Copying to ", i, cf.TargetFile)
-		err = common.CopyFileContents(cf.SourceFile, cf.TargetFile)
+		err := common.CopyFileContents(cf.SourceFile, cf.TargetFile)
 		if err != nil {
 			common.MessageWithType(common.MsgError, "Error copying ", i, cf.TargetFile)
 			return err
@@ -553,7 +655,7 @@ confirmloop:
 	}
 
 	common.MessageWithType(common.MsgInformation, "Updating evmlc config")
-	err = updateEvmlcConfig()
+	err := updateEvmlcConfig()
 	if err != nil {
 		common.MessageWithType(common.MsgError, "Error Updating evmlc config ", err)
 		return err
