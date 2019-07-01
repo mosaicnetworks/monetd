@@ -13,7 +13,7 @@ var (
 //KeysCmd is an Ethereum key manager
 var KeysCmd = &cobra.Command{
 	Use:              "keys",
-	Short:            "An Ethereum key manager",
+	Short:            "an Ethereum key manager",
 	TraverseChildren: true,
 }
 

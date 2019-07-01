@@ -10,7 +10,7 @@ import (
 // VersionCmd displays the version of evml being used
 var VersionCmd = &cobra.Command{
 	Use:   "version",
-	Short: "Show version info",
+	Short: "show version info",
 	Long:  `Monetd Version information`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Print(monet.FullVersion())

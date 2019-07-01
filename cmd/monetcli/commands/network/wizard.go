@@ -9,7 +9,7 @@ import (
 
 var WizardCmd = &cobra.Command{
 	Use:   "wizard",
-	Short: "Wizard to set up a Monet Network",
+	Short: "wizard to set up a Monet Network",
 	Long:  `Wizard to set up a Monet Network`,
 	RunE:  runWizardCmd,
 }

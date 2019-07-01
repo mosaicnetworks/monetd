@@ -29,7 +29,7 @@ func AddInspectFlags(cmd *cobra.Command) {
 func NewInspectCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "inspect [keyfile]",
-		Short: "Inspect a keyfile",
+		Short: "inspect a keyfile",
 		Long: `
 Print various information about the keyfile.
 

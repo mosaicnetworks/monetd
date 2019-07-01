@@ -37,7 +37,7 @@ func AddGenerateFlags(cmd *cobra.Command) {
 func NewGenerateCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "generate [keyfile]",
-		Short: "Generate a new keyfile",
+		Short: "generate a new keyfile",
 		Long: `
 Generate a new keyfile.
 

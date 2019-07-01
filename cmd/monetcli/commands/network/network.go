@@ -76,7 +76,7 @@ Sets the solidity contract to use for poa.`,
 func newParamsCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "params",
-		Short: "Update parameters interactively",
+		Short: "update parameters interactively",
 		Long: `
 Update Parameters interactively`,
 		Args: cobra.ExactArgs(0),
