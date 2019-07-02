@@ -1,13 +1,10 @@
 package network
 
 import (
-	"encoding/hex"
 	"errors"
 	"strconv"
 	"strings"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/spf13/cobra"
 
 	com "github.com/mosaicnetworks/monetd/src/common"
@@ -51,7 +48,7 @@ func AddValidatorParamaterised(configDir string, moniker string, labelsafe strin
 	}
 
 	// Derive address from the pubkey
-	derivedAddr, err := PublicKeyHexToAddressHex(strings.TrimPrefix(strings.ToLower(pubkey), "0x"))
+	derivedAddr, err := com.PublicKeyHexToAddressHex(strings.TrimPrefix(strings.ToLower(pubkey), "0x"))
 	if err != nil {
 		message("invalid pubkey to address conversion: ", pubkey)
 		return err
@@ -86,20 +83,4 @@ func AddValidatorParamaterised(configDir string, moniker string, labelsafe strin
 	}
 
 	return nil
-}
-
-//PublicKeyHexToAddressHex takes a Hex string public key and returns a hex string Ethereum style address
-func PublicKeyHexToAddressHex(publicKey string) (string, error) {
-
-	//	message("Pub Key: ", publicKey)
-
-	pubBytes, err := hex.DecodeString(publicKey)
-	if err != nil {
-		return "", err
-	}
-
-	pubKeyHash := crypto.Keccak256(pubBytes[1:])[12:]
-
-	return common.BytesToAddress(pubKeyHash).Hex(), nil
-
 }

@@ -6,14 +6,9 @@ import (
 	"github.com/pelletier/go-toml"
 )
 
+//CreateNewConfig creates a new configuration with a single parameter.
+// The defaults will take care of all else.
 func CreateNewConfig(configDir string) error {
-
-	/*
-		tree, err := LoadTomlConfig(configDir)
-		if err != nil {
-			common.Message("Error Loading TOML")
-		}
-	*/
 
 	if !CheckIfExists(configDir) {
 		err := os.MkdirAll(configDir, os.ModePerm)

@@ -5,8 +5,6 @@ import (
 
 	"github.com/mosaicnetworks/babble/src/babble"
 
-	"github.com/mosaicnetworks/babble/src/peers"
-
 	"github.com/mosaicnetworks/monetd/cmd/monetcli/commands/keys"
 
 	"github.com/mosaicnetworks/monetd/src/common"
@@ -89,23 +87,12 @@ func checkConfigParams() error {
 	babbleListen := tree.GetPath([]string{"babble", "listen"}).(string)
 	common.MessageWithType(common.MsgInformation, "Babble listening on: ", babbleListen)
 
-	currentPeers, err := peers.NewJSONPeerSet(filepath.Join(monetConfigDir, common.BabbleDir), true).PeerSet()
+	foundPeer, err := common.CheckPeersAddress(filepath.Join(monetConfigDir, common.BabbleDir), babbleListen)
 	if err != nil {
-		common.MessageWithType(common.MsgError, "Error loading peers.json: ", err)
-		return nil
+		common.MessageWithType(common.MsgError, "Error parsing peers", err)
 	}
 
-	bMatch := false
-	for _, p := range currentPeers.Peers {
-		if p.NetAddr == babbleListen {
-			common.MessageWithType(common.MsgInformation, "Babble Gossip Endpoint is in the Peers File: ", p.NetAddr)
-			bMatch = true
-		} else {
-			common.MessageWithType(common.MsgDebug, "Non matching peer: ", p.NetAddr)
-		}
-	}
-
-	if !bMatch {
+	if !foundPeer {
 		common.MessageWithType(common.MsgWarning, "Babble Gossip Endpoint is not in the Peers File: ", babbleListen)
 		common.MessageWithType(common.MsgInformation, "This is not an issue if not one of the genesis peers.")
 	}

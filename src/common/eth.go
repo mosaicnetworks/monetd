@@ -1,8 +1,12 @@
 package common
 
 import (
+	"encoding/hex"
 	"log"
 	"regexp"
+
+	"github.com/ethereum/go-ethereum/common"
+	"github.com/ethereum/go-ethereum/crypto"
 )
 
 //IsValidAddress checks if is a valid ethereum style address
@@ -21,4 +25,17 @@ func GetNodeSafeLabel(moniker string) string {
 	}
 
 	return reg.ReplaceAllString(moniker, "_")
+}
+
+//PublicKeyHexToAddressHex takes a Hex string public key and returns a hex string Ethereum style address
+func PublicKeyHexToAddressHex(publicKey string) (string, error) {
+	pubBytes, err := hex.DecodeString(publicKey)
+	if err != nil {
+		return "", err
+	}
+
+	pubKeyHash := crypto.Keccak256(pubBytes[1:])[12:]
+
+	return common.BytesToAddress(pubKeyHash).Hex(), nil
+
 }

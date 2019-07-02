@@ -139,7 +139,7 @@ func publishConfig(cmd *cobra.Command, args []string) error {
 
 	switch publishTarget {
 	case "simple":
-		// Publish the target
+		//TODO Publish the target
 
 	default:
 		return errors.New("unknown publish target")

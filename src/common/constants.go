@@ -109,4 +109,5 @@ const (
 	ColourPrompt  = color.FgHiYellow
 	ColourOther   = color.FgYellow
 	ColourOutput  = color.FgHiCyan
+	ColourDebug   = color.FgCyan
 )

@@ -17,6 +17,7 @@ const (
 	MsgError       = 2
 	MsgPrompt      = 3
 	MsgDebug       = 4
+	MsgOther       = 5
 )
 
 //Message is a simple wrapper for stdout logging. Setting VerboseLayout to false disables its output
@@ -52,7 +53,7 @@ func MessageWithType(msgType int, a ...interface{}) (n int, err error) {
 		if !VerboseLogging {
 			return 0, nil
 		}
-		color.Set(color.FgCyan)
+		color.Set(ColourDebug)
 		//		prefix = "Debug: "
 	}
 
