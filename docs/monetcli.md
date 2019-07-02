@@ -5,14 +5,14 @@ monetcli provides a suite of tools for configuring and managing a Monet Hub.
 
 There are currently 7 subcommands (listed here in the order they are in this document). 
 
-+ **help** offers more help on individual commands. 
-+ **version** shows a version number
-+ **keys** is an Ethereum key manager with commands for generating new keys, inspecting existing keys and changing passphrases. 
-+ **network** is a set of subcommands for building and configuring a new monet network of hubs. These tools would normally be used before a network is started
-+ **config** is a set of subcommands for managing the .monet configuration files of an extant network. 
-+ **testnet** is a menu driven wizard for building a test network, enabling peers to create and share a common configuration, via a server, before starting the network
-+ **testjoin** is a menu driven wizard for joining an existing network
-+ **wizard** is a menu driven front end to the network subcommands to guide the creation of a new network of hubs.
++ [help](#help) offers more help on individual commands. 
++ [version](#version) shows a version number
++ [keys](#keys) is an Ethereum key manager with commands for generating new keys, inspecting existing keys and changing passphrases. 
++ [network](#network) is a set of subcommands for building and configuring a new monet network of hubs. These tools would normally be used before a network is started
++ [config](#config) is a set of subcommands for managing the .monet configuration files of an extant network. 
++ [testnet](#testnet) is a menu driven wizard for building a test network, enabling peers to create and share a common configuration, via a server, before starting the network
++ [testjoin](#testjoin) is a menu driven wizard for joining an existing network
++ [wizard](#wizard) is a menu driven front end to the network subcommands to guide the creation of a new network of hubs.
 
 ## help
 
@@ -343,10 +343,4 @@ $ monetcli network compile
 ```
 The compile option, takes the specified contract if provided, otherwise it downloads a contract from github, and inserts the initial peer set into the smart contract. This contract is then compiled and inserted into a generated genesis.json file. 
 
-
-
-
-## TO DO List
-
-+ Add a passfile parameter to the network add and network generate commands.
 

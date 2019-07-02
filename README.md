@@ -2,13 +2,15 @@
 
 **WIP**
 
-This repo is a thin wrapper around evm-lite which exposes only the 
-functionnality required to operate a node on the MONET Hub. 
+This repo is a thin wrapper around [evm-lite](https://github.com/mosaicnetworks/evm-lite) and [babble](https://github.com/mosaicnetworks/babble) which exposes only the 
+functionality required to operate a node on the [MONET Hub](https://monet.network/about.html). 
 
 The executables defined in this repository are: 
 
 - [monetd](docs/monetd.md) - the actual Monet Hub node daemon.
 - [monetcli](docs/monetcli.md) - a tool to manage configuration for monetd. 
+
+There is an available [quick start document](docs/README.md).
 
 ## Overview
 
