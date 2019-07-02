@@ -33,9 +33,6 @@ func init() {
 
 	ConfigCmd.PersistentFlags().StringVarP(&monetConfigDir, "monet-config-dir", "m", defaultMonetConfigDir, "the directory containing monet nodes configurations")
 	ConfigCmd.PersistentFlags().StringVarP(&networkConfigDir, "config-dir", "c", defaultConfigDir, "the directory containing monet nodes configurations")
-	//Commonly used command line flags
-	//	NetworkCmd.PersistentFlags().StringVar(&passwordFile, "passfile", "", "the file that contains the passphrase for the keyfile")
-	//	NetworkCmd.PersistentFlags().BoolVar(&outputJSON, "json", false, "output JSON instead of human-readable format")
 	viper.BindPFlags(ConfigCmd.Flags())
 }
 
@@ -45,8 +42,8 @@ func NewCheckCmd() *cobra.Command {
 		Use:   "check",
 		Short: "check the configuration",
 		Long: `
-Check the configuration.`,
-		Args: cobra.ExactArgs(1),
+Check the configuration of the monetd server to ensure that it is consistent.`,
+		Args: cobra.ArbitraryArgs,
 		RunE: checkConfig,
 	}
 	return cmd

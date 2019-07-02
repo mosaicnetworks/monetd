@@ -12,6 +12,8 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/mosaicnetworks/babble/src/babble"
+
 	"github.com/mosaicnetworks/monetd/cmd/monetcli/commands/network"
 
 	"github.com/ethereum/go-ethereum/crypto"
@@ -138,9 +140,9 @@ func testJoinWizard() error {
 
 	common.MessageWithType(common.MsgInformation, "Downloading files from ", Peer)
 
-	fileGenesisPeersJSON := filepath.Join(testConfigDir, "peers.genesis.json")
-	filePeersJSON := filepath.Join(testConfigDir, "peers.json")
-	fileGenesisJSON := filepath.Join(testConfigDir, "genesis.json")
+	fileGenesisPeersJSON := filepath.Join(testConfigDir, common.PeersGenesisJSON)
+	filePeersJSON := filepath.Join(testConfigDir, common.PeersJSON)
+	fileGenesisJSON := filepath.Join(testConfigDir, common.GenesisJSON)
 
 	err := downloadFile(urlGenesisPeersJSON, fileGenesisPeersJSON)
 	if err != nil {
@@ -285,7 +287,7 @@ passwordloop:
 		}
 	}
 
-	passwordFile := filepath.Join(testConfigDir, "pwd.txt")
+	passwordFile := filepath.Join(testConfigDir, common.PwdFile)
 
 	err := common.WriteToFile(passwordFile, password)
 	if err != nil {
@@ -314,7 +316,7 @@ passwordloop:
 
 	myAddress = key.Address.String()
 
-	rawKeyFilepath := filepath.Join(testConfigDir, "priv_key")
+	rawKeyFilepath := filepath.Join(testConfigDir, babble.DefaultKeyfile)
 
 	simpleKeyfile := bkeys.NewSimpleKeyfile(rawKeyFilepath)
 	if err := simpleKeyfile.WriteKey(privateKey); err != nil {
@@ -446,7 +448,7 @@ func publish() error {
 		return err
 	}
 	//save peers
-	err = common.WriteToFile(filepath.Join(testConfigDir, "peers.json"), string(b))
+	err = common.WriteToFile(filepath.Join(testConfigDir, common.PeersJSON), string(b))
 	if err != nil {
 		common.MessageWithType(common.MsgError, "Error writing peers", err)
 		return err
@@ -487,7 +489,7 @@ func publish() error {
 	}
 
 	//Read Genesis.Json
-	b, err = ioutil.ReadFile(filepath.Join(testConfigDir, "genesis.json"))
+	b, err = ioutil.ReadFile(filepath.Join(testConfigDir, common.GenesisJSON))
 	if err != nil {
 		common.MessageWithType(common.MsgError, "Cannot read genesis.json from local disk: ", err)
 		return err
@@ -555,14 +557,14 @@ func downloadFile(url string, writefile string) error {
 
 func buildConfig() error {
 
-	err := downloadFile(CfgServer+"/peersjson", filepath.Join(testConfigDir, "peers.json"))
+	err := downloadFile(CfgServer+"/peersjson", filepath.Join(testConfigDir, common.PeersJSON))
 	if err != nil {
 		common.MessageWithType(common.MsgError, "Error downloading peers")
 		return err
 	}
 	common.MessageWithType(common.MsgInformation, "Downloaded peersjson")
 
-	err = downloadFile(CfgServer+"/genesisjson", filepath.Join(testConfigDir, "genesis.json"))
+	err = downloadFile(CfgServer+"/genesisjson", filepath.Join(testConfigDir, common.GenesisJSON))
 	if err != nil {
 		common.MessageWithType(common.MsgError, "Error downloading genesis json")
 		return err
@@ -609,9 +611,9 @@ confirmloop:
 
 	newdirs := []string{
 		defaultMonetConfigDir,
-		filepath.Join(defaultMonetConfigDir, "babble"),
-		filepath.Join(defaultMonetConfigDir, "eth"),
-		filepath.Join(defaultMonetConfigDir, "eth", "keystore"),
+		filepath.Join(defaultMonetConfigDir, common.BabbleDir),
+		filepath.Join(defaultMonetConfigDir, common.EthDir),
+		filepath.Join(defaultMonetConfigDir, common.EthDir, "keystore"),
 	}
 
 	for _, dir := range newdirs {
@@ -623,22 +625,22 @@ confirmloop:
 	}
 
 	copyfiles := []copyFile{
-		copyFile{SourceFile: filepath.Join(testConfigDir, "monetd.toml"),
-			TargetFile: filepath.Join(defaultMonetConfigDir, "monetd.toml")},
-		copyFile{SourceFile: filepath.Join(testConfigDir, "genesis.json"),
-			TargetFile: filepath.Join(defaultMonetConfigDir, "eth", "genesis.json")},
-		copyFile{SourceFile: filepath.Join(testConfigDir, "peers.json"),
-			TargetFile: filepath.Join(defaultMonetConfigDir, "babble", "peers.json")},
-		copyFile{SourceFile: filepath.Join(testConfigDir, "priv_key"),
-			TargetFile: filepath.Join(defaultMonetConfigDir, "babble", "priv_key")},
-		copyFile{SourceFile: filepath.Join(testConfigDir, "peers.json"),
-			TargetFile: filepath.Join(defaultMonetConfigDir, "babble", "peers.genesis.json")},
+		copyFile{SourceFile: filepath.Join(testConfigDir, common.MonetdTomlName+common.TomlSuffix),
+			TargetFile: filepath.Join(defaultMonetConfigDir, common.MonetdTomlName+common.TomlSuffix)},
+		copyFile{SourceFile: filepath.Join(testConfigDir, common.GenesisJSON),
+			TargetFile: filepath.Join(defaultMonetConfigDir, common.EthDir, common.GenesisJSON)},
+		copyFile{SourceFile: filepath.Join(testConfigDir, common.PeersJSON),
+			TargetFile: filepath.Join(defaultMonetConfigDir, common.BabbleDir, common.PeersJSON)},
+		copyFile{SourceFile: filepath.Join(testConfigDir, babble.DefaultKeyfile),
+			TargetFile: filepath.Join(defaultMonetConfigDir, common.BabbleDir, babble.DefaultKeyfile)},
+		copyFile{SourceFile: filepath.Join(testConfigDir, common.PeersJSON),
+			TargetFile: filepath.Join(defaultMonetConfigDir, common.BabbleDir, common.PeersGenesisJSON)},
 
-		copyFile{SourceFile: filepath.Join(testConfigDir, "pwd.txt"),
-			TargetFile: filepath.Join(defaultMonetConfigDir, "eth", "pwd.txt")},
+		copyFile{SourceFile: filepath.Join(testConfigDir, common.PwdFile),
+			TargetFile: filepath.Join(defaultMonetConfigDir, common.EthDir, common.PwdFile)},
 
 		copyFile{SourceFile: filepath.Join(testConfigDir, keys.DefaultKeyfile),
-			TargetFile: filepath.Join(defaultMonetConfigDir, "eth", "keystore", keys.DefaultKeyfile)},
+			TargetFile: filepath.Join(defaultMonetConfigDir, common.EthDir, "keystore", keys.DefaultKeyfile)},
 
 		copyFile{SourceFile: filepath.Join(testConfigDir, keys.DefaultKeyfile),
 			TargetFile: filepath.Join(defaultMonetConfigDir, keys.DefaultKeyfile)},
@@ -687,7 +689,7 @@ listen = ":8080"
 cache = 128
 `
 
-	err := common.WriteToFile(filepath.Join(testConfigDir, "monetd.toml"), toml)
+	err := common.WriteToFile(filepath.Join(testConfigDir, common.MonetdTomlName+common.TomlSuffix), toml)
 	if err != nil {
 		common.MessageWithType(common.MsgError, "Error writing monetd.toml", err)
 		return err
@@ -701,7 +703,7 @@ func updateEvmlcConfig() error {
 	defaultEVMLCConfigDir, _ := common.DefaultHomeDir(common.EvmlcTomlDir)
 	defaultMonetConfigDir, _ := common.DefaultHomeDir(common.MonetdTomlDir)
 	tomlFile := filepath.Join(defaultEVMLCConfigDir, common.EvmlcTomlName+common.TomlSuffix)
-	keystoreFile := filepath.Join(defaultMonetConfigDir, "eth", "keystore")
+	keystoreFile := filepath.Join(defaultMonetConfigDir, common.EthDir, "keystore")
 
 	tree, err := common.LoadToml(tomlFile)
 	if err != nil {

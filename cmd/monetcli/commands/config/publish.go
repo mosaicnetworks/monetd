@@ -76,9 +76,9 @@ func publishConfig(cmd *cobra.Command, args []string) error {
 
 	dirList := []string{
 		monetConfigDir,
-		filepath.Join(monetConfigDir, "babble"),
-		filepath.Join(monetConfigDir, "eth"),
-		filepath.Join(monetConfigDir, "eth", "keystore"),
+		filepath.Join(monetConfigDir, common.BabbleDir),
+		filepath.Join(monetConfigDir, common.EthDir),
+		filepath.Join(monetConfigDir, common.EthDir, "keystore"),
 	}
 
 	for _, dir := range dirList {

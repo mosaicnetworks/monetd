@@ -78,10 +78,10 @@ func viewPeer(configDir string, peername string) error {
 
 	peer := tree.GetPath([]string{"validators", peername})
 
+	//Enhancement: reformat
 	common.MessageWithType(common.MsgInformation, peer)
 
 	return nil
-	//TODO add new View Peer code
 }
 
 func editPeer(configDir string, peername string) error {

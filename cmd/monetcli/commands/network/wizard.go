@@ -244,7 +244,7 @@ passwordloop:
 		}
 	}
 
-	passwordFile := filepath.Join(configDir, "pwd.txt")
+	passwordFile := filepath.Join(configDir, common.PwdFile)
 
 	err = common.WriteToFile(passwordFile, password)
 	if err != nil {

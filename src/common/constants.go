@@ -22,6 +22,10 @@ const (
 	MonetdTomlDirCaps   = "MONET"
 	MonetcliTomlDirCaps = "MONETCLI"
 
+	BabbleDir = "babble"
+	EthDir    = "eth"
+	PwdFile   = "pwd.txt"
+
 	EvmlcTomlDirCaps = "EVMLC"
 	EvmlcTomlDirDot  = ".evmlc"
 
@@ -76,15 +80,15 @@ func GetMonetDefaultConfigKeys(monetConfigDir string) []KeyValue {
 	return []KeyValue{
 		KeyValue{Key: "datadir", Value: monetConfigDir, Override: true},
 		KeyValue{Key: "log", Value: "debug", Override: false, Prompt: "Logging Level", Answers: []string{"debug", "info", "warn", "error", "fatal", "panic"}},
-		KeyValue{Key: "eth.datadir", Value: filepath.Join(monetConfigDir, "eth"), Override: true},
-		KeyValue{Key: "eth.genesis", Value: filepath.Join(monetConfigDir, "eth", "genesis.json"), Override: true},
-		KeyValue{Key: "eth.keystore", Value: filepath.Join(monetConfigDir, "eth", "keystore"), Override: true},
-		KeyValue{Key: "eth.pwd", Value: filepath.Join(monetConfigDir, "eth", "pwd.txt"), Override: true},
-		KeyValue{Key: "eth.db", Value: filepath.Join(monetConfigDir, "eth", "chaindata"), Override: true},
+		KeyValue{Key: "eth.datadir", Value: filepath.Join(monetConfigDir, EthDir), Override: true},
+		KeyValue{Key: "eth.genesis", Value: filepath.Join(monetConfigDir, EthDir, GenesisJSON), Override: true},
+		KeyValue{Key: "eth.keystore", Value: filepath.Join(monetConfigDir, EthDir, "keystore"), Override: true},
+		KeyValue{Key: "eth.pwd", Value: filepath.Join(monetConfigDir, EthDir, PwdFile), Override: true},
+		KeyValue{Key: "eth.db", Value: filepath.Join(monetConfigDir, EthDir, "chaindata"), Override: true},
 		KeyValue{Key: "eth.listen", Value: ":8080", Override: false},
 		KeyValue{Key: "eth.cache", Value: "128", Override: false},
 
-		KeyValue{Key: "babble.datadir", Value: filepath.Join(monetConfigDir, "babble"), Override: true},
+		KeyValue{Key: "babble.datadir", Value: filepath.Join(monetConfigDir, BabbleDir), Override: true},
 		KeyValue{Key: "babble.listen", Value: ":1337", Override: false},
 		KeyValue{Key: "babble.service-listen", Value: ":8000", Override: false},
 		KeyValue{Key: "babble.heartbeat", Value: time.Duration(500 * time.Millisecond).String(), Override: false},
