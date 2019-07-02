@@ -158,7 +158,7 @@ editloop:
 				return false, err
 			}
 
-			monetConfigDir, _ := common.DefaultHomeDir(common.MonetdTomlName)
+			monetConfigDir, _ := common.DefaultHomeDir(common.MonetdTomlDir)
 			err = monetDConfigWizard(configDir, monetConfigDir) // Move onto monetd config
 			if err != nil {
 				return false, err
