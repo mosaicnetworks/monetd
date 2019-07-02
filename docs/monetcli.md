@@ -158,13 +158,12 @@ The network configuration filter will look like:
 
 **monetcli network compile [output-dir] [nodename]** takes a network file and generates an actual monet hub configuration. It implicitly runs a network check command. It populates a datadir directory including copying any keys stored within the network configuration folder. If the nodename is specified the configuration for that node is written. It is intended that the node name would allow multiple configurations be generated from the same machine - likely useful for node. The POA contract is compiled to build the genesis block. If there is no bytecode in the network.toml it is added with solcs version. Otherwise the bytecode is validated. 
 
-**This functionality is currently implemented in bash scripts calling solcs. This may end up not being a go command. **
-
 ## config
 The config subcommand deals with the actual monetd configuration datadir. 
 
 **monet config check** sanity checks the datadir configuration. 
 
+**monet config publish** publishes a monetcli configuration to a monetd configuration. 
 
 
 ## testnet
@@ -272,7 +271,8 @@ Global Flags:
   -v, --verbose   verbose messages
 ```
 
-####
+----
+
 
 # Examples
 

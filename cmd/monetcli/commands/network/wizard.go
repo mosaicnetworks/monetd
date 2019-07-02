@@ -3,6 +3,7 @@ package network
 import (
 	"path/filepath"
 
+	conf "github.com/mosaicnetworks/monetd/cmd/monetcli/commands/config"
 	"github.com/mosaicnetworks/monetd/src/common"
 	"github.com/spf13/cobra"
 )
@@ -31,7 +32,7 @@ func runWizard() error {
 	// Infinite loop that we need to explicitly break out of
 configloop:
 	for {
-		userConfigDir = common.RequestFile("MonetCLI Configuration Directory Location: ", userConfigDir)
+		userConfigDir = common.RequestFile("MonetCLI Configuration Directory Location", userConfigDir)
 
 		DirExists := common.CheckIfExists(userConfigDir)
 
@@ -39,7 +40,7 @@ configloop:
 
 			common.MessageWithType(common.MsgInformation, "Folder "+userConfigDir+" does not exist.")
 
-			confirm := common.RequestSelect("Please select an option: ", []string{common.WizardExitWithoutSavingChanges, common.WizardChangeConfigDir, common.WizardTextCreateNewConfiguration}, common.WizardTextCreateNewConfiguration)
+			confirm := common.RequestSelect("Please select an option", []string{common.WizardExitWithoutSavingChanges, common.WizardChangeConfigDir, common.WizardTextCreateNewConfiguration}, common.WizardTextCreateNewConfiguration)
 
 			switch confirm {
 			case common.WizardExit:
@@ -56,7 +57,7 @@ configloop:
 
 		} else {
 			common.MessageWithType(common.MsgInformation, "Folder "+userConfigDir+" already exists.")
-			confirmSelection := common.RequestSelect("Please select an option: ",
+			confirmSelection := common.RequestSelect("Please select an option",
 				[]string{
 					common.WizardExitWithoutSavingChanges,
 					common.WizardChangeConfigDir,
@@ -157,7 +158,8 @@ editloop:
 				return false, err
 			}
 
-			err = monetDConfigWizard() // Move onto monetd config
+			monetConfigDir, _ := common.DefaultHomeDir(common.MonetdTomlName)
+			err = monetDConfigWizard(configDir, monetConfigDir) // Move onto monetd config
 			if err != nil {
 				return false, err
 			}
@@ -179,13 +181,18 @@ editloop:
 	return false, nil
 }
 
-func monetDConfigWizard() error {
-	//TODO - New code
+func monetDConfigWizard(networkConfigDir string, monetConfigDir string) error {
 
 	// The delivery process putting files into the correct place is by and large complete for the
 	// testnet command - parameterise it and move it into common
 
-	common.MessageWithType(common.MsgInformation, "MonetD Config will be here.")
+	common.MessageWithType(common.MsgInformation, "MonetD Config publish to ", monetConfigDir)
+
+	// Here we have genesis.json, peers.json network.toml in the .monetcli directory ready to go.
+
+	//TODO - New code
+
+	conf.PublishConfigWithParams(networkConfigDir, monetConfigDir)
 
 	return nil
 }
@@ -205,7 +212,7 @@ func generateKeyPairWizard(configDir string) error {
 
 nodeloop:
 	for {
-		nodename = common.RequestString("Node Name: ", "")
+		nodename = common.RequestString("Node Name", "")
 
 		safeLabel := common.GetNodeSafeLabel(nodename)
 		for _, node := range currentNodes {
@@ -221,7 +228,7 @@ nodeloop:
 
 iploop:
 	for {
-		ip = common.RequestString("Node Address: ", nodename+":1337")
+		ip = common.RequestString("Node Address", nodename+":1337")
 		//Enhancement -  Check if the ip is already in use
 		break iploop
 	}
@@ -236,8 +243,8 @@ iploop:
 
 passwordloop:
 	for {
-		password = common.RequestPassword("Enter Keystore Password: ", "")
-		password2 := common.RequestPassword("Confirm Keystore Password: ", "")
+		password = common.RequestPassword("Enter Keystore Password", "")
+		password2 := common.RequestPassword("Confirm Keystore Password", "")
 
 		if password == password2 {
 			break passwordloop
@@ -261,8 +268,44 @@ func compileWizard(configDir string) error {
 
 func addPeerWizard(configDir string) error {
 
-	//TODO - hook up wizard to add peer function req
+	var nodename, ip, pubkey, safeLabel string
+	var isValidator = true
 
-	//	func AddValidatorParamateriseda(configDir, moniker string, addr string, pubkey string, ip string, isValidator bool) error {
+	currentNodes, err := GetPeersLabelsListFromToml(configDir)
+	if err != nil {
+		return err
+	}
+
+nodeloop:
+	for {
+		nodename = common.RequestString("Node Name", "")
+
+		safeLabel = common.GetNodeSafeLabel(nodename)
+		common.MessageWithType(common.MsgDebug, "SafeLabel: ", safeLabel)
+
+		for _, node := range currentNodes {
+			if node == safeLabel {
+				common.MessageWithType(common.MsgError, "That Moniker has already been used", nodename)
+				continue nodeloop
+			}
+
+		}
+
+		break nodeloop
+	}
+
+iploop:
+	for {
+		ip = common.RequestString("Node Address", nodename+":1337")
+		//Enhancement -  Check if the ip is already in use
+		break iploop
+	}
+
+	pubkey = common.RequestString("Pub Key", "")
+
+	err = AddValidatorParamaterised(configDir, nodename, safeLabel, "", pubkey, ip, isValidator)
+	if err != nil {
+		common.MessageWithType(common.MsgError, "Error adding a peer: ", err)
+	}
 	return nil
 }

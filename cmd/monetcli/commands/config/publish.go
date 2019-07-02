@@ -5,6 +5,10 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/mosaicnetworks/monetd/cmd/monetcli/commands/keys"
+
+	"github.com/mosaicnetworks/babble/src/babble"
+
 	"github.com/mosaicnetworks/monetd/src/common"
 
 	"github.com/spf13/cobra"
@@ -12,14 +16,22 @@ import (
 
 var (
 	configFileList = []*configFile{
-		&configFile{sourcefilename: common.MonetcliTomlName + common.TomlSuffix,
+		&configFile{sourcefilename: common.MonetcliTomlName + common.TomlSuffix, subfolder: "",
 			targetfilename: common.MonetdTomlName + common.TomlSuffix, label: "toml", required: true, transformation: true},
-		&configFile{sourcefilename: common.PeersJSON,
-			targetfilename: common.PeersJSONTarget, label: "peers", required: true, transformation: false},
-		&configFile{sourcefilename: common.PeersGenesisJSON,
-			targetfilename: common.PeersGenesisJSONTarget, label: "genesispeers", required: true, transformation: false},
-		&configFile{sourcefilename: common.GenesisJSON,
-			targetfilename: common.GenesisJSONTarget, label: "genesis", required: true, transformation: false},
+		&configFile{sourcefilename: common.PeersJSON, subfolder: common.BabbleDir,
+			targetfilename: common.PeersJSON, label: "peers", required: true, transformation: false},
+		&configFile{sourcefilename: common.PeersGenesisJSON, subfolder: common.BabbleDir,
+			targetfilename: common.PeersGenesisJSON, label: "genesispeers", required: true, transformation: false},
+		&configFile{sourcefilename: common.GenesisJSON, subfolder: common.EthDir,
+			targetfilename: common.GenesisJSON, label: "genesis", required: true, transformation: false},
+		&configFile{sourcefilename: babble.DefaultKeyfile, subfolder: common.BabbleDir,
+			targetfilename: babble.DefaultKeyfile, label: "babble private key", required: true, transformation: false},
+		&configFile{sourcefilename: common.PwdFile, subfolder: common.EthDir,
+			targetfilename: common.PwdFile, label: "passphrase doc", required: true, transformation: false},
+		&configFile{sourcefilename: keys.DefaultKeyfile, subfolder: common.EthDir + "/keystore",
+			targetfilename: keys.DefaultKeyfile, label: "keystore", required: true, transformation: false},
+		&configFile{sourcefilename: keys.DefaultKeyfile, subfolder: "",
+			targetfilename: keys.DefaultKeyfile, label: "keystore", required: true, transformation: false},
 	}
 )
 
@@ -28,6 +40,10 @@ func publishConfig(cmd *cobra.Command, args []string) error {
 	// Check that we have a valid monetcli config
 
 	//First check that we have a file location
+	return PublishConfigWithParams(networkConfigDir, monetConfigDir)
+}
+
+func PublishConfigWithParams(networkConfigDir string, monetConfigDir string) error {
 	if networkConfigDir == "" {
 		common.Message("networkConfigDir is empty")
 		return errors.New("config path not set. use --config-dir parameter")
@@ -95,6 +111,9 @@ func publishConfig(cmd *cobra.Command, args []string) error {
 	for _, file := range configFileList {
 		fileWithPath := filepath.Join(networkConfigDir, file.sourcefilename)
 		outFileWithPath := filepath.Join(monetConfigDir, file.targetfilename)
+		if file.subfolder != "" {
+			outFileWithPath = filepath.Join(monetConfigDir, file.subfolder, file.targetfilename)
+		}
 
 		if !common.CheckIfExists(fileWithPath) {
 			if file.required {
