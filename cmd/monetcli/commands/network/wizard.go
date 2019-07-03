@@ -2,10 +2,12 @@ package network
 
 import (
 	"errors"
+	"fmt"
 	"path/filepath"
 
 	conf "github.com/mosaicnetworks/monetd/cmd/monetcli/commands/config"
 	"github.com/mosaicnetworks/monetd/src/common"
+	monet "github.com/mosaicnetworks/monetd/src/version"
 	"github.com/spf13/cobra"
 )
 
@@ -23,7 +25,6 @@ var WizardCmd = &cobra.Command{
 
 func runWizardCmd(cmd *cobra.Command, args []string) error {
 	return runWizard()
-
 }
 
 func runWizard() error {
@@ -36,17 +37,18 @@ configloop:
 	for {
 		userConfigDir = common.RequestFile("MonetCLI Configuration Directory Location", userConfigDir)
 
-		DirExists := common.CheckIfExists(userConfigDir)
-
-		if !DirExists {
-
+		if !common.CheckIfExists(userConfigDir) {
 			common.MessageWithType(common.MsgInformation, "Folder "+userConfigDir+" does not exist.")
-
-			confirm := common.RequestSelect("Please select an option", []string{common.WizardExitWithoutSavingChanges, common.WizardChangeConfigDir, common.WizardTextCreateNewConfiguration}, common.WizardTextCreateNewConfiguration)
+			confirm := common.RequestSelect("Please select an option", []string{
+				common.WizardExitWithoutSavingChanges,
+				common.WizardChangeConfigDir,
+				common.WizardTextCreateNewConfiguration,
+			},
+				common.WizardTextCreateNewConfiguration)
 
 			switch confirm {
-			case common.WizardExit:
-				break configloop
+			case common.WizardExitWithoutSavingChanges:
+				return nil
 			case common.WizardChangeConfigDir:
 				continue configloop
 			}
@@ -93,11 +95,11 @@ configloop:
 
 		// If we reach this point, we have a configuration, either new or existing.
 
-		common.Message("Editing: ", userConfigDir)
+		common.MessageWithType(common.MsgDebug, "Editing monetcli config: ", userConfigDir)
 
 		shouldBreak, err := editWizard(userConfigDir)
 		if err != nil {
-			common.MessageWithType(common.MsgError, "Error in compiling: ", err)
+			common.MessageWithType(common.MsgError, "Error in editing monetcli configuration: ", err)
 			return err
 		}
 		if shouldBreak {
@@ -109,10 +111,8 @@ configloop:
 }
 
 func editWizard(configDir string) (bool, error) {
-
 	configFile := filepath.Join(configDir, common.MonetcliTomlName+common.TomlSuffix)
 
-editloop:
 	for {
 		common.BannerTitle("Edit Network")
 		common.MessageWithType(common.MsgInformation, "Edit menu for   "+configDir+" ")
@@ -125,6 +125,7 @@ editloop:
 				common.WizardParams,
 				common.WizardPeers,
 				common.WizardShow,
+				common.WizardVersion,
 				common.WizardExit,
 			},
 			common.WizardShow)
@@ -132,7 +133,6 @@ editloop:
 		switch confirmSelection {
 		case common.WizardExit:
 			return true, nil
-			break editloop
 		case common.WizardShow:
 			_ = common.ShowConfigFile(configFile)
 		case common.WizardParams:
@@ -153,6 +153,10 @@ editloop:
 			if err != nil {
 				return false, err
 			}
+		case common.WizardVersion:
+			common.BannerTitle("monetd")
+			fmt.Print(monet.FullVersion())
+
 		case common.WizardCompile:
 			err := compileWizard(configDir)
 			if err != nil {
@@ -165,9 +169,8 @@ editloop:
 			if err != nil {
 				return false, err
 			}
-			_ = common.RequestFile("Press Enter to Continue", "")
+			common.ContinuePrompt()
 			//TODO Load config menu here
-
 			// When we have finished with the config, we are done
 			return true, nil
 
@@ -179,11 +182,10 @@ editloop:
 
 		}
 
-		_ = common.RequestFile("Press Enter to Continue", "")
+		common.ContinuePrompt()
 
 	}
 
-	return false, nil
 }
 
 func monetDConfigWizard(networkConfigDir string, monetConfigDir string) error {
@@ -233,7 +235,6 @@ nodeloop:
 				common.MessageWithType(common.MsgError, "That Moniker has already been used", nodename)
 				continue nodeloop
 			}
-
 		}
 
 		break nodeloop
@@ -256,8 +257,8 @@ iploop:
 
 passwordloop:
 	for {
-		password = common.RequestPassword("Enter Keystore Password", "")
-		password2 := common.RequestPassword("Confirm Keystore Password", "")
+		password = common.RequestPassword("Enter Keystore Passphrase", "")
+		password2 := common.RequestPassword("Confirm Keystore Passphrase", "")
 
 		if password == password2 {
 			break passwordloop

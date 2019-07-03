@@ -57,7 +57,7 @@ peerloop:
 				return err
 			}
 		}
-		_ = common.RequestFile("Press Enter to Continue", "")
+		common.ContinuePrompt()
 	}
 
 	//	fmt.Printf("%v \n", peers)

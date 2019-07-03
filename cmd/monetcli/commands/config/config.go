@@ -6,19 +6,25 @@ import (
 	"github.com/spf13/viper"
 )
 
-//NetworkCmd controls network configuration
 var (
 	//ConfigCmd implements the config CLI subcommand
 	ConfigCmd = &cobra.Command{
-		Use:              "config",
-		Short:            "manage monetd configuration",
+		Use:   "config",
+		Short: "manage monetd configuration",
+		Long: `monetcli config
+		
+		The config subcommands manage the monet configuration file, as used by 
+		the monetd server process. `,
 		TraverseChildren: true,
 	}
 
 	publishTarget    string
 	monetConfigDir   string
 	networkConfigDir string
-	Force            bool
+
+	//Force is a flag to allow overwriting of config files without warning. Can be
+	//set programmatically or with --force flag
+	Force bool
 )
 
 func init() {
@@ -26,6 +32,7 @@ func init() {
 	ConfigCmd.AddCommand(
 		NewCheckCmd(),
 		NewPublishCmd(),
+		NewLocationCmd(),
 	)
 
 	defaultConfigDir, _ := common.DefaultHomeDir(common.MonetcliTomlDir)
@@ -34,6 +41,19 @@ func init() {
 	ConfigCmd.PersistentFlags().StringVarP(&monetConfigDir, "monet-config-dir", "m", defaultMonetConfigDir, "the directory containing monet nodes configurations")
 	ConfigCmd.PersistentFlags().StringVarP(&networkConfigDir, "config-dir", "c", defaultConfigDir, "the directory containing monet nodes configurations")
 	viper.BindPFlags(ConfigCmd.Flags())
+}
+
+//NewLocationCmd defines the CLI command config check
+func NewLocationCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "location",
+		Short: "show the location of the configuration files",
+		Long: `monetcli config location
+Shows the location of the configuration files for the monetd server.`,
+		Args: cobra.ArbitraryArgs,
+		RunE: locationConfig,
+	}
+	return cmd
 }
 
 //NewCheckCmd defines the CLI command config check
@@ -65,4 +85,10 @@ Publish a Monet Node configuration`,
 	viper.BindPFlags(cmd.Flags())
 
 	return cmd
+}
+
+func locationConfig(cmd *cobra.Command, args []string) error {
+	common.MessageWithType(common.MsgInformation, "The Monet Configuration files are located at:")
+	common.MessageWithType(common.MsgInformation, monetConfigDir)
+	return nil
 }

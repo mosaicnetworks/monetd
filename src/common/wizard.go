@@ -30,6 +30,7 @@ const (
 	WizardCancelChanges                                   = "Cancel Changes"
 	WizardEditAgain                                       = "Edit Again"
 	WizardPeers                                           = "Peers"
+	WizardVersion                                         = "Version Info"
 )
 
 //RequestFile prompts the user for a file name.
@@ -61,6 +62,21 @@ func RequestString(promptText string, defaultValue string) string {
 
 	return result
 }
+
+//ContinuePrompt pauses until enter is pressed
+func ContinuePrompt() {
+
+	prompt := promptui.Prompt{
+		Label:    "Press Enter to continue  ",
+		Validate: noValidation,
+		Default:  "",
+	}
+
+	_, _ = prompt.Run()
+
+}
+
+func noValidation(input string) error { return nil }
 
 //RequestPassword prompts the user for input using a mask to hide their answer
 func RequestPassword(promptText string, defaultValue string) string {

@@ -29,6 +29,7 @@ func init() {
 	NetworkCmd.AddCommand(
 		newNewCmd(),
 		newCheckCmd(),
+		NewLocationCmd(),
 		newAddCmd(),
 		newShowCmd(),
 		newGenerateCmd(),
@@ -60,6 +61,19 @@ Review the Peers list.`,
 	return cmd
 }
 
+//NewLocationCmd defines the CLI command config check
+func NewLocationCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "location",
+		Short: "show the location of the configuration files",
+		Long: `monetcli network location
+Shows the location of the configuration files for the monetcli network.`,
+		Args: cobra.ArbitraryArgs,
+		RunE: locationConfig,
+	}
+	return cmd
+}
+
 func newContractCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "contract [contract]",
@@ -84,29 +98,6 @@ Update Parameters interactively`,
 	}
 
 	return cmd
-}
-
-func reviewPeers(cmd *cobra.Command, args []string) error {
-
-	return PeersWizard(configDir)
-}
-
-func setContract(cmd *cobra.Command, args []string) error {
-	sol := args[0]
-
-	if !common.CheckIfExists(sol) {
-		message("Cannot read solidity contract file: ", sol)
-		return errors.New("cannot read contract file")
-	}
-
-	targetFile := filepath.Join(configDir, common.TemplateContract)
-
-	message("Copying sol file: ", sol, targetFile)
-
-	// Cut and paste copy files
-	err := common.CopyFileContents(sol, targetFile)
-
-	return err
 }
 
 //check add generate compile
@@ -149,4 +140,33 @@ compile network configuration.`,
 		RunE: compileConfig,
 	}
 	return cmd
+}
+
+func reviewPeers(cmd *cobra.Command, args []string) error {
+
+	return PeersWizard(configDir)
+}
+
+func setContract(cmd *cobra.Command, args []string) error {
+	sol := args[0]
+
+	if !common.CheckIfExists(sol) {
+		message("Cannot read solidity contract file: ", sol)
+		return errors.New("cannot read contract file")
+	}
+
+	targetFile := filepath.Join(configDir, common.TemplateContract)
+
+	message("Copying sol file: ", sol, targetFile)
+
+	// Cut and paste copy files
+	err := common.CopyFileContents(sol, targetFile)
+
+	return err
+}
+
+func locationConfig(cmd *cobra.Command, args []string) error {
+	common.MessageWithType(common.MsgInformation, "The Monetcli Network Configuration files are located at:")
+	common.MessageWithType(common.MsgInformation, configDir)
+	return nil
 }
