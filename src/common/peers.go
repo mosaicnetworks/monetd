@@ -4,6 +4,9 @@ import (
 	"github.com/mosaicnetworks/babble/src/peers"
 )
 
+//CheckPeersAddress verifies that a given peer is in the peers file
+//In particular that the configured babble listener is in exactly the same form
+//within the peers file
 func CheckPeersAddress(peerfile string, babbleListen string) (bool, error) {
 	currentPeers, err := peers.NewJSONPeerSet(peerfile, true).PeerSet()
 	if err != nil {

@@ -209,8 +209,11 @@ func CompileConfigWithParam(configDir string) error {
 		return err
 	}
 
+	common.MessageWithType(common.MsgDebug, "Write Genesis.json")
 	jsonFileName := filepath.Join(configDir, common.GenesisJSON)
 	common.WriteToFile(jsonFileName, string(genesisjson))
+
+	common.MessageWithType(common.MsgDebug, "Write Peers.json")
 
 	peersjson, err := json.MarshalIndent(peers, "", "\t")
 	if err != nil {
@@ -225,6 +228,8 @@ func CompileConfigWithParam(configDir string) error {
 	}
 	jsonFileName = filepath.Join(configDir, common.PeersGenesisJSON)
 	common.WriteToFile(jsonFileName, string(peersjson))
+
+	common.MessageWithType(common.MsgDebug, "Compilation Task Complete")
 
 	return nil
 }

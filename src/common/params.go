@@ -1,12 +1,15 @@
 package common
 
 import (
+	"errors"
 	"path/filepath"
 	"strconv"
+	"strings"
 
 	"github.com/manifoldco/promptui"
 )
 
+//SetParamsWithParams allows the interactive editing of parameters in the cli config file
 func SetParamsWithParams(configDir string) error {
 	var result string
 	// We assume the default here, but all the file path stuff is overwritten in the
@@ -48,7 +51,9 @@ paramloop:
 				}
 			}
 			validateFunc := func(input string) error {
-				//TODO actually implement
+				if strings.TrimSpace(input) == "" {
+					return errors.New("Cannot be blank")
+				}
 				return nil
 			}
 

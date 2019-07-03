@@ -1,6 +1,7 @@
 package network
 
 import (
+	"errors"
 	"path/filepath"
 
 	conf "github.com/mosaicnetworks/monetd/cmd/monetcli/commands/config"
@@ -8,6 +9,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
+//WizardCmd is the wizard subcommand
 var WizardCmd = &cobra.Command{
 	Use:   "wizard",
 	Short: "wizard to set up a Monet Network",
@@ -25,7 +27,7 @@ func runWizardCmd(cmd *cobra.Command, args []string) error {
 }
 
 func runWizard() error {
-
+	common.BannerTitle("wizard")
 	home, _ := common.DefaultHomeDir(common.MonetcliTomlDir)
 	userConfigDir := home
 
@@ -112,7 +114,7 @@ func editWizard(configDir string) (bool, error) {
 
 editloop:
 	for {
-
+		common.BannerTitle("Edit Network")
 		common.MessageWithType(common.MsgInformation, "Edit menu for   "+configDir+" ")
 		confirmSelection := common.RequestSelect("Please select an option: ",
 			[]string{
@@ -163,8 +165,11 @@ editloop:
 			if err != nil {
 				return false, err
 			}
+			_ = common.RequestFile("Press Enter to Continue", "")
+			//TODO Load config menu here
 
-			break editloop
+			// When we have finished with the config, we are done
+			return true, nil
 
 		case common.WizardGenerate:
 			err := generateKeyPairWizard(configDir)
@@ -190,8 +195,16 @@ func monetDConfigWizard(networkConfigDir string, monetConfigDir string) error {
 
 	// Here we have genesis.json, peers.json network.toml in the .monetcli directory ready to go.
 
-	//TODO - New code
+	if common.CheckIfExists(monetConfigDir) {
+		confirm := common.RequestSelect("Overwrite Monet Configuration: ", []string{"No", "Yes"}, "No")
 
+		if confirm == "No" {
+			common.MessageWithType(common.MsgWarning, "MonetD Config publishing cancelled")
+			return errors.New("Cancelling publish")
+		}
+
+		conf.Force = true
+	}
 	conf.PublishConfigWithParams(networkConfigDir, monetConfigDir)
 
 	return nil

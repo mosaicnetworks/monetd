@@ -8,6 +8,8 @@ import (
 	"github.com/manifoldco/promptui"
 )
 
+//Constants for the labels used in Wizard select options.
+//Constants are much safer than string literals for parsing the results of select commands.
 const (
 	WizardExit                                            = "Exit"
 	WizardTextCreateNewConfiguration                      = "Create New Configuration"
@@ -30,6 +32,7 @@ const (
 	WizardPeers                                           = "Peers"
 )
 
+//RequestFile prompts the user for a file name.
 func RequestFile(promptText string, defaultValue string) string {
 
 	prompt := promptui.Prompt{
@@ -44,6 +47,7 @@ func RequestFile(promptText string, defaultValue string) string {
 	return result
 }
 
+//RequestString prompts the user for a string
 func RequestString(promptText string, defaultValue string) string {
 
 	prompt := promptui.Prompt{
@@ -58,6 +62,7 @@ func RequestString(promptText string, defaultValue string) string {
 	return result
 }
 
+//RequestPassword prompts the user for input using a mask to hide their answer
 func RequestPassword(promptText string, defaultValue string) string {
 
 	prompt := promptui.Prompt{
@@ -73,6 +78,8 @@ func RequestPassword(promptText string, defaultValue string) string {
 	return result
 }
 
+//RequestBool prompts the user for a boolean answer and parses the string to
+//return a bool type
 func RequestBool(promptText string, defaultValue bool) bool {
 
 	defaultStr := strconv.FormatBool(defaultValue)
@@ -84,8 +91,9 @@ func RequestBool(promptText string, defaultValue bool) bool {
 }
 
 func validateFile(input string) error {
-	//TODO actually implement
-
+	if strings.TrimSpace(input) == "" {
+		return errors.New("Cannot be blank")
+	}
 	return nil
 }
 

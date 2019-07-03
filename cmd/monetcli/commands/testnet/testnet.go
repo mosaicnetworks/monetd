@@ -25,9 +25,6 @@ import (
 	"github.com/spf13/viper"
 )
 
-//TODO the configuration path locations for Macs are wrong.
-//Need either to allow specifying them, or just overwriting it.
-
 //NetworkCmd controls network configuration
 var (
 	publishTarget    string
@@ -57,6 +54,7 @@ type copyFile struct {
 //	defaultMonetConfigDir, _ := common.DefaultHomeDir(common.MonetdTomlDir)
 // }
 
+//NewTestJoinCmd is the subcommand testjoin
 func NewTestJoinCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "testjoin",
@@ -76,10 +74,11 @@ guided process. Take a look at docs/testnet.md for fuller instructions.
 
 func testjoinCmd(cmd *cobra.Command, args []string) error {
 
+	common.BannerTitle("testjoin")
 	return testJoinWizard()
 }
 
-//NewCheckCmd defines the CLI command config check
+//NewTestNetCmd is a factory method for the testnet subcommand
 func NewTestNetCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "testnet",
@@ -103,6 +102,7 @@ guided process. Take a look at docs/testnet.md for fuller instructions.
 
 func testnetCmd(cmd *cobra.Command, args []string) error {
 
+	common.BannerTitle("testnet")
 	return testNetWizard()
 }
 
@@ -117,12 +117,11 @@ func testJoinWizard() error {
 		common.MessageWithType(common.MsgWarning, "This is a destructive operation. Remove/rename the following folder to proceed.")
 		common.MessageWithType(common.MsgInformation, testConfigDir)
 		return nil
-	} else {
-		err := os.MkdirAll(testConfigDir, os.ModePerm)
-		if err != nil {
-			common.MessageWithType(common.MsgError, "Error creating config folder: ", testConfigDir)
-			return err
-		}
+	}
+	err := os.MkdirAll(testConfigDir, os.ModePerm)
+	if err != nil {
+		common.MessageWithType(common.MsgError, "Error creating config folder: ", testConfigDir)
+		return err
 	}
 
 	Peer := common.RequestString("Existing peer:", "localhost")
@@ -144,7 +143,7 @@ func testJoinWizard() error {
 	filePeersJSON := filepath.Join(testConfigDir, common.PeersJSON)
 	fileGenesisJSON := filepath.Join(testConfigDir, common.GenesisJSON)
 
-	err := downloadFile(urlGenesisPeersJSON, fileGenesisPeersJSON)
+	err = downloadFile(urlGenesisPeersJSON, fileGenesisPeersJSON)
 	if err != nil {
 		common.MessageWithType(common.MsgError, "Error downloading genesis peers")
 		return err
@@ -190,7 +189,6 @@ func testJoinWizard() error {
 
 	//	Generate New Key / Add key
 
-	return nil
 }
 
 func testNetWizard() error {
@@ -625,24 +623,24 @@ confirmloop:
 	}
 
 	copyfiles := []copyFile{
-		copyFile{SourceFile: filepath.Join(testConfigDir, common.MonetdTomlName+common.TomlSuffix),
+		{SourceFile: filepath.Join(testConfigDir, common.MonetdTomlName+common.TomlSuffix),
 			TargetFile: filepath.Join(defaultMonetConfigDir, common.MonetdTomlName+common.TomlSuffix)},
-		copyFile{SourceFile: filepath.Join(testConfigDir, common.GenesisJSON),
+		{SourceFile: filepath.Join(testConfigDir, common.GenesisJSON),
 			TargetFile: filepath.Join(defaultMonetConfigDir, common.EthDir, common.GenesisJSON)},
-		copyFile{SourceFile: filepath.Join(testConfigDir, common.PeersJSON),
+		{SourceFile: filepath.Join(testConfigDir, common.PeersJSON),
 			TargetFile: filepath.Join(defaultMonetConfigDir, common.BabbleDir, common.PeersJSON)},
-		copyFile{SourceFile: filepath.Join(testConfigDir, babble.DefaultKeyfile),
+		{SourceFile: filepath.Join(testConfigDir, babble.DefaultKeyfile),
 			TargetFile: filepath.Join(defaultMonetConfigDir, common.BabbleDir, babble.DefaultKeyfile)},
-		copyFile{SourceFile: filepath.Join(testConfigDir, common.PeersJSON),
+		{SourceFile: filepath.Join(testConfigDir, common.PeersJSON),
 			TargetFile: filepath.Join(defaultMonetConfigDir, common.BabbleDir, common.PeersGenesisJSON)},
 
-		copyFile{SourceFile: filepath.Join(testConfigDir, common.PwdFile),
+		{SourceFile: filepath.Join(testConfigDir, common.PwdFile),
 			TargetFile: filepath.Join(defaultMonetConfigDir, common.EthDir, common.PwdFile)},
 
-		copyFile{SourceFile: filepath.Join(testConfigDir, keys.DefaultKeyfile),
+		{SourceFile: filepath.Join(testConfigDir, keys.DefaultKeyfile),
 			TargetFile: filepath.Join(defaultMonetConfigDir, common.EthDir, "keystore", keys.DefaultKeyfile)},
 
-		copyFile{SourceFile: filepath.Join(testConfigDir, keys.DefaultKeyfile),
+		{SourceFile: filepath.Join(testConfigDir, keys.DefaultKeyfile),
 			TargetFile: filepath.Join(defaultMonetConfigDir, keys.DefaultKeyfile)},
 	}
 

@@ -27,6 +27,7 @@ var (
 	passphrase     string
 )
 
+//InitCmd implements the init subcommand
 var InitCmd = &cobra.Command{
 	Use:   "init",
 	Short: "Interactive configuration wizard",

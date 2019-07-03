@@ -104,11 +104,7 @@ func readConfig(cmd *cobra.Command) error {
 	}
 
 	// second unmarshal to read from config file
-	if err := viper.Unmarshal(config); err != nil {
-		return err
-	}
-
-	return nil
+	return viper.Unmarshal(config)
 }
 
 // default config for monetd

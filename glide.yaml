@@ -16,3 +16,4 @@ import:
   version: ^1.7.2
 - package: github.com/manifoldco/promptui
   version: master
+- package: github.com/mbndr/figlet4go

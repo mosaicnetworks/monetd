@@ -61,17 +61,17 @@ func checkConfigParams() error {
 	}
 
 	pathToCheck := [][]string{
-		[]string{"datadir"},
-		[]string{"log"},
-		[]string{"babble", "listen"},
-		[]string{"babble", "service-listen"},
-		[]string{"babble", "heartbeat"},
-		[]string{"babble", "timeout"},
-		[]string{"babble", "cache-size"},
-		[]string{"babble", "sync-limit"},
-		[]string{"babble", "max-pool"},
-		[]string{"eth", "listen"},
-		[]string{"eth", "cache"},
+		{"datadir"},
+		{"log"},
+		{"babble", "listen"},
+		{"babble", "service-listen"},
+		{"babble", "heartbeat"},
+		{"babble", "timeout"},
+		{"babble", "cache-size"},
+		{"babble", "sync-limit"},
+		{"babble", "max-pool"},
+		{"eth", "listen"},
+		{"eth", "cache"},
 		//		[]string{"eth", "missing"},
 	}
 

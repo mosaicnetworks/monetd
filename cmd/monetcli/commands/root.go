@@ -31,5 +31,7 @@ func init() {
 	RootCmd.SilenceUsage = true
 
 	RootCmd.PersistentFlags().BoolVarP(&common.VerboseLogging, "verbose", "v", false, "verbose messages")
+	RootCmd.PersistentFlags().BoolVarP(&common.HideBanners, "hide-banners", "q", false, "hide banners")
+
 	viper.BindPFlags(RootCmd.Flags())
 }

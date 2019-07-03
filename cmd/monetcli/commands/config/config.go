@@ -18,7 +18,7 @@ var (
 	publishTarget    string
 	monetConfigDir   string
 	networkConfigDir string
-	force            bool
+	Force            bool
 )
 
 func init() {
@@ -61,7 +61,7 @@ Publish a Monet Node configuration`,
 	}
 
 	cmd.PersistentFlags().StringVarP(&publishTarget, "publish-target", "t", "simple", "the publish target. One of simple, ...")
-	cmd.Flags().BoolVarP(&force, "force", "f", false, "force the creation of a new config file")
+	cmd.Flags().BoolVarP(&Force, "force", "f", false, "force the creation of a new config file")
 	viper.BindPFlags(cmd.Flags())
 
 	return cmd

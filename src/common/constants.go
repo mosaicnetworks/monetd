@@ -11,11 +11,18 @@ import (
 //Constants used across the MonetCLI command packages
 
 var (
-	MonetdTomlDir   string
+	//MonetdTomlDir contains the directory name for the monetd config
+	//It varies by OS
+	MonetdTomlDir string
+	//MonetcliTomlDir contains the directory name for the monetd config
+	//It varies by OS
 	MonetcliTomlDir string
-	EvmlcTomlDir    string
+	//EvmlcTomlDir contains the directory name for the monetd config
+	//It varies by OS
+	EvmlcTomlDir string
 )
 
+//Constants for files names and default values used in building configurations
 const (
 	MonetdTomlDirDot    = ".monet"
 	MonetcliTomlDirDot  = ".monetcli"
@@ -78,30 +85,31 @@ type KeyValue struct {
 func GetMonetDefaultConfigKeys(monetConfigDir string) []KeyValue {
 
 	return []KeyValue{
-		KeyValue{Key: "datadir", Value: monetConfigDir, Override: true},
-		KeyValue{Key: "log", Value: "debug", Override: false, Prompt: "Logging Level", Answers: []string{"debug", "info", "warn", "error", "fatal", "panic"}},
-		KeyValue{Key: "eth.datadir", Value: filepath.Join(monetConfigDir, EthDir), Override: true},
-		KeyValue{Key: "eth.genesis", Value: filepath.Join(monetConfigDir, EthDir, GenesisJSON), Override: true},
-		KeyValue{Key: "eth.keystore", Value: filepath.Join(monetConfigDir, EthDir, "keystore"), Override: true},
-		KeyValue{Key: "eth.pwd", Value: filepath.Join(monetConfigDir, EthDir, PwdFile), Override: true},
-		KeyValue{Key: "eth.db", Value: filepath.Join(monetConfigDir, EthDir, "chaindata"), Override: true},
-		KeyValue{Key: "eth.listen", Value: ":8080", Override: false},
-		KeyValue{Key: "eth.cache", Value: "128", Override: false},
+		{Key: "datadir", Value: monetConfigDir, Override: true},
+		{Key: "log", Value: "debug", Override: false, Prompt: "Logging Level", Answers: []string{"debug", "info", "warn", "error", "fatal", "panic"}},
+		{Key: "eth.datadir", Value: filepath.Join(monetConfigDir, EthDir), Override: true},
+		{Key: "eth.genesis", Value: filepath.Join(monetConfigDir, EthDir, GenesisJSON), Override: true},
+		{Key: "eth.keystore", Value: filepath.Join(monetConfigDir, EthDir, "keystore"), Override: true},
+		{Key: "eth.pwd", Value: filepath.Join(monetConfigDir, EthDir, PwdFile), Override: true},
+		{Key: "eth.db", Value: filepath.Join(monetConfigDir, EthDir, "chaindata"), Override: true},
+		{Key: "eth.listen", Value: ":8080", Override: false},
+		{Key: "eth.cache", Value: "128", Override: false},
 
-		KeyValue{Key: "babble.datadir", Value: filepath.Join(monetConfigDir, BabbleDir), Override: true},
-		KeyValue{Key: "babble.listen", Value: ":1337", Override: false},
-		KeyValue{Key: "babble.service-listen", Value: ":8000", Override: false},
-		KeyValue{Key: "babble.heartbeat", Value: time.Duration(500 * time.Millisecond).String(), Override: false},
-		KeyValue{Key: "babble.timeout", Value: time.Duration(1000 * time.Millisecond).String(), Override: false},
-		KeyValue{Key: "babble.cache-size", Value: "50000", Override: false},
-		KeyValue{Key: "babble.sync-limit", Value: "1000", Override: false},
+		{Key: "babble.datadir", Value: filepath.Join(monetConfigDir, BabbleDir), Override: true},
+		{Key: "babble.listen", Value: ":1337", Override: false},
+		{Key: "babble.service-listen", Value: ":8000", Override: false},
+		{Key: "babble.heartbeat", Value: time.Duration(500 * time.Millisecond).String(), Override: false},
+		{Key: "babble.timeout", Value: time.Duration(1000 * time.Millisecond).String(), Override: false},
+		{Key: "babble.cache-size", Value: "50000", Override: false},
+		{Key: "babble.sync-limit", Value: "1000", Override: false},
 
-		KeyValue{Key: "babble.fast-sync", Value: false, Override: false, Answers: []string{"false", "true"}, DataType: "bool"},
-		KeyValue{Key: "babble.max-pool", Value: "2", Override: false},
-		KeyValue{Key: "babble.store", Value: true, Override: true},
+		{Key: "babble.fast-sync", Value: false, Override: false, Answers: []string{"false", "true"}, DataType: "bool"},
+		{Key: "babble.max-pool", Value: "2", Override: false},
+		{Key: "babble.store", Value: true, Override: true},
 	}
 }
 
+//Colour constants used in the functions in src/common/logs.go
 const (
 	ColourInfo    = color.FgGreen
 	ColourWarning = color.FgHiMagenta

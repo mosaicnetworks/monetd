@@ -6,6 +6,7 @@ import (
 	"github.com/pelletier/go-toml"
 )
 
+//LoadToml loads a toml file and returns a tree
 func LoadToml(tomlFile string) (*toml.Tree, error) {
 	config, err := toml.LoadFile(tomlFile)
 
@@ -17,6 +18,7 @@ func LoadToml(tomlFile string) (*toml.Tree, error) {
 	return config, nil
 }
 
+//SaveToml writes a tree (back) to a toml file
 func SaveToml(tree *toml.Tree, tomlFile string) error {
 
 	// Open Writer
@@ -40,6 +42,8 @@ func SaveToml(tree *toml.Tree, tomlFile string) error {
 	return nil
 }
 
+//TransformCliTomlToD process monetcli config to become a monetd config - largely by
+//removing unused keys which are used for peers and genesis files.
 func TransformCliTomlToD(tree *toml.Tree, monetConfigDir string) error {
 
 	delKeys := []string{"poa.bytecode", "poa.abi", "validators", "config.datadir"}
@@ -63,7 +67,7 @@ func TransformCliTomlToD(tree *toml.Tree, monetConfigDir string) error {
 	// Then we set default values and overrides
 	Message("Setting default values")
 	for _, keys := range setKeys {
-		if keys.Override || (!tree.Has(keys.Key)) {
+		if keys.Override || !tree.Has(keys.Key) {
 			Message("Setting "+keys.Key+" to: ", keys.Value)
 			tree.Set(keys.Key, keys.Value)
 		}
@@ -72,6 +76,7 @@ func TransformCliTomlToD(tree *toml.Tree, monetConfigDir string) error {
 	return nil
 }
 
+//LoadTomlConfig is a wrapper to LoadToml, that explicitly loads a monetcli config
 func LoadTomlConfig(configDir string) (*toml.Tree, error) {
 
 	Message("Starting to load configuration")
@@ -86,6 +91,7 @@ func LoadTomlConfig(configDir string) (*toml.Tree, error) {
 	return tree, nil
 }
 
+//SaveTomlConfig is a wrapper to SaveToml, that explicitly saves a monetcli config
 func SaveTomlConfig(configDir string, tree *toml.Tree) error {
 
 	Message("Starting to save configuration")

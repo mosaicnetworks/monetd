@@ -39,6 +39,7 @@ func isEmptyDir(dir string) (bool, error) {
 	return len(entries) == 0, nil
 }
 
+//GenerateKeyPair wraps monetcli keys functionality, adding more interactivity
 func GenerateKeyPair(configDir string, moniker string, ip string, isValidator bool, passwordFile string) error {
 	message("Generating key pair for: ", moniker)
 
@@ -80,6 +81,8 @@ func GenerateKeyPair(configDir string, moniker string, ip string, isValidator bo
 
 }
 
+//GetPeersLabelsListFromToml processes a monetcli toml file and returns
+//a string slice
 func GetPeersLabelsListFromToml(configDir string) ([]string, error) {
 	tree, err := common.LoadTomlConfig(configDir)
 	if err != nil {
@@ -89,6 +92,7 @@ func GetPeersLabelsListFromToml(configDir string) ([]string, error) {
 	return GetPeersLabelsList(tree), nil
 }
 
+//GetPeersLabelsList takes a tree and extracts a peer list from it
 func GetPeersLabelsList(tree *toml.Tree) []string {
 	var rtn []string
 

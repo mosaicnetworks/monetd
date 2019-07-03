@@ -16,22 +16,22 @@ import (
 
 var (
 	configFileList = []*configFile{
-		&configFile{sourcefilename: common.MonetcliTomlName + common.TomlSuffix, subfolder: "",
+		{sourcefilename: common.MonetcliTomlName + common.TomlSuffix, subfolder: "",
 			targetfilename: common.MonetdTomlName + common.TomlSuffix, label: "toml", required: true, transformation: true},
-		&configFile{sourcefilename: common.PeersJSON, subfolder: common.BabbleDir,
+		{sourcefilename: common.PeersJSON, subfolder: common.BabbleDir,
 			targetfilename: common.PeersJSON, label: "peers", required: true, transformation: false},
-		&configFile{sourcefilename: common.PeersGenesisJSON, subfolder: common.BabbleDir,
+		{sourcefilename: common.PeersGenesisJSON, subfolder: common.BabbleDir,
 			targetfilename: common.PeersGenesisJSON, label: "genesispeers", required: true, transformation: false},
-		&configFile{sourcefilename: common.GenesisJSON, subfolder: common.EthDir,
+		{sourcefilename: common.GenesisJSON, subfolder: common.EthDir,
 			targetfilename: common.GenesisJSON, label: "genesis", required: true, transformation: false},
-		&configFile{sourcefilename: babble.DefaultKeyfile, subfolder: common.BabbleDir,
-			targetfilename: babble.DefaultKeyfile, label: "babble private key", required: true, transformation: false},
-		&configFile{sourcefilename: common.PwdFile, subfolder: common.EthDir,
+		{sourcefilename: babble.DefaultKeyfile, subfolder: common.BabbleDir,
+			targetfilename: babble.DefaultKeyfile, label: "babble private key", required: false, transformation: false},
+		{sourcefilename: common.PwdFile, subfolder: common.EthDir,
 			targetfilename: common.PwdFile, label: "passphrase doc", required: true, transformation: false},
-		&configFile{sourcefilename: keys.DefaultKeyfile, subfolder: common.EthDir + "/keystore",
-			targetfilename: keys.DefaultKeyfile, label: "keystore", required: true, transformation: false},
-		&configFile{sourcefilename: keys.DefaultKeyfile, subfolder: "",
-			targetfilename: keys.DefaultKeyfile, label: "keystore", required: true, transformation: false},
+		{sourcefilename: keys.DefaultKeyfile, subfolder: common.EthDir + "/keystore",
+			targetfilename: keys.DefaultKeyfile, label: "keystore", required: false, transformation: false},
+		{sourcefilename: keys.DefaultKeyfile, subfolder: "",
+			targetfilename: keys.DefaultKeyfile, label: "keystore", required: false, transformation: false},
 	}
 )
 
@@ -43,6 +43,8 @@ func publishConfig(cmd *cobra.Command, args []string) error {
 	return PublishConfigWithParams(networkConfigDir, monetConfigDir)
 }
 
+//PublishConfigWithParams exposes the publish configuration actions to allow use from
+//wizards
 func PublishConfigWithParams(networkConfigDir string, monetConfigDir string) error {
 	if networkConfigDir == "" {
 		common.Message("networkConfigDir is empty")
@@ -78,7 +80,7 @@ func PublishConfigWithParams(networkConfigDir string, monetConfigDir string) err
 	// Check the location actually exists
 	if common.CheckIfExists(monetConfigDir) {
 		// config directory exists.
-		if !force {
+		if !Force {
 			common.Message("directory already exists. ", monetConfigDir)
 			return errors.New("output config directory already exists. Use --force to rename existing config")
 		}
@@ -154,15 +156,20 @@ func PublishConfigWithParams(networkConfigDir string, monetConfigDir string) err
 		}
 	}
 
+	//TODO Check in node subfolder for the correct key to copy
+	// Also write priv_key - mau need to amend code to look for that.
+
 	//	toml := filepath.Join(networkConfigDir, common.MonetcliTomlName+common.TomlSuffix)
 
 	switch publishTarget {
 	case "simple":
-		//TODO Publish the target
+		//TODO Enable complex publish targets such as multiple aws nodes
 
 	default:
 		return errors.New("unknown publish target")
 	}
+
+	common.MessageWithType(common.MsgInformation, "Publish process completed")
 
 	return nil
 }

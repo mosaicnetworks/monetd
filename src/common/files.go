@@ -34,6 +34,7 @@ func DefaultHomeDir(tomlDir string) (string, error) {
 	return "", errors.New("network: cannot determine a sensible default")
 }
 
+//CheckIsDir checks if file is a directory
 func CheckIsDir(file string) (bool, error) {
 	fi, err := os.Stat(file)
 	if err != nil {
@@ -42,6 +43,7 @@ func CheckIsDir(file string) (bool, error) {
 	return fi.Mode().IsDir(), nil
 }
 
+//CheckIfExists checks if a file / directory exists
 func CheckIfExists(dir string) bool {
 	if _, err := os.Stat(dir); os.IsNotExist(err) {
 		return false
@@ -49,6 +51,8 @@ func CheckIfExists(dir string) bool {
 	return true
 }
 
+//WriteToFile writes a string variable to a file.
+//It overwrites any pre-existing data silently.
 func WriteToFile(filename string, data string) error {
 	file, err := os.Create(filename)
 	if err != nil {
@@ -63,6 +67,9 @@ func WriteToFile(filename string, data string) error {
 	return file.Sync()
 }
 
+//SafeRenameDir renames a folder to folder.~n~ where n is the lowest value
+//where the folder does not already exist.
+//n is capped at 100 - which would require the user to manually tidy the parent folder.
 func SafeRenameDir(origDir string) error {
 	const maxloops = 100
 
@@ -81,6 +88,8 @@ func SafeRenameDir(origDir string) error {
 	return errors.New("you have reached the maximum number of automatic backups. Try removing the .monet.~n~ files")
 }
 
+//CopyFileContents writes the contents to src to a new file dst.
+//This operation is silently destructive
 func CopyFileContents(src, dst string) (err error) {
 
 	Message("Copying from " + src + " to " + dst)
@@ -106,6 +115,7 @@ func CopyFileContents(src, dst string) (err error) {
 	return
 }
 
+//ShowConfigFile echoes the given file to screen
 func ShowConfigFile(filename string) error {
 
 	color.Set(ColourOutput)
