@@ -55,6 +55,7 @@ func bindFlags(cmd *cobra.Command) {
 	cmd.Flags().Int("babble.cache-size", config.Babble.CacheSize, "Number of items in LRU caches")
 	cmd.Flags().Int("babble.sync-limit", config.Babble.SyncLimit, "Max number of Events per sync")
 	cmd.Flags().Int("babble.max-pool", config.Babble.MaxPool, "Max number of pool connections")
+	cmd.Flags().Bool("babble.bootstrap", config.Babble.Bootstrap, "Bootstrap Babble from database")
 
 	// Eth config
 	cmd.Flags().String("eth.listen", config.Eth.EthAPIAddr, "IP:PORT of Monet HTTP API service")
