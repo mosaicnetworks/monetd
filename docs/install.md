@@ -61,7 +61,7 @@ The Monet hub has extensive unit-testing. Use the Go tool to run tests:
 [...]/monetd $ make test
 ```
 
-
+Further documentation can be found in the [tests documentation](test.md).
 
 ## Other Make Commands
 
