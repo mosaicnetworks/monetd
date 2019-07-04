@@ -20,7 +20,8 @@ var VersionCmd = &cobra.Command{
 	commit for this version.
 	`,
 	Run: func(cmd *cobra.Command, args []string) {
-		common.BannerTitle("monetd")
+		common.Banner("monetd")
+		common.BlankLine()
 		fmt.Print(monet.FullVersion())
 	},
 }
