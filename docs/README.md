@@ -8,13 +8,14 @@ They naturally divide into 2 sections:
 
 Full details can found at the links above, but the Quick Start section below may help you where to look. 
 
-## Quick Start
+# Quick Start
 
-The installation process is covered in the [Root Readme](../README.md).
+## Installation
+The installation process is covered in [here](install.md).
 
 ----
-
-The general purpose guided install can be accessed via:
+## Interactive Configuration
+The general purpose guided configuration can be accessed via:
 ```bash
 $ monetcli wizard
 ```
@@ -22,6 +23,7 @@ $ monetcli wizard
 See the wizard section in [Monet CLI docs](monetcli.md) for more information.  
 
 ----
+## Creating a new Test Net
 To set up a new testnet with yourself as one of the initial peers use:
 ```bash
 $ monetcli testnet
@@ -30,6 +32,7 @@ $ monetcli testnet
 See the testnet section [Monet CLI docs](monetcli.md) for more information.  
 
 ----
+## Joining an existing Test Net
 To join an existing testnet use:
 ```bash
 $ monetcli testjoin
