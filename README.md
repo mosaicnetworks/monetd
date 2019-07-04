@@ -24,23 +24,11 @@ Nodes on the Monet Hub run the `monetd` daemon, which is a specific instance of
 [evm-lite](https://github.com/mosaicnetworks/evm-lite)  with 
 [Babble consensus](https://github.com/mosaicnetworks/babble).
 
+
+
 ## Installation
 
-First install dependencies. We use glide to manage dependencies:
-
-```bash
-[...]/monetd$ curl https://glide.sh/get | sh
-[...]/monetd$ make vendor
-```
-
-This will download all dependencies and put them in the **vendor** folder; it
-could take a few minutes.
-
-Then build and install:
-
-```bash
-[...]/monetd$ make install
-```
+Please see the [installation documentation](docs/install.md).
 
 ## Usage
 
