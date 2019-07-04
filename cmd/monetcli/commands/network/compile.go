@@ -107,7 +107,7 @@ func CompileConfigWithParam(configDir string) error {
 		rawmoniker := tree.GetPath([]string{"validators", value, "moniker"}).(string)
 		rawpubkey := tree.GetPath([]string{"validators", value, "pubkey"}).(string)
 		rawisvalidator := tree.GetPath([]string{"validators", value, "validator"}).(bool)
-		//	rawip := tree.GetPath([]string{"validators", value, "ip"}).(string)
+		rawip := tree.GetPath([]string{"validators", value, "ip"}).(string)
 
 		// Convert Hex to Address and back out to get a EIP55 compliant address
 		addr := types.HexToAddress(rawaddr).Hex()
@@ -117,7 +117,7 @@ func CompileConfigWithParam(configDir string) error {
 				return err
 			} */
 		// Non-validators are added to the peer set, but not to the genesis peer set.
-		peer := peerRecord{NetAddr: rawaddr, PubKeyHex: rawpubkey, Moniker: rawmoniker}
+		peer := peerRecord{NetAddr: ip, PubKeyHex: rawpubkey, Moniker: rawmoniker}
 		peers = append(peers, &peer)
 
 		if rawisvalidator {
