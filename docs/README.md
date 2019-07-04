@@ -40,3 +40,20 @@ $ monetcli testjoin
 
 See the testjoin section [Monet CLI docs](monetcli.md) for more information.  
 
+----
+
+# Contents of the docs folder
+
+```
+├── install.md               - installation instructions
+├── monetcli.md              - monetcli command documentation
+├── monetd.md                - monetcfg command documentation
+├── network.md               - monetcli network command docs, linked from monetcli.md
+├── README.md                - this document
+├── smartcontract.md         - requirements for poa smart contract for monet
+├── testnet.md               - monetcli testnet command docs, linked from monetcli.md
+├── wizard.md                - monetcli wizard command docs, linked from monetcli.md
+└── archive                  
+    └── developer.md         - out dated developer doc, scheduled to be removed
+
+```
