@@ -117,7 +117,7 @@ func CompileConfigWithParam(configDir string) error {
 				return err
 			} */
 		// Non-validators are added to the peer set, but not to the genesis peer set.
-		peer := peerRecord{NetAddr: ip, PubKeyHex: rawpubkey, Moniker: rawmoniker}
+		peer := peerRecord{NetAddr: rawip, PubKeyHex: rawpubkey, Moniker: rawmoniker}
 		peers = append(peers, &peer)
 
 		if rawisvalidator {
