@@ -11,9 +11,9 @@ import (
 func newShowCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "show",
-		Short: "show configuration",
+		Short: "show monetcli network configuration",
 		Long: `
-Show configuration.`,
+Shows the monetcli network configuration.`,
 		Args: cobra.ExactArgs(0),
 		RunE: showConfig,
 	}

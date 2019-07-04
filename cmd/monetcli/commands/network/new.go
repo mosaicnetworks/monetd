@@ -13,8 +13,9 @@ func newNewCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "new",
 		Short: "generate new configuration",
-		Long: `
-Create a new configuration.`,
+		Long: `monetcli network new
+
+Creates a new configuration.`,
 		Args: cobra.ExactArgs(0),
 		RunE: newConfig,
 	}

@@ -16,14 +16,11 @@ var RootCmd = &cobra.Command{
 	Short: "Monet-CLI",
 	Long: `Monet-CLI
 	
-	Monetcli is the swiss army knife of tools for the Monet Hub. The README.md in the github
-	repository is a good starting place in the documentation. For quicker reference:
+Monetcli is the swiss army knife of tools for the Monet Hub. The README.md in the github repository is a good starting place in the documentation. For quicker access and a handy reference of flags and options.:
 	
-	monetcli help [subcommand]
+monetcli help [subcommand]
 	
-	provides a handy reference of flags and options. 
-	
-	The best starting points are the commands testnet, testjoin or wizard. `,
+The best starting points are the commands testnet, testjoin or wizard. `,
 }
 
 func init() {

@@ -14,8 +14,11 @@ import (
 //NetworkCmd controls network configuration
 var (
 	NetworkCmd = &cobra.Command{
-		Use:              "network",
-		Short:            "manage monet network configuration",
+		Use:   "network",
+		Short: "manage monet network configuration",
+		Long: `Network
+		
+The network subcommand is used to configure a network of hubs within the monetcli configuration. The compile option builds the genesis file and pushes it to a monetd configuration. The commands available from the network command are sequenced in the wizard, testnet and testjoin commands.`,
 		TraverseChildren: true,
 	}
 
@@ -53,8 +56,8 @@ func newPeersCmd() *cobra.Command {
 		Use:   "peers",
 		Short: "review peers list",
 		Long: `
-Review the Peers list.`,
-		Args: cobra.ExactArgs(0),
+Interactively review the Peers list with the ability to edit / delete entries.`,
+		Args: cobra.ArbitraryArgs,
 		RunE: reviewPeers,
 	}
 
@@ -67,7 +70,7 @@ func NewLocationCmd() *cobra.Command {
 		Use:   "location",
 		Short: "show the location of the configuration files",
 		Long: `monetcli network location
-Shows the location of the configuration files for the monetcli network.`,
+Outputs the location of the configuration files for the monetcli network.`,
 		Args: cobra.ArbitraryArgs,
 		RunE: locationConfig,
 	}
@@ -106,8 +109,9 @@ func newAddCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "add [moniker] [publickey] [ip] [isValidator]",
 		Short: "add key pair",
-		Long: `
-Add a key pair to the configuration.`,
+		Long: `Network Add
+
+Add a peer to the monetcli configuration.`,
 		Args: cobra.ExactArgs(4),
 		RunE: addValidator,
 	}
@@ -134,8 +138,9 @@ func newCompileCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "compile",
 		Short: "compile configuration",
-		Long: `
-compile network configuration.`,
+		Long: `network compile
+
+Compile monetcli network configuration into a monet hub configuration. This includes building the solidity smart contract for proof of authority with the initial peer list baked in, compiling in and placing it in the genesis block. Additionally peers files are written and the mandatory monet configurations are applied on top of the monetcli parameters.`,
 		Args: cobra.ExactArgs(0),
 		RunE: compileConfig,
 	}

@@ -14,10 +14,10 @@ var VersionCmd = &cobra.Command{
 	Short: "show version info",
 	Long: `Monet-CLI Version information
 	
-	This command returns the version number to the monetcli app itself, 
-	and the version of the EVM-Lite, Babble and Geth librarys used to 
-	build it. The suffix (if shown) on the Monet version if the github 
-	commit for this version.
+This command returns the version number of the monetcli app itself, 
+and the version of the EVM-Lite, Babble and Geth librarys used to 
+build it. The suffix (if shown) on the Monet version is the github 
+commit for this version.
 	`,
 	Run: func(cmd *cobra.Command, args []string) {
 		common.Banner("monetd")

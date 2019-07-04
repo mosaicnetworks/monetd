@@ -3,7 +3,7 @@
 
 monetcli provides a suite of tools for configuring and managing a Monet Hub.
 
-There are currently 7 subcommands (listed here in the order they are in this document). 
+There are currently 8 subcommands (listed here in the order they are in this document). 
 
 + [help](#help) offers more help on individual commands. 
 + [version](#version) shows a version number
@@ -20,22 +20,30 @@ You can get more information about the commands available by using the help comm
 ```
 $ monetcli help
 Monet-CLI
+	
+Monetcli is the swiss army knife of tools for the Monet Hub. The README.md in the github repository is a good starting place in the documentation. For quicker access and a handy reference of flags and options.:
+	
+monetcli help [subcommand]
+	
+The best starting points are the commands testnet, testjoin or wizard.
 
 Usage:
   monetcli [command]
 
 Available Commands:
   config      manage monetd configuration
-  help        help about any command
+  help        Help about any command
   keys        an Ethereum key manager
   network     manage monet network configuration
+  testjoin    join monetd testnets
   testnet     manage monetd testnets
   version     show version info
   wizard      wizard to set up a Monet Network
 
 Flags:
-  -h, --help      help for monetcli
-  -v, --verbose   verbose messages
+  -h, --help           help for monetcli
+  -q, --hide-banners   hide banners
+  -v, --verbose        verbose messages
 
 Use "monetcli [command] --help" for more information about a command.
 ```
@@ -44,47 +52,7 @@ Or you can get details of a subcommand:
 
 ```bash
 $ monetcli help keys
-An Ethereum key manager
-
-Usage:
-  monetcli keys [command]
-
-Available Commands:
-  generate    Generate a new keyfile
-  inspect     Inspect a keyfile
-  update      change the passphrase on a keyfile
-
-Flags:
-  -h, --help              help for keys
-      --json              output JSON instead of human-readable format
-      --passfile string   the file that contains the passphrase for the keyfile
-
-Global Flags:
-  -v, --verbose   verbose messages
-
-Use "monetcli keys [command] --help" for more information about a command.
-```
-
-
-## version
-
-This commands displays version information:
-
-```bash
-$ monetcli version
-Monet Version: 0.0.1
-     EVM-Lite Version: 0.2.0
-     Babble Version: 0.4.2
-     Geth Version: 1.8.27
-```
-
-
-
-## keys
-The keys subcommand is used to manage ethereum keys.
-
-```bash
-An Ethereum key manager
+an Ethereum key manager
 
 Usage:
   monetcli keys [command]
@@ -99,8 +67,57 @@ Flags:
       --json              output JSON instead of human-readable format
       --passfile string   the file that contains the passphrase for the keyfile
 
+Global Flags:
+  -v, --verbose        verbose messages
+
 Use "monetcli keys [command] --help" for more information about a command.
 ```
+
+
+## version
+
+This command returns the version number for the monetcli app itself, and the version of the EVM-Lite, Babble and Geth librarys used to build it. The suffix (if shown) on the Monet version is the github commit for this version.
+
+```bash
+$ monetcli version
+Monet Version: 0.0.2-0a516594
+     EVM-Lite Version: 0.2.0
+     Babble Version: 0.4.2
+     Geth Version: 1.8.27
+
+```
+
+
+
+## keys
+The keys subcommand is used to manage ethereum keys.
+
+```bash
+$ monetcli help keys
+Keys
+	
+An Ethereum key manager.
+
+Usage:
+  monetcli keys [command]
+
+Available Commands:
+  generate    generate a new keyfile
+  inspect     inspect a keyfile
+  update      change the passphrase on a keyfile
+
+Flags:
+  -h, --help              help for keys
+      --json              output JSON instead of human-readable format
+      --passfile string   the file that contains the passphrase for the keyfile
+
+Global Flags:
+  -q, --hide-banners   hide banners
+  -v, --verbose        verbose messages
+
+Use "monetcli keys [command] --help" for more information about a command.
+```
+
 The generate command generates a new key pair. You either need to use the \-\-passfile option or enter a pass phrase when prompted by the application.
 ```bash
 $ monetcli keys generate keys.json
@@ -130,33 +147,7 @@ Repeat passphrase:
 
 ## network
 
-The network subcommand deals with **network.toml**, a new file that defines a network. It can be used to generate the datadir files - although it contains no private keys. All network commands can take a flag overriding the default directory - but we anticipate it being little used. 
-
-**monetcli network new** is an interactive tool that allows the user to create a template network.toml. They will choose the following items:
-
-- output directory for network.toml. We don't allow the actual file name to be changed. 
-- which prebaked template to use (choose from a list)
-- choose whether to generate a new key pair and add them as a peer/validator. 
-- which smart contract to use - default to the one in the repo
-
-**monetcli network check** checks whether the network.toml file defines a valid configuration. If the network.toml includes bytecode and solcs version information, it attempt to compile the smart contract and verify the result matches the supplied version. 
-
-**monetcli network show** outputs the current *network.toml* file. 
-
-**monetcli network generate key [ip] [nodename]** generates a new key and adds them as peers / validators. The private keys are placed in a keystore subfolder. 
-
-**monetcli network add key [pubkey] [ip] [nodename]** adds a given key and adds them to the validator set.
-
-The network configuration filter will look like:
-```
-.
-├── genesis.sol
-├── keystore
-│   └── key.json
-└── network.toml
-```
-
-**monetcli network compile [output-dir] [nodename]** takes a network file and generates an actual monet hub configuration. It implicitly runs a network check command. It populates a datadir directory including copying any keys stored within the network configuration folder. If the nodename is specified the configuration for that node is written. It is intended that the node name would allow multiple configurations be generated from the same machine - likely useful for node. The POA contract is compiled to build the genesis block. If there is no bytecode in the network.toml it is added with solcs version. Otherwise the bytecode is validated. 
+The network subcommand deals with **network.toml**, a new file that defines a network. There is a separate [document](network.md) for this command.
 
 ## config
 The config subcommand deals with the actual monetd configuration datadir. 

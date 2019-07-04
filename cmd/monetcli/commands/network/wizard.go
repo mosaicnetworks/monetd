@@ -17,9 +17,9 @@ var WizardCmd = &cobra.Command{
 	Short: "wizard to set up a Monet Network",
 	Long: `Wizard to set up a Monet Network
 	
-	This command provides a wizard interface to the 
-	"monetcli network" commands. This provides a guided interface
-	through the process of configuring a network.`,
+This command provides a wizard interface to the 
+"monetcli network" commands. This provides a guided interface
+through the process of configuring a network.`,
 	RunE: runWizardCmd,
 }
 

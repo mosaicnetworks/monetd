@@ -106,6 +106,7 @@ func GetMonetDefaultConfigKeys(monetConfigDir string) []KeyValue {
 		{Key: "babble.fast-sync", Value: false, Override: false, Answers: []string{"false", "true"}, DataType: "bool"},
 		{Key: "babble.max-pool", Value: "2", Override: false},
 		{Key: "babble.store", Value: true, Override: true},
+		{Key: "babble.bootstrap", Value: true, Override: false},
 	}
 }
 

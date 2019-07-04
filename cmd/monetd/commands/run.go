@@ -19,16 +19,16 @@ func NewRunCmd() *cobra.Command {
 		Short: "run a MONET node",
 		Long: `Run a MONET node.
 	
-	  Start a daemon which acts as a full node on a MONET network. All data and 
-	  configuration are stored under a directory [datadir] controlled by the 
-	  --datadir flag ($HOME/.monet by default on UNIX systems). 
-	  
-	  [datadir] must contain a set of files defining the network that this node is 
-	  attempting to join or create. Please refer to monetcli for a tool to manage 
-	  this configuration. 
-	  
-	  Further options pertaining to the operation of the node are read from the 
-	  [datadir]/monetd.toml file, or overwritten by the following flags.`,
+Start a daemon which acts as a full node on a MONET network. All data and 
+configuration are stored under a directory [datadir] controlled by the 
+--datadir flag ($HOME/.monet by default on UNIX systems). 
+
+[datadir] must contain a set of files defining the network that this node is 
+attempting to join or create. Please refer to monetcli for a tool to manage 
+this configuration. 
+
+Further options pertaining to the operation of the node are read from the 
+[datadir]/monetd.toml file, or overwritten by the following flags.`,
 
 		PreRunE: func(cmd *cobra.Command, args []string) (err error) {
 			logger.WithField("Base", fmt.Sprintf("%+v", config.BaseConfig)).Debug("Config Base")
