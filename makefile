@@ -10,11 +10,11 @@ update:
 	glide update
 
 # install compiles and places the binary in GOPATH/bin
-install: installd installcli
+install: installd installcli installcfg
 
 installd:
 	go install \
-		--ldflags "-X github.com/mosaicnetworks/monetd/src/version.GitCommit=`git rev-parse HEAD`" \
+		--ldflags "-X github.com/mosaicnetworks/monetd/src/version.GitCommit=`git rev-parse HEAD` -X github.com/mosaicnetworks/monetd/src/version.GitBranch=`git symbolic-ref --short HEAD`" \
 		./cmd/monetd
 
 
@@ -22,14 +22,15 @@ installd:
 
 installcfg:
 	go install \
-		--ldflags "-X github.com/mosaicnetworks/monetd/src/version.GitCommit=`git rev-parse HEAD`" \
+		--ldflags "-X github.com/mosaicnetworks/monetd/src/version.GitCommit=`git rev-parse HEAD` -X github.com/mosaicnetworks/monetd/src/version.GitBranch=`git symbolic-ref --short HEAD`" \
 		./cmd/monetcfgsrv
 
 
 installcli:
 	go install \
-		--ldflags "-X github.com/mosaicnetworks/monetd/src/version.GitCommit=`git rev-parse HEAD`" \
+		--ldflags "-X github.com/mosaicnetworks/monetd/src/version.GitCommit=`git rev-parse HEAD` -X github.com/mosaicnetworks/monetd/src/version.GitBranch=`git symbolic-ref --short HEAD`" \
 		./cmd/monetcli
+
 
 docker:
 	go build \
@@ -39,7 +40,21 @@ docker:
 		--ldflags '-extldflags "-static"' \
 		-o ./docker/monetcli ./cmd/monetcli/
 
-test:
-	glide novendor | xargs go test
 
-.PHONY: all vendor install installd installcli test update docker
+testmonetd:
+	@echo "\nMonet Tests\n\n" ; glide novendor | xargs go test | sed -e 's?github.com/mosaicnetworks/?.../?g'
+
+
+testevml:
+	@echo "\nEVM-Lite Tests\n\n" ; cd vendor/github.com/mosaicnetworks/evm-lite ; glide novendor | xargs go test | sed -e 's?github.com/mosaicnetworks/monetd/vendor/github.com/mosaicnetworks/?.../vendor/.../?g'
+
+
+testbabble:
+	@echo "\nBabble Tests\n\n" ;
+#	cd vendor/github.com/mosaicnetworks/babble ;  glide novendor | xargs go test
+
+
+test: testmonetd testevml testbabble
+
+
+.PHONY: all vendor install installd installcli test update docker testmonetd testevml testbabble
