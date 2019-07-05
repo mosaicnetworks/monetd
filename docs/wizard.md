@@ -87,6 +87,8 @@ This option runs checks to ensure that the `network.toml` is in a consistent sta
 
 ## Compile POA Contract
 
+This option generates an actual monet hub configuration. It implicitly runs a network check command. It populates a datadir directory including copying any keys stored within the network configuration folder. If the nodename is specified the configuration for that node is written. It is intended that the node name would allow multiple configurations be generated from the same machine - likely useful for node. The POA contract is compiled to build the genesis block. If there is no bytecode in the network.toml it is added with solcs version. Otherwise the bytecode is validated. **N.B.** this command requires an internet connection to run, unless you have run `monetcli network contract`. The default contract is downloaded directly from github.
+
 [comment]: # (//TODO Add compile section )
 
 ## Generate Key Pair

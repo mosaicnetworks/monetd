@@ -69,7 +69,7 @@ func CompileConfigWithParam(configDir string) error {
 	} else { // NB, we do not write the downloaded template to file. Preferable to get fresh is regenerating.
 		message("Loading: ", common.DefaultSolidityContract)
 		resp, err := http.Get(common.DefaultSolidityContract)
-		if err != nil {
+		if err != nil { //TODO more graceful error handling here. We should degrade gracefully not boot back to the shell
 			message("Error loading: ", common.DefaultSolidityContract)
 			return err
 		}

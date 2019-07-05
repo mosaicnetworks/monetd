@@ -267,9 +267,7 @@ N.B. at this point you are not authorised. You will need to pass the join.json d
 $ monetcli help wizard
 Wizard to set up a Monet Network
 
-This command provides a wizard interface to the 
-"monetcli network" commands. This provides a guided interface
-through the process of configuring a network.
+This command provides a wizard interface to the "monetcli network" commands. This provides a guided interface through the process of configuring a network.
 
 Usage:
   monetcli wizard [flags]
@@ -281,6 +279,7 @@ Global Flags:
   -v, --verbose   verbose messages
 ```
 
+The wizard command is described in a [separate document](wizard.md).
 ----
 
 
