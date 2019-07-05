@@ -9,7 +9,7 @@
  \/_/\/_/\/_/ \/___/  \/_/\/_/ \/____/    \/__/ \/__,_ /
 ```
 
-**//TODO** Feature graphic - probably the monet hub one.
+**//TODO** Feature graphic - probably the `monet` hub one.
 
 ----
 
@@ -31,7 +31,7 @@ For the impatient, there is a [quick start document](docs/README.md), and [insta
 The executables defined in this repository are: 
 
 - [monetd](docs/monetd.md) - the actual Monet Hub node daemon.
-- [monetcli](docs/monetcli.md) - a tool to manage configuration for monetd. 
+- [monetcli](docs/monetcli.md) - a tool to manage configuration for `monetd`. 
 
 ## Overview
 

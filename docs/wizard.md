@@ -4,10 +4,10 @@
 
 ## Table of Contents
 
-	+ [Configuration](#configuration)
-	+ [Main Menu](#main-menu)
-	+ [Peers](#peers)
-	+ [Contract](#contract)
++ [Configuration](#configuration)
++ [Main Menu](#main-menu)
++ [Peers](#peers)
++ [Contract](#contract)
 
 ----
 

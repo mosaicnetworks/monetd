@@ -20,7 +20,7 @@
 
 # Monet Hub tools
 
-monetcli provides a suite of tools for configuring and managing a Monet Hub.
+`monetcli` provides a suite of tools for configuring and managing a Monet Hub.
 
 There are currently 8 subcommands (listed here in the order they are in this document). 
 
@@ -95,7 +95,7 @@ Use "monetcli keys [command] --help" for more information about a command.
 
 ## version
 
-This command returns the version number for the monetcli app itself, and the version of the EVM-Lite, Babble and Geth librarys used to build it. The suffix (if shown) on the Monet version is the github commit for this version.
+This command returns the version number for the `monetcli`, and the version of the EVM-Lite, Babble and Geth librarys used to build it. The suffix (if shown) on the Monet version is the github commit for this version.
 
 ```bash
 $ monetcli version
@@ -169,7 +169,7 @@ Repeat passphrase:
 The network subcommand deals with **network.toml**, a new file that defines a network. There is a separate [document](network.md) for this command.
 
 ## config
-The config subcommand deals with the actual monetd configuration datadir. 
+The config subcommand deals with the actual `monetd` configuration datadir. 
 
 **monet config check** sanity checks the datadir configuration. 
 

@@ -50,21 +50,21 @@ Use "monetcli network [command] --help" for more information about a command.
 ### Parameters
 
 The *monetcli network* command supports some globals parameter flags that can be appled to any of the sub commands:
-+ **\-c**, **\-\-config-dir [file]** specifies the directory containing the network.toml file holding the monetcli configuration (default "$HOME/.monetcli" on Linux). N.B. the name of the actual **network.toml** file cannot be changed. 
++ **\-c**, **\-\-config-dir [file]** specifies the directory containing the network.toml file holding the `monetcli` configuration (default "$HOME/.monetcli" on Linux). N.B. the name of the actual **network.toml** file cannot be changed. 
 + **\-q**, **\-\-hide-banners** hides the banners that appear in some of the interactive commands.
 + **\-v**, **\-\-verbose** turns on extra logging output with more details of the operations being performed. 
 
 
 ### Subcommands
 
-**monetcli network add [moniker] [pubkey] [ip] [isValidator]** takes a given key and adds them to the validator set in the monetcli configuration. N.B. the key is not written to a peers.json file until you invoke *monetcli network compile*.
+**monetcli network add [moniker] [pubkey] [ip] [isValidator]** takes a given key and adds them to the validator set in the monetcli configuration. N.B. the key is not written to a peers.json file until you invoke `monetcli network compile`.
 
 
 **monetcli network check** checks whether the network.toml file defines a valid configuration and all of the required files are present and readable. **In development:** If the network.toml includes bytecode and solcs version information, it attempt to compile the smart contract and verify the result matches the supplied version.
 
 [comment]: # (//TODO remove In development flag when it is no longer in development)
 
-**monetcli network compile** takes a monetcli network configuration and generates an actual monet hub configuration. It implicitly runs a network check command. It populates a datadir directory including copying any keys stored within the network configuration folder. If the nodename is specified the configuration for that node is written. It is intended that the node name would allow multiple configurations be generated from the same machine - likely useful for node. The POA contract is compiled to build the genesis block. If there is no bytecode in the network.toml it is added with solcs version. Otherwise the bytecode is validated. **N.B.** this command requires an internet connection to run, unless you have run *monetcli network contract*. The default contract is downloaded directly from github. 
+**monetcli network compile** takes a monetcli network configuration and generates an actual monet hub configuration. It implicitly runs a network check command. It populates a datadir directory including copying any keys stored within the network configuration folder. If the nodename is specified the configuration for that node is written. It is intended that the node name would allow multiple configurations be generated from the same machine - likely useful for node. The POA contract is compiled to build the genesis block. If there is no bytecode in the network.toml it is added with solcs version. Otherwise the bytecode is validated. **N.B.** this command requires an internet connection to run, unless you have run `monetcli network contract`. The default contract is downloaded directly from github. 
 
 [comment]: # (//TODO verify the checking code is put live)
 
@@ -73,14 +73,14 @@ The *monetcli network* command supports some globals parameter flags that can be
 
 [comment]: # (//TODO - actually write that smartcontract.md file)
 
-**monetcli network generate key [ip] [nodename]** generates a new key and adds them as peers / validators. The private keys are placed in a keystore subfolder. This command is equivalent to running *monetcli key generate* followed by *monetcli network add*
+**monetcli network generate key [ip] [nodename]** generates a new key and adds them as peers / validators. The private keys are placed in a keystore subfolder. This command is equivalent to running `monetcli key generate` followed by `monetcli network add`
 
-**monetcli network location** outputs the location of the monetcli configuration file. 
+**monetcli network location** outputs the location of the `monetcli` configuration file. 
 
 **monetcli network new** creates a new template network.toml. If the target already exists this command will exit without changes unless you specify the \-\-force option. If you do specify the force option, then it will rename the existing configuration with a .~n~ suffix, where n is the lowest integer where the folder does not already exist. 
  
 
-**monetcli network params** is an interactive command to set the monetcli parameters that are pushed to monet hub configuration files. These options are:
+**monetcli network params** is an interactive command to set the `monetcli` parameters that are pushed to monet hub configuration files. These options are:
 
 + **Logging level** controls which messages are written to the logs. Select from the list, they are sorted from outputting the most messages to the fewest. 
 + **eth.listen** controls where EVM-Lite listens. The default :8080 will normally be fine here.

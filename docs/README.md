@@ -1,5 +1,8 @@
 # The Monet Hub
 
+![Monet Logo](assets/monet_logo.png) 
+
+
 ----
 
 ## Table of Contents
@@ -9,6 +12,7 @@
     + [Interactive Configuration](#interactive-configuration)
     + [Creating a new Test Net](#creating-a-new-test-net)
     + [Joining an existing Test Net](#joining-an-existing-test-net)
+    + [Clients](#clients)
 + [Contents of the docs folder](#contents-of-the-docs-folder)
 
 ----
@@ -52,6 +56,24 @@ $ monetcli testjoin
 ```
 
 See the testjoin section [Monet CLI docs](monetcli.md) for more information.  
+
+
+
+----
+## Monet
+To join an existing testnet use:
+```bash
+$ monetcli testjoin
+```
+
+See the testjoin section [Monet CLI docs](monetcli.md) for more information.  
+
+----
+
+## Clients
+
+Clients and wallets configured to be used with the monet hub are described [here](clients.md).
+
 
 ----
 
