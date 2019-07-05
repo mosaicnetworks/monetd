@@ -1,5 +1,18 @@
 #monetcli testnet
 
+
+----
+
+## Table of Contents
+
++ [Configuration Server Installation and Invocation](#configuration-server-installation-and-invocation)
++ [Configuring Peers](#configuring-peers)
++ [Developer Details](#developer-details)
+
+----
+
+
+
 This command builds the configuration for a new test net on separate devices
 
 We invoke a server to co-ordinate between the peers and to share the genesis information for your testnet. Then all the initial (and subsequent peers) can download their configuration from that server. 

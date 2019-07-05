@@ -1,5 +1,15 @@
 # Monetcli network
 
+----
+
+## Table of Contents
+
++ [Parameters](#parameters)
++ [Subcommands](#subcommands)
++ [MonetCli Configuration folder structure](#monetcli-configuration-folder-structure)
+
+----
+
 
 The network subcommand deals with **network.toml**, a new file that defines a network. It can be used to generate the datadir files - although it contains no private keys. All network commands can take a flag overriding the default directory - but we anticipate it being little used. 
 

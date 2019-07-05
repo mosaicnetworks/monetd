@@ -1,4 +1,23 @@
 # Monet-CLI
+
+----
+
+## Table of Contents
+
++ [Monet Hub tools](#monet-hub-tools)
+	+ [help](#help)
+	+ [version](#version)
+	+ [keys](#keys)
+	+ [network](#network)
+	+ [config](#config)
+	+ [testnet](#testnet)
+	+ [testjoin](#testjoin)
+	+ [wizard](#wizard)
++ [Examples](#examples)
+
+----
+
+
 # Monet Hub tools
 
 monetcli provides a suite of tools for configuring and managing a Monet Hub.

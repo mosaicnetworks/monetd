@@ -1,5 +1,18 @@
 # The Monet Hub
 
+----
+
+## Table of Contents
+
++ [Quick Start](#quick-start)
+    + [Installation](#installation)
+    + [Interactive Configuration](#interactive-configuration)
+    + [Creating a new Test Net](#creating-a-new-test-net)
+    + [Joining an existing Test Net](#joining-an-existing-test-net)
++ [Contents of the docs folder](#contents-of-the-docs-folder)
+
+----
+
 The monetd respository contains the tools necessary to run and maintain a validator hub in a Monet network. 
 
 They naturally divide into 2 sections:

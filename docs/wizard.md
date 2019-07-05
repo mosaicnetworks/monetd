@@ -1,7 +1,18 @@
+# monetcli network wizard
+
+----
+
+## Table of Contents
+
+	+ [Configuration](#configuration)
+	+ [Main Menu](#main-menu)
+	+ [Peers](#peers)
+	+ [Contract](#contract)
+
+----
 
 
-
-##Configuration
+## Configuration
 After completing this section successfully, there will a basic configuration file
 
 ---------------------------
@@ -13,7 +24,7 @@ After completing this section successfully, there will a basic configuration fil
 | -| Run monetcli network new \-\-force. If fails panic|Fall through to **next section**|
 
 
-##Main Menu
+## Main Menu
 
 ---------------------------
 |Code|Question|Answers / Outputs|
@@ -22,7 +33,7 @@ After completing this section successfully, there will a basic configuration fil
 
 
 
-##Peers
+## Peers
 This section allows the setting of peers.
 
 ---------------------------
@@ -38,4 +49,4 @@ This section allows the setting of peers.
 |**112**|Is Validator|Run monetcli network generate, jump to **100**|
 
 
-##Contract
+## Contract
