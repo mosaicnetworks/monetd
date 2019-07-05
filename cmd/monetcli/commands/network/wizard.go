@@ -114,7 +114,7 @@ func editWizard(configDir string) (bool, error) {
 	configFile := filepath.Join(configDir, common.MonetcliTomlName+common.TomlSuffix)
 
 	for {
-		common.BannerTitle("Edit Network")
+		common.BannerTitle("edit")
 		common.MessageWithType(common.MsgInformation, "Edit menu for   "+configDir+" ")
 		confirmSelection := common.RequestSelect("Please select an option: ",
 			[]string{

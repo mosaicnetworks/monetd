@@ -7,6 +7,6 @@ import (
 
 func setParams(cmd *cobra.Command, args []string) error {
 	// Call a wrapper function to ease calling from outside cobra
-	common.BannerTitle("Params")
+	common.BannerTitle("params")
 	return common.SetParamsWithParams(configDir)
 }

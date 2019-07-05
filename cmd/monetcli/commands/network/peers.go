@@ -21,7 +21,7 @@ func PeersWizard(configDir string) error {
 
 peerloop:
 	for {
-		common.BannerTitle("Peers")
+		common.BannerTitle("peers")
 
 		tree, err := common.LoadTomlConfig(configDir)
 		if err != nil {
