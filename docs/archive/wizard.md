@@ -21,7 +21,7 @@ After completing this section successfully, there will a basic configuration fil
 |**001**|Location of configuration directory [homeDir] |File Path as a string|
 |-|Check if directory specified exists. If directory does not exist run monetcli network new (if fails panic) and jump to **next section**| |
 |**002**|Directory exists, force creation of new config, backing up the previous version [Y/n]|If No, exit gracefully|
-| -| Run monetcli network new \-\-force. If fails panic|Fall through to **next section**|
+| -| Run monetcli network new `--force`. If fails panic|Fall through to **next section**|
 
 
 ## Main Menu

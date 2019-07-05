@@ -9,6 +9,8 @@
  \/_/\/_/\/_/ \/___/  \/_/\/_/ \/____/    \/__/ \/__,_ /
 ```
 
+![Monet Logo](docs/assets/monet_logo.png)
+
 **//TODO** Feature graphic - probably the `monet` hub one.
 
 ----

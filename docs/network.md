@@ -50,9 +50,9 @@ Use "monetcli network [command] --help" for more information about a command.
 ### Parameters
 
 The *monetcli network* command supports some globals parameter flags that can be appled to any of the sub commands:
-+ **\-c**, **\-\-config-dir [file]** specifies the directory containing the network.toml file holding the `monetcli` configuration (default "$HOME/.monetcli" on Linux). N.B. the name of the actual **network.toml** file cannot be changed. 
-+ **\-q**, **\-\-hide-banners** hides the banners that appear in some of the interactive commands.
-+ **\-v**, **\-\-verbose** turns on extra logging output with more details of the operations being performed. 
++ **`-c`**, **`--config-dir [file]`** specifies the directory containing the network.toml file holding the `monetcli` configuration (default "$HOME/.monetcli" on Linux). N.B. the name of the actual **network.toml** file cannot be changed. 
++ **`-q`**, **`--hide-banners`** hides the banners that appear in some of the interactive commands.
++ **`-v`**, **`--verbose`** turns on extra logging output with more details of the operations being performed. 
 
 
 ### Subcommands
@@ -77,13 +77,13 @@ The *monetcli network* command supports some globals parameter flags that can be
 
 **monetcli network location** outputs the location of the `monetcli` configuration file. 
 
-**monetcli network new** creates a new template network.toml. If the target already exists this command will exit without changes unless you specify the \-\-force option. If you do specify the force option, then it will rename the existing configuration with a .~n~ suffix, where n is the lowest integer where the folder does not already exist. 
+**monetcli network new** creates a new template network.toml. If the target already exists this command will exit without changes unless you specify the `--force` option. If you do specify the force option, then it will rename the existing configuration with a .~n~ suffix, where n is the lowest integer where the folder does not already exist. 
  
 
 **monetcli network params** is an interactive command to set the `monetcli` parameters that are pushed to monet hub configuration files. These options are:
 
 + **Logging level** controls which messages are written to the logs. Select from the list, they are sorted from outputting the most messages to the fewest. 
-+ **eth.listen** controls where EVM-Lite listens. The default :8080 will normally be fine here.
++ **eth.listen** controls where EVM-Lite listens. The default `:8080` will normally be fine here.
 + **eth.cache** is the size of the EVM-Lite cache 
 + **babble.listen** IP:PORT of Babble node, which must exactly match this node's entry in peers.json
 + **babble.service-listen** IP:PORT of Babble HTTP API service

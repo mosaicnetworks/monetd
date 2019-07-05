@@ -35,7 +35,7 @@ There are currently 8 subcommands (listed here in the order they are in this doc
 
 ## help
 
-You can get more information about the commands available by using the help command or the \-\-help flag. Thus you can get top level help: 
+You can get more information about the commands available by using the help command or the `--help` flag. Thus you can get top level help: 
 ```
 $ monetcli help
 Monet-CLI
@@ -137,7 +137,7 @@ Global Flags:
 Use "monetcli keys [command] --help" for more information about a command.
 ```
 
-The generate command generates a new key pair. You either need to use the \-\-passfile option or enter a pass phrase when prompted by the application.
+The generate command generates a new key pair. You either need to use the `--passfile option` or enter a pass phrase when prompted by the application.
 ```bash
 $ monetcli keys generate keys.json
 Passphrase: 
