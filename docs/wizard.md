@@ -9,6 +9,7 @@ The `monetcli wizard`command is an interactive tool for building a monet network
 
 
 + [Invocation](#invocation)
+	+ [Inputs](#inputs)
 + [Configuration Files](#configuration-files)
 	+ [Monetcli Network Configuration Folder](#monetcli-network-configuration-folder)
 + [Edit Menu](#edit-menu)
@@ -31,7 +32,38 @@ The tool can be invoked thus:
 ```bash
 $ monetcli wizard
 ```
+
+## Inputs
+
+There are 2 main classes of inputs for the wizard subcommand:
+
++ Typed responses
++ Selection responses
+
+### Typed Responses
+
+As the name suggests these are prompts where you type your answer in as in this example: 
+
+```
+✔ MonetCLI Configuration Directory Location  : |/home/jon/.monetcli
+```
+
+The tick in the first column denotes that the answer passes verification. You will get a cross if it does not. You can submit an answer by pressing the `Enter` key. The vertical bar character is the cursor - which due to the limitations of the console does not flash. Often a default answer will be prefilled. 
+
+### Selection Responses
+
+For selection responses you use the arrow keys to select a response from a fixed list of responses. The `▸` and underlining denotes the currently selected item. Press the enter key to select a response. 
+
+```
+Use the arrow keys to navigate: ↓ ↑ → ← 
+? Please select an option  : 
+    Exit Without Saving Changes
+    Change Configuration Directory
+    Edit Existing Configuration
+  ▸ Rename Current Directory and Create New Configuration
  
+```
+
 # Configuration Files
  
 ## Monetcli Network Configuration Folder

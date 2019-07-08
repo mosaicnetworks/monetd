@@ -6,6 +6,7 @@
 ## Table of Contents
 
 + [Configuration Server Installation and Invocation](#configuration-server-installation-and-invocation)
++ [Inputs](#inputs)
 + [Configuring Peers](#configuring-peers)
 + [Developer Details](#developer-details)
 
@@ -35,6 +36,40 @@ $ monetcfgsrv
 ```
 
 Just leave this window open and the server running. 
+
+
+
+## Inputs
+
+There are 2 main classes of inputs for the testnet subcommand:
+
++ Typed responses
++ Selection responses
+
+### Typed Responses
+
+As the name suggests these are prompts where you type your answer in as in this example: 
+
+```
+✔ MonetCLI Configuration Directory Location  : |/home/jon/.monetcli
+```
+
+The tick in the first column denotes that the answer passes verification. You will get a cross if it does not. You can submit an answer by pressing the `Enter` key. The vertical bar character is the cursor - which due to the limitations of the console does not flash. Often a default answer will be prefilled. 
+
+### Selection Responses
+
+For selection responses you use the arrow keys to select a response from a fixed list of responses. The `▸` and underlining denotes the currently selected item. Press the enter key to select a response. 
+
+```
+Use the arrow keys to navigate: ↓ ↑ → ← 
+? Please select an option  : 
+    Exit Without Saving Changes
+    Change Configuration Directory
+    Edit Existing Configuration
+  ▸ Rename Current Directory and Create New Configuration
+ 
+```
+
 
 ## Configuring Peers
 
