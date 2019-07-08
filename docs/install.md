@@ -73,7 +73,7 @@ The Monet hub has extensive unit-testing. Use the Go tool to run tests:
 [...]/monetd $ make test
 ```
 
-Further documentation can be found in the [tests documentation](test.md).
+Further documentation can be found in the [tests documentation](test.md). 
 
 ## Other Make Commands
 
@@ -84,5 +84,9 @@ To build binaries for use in docker:
 ```
 
 ----
+
+After installing you may wish to read the [Quick Start docs](README.md).
+
+---- 
 
 <sup>[Documents Index](README.md) | [GitHub repo](https://github.com/mosaicnetworks/monetd) | [Monet](https://monet.network/) | [Mosaic Networks](https://www.babble.io/)</sup>

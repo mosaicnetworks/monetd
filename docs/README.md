@@ -2,7 +2,6 @@
 
 ![Monet Logo](assets/monet_logo.png) 
 
-
 ----
 
 ## Table of Contents
@@ -12,6 +11,7 @@
     + [Interactive Configuration](#interactive-configuration)
     + [Creating a new Test Net](#creating-a-new-test-net)
     + [Joining an existing Test Net](#joining-an-existing-test-net)
+    + [Interactive Configuration](#interactive-configuration)
     + [Clients](#clients)
 + [Contents of the docs folder](#contents-of-the-docs-folder)
 
@@ -31,22 +31,13 @@ Full details can found at the links above, but the Quick Start section below may
 The installation process is covered in [here](install.md).
 
 ----
-## Interactive Configuration
-The general purpose guided configuration can be accessed via:
-```bash
-$ monetcli wizard
-```
-
-See the wizard section in [Monet CLI docs](monetcli.md) for more information.  
-
-----
 ## Creating a new Test Net
 To set up a new testnet with yourself as one of the initial peers use:
 ```bash
 $ monetcli testnet
 ```
 
-See the testnet section [Monet CLI docs](monetcli.md) for more information.  
+See the testnet section [Monet CLI docs](monetcli.md#testnet) for more information.  
 
 ----
 ## Joining an existing Test Net
@@ -57,16 +48,16 @@ $ monetcli testjoin
 
 See the testjoin section [Monet CLI docs](monetcli.md) for more information.  
 
-
-
 ----
-## Monet
-To join an existing testnet use:
+## Interactive Configuration
+The general purpose guided configuration can be accessed via:
 ```bash
-$ monetcli testjoin
+$ monetcli wizard
 ```
 
-See the testjoin section [Monet CLI docs](monetcli.md) for more information.  
+This tool is used for more flexible configurations than the tools above, which offer less options and are thus more straightforward.  See the wizard section in [Monet CLI docs](monetcli.md) for more information.  
+
+ 
 
 ----
 
@@ -79,18 +70,20 @@ Clients and wallets configured to be used with the monet hub are described [here
 
 # Contents of the docs folder
 
-```
-├── install.md               - installation instructions
-├── monetcli.md              - monetcli command documentation
-├── monetd.md                - monetcfg command documentation
-├── network.md               - monetcli network command docs, linked from monetcli.md
-├── README.md                - this document
-├── smartcontract.md         - requirements for poa smart contract for monet
-├── testnet.md               - monetcli testnet command docs, linked from monetcli.md
-├── wizard.md                - monetcli wizard command docs, linked from monetcli.md
-└── archive                  - deprecated docs, scheduled to be removed
 
-```
+
+|Doc|Description|
+|-----------|---------------------------|
+|[install.md](install.md)|installation instructions|
+|[monetcli.md](monetcli.md)|monetcli command documentation|
+|[monetd.md](monetd.md)|monetcfg command documentation|
+|[network.md](network.md)|monetcli network command docs, linked from monetcli.md|
+|[README.md](README.md)|this document
+|[smartcontract.md](smartcontract.md)|requirements for poa smart contract for monet|
+|[testnet.md](testnet.md)|monetcli testnet command docs, linked from monetcli.md|
+|[wizard.md](wizard.md)|monetcli wizard command docs, linked from monetcli.md|
+|archive|deprecated docs, scheduled to be removed|
+
 
 
 ----
