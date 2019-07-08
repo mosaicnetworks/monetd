@@ -98,10 +98,10 @@ The *monetcli network* command supports some globals parameter flags that can be
 You have the opportunity to save or discard your changes at the end of the parameter list. Parameters which have mandatory values in the Monet Hub are not available from this sub command.
 
 
-**monetcli network peers** provides an interactive interface for managing peers. You are initially show a list of all peers. You can select one from that list to view its complete details. From there you may edit or delete the peer. Delete does not touch any assoicated keys - it just removes the credentials from the list that is compiled into the peers.json file. Edit Peers allows you to edit / amend each of the stored fields for that node. **N.B.** you will need to use *network add* or *network generate* to add a peer.  
+**monetcli network peers** provides an interactive interface for managing peers. You are initially show a list of all peers. You can select one from that list to view its complete details. From there you may edit or delete the peer. Delete does not touch any assoicated keys - it just removes the credentials from the list that is compiled into the peers.json file. Edit Peers allows you to edit / amend each of the stored fields for that node. **N.B.** you will need to use `network add` or `network generate` to add a peer.  
 
 
-**monetcli network show** outputs the current *network.toml* file to screen. 
+**monetcli network show** outputs the current `network.toml` file to screen. 
 
 
 

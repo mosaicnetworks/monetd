@@ -207,7 +207,24 @@ func monetDConfigWizard(networkConfigDir string, monetConfigDir string) error {
 
 		conf.Force = true
 	}
-	conf.PublishConfigWithParams(networkConfigDir, monetConfigDir)
+	err := conf.PublishConfigWithParams(networkConfigDir, monetConfigDir)
+	if err != nil {
+		common.MessageWithType(common.MsgDebug, "Error in monetDConfigWizard: ", err)
+		return err
+	}
+
+	for {
+
+		selection := common.RequestSelect("Choose an option", []string{common.WizardShow, common.WizardExit}, common.WizardExit)
+		if selection == common.WizardExit {
+			return nil
+		}
+
+		_ = conf.ShowConfigParams(monetConfigDir)
+
+		common.ContinuePrompt()
+
+	}
 
 	return nil
 }

@@ -169,14 +169,50 @@ Repeat passphrase:
 The network subcommand deals with **network.toml**, a new file that defines a network. There is a separate [document](network.md) for this command.
 
 ## config
+
 The config subcommand deals with the actual `monetd` configuration datadir. 
+
+```bash
+$ monetcli config help
+monetcli config
+
+The config subcommands manage the monet configuration file, as used by 
+the monetd server process.
+
+Usage:
+  monetcli config [command]
+
+Available Commands:
+  check       check the configuration
+  location    show the location of the configuration files
+  publish     publish a monet node configuration from the monetcli configuration
+  show        show the configuration files
+
+Flags:
+  -c, --config-dir string         the directory containing monet nodes configurations (default "/home/jon/.monetcli")
+  -h, --help                      help for config
+  -m, --monet-config-dir string   the directory containing monet nodes configurations (default "/home/jon/.monet")
+
+Global Flags:
+  -q, --hide-banners   hide banners
+  -v, --verbose        verbose messages
+
+Use "monetcli config [command] --help" for more information about a command.
+```
+
 
 **monet config check** sanity checks the datadir configuration. 
 
+**monet config location** displays the location of a monetd configuration. 
+
 **monet config publish** publishes a monetcli configuration to a monetd configuration. 
+
+**monet config show** echoes the monet.toml configuration of a monetd configuration to screen. 
+
 
 
 ## testnet
+
 **testnet** is a menu driven wizard for building a test network, enabling peers to create and share a common configuration, via a server, before starting the network
 
 This command is documented in [Testnet Docs](testnet.md) 
@@ -280,6 +316,7 @@ Global Flags:
 ```
 
 The wizard command is described in a [separate document](wizard.md).
+
 ----
 
 

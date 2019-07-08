@@ -1,6 +1,8 @@
 package config
 
 import (
+	"path/filepath"
+
 	"github.com/mosaicnetworks/monetd/src/common"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -13,8 +15,8 @@ var (
 		Short: "manage monetd configuration",
 		Long: `monetcli config
 		
-		The config subcommands manage the monet configuration file, as used by 
-		the monetd server process. `,
+The config subcommands manage the monet configuration file, as used by 
+the monetd server process. `,
 		TraverseChildren: true,
 	}
 
@@ -33,6 +35,7 @@ func init() {
 		NewCheckCmd(),
 		NewPublishCmd(),
 		NewLocationCmd(),
+		NewShowCmd(),
 	)
 
 	defaultConfigDir, _ := common.DefaultHomeDir(common.MonetcliTomlDir)
@@ -43,7 +46,7 @@ func init() {
 	viper.BindPFlags(ConfigCmd.Flags())
 }
 
-//NewLocationCmd defines the CLI command config check
+//NewLocationCmd shows the config file path
 func NewLocationCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "location",
@@ -52,6 +55,19 @@ func NewLocationCmd() *cobra.Command {
 Shows the location of the configuration files for the monetd server.`,
 		Args: cobra.ArbitraryArgs,
 		RunE: locationConfig,
+	}
+	return cmd
+}
+
+//NewShowCmd echoes the config file to screen
+func NewShowCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "show",
+		Short: "show the configuration files",
+		Long: `monetcli config location
+Shows the monetd configuration files for the monetd server.`,
+		Args: cobra.ArbitraryArgs,
+		RunE: showConfig,
 	}
 	return cmd
 }
@@ -91,4 +107,16 @@ func locationConfig(cmd *cobra.Command, args []string) error {
 	common.MessageWithType(common.MsgInformation, "The Monet Configuration files are located at:")
 	common.MessageWithType(common.MsgInformation, monetConfigDir)
 	return nil
+}
+
+func showConfig(cmd *cobra.Command, args []string) error {
+	ShowConfigParams(monetConfigDir)
+	return nil
+}
+
+//ShowConfigParams outputs the monetd configuration file for monetConfigDir
+func ShowConfigParams(monetConfigDir string) error {
+	filename := filepath.Join(monetConfigDir, common.MonetdTomlName+common.TomlSuffix)
+	common.MessageWithType(common.MsgInformation, "Displaying file: ", filename)
+	return common.ShowConfigFile(filename)
 }
