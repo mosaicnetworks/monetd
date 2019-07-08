@@ -21,7 +21,7 @@ We invoke a server to co-ordinate between the peers and to share the genesis inf
 The testnet subcommand facilitates moving the configuration files into the right folders, and ensuring that the same initial configuration is shared between all of the nodes.
 
 ## Configuration Server Installation and Invocation
-One **one** machine only
+On **one** machine only
 
 We install as follows:
 ```bash
