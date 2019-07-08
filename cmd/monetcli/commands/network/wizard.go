@@ -170,8 +170,6 @@ func editWizard(configDir string) (bool, error) {
 				return false, err
 			}
 			common.ContinuePrompt()
-			//TODO Load config menu here
-			// When we have finished with the config, we are done
 			return true, nil
 
 		case common.WizardGenerate:

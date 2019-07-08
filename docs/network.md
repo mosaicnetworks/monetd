@@ -71,7 +71,6 @@ The *monetcli network* command supports some globals parameter flags that can be
 
 **monetcli network contract [contract]** changes the contract template to use for POA in Monet Hub. The smart contract must comply with the requirements outline in [this document](smartcontract.md). If this command is not used, then a default contract sourced directly from github is used. 
 
-[comment]: # (//TODO - actually write that smartcontract.md file)
 
 **monetcli network generate key [ip] [nodename]** generates a new key and adds them as peers / validators. The private keys are placed in a keystore subfolder. This command is equivalent to running `monetcli key generate` followed by `monetcli network add`
 
