@@ -1,8 +1,6 @@
 # Monet Hub POA Smart Contract
 
-This document describes the requirements for a smart contract to implement POA in a Monet hub. 
-[comment]: # (//TODO write this document)
-
+This document describes the requirements for a smart contract to implement POA in a Monet hub. The default contract supplied with `monetcli` already meets these requirements. 
 
 ----
 
@@ -147,5 +145,39 @@ The following events are emitted by the smart contract. It is envisaged that the
 
 ## Generated Genesis Whitelist Section
 
+The template contract has a block of code delimited by the commments `//GENERATED GENESIS BEGIN` and `//GENERATED GENESIS END`. In the `monetcli network compile` command (or its `wizard`, `testnet` or `testjoin` counterpart) that block of code is replaced with generated code. That code is customised to include the initial authorised peers list in the genesis block. 
 
+A sample generated block is included below. 
 
+```
+//GENERATED GENESIS BEGIN 
+  
+    address constant initWhitelist0 = 0xDc3062F7E88C456c2aD6EeaAc2D6Da4034F6CD7C;
+    bytes32 constant initWhitelistMoniker0 = "node0";
+    address constant initWhitelist1 = 0xdB77c5DBb8c39a82F131252853000E8691a772E1;
+    bytes32 constant initWhitelistMoniker1 = "node1";
+    address constant initWhitelist2 = 0xe9fa241921dF673E932B173C1a41bc532Db4C330;
+    bytes32 constant initWhitelistMoniker2 = "node2"; 
+ 
+ 
+    function processGenesisWhitelist() private 
+    { 
+     addToWhitelist(initWhitelist0, initWhitelistMoniker0);
+     addToWhitelist(initWhitelist1, initWhitelistMoniker1);
+     addToWhitelist(initWhitelist2, initWhitelistMoniker2); 
+    } 
+ 
+ 
+    function isGenesisWhitelisted(address _address) pure private returns (bool) 
+    { 
+        return (  ( initWhitelist0 == _address ) || ( initWhitelist1 == _address ) || ( initWhitelist2 == _address ) ); 
+    } 
+ 
+ //GENERATED GENESIS END 
+```
+
+The following functions much be defined in the generated block as they are referenced in the non-generated code. 
+```
+function processGenesisWhitelist() private 
+function isGenesisWhitelisted(address _address) pure private returns (bool) 
+```
