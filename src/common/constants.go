@@ -50,14 +50,14 @@ const (
 	PeersGenesisJSONTarget = "babble/peers.genesis.json"
 	GenesisJSONTarget      = "eth/genesis.json"
 
-//TODO Change this value when monetd repo is public	
-	DefaultSolidityContract = "https://raw.githubusercontent.com/mosaicnetworks/evm-lite/poa/e2e/smart-contracts/monet.sol
-//	DefaultSolidityContract = "https://raw.githubusercontent.com/mosaicnetworks/monetd/master/smart-contract/genesis.sol"	
-	TemplateContract        = "template.sol"
-	GenesisContract         = "contract0.sol"
-	GenesisABI              = "contract0.abi"
-	DefaultAccountBalance   = "1234000000000000000000"
-	DefaultContractAddress  = "abbaabbaabbaabbaabbaabbaabbaabbaabbaabba"
+	//TODO Change this value when monetd repo is public
+	DefaultSolidityContract = "https://raw.githubusercontent.com/mosaicnetworks/evm-lite/poa/e2e/smart-contracts/monet.sol"
+	//	DefaultSolidityContract = "https://raw.githubusercontent.com/mosaicnetworks/monetd/master/smart-contract/genesis.sol"
+	TemplateContract       = "template.sol"
+	GenesisContract        = "contract0.sol"
+	GenesisABI             = "contract0.abi"
+	DefaultAccountBalance  = "1234000000000000000000"
+	DefaultContractAddress = "abbaabbaabbaabbaabbaabbaabbaabbaabbaabba"
 )
 
 func init() {
