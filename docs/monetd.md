@@ -243,3 +243,7 @@ host:-$ curl http://[api_addr]/info | json_pp
 
 Please refer to [EVM-Lite CLI](https://github.com/mosaicnetworks/evm-lite-cli)
 for Javascript utilities and a CLI to interact with the API.
+
+----
+
+<sup>[Documents Index](README.md) | [GitHub repo](https://github.com/mosaicnetworks/monetd) | [Monet](https://monet.network/) | [Mosaic Networks](https://www.babble.io/)</sup>

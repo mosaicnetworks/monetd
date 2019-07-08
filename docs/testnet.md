@@ -179,4 +179,6 @@ The testnet wizard places its files in $HOME/.monetcli/testnet (on Linux, other 
 └── pwd.txt
 ```
 
+----
 
+<sup>[Documents Index](README.md) | [GitHub repo](https://github.com/mosaicnetworks/monetd) | [Monet](https://monet.network/) | [Mosaic Networks](https://www.babble.io/)</sup>

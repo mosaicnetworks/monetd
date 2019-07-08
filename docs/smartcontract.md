@@ -19,14 +19,12 @@ This document describes the requirements for a smart contract to implement POA i
 
 ----
 
-
-
-
 ## Solidity
 
 ### Version
 
 The first line of the contract is a pragma specifying the solidity version required. Currently this is set to greater than or equal to `0.4.22`.
+
 ```
 pragma solidity >=0.4.22;
 ```
@@ -181,3 +179,7 @@ The following functions much be defined in the generated block as they are refer
 function processGenesisWhitelist() private 
 function isGenesisWhitelisted(address _address) pure private returns (bool) 
 ```
+
+----
+
+<sup>[Documents Index](README.md) | [GitHub repo](https://github.com/mosaicnetworks/monetd) | [Monet](https://monet.network/) | [Mosaic Networks](https://www.babble.io/)</sup>

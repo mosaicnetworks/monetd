@@ -88,7 +88,11 @@ Clients and wallets configured to be used with the monet hub are described [here
 ├── smartcontract.md         - requirements for poa smart contract for monet
 ├── testnet.md               - monetcli testnet command docs, linked from monetcli.md
 ├── wizard.md                - monetcli wizard command docs, linked from monetcli.md
-└── archive                  
-    └── developer.md         - out dated developer doc, scheduled to be removed
+└── archive                  - deprecated docs, scheduled to be removed
 
 ```
+
+
+----
+
+<sup>[Documents Index](README.md) | [GitHub repo](https://github.com/mosaicnetworks/monetd) | [Monet](https://monet.network/) | [Mosaic Networks](https://www.babble.io/)</sup>

@@ -389,4 +389,6 @@ $ monetcli network compile
 ```
 The compile option, takes the specified contract if provided, otherwise it downloads a contract from github, and inserts the initial peer set into the smart contract. This contract is then compiled and inserted into a generated genesis.json file. 
 
+----
 
+<sup>[Documents Index](README.md) | [GitHub repo](https://github.com/mosaicnetworks/monetd) | [Monet](https://monet.network/) | [Mosaic Networks](https://www.babble.io/)</sup>

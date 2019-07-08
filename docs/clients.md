@@ -51,3 +51,6 @@ yarn global add evm-lite-cli
 
 [comment]: # (//TODO Add some words about evm-lite-dashboard )
 
+----
+
+<sup>[Documents Index](README.md) | [GitHub repo](https://github.com/mosaicnetworks/monetd) | [Monet](https://monet.network/) | [Mosaic Networks](https://www.babble.io/)</sup>

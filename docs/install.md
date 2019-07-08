@@ -83,4 +83,6 @@ To build binaries for use in docker:
 [...]/monetd$ make docker
 ```
 
+----
 
+<sup>[Documents Index](README.md) | [GitHub repo](https://github.com/mosaicnetworks/monetd) | [Monet](https://monet.network/) | [Mosaic Networks](https://www.babble.io/)</sup>
