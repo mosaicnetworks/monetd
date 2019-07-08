@@ -25,7 +25,7 @@ This document describes the requirements for a smart contract to implement POA i
 
 The first line of the contract is a pragma specifying the solidity version required. Currently this is set to greater than or equal to `0.4.22`.
 
-```
+```php
 pragma solidity >=0.4.22;
 ```
 
@@ -42,9 +42,9 @@ The contract is embedded in the genesis block. This means that there is no conve
 
 Babble calls one of the following functions to verify whether a peer making a join request as access. Any replacement smark contract aill need to implement these functions. 
 
-```
-   function checkAuthorised(address _address) public view returns (bool)
-   function checkAuthorisedPublicKey(bytes32  _publicKey) public view returns (bool)
+```c
+function checkAuthorised(address _address) public view returns (bool)
+function checkAuthorisedPublicKey(bytes32  _publicKey) public view returns (bool)
 ```
 
 
@@ -53,7 +53,7 @@ Babble calls one of the following functions to verify whether a peer making a jo
 
 Functions that the client tools expect to be present. 
 
-```
+```c
 function submitNominee (address _nomineeAddress, bytes32 _moniker) public payable checkAuthorisedModifier(msg.sender)
 function castNomineeVote(address _nomineeAddress, bool _accepted) public payable checkAuthorisedModifier(msg.sender) returns (bool decided, bool voteresult)
 ```
@@ -62,7 +62,7 @@ function castNomineeVote(address _nomineeAddress, bool _accepted) public payable
 
 This function decides when a vote is complete. Currently it requires all people on the whitelist to approve. It is anticipated that some form of majority voting would be implemented to prevent paralysis if a peer drops out. 
 
-```
+```c
 function checkForNomineeVoteDecision(address _nomineeAddress) private returns (bool decided, bool voteresult)
 ```
 
@@ -70,7 +70,7 @@ function checkForNomineeVoteDecision(address _nomineeAddress) private returns (b
 
 The following information calls are available:
 
-```
+```c
 function getNomineeElection(address _address) public view returns (address nominee, address proposer, uint yesVotes, uint noVotes)
 function getNomineeCount() public view returns (uint count)
 function getNomineeAddressFromIdx(uint idx) public view returns (address NomineeAddress)
@@ -89,7 +89,7 @@ function getMoniker(address _address) public view returns (bytes32 moniker)
 
 The following events are emitted by the smart contract. It is envisaged that the same events would be emitted by any replacement contract. 
 
-```
+```c
 /// @notice Event emitted when the vote was reached a decision
 /// @param _nominee The address of the nominee
 /// @param _yesVotes The total number of yes votes cast for the nominee to date
@@ -148,7 +148,7 @@ The template contract has a block of code delimited by the commments `//GENERATE
 
 A sample generated block is included below. 
 
-```
+```c
 //GENERATED GENESIS BEGIN 
   
     address constant initWhitelist0 = 0xDc3062F7E88C456c2aD6EeaAc2D6Da4034F6CD7C;
@@ -176,7 +176,7 @@ A sample generated block is included below.
 ```
 
 The following functions much be defined in the generated block as they are referenced in the non-generated code. 
-```
+```c
 function processGenesisWhitelist() private 
 function isGenesisWhitelisted(address _address) pure private returns (bool) 
 ```
