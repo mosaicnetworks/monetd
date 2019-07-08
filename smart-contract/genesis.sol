@@ -433,5 +433,10 @@ contract POA_Genesis {
 		return (monikerList[_address]);
 	}
 
-}
+        function getCurrentNomineeVotes(address _address) public view returns (uint yes, uint no)
+    {
+       if (! isNominee(_address)) {return (yes, no);}
+        return (nomineeList[_address].yesVotes,nomineeList[_address].noVotes);
+    }
 
+}

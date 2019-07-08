@@ -75,6 +75,7 @@ function getNomineeElection(address _address) public view returns (address nomin
 function getNomineeCount() public view returns (uint count)
 function getNomineeAddressFromIdx(uint idx) public view returns (address NomineeAddress)
 function getNomineeElectionFromIdx(uint idx) public view returns (address nominee, address proposer, uint yesVotes, uint noVotes)
+function getCurrentNomineeVotes(address _address) public view returns (uint yes, uint no)
 function getWhiteListCount() public view returns (uint count)
 function getWhiteListAddressFromIdx(uint idx) public view returns (address WhiteListAddress)
 function getYesVoteCount(address _nomineeAddress)  public view returns (uint count)
