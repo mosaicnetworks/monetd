@@ -28,7 +28,7 @@ Full details can found at the links above, but the Quick Start section below may
 # Quick Start
 
 ## Installation
-The installation process is covered in [here](install.md).
+The installation process is covered in [the installation instructions](install.md).
 
 ----
 ## Creating a new Test Net
@@ -38,6 +38,8 @@ $ monetcli testnet
 ```
 
 See the testnet section [Monet CLI docs](monetcli.md#testnet) for more information.  
+
+**N.B. You will need access to a running `monetcfgsrv` instance as described in the testnet section and the linked document.** 
 
 ----
 ## Joining an existing Test Net

@@ -212,6 +212,8 @@ func testNetWizard() error {
 		}
 	}
 
+	common.MessageWithType(common.MsgInformation, "The configuration server is a running instance of monetcfgsrv, which should be run by one of the initial peers. If you are running it, you can use the localhost default address, otherwise you need to ask the person running it for their IP address.")
+
 cfgserverloop:
 	for {
 
@@ -225,6 +227,10 @@ cfgserverloop:
 		if checkIsLiveServer(CfgServer) {
 			break cfgserverloop
 		}
+
+		common.MessageWithType(common.MsgWarning, "The server at that address is not responding.")
+		common.MessageWithType(common.MsgWarning, "Please enter the address of a machine running monetcfgsrv.")
+		common.MessageWithType(common.MsgWarning, "The address should end with :8080.")
 	}
 
 	if !jumpToPublish {
@@ -390,6 +396,8 @@ func publishWizard() error {
 
 publishloop:
 	for {
+		common.MessageWithType(common.MsgInformation, "Choose publish to build the configuration files.")
+		common.MessageWithType(common.MsgInformation, "Choose check to see if another peer has built them and if so, use them.")
 
 		selectedOption := common.RequestSelect("Choose your action", []string{CheckIfPublished, Publish, Exit}, CheckIfPublished)
 		switch selectedOption {
@@ -398,6 +406,10 @@ publishloop:
 		case CheckIfPublished:
 			if checkIfPublished() {
 				break publishloop
+			} else {
+
+				common.MessageWithType(common.MsgInformation, "Configuration has not been published yet.")
+				common.ContinuePrompt()
 			}
 		case Publish:
 			err := publish()

@@ -38,7 +38,6 @@ $ monetcfgsrv
 Just leave this window open and the server running. 
 
 
-
 ## Inputs
 
 There are 2 main classes of inputs for the testnet subcommand:
@@ -93,8 +92,12 @@ The first question asked is the address of the configuration server. If you are 
 
 ```bash
 $ monetcli testnet
+The configuration server is a running instance of monetcfgsrv, which should be run by one of the initial peers. If you are running it, you can use the localhost default address, otherwise you need to ask the person running it for their IP address.
 ✔ Configuration Server:  : |http://localhost:8088
 ```
+
+**N.B.** if the configuration server is not running at the URL you enter, you will be prompted to enter another URL. You cannot proceed without entering the URL of a running configuration server. 
+
 
 Next you are asked to enter, and re-enter to confirm, a passphrase to secure your keys. Do not lose this phrase as you will not be able to use the account if you do.
 
@@ -126,6 +129,8 @@ URL      :  http://localhost:8088/addpeer
 response Status: 200 OK
 response Headers: map[Content-Length:[4] Content-Type:[text/plain; charset=utf-8] Date:[Mon, 01 Jul 2019 11:37:39 GMT]]
 response Body: true
+Choose publish to build the configuration files.
+Choose check to see if another peer has built them and if so, use them.
 Use the arrow keys to navigate: ↓ ↑ → ← 
 ? Choose your action  : 
   ▸ Check if published
@@ -133,7 +138,7 @@ Use the arrow keys to navigate: ↓ ↑ → ←
     Exit
 
 ```
-Check if published polls the monetcfgsrv to check whether the configuration for this network has been published. 
+Check if published polls the monetcfgsrv to check whether the configuration for this network has been published - i.e. whether another one of the peers has already built the configuration files by selecting the publish option. 
 
 You should get each of your initial set of peers to this stage before one of them selects the Publish... option. You can see the peers that have been created by viewing the web page: http://localhost:8088/peersjson where localhost can be replaced with the IP address of the device running monetcfgsrv.
 
