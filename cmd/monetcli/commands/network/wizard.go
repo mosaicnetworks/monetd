@@ -224,7 +224,7 @@ func monetDConfigWizard(networkConfigDir string, monetConfigDir string) error {
 
 	}
 
-	return nil
+	//	return nil
 }
 
 func checkConfigurationWizard(configDir string) error {

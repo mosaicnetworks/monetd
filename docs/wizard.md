@@ -121,8 +121,6 @@ This option runs checks to ensure that the `network.toml` is in a consistent sta
 
 This option generates an actual monet hub configuration. It implicitly runs a network check command. It populates a datadir directory including copying any keys stored within the network configuration folder. If the nodename is specified the configuration for that node is written. It is intended that the node name would allow multiple configurations be generated from the same machine - likely useful for node. The POA contract is compiled to build the genesis block. If there is no bytecode in the network.toml it is added with solcs version. Otherwise the bytecode is validated. **N.B.** this command requires an internet connection to run, unless you have run `monetcli network contract`. The default contract is downloaded directly from github.
 
-[comment]: # (//TODO Add compile section )
-
 ## Generate Key Pair
 
 Generate Key Pair generates a new public and private key pair, and adds it as validator to the monetcli network configuration.
@@ -161,7 +159,6 @@ You have the opportunity to save or discard your changes at the end of the param
 
 Peers provides an interactive interface for managing peers. You are initially show a list of all peers. You can select one from that list to view its complete details. From there you may edit or delete the peer. Delete does not touch any assoicated keys - it just removes the credentials from the list that is compiled into the peers.json file. Edit Peers allows you to edit / amend each of the stored fields for that node. **N.B.** you will need to use `Generate Key Pair` or `Add Peer` options from the parent menu to add a peer.
 
-[comment]: # (//TODO Add peers section )
 
 ## Show Configuration
 
