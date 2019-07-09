@@ -70,7 +70,12 @@ func CompileConfigWithParam(configDir string) error {
 		message("Loading: ", common.DefaultSolidityContract)
 		resp, err := http.Get(common.DefaultSolidityContract)
 		if err != nil { //TODO more graceful error handling here. We should degrade gracefully not boot back to the shell
+			common.MessageWithType(common.MsgError, "Could not load the standard poa smart contract from GitHub. Aborting.")
+			common.MessageWithType(common.MsgError, "You can specify the contract explicitly using the standard one from [...monetd]/smart-contract/genesis.sol")
+			common.MessageWithType(common.MsgInformation, "monetcli network contract [...monetd]/smart-contract/genesis.sol")
+
 			message("Error loading: ", common.DefaultSolidityContract)
+
 			return err
 		}
 		defer resp.Body.Close()

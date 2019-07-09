@@ -22,6 +22,10 @@ commit for this version.
 	Run: func(cmd *cobra.Command, args []string) {
 		common.Banner("monetd")
 		common.BlankLine()
+
+		common.FaceOut(common.ColourInfo)
+
+		common.BlankLine()
 		fmt.Print(monet.FullVersion())
 	},
 }
