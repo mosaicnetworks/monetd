@@ -21,7 +21,7 @@
 
 ## Ethereum with Babble consensus
 
-We took the [Go-Ethereum](https://github.com/ethereum/go-ethereum)
+To build the Monet Hub solution, we took the [Go-Ethereum](https://github.com/ethereum/go-ethereum)
 implementation (Geth) and extracted the EVM and Trie components to create a
 lean and modular version with interchangeable consensus.
 
@@ -38,12 +38,18 @@ same transactions in the same order. Ethereum uses a Blockchain and a Proof of
 Work consensus algorithm. EVM-Lite makes it easy to use any consensus system,
 including [Babble](https://github.com/mosaicnetworks/babble).
 
+We have taken EVM-Lite and Babble and surrounded them with a thin wrapper to 
+encapsulate the Monet Hub solution in a single repository. 
+
+
 ## USAGE
 
 All the configuration required to run a node is stored under a directory with a 
 very specific structure. By default, `monetd` will look for this directory in 
 `$HOME/.monet` (on UNIX systems), but it is possible to override this with the 
-`--datadir` flag.
+`--datadir` flag. You would not normally need to access these configuration files 
+directly. The `monetcli` tool provides interactive and CLI interfaces to set up
+a Monet network. 
 
 `datadir` must contain a set of files defining the network that this node is 
 attempting to join or create. Please refer to `monetcli` for a tool to manage 
@@ -58,7 +64,8 @@ In particular:
 * **babble/priv_key**: contains the validator's private key for Babble.
 
 Further options pertaining to the operation of the node are read from the 
-[datadir]/monetd.toml file, or overwritten by the following flags.
+[datadir]/monetd.toml file, or overwritten by the following flags. It is envisaged 
+that you would not need to use these flags in a production environment. 
 
 ```
 Flags:
@@ -81,7 +88,7 @@ Example of a monet.toml file:
 [babble]
 heartbeat = "50ms"
 timeout = "200ms"
-listen = ":1337"
+listen = "192.168.1.101:1337"
 sync-limit = 500
 
 [eth]
@@ -106,7 +113,10 @@ host:~/.monetd$ tree
 
 The Ethereum genesis file defines Ethereum accounts and is stripped of all the 
 Ethereum POW stuff. This file is useful to predefine a set of accounts that own 
-all the initial Ether at the inception of the network.
+all the initial Ether at the inception of the network. N.B. in a Monet environment
+you would need to edit the `genesis.json` file after compiling the POA smart contract
+into a `genesis.json` file. Monet hubs have a `poa` section in addition to the `alloc` 
+section in the `genesis.json` file. 
 
 Example Ethereum genesis.json defining two account:
 ```json
