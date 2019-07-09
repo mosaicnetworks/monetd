@@ -6,7 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"net"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -278,7 +277,7 @@ func generateKey() (peer, error) {
 	moniker = common.RequestString("Enter your moniker: ", "")
 
 	// confirm your ipS
-	ip = common.RequestString("Enter your ip without the port: ", getMyIP())
+	ip = common.RequestString("Enter your ip without the port: ", common.GetMyIP())
 
 	// request password
 passwordloop:
@@ -366,24 +365,6 @@ func checkIsLiveServer(addr string) bool {
 	}
 
 	return true
-}
-
-func getMyIP() string {
-	addrs, err := net.InterfaceAddrs()
-	if err != nil {
-		return ""
-	}
-
-	for _, a := range addrs {
-		if ipnet, ok := a.(*net.IPNet); ok && !ipnet.IP.IsLoopback() {
-			if ipnet.IP.To4() != nil {
-
-				return ipnet.IP.String()
-			}
-		}
-	}
-
-	return ""
 }
 
 func publishWizard() error {
@@ -679,7 +660,7 @@ confirmloop:
 
 func generateMonetdToml() error {
 
-	ip := common.RequestString("Enter your ip without the port: ", getMyIP())
+	ip := common.RequestString("Enter your ip without the port: ", common.GetMyIP())
 	defaultMonetConfigDir, _ := common.DefaultHomeDir(common.MonetdTomlDir)
 
 	toml := `datadir = "` + defaultMonetConfigDir + `"
@@ -721,7 +702,7 @@ func updateEvmlcConfig() error {
 	}
 
 	tree.SetPath([]string{"storage", "keystore"}, keystoreFile)
-	tree.SetPath([]string{"connection", "host"}, getMyIP())
+	tree.SetPath([]string{"connection", "host"}, common.GetMyIP())
 
 	if myAddress != "" {
 		tree.SetPath([]string{"defaults", "from"}, myAddress)

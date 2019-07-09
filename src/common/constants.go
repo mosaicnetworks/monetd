@@ -98,7 +98,7 @@ func GetMonetDefaultConfigKeys(monetConfigDir string) []KeyValue {
 		{Key: "eth.cache", Value: "128", Override: false},
 
 		{Key: "babble.datadir", Value: filepath.Join(monetConfigDir, BabbleDir), Override: true},
-		{Key: "babble.listen", Value: ":1337", Override: false},
+		{Key: "babble.listen", Value: GetMyIP() + ":1337", Override: false},
 		{Key: "babble.service-listen", Value: ":8000", Override: false},
 		{Key: "babble.heartbeat", Value: time.Duration(500 * time.Millisecond).String(), Override: false},
 		{Key: "babble.timeout", Value: time.Duration(1000 * time.Millisecond).String(), Override: false},

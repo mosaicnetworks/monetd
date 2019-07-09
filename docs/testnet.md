@@ -32,10 +32,12 @@ Make a note of the IP address of the this device (ifconfig will tell you), as th
 
 We can then invoke it:
 ```bash
-$ monetcfgsrv
+$ monetcfgsrv 
+Starting monetcfgsrv
+10.101.11.27:8088
 ```
 
-Just leave this window open and the server running. 
+Just leave this window open and the server running. After the "Starting monetcfgsrv" message the server outputs its best guess as to the correct IP address, and port the server is running on. You will need to pass this address and port to the other initial peers.  
 
 
 ## Inputs

@@ -29,6 +29,8 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+
+	"github.com/mosaicnetworks/monetd/src/common"
 )
 
 // [{"NetAddr":"192.168.1.3:1337","PubKeyHex":"0X04541909581932BD007515661FCA68FF9607447C5ECCFD262E33A74ECA2E5DE0428BCA9261D7E1D52513F38DB5A6EE100689A1C5FD6CB605EDE45AEEBF90D4AE82","Moniker":"banquet"}]
@@ -49,6 +51,10 @@ var (
 )
 
 func main() {
+
+	fmt.Println("Starting monetcfgsrv")
+	fmt.Println(common.GetMyIP() + ":8088")
+
 	http.HandleFunc("/", cfgHandler)
 
 	if err := http.ListenAndServe(":8088", nil); err != nil {
