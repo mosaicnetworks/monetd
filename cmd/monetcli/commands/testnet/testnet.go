@@ -261,7 +261,7 @@ func enterParams() error {
 
 	url := CfgServer + "/addpeer"
 
-	common.MessageWithType(common.MsgInformation, "URL      : ", url)
+	common.MessageWithType(common.MsgDebug, "URL      : ", url)
 
 	err = sendJSON(url, b, "application/json")
 	if err != nil {
@@ -306,16 +306,16 @@ passwordloop:
 		return peer{}, err
 	}
 
-	common.MessageWithType(common.MsgInformation, "Building Data to push to Configuration Server")
+	common.MessageWithType(common.MsgDebug, "Building Data to push to Configuration Server")
 
 	pubkey = hex.EncodeToString(
 		crypto.FromECDSAPub(&key.PrivateKey.PublicKey))
 
 	privateKey := key.PrivateKey
-	common.MessageWithType(common.MsgInformation, "Moniker  : ", moniker)
-	common.MessageWithType(common.MsgInformation, "IP       : ", ip)
-	common.MessageWithType(common.MsgInformation, "Pub Key  : ", pubkey)
-	common.MessageWithType(common.MsgInformation, "Address  : ", key.Address.String())
+	common.MessageWithType(common.MsgDebug, "Moniker  : ", moniker)
+	common.MessageWithType(common.MsgDebug, "IP       : ", ip)
+	common.MessageWithType(common.MsgDebug, "Pub Key  : ", pubkey)
+	common.MessageWithType(common.MsgDebug, "Address  : ", key.Address.String())
 
 	myAddress = key.Address.String()
 
@@ -347,10 +347,10 @@ func sendJSON(url string, b []byte, contenttype string) error {
 	}
 	defer resp.Body.Close()
 
-	fmt.Println("response Status:", resp.Status)
-	fmt.Println("response Headers:", resp.Header)
+	common.MessageWithType(common.MsgDebug, "response Status:", resp.Status)
+	common.MessageWithType(common.MsgDebug, "response Headers:", resp.Header)
 	body, _ := ioutil.ReadAll(resp.Body)
-	fmt.Println("response Body:", string(body))
+	common.MessageWithType(common.MsgDebug, "response Body:", string(body))
 
 	return nil
 }
