@@ -139,9 +139,27 @@ The Address generated is echoed to screen.
 
 ## Edit Params
 
-[comment]: # (//TODO Add Edit Params section )
+The Edit Peers interactive command allows you to set the `monetcli` parameters that are pushed to monet hub configuration files. These options are:
+
++ **Logging level** controls which messages are written to the logs. Select from the list, they are sorted from outputting the most messages to the fewest. 
++ **eth.listen** controls where EVM-Lite listens. The default `:8080` will normally be fine here.
++ **eth.cache** is the size of the EVM-Lite cache 
++ **babble.listen** IP:PORT of Babble node, which must exactly match this node's entry in peers.json
++ **babble.service-listen** IP:PORT of Babble HTTP API service
++ **babble.heartbeat** Heartbeat time milliseconds (time between gossips)
++ **babble.timeout** TCP timeout milliseconds
++ **babble.cache-size** Number of items in LRU caches
++ **babble.sync-limit** Max number of Events per sync
++ **babble.fast-sync** Enable FastSync
++ **babble.max-pool** Max number of pool connections
++ **babble.bootstrap** Bootstrap from Babble database
+
+You have the opportunity to save or discard your changes at the end of the parameter list. Parameters which have mandatory values in the Monet Hub are not available from this sub command.
+
 
 ## Peers
+
+Peers provides an interactive interface for managing peers. You are initially show a list of all peers. You can select one from that list to view its complete details. From there you may edit or delete the peer. Delete does not touch any assoicated keys - it just removes the credentials from the list that is compiled into the peers.json file. Edit Peers allows you to edit / amend each of the stored fields for that node. **N.B.** you will need to use `Generate Key Pair` or `Add Peer` options from the parent menu to add a peer.
 
 [comment]: # (//TODO Add peers section )
 
