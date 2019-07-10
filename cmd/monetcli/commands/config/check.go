@@ -5,8 +5,6 @@ import (
 
 	"github.com/mosaicnetworks/babble/src/babble"
 
-	"github.com/mosaicnetworks/monetd/cmd/monetcli/commands/keys"
-
 	"github.com/mosaicnetworks/monetd/src/common"
 	"github.com/spf13/cobra"
 )
@@ -35,7 +33,7 @@ func checkConfigParams() error {
 
 	fileToCheck := []string{
 		toml,
-		filepath.Join(monetConfigDir, keys.DefaultKeyfile),
+		filepath.Join(monetConfigDir, common.DefaultKeyfile),
 		filepath.Join(monetConfigDir, common.BabbleDir, common.PeersGenesisJSON),
 		filepath.Join(monetConfigDir, common.BabbleDir, common.PeersJSON),
 		filepath.Join(monetConfigDir, common.BabbleDir, babble.DefaultKeyfile),

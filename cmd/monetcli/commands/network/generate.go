@@ -28,5 +28,5 @@ func generatekeypair(cmd *cobra.Command, args []string) error {
 		}
 	}
 
-	return GenerateKeyPair(configDir, moniker, ip, isValidator, passwordFile)
+	return GenerateKeyPair(configDir, moniker, ip, isValidator, passwordFile, "")
 }

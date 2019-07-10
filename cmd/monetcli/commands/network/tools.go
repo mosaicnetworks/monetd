@@ -9,6 +9,7 @@ import (
 	"reflect"
 
 	"github.com/ethereum/go-ethereum/crypto"
+	bkeys "github.com/mosaicnetworks/babble/src/crypto/keys"
 	keys "github.com/mosaicnetworks/monetd/cmd/monetcli/commands/keys"
 	"github.com/mosaicnetworks/monetd/src/common"
 	com "github.com/mosaicnetworks/monetd/src/common"
@@ -40,7 +41,7 @@ func isEmptyDir(dir string) (bool, error) {
 }
 
 //GenerateKeyPair wraps monetcli keys functionality, adding more interactivity
-func GenerateKeyPair(configDir string, moniker string, ip string, isValidator bool, passwordFile string) error {
+func GenerateKeyPair(configDir string, moniker string, ip string, isValidator bool, passwordFile string, privateKeyFile string) error {
 	message("Generating key pair for: ", moniker)
 
 	//Enhancement - pass safeLabel into this function. Validation should have happened further up the stack
@@ -65,10 +66,9 @@ func GenerateKeyPair(configDir string, moniker string, ip string, isValidator bo
 		return errors.New("key pair for " + moniker + " already exists")
 	}
 
-	targetFile := filepath.Join(targetDir, keys.DefaultKeyfile)
+	targetFile := filepath.Join(targetDir, common.DefaultKeyfile)
 
 	key, err := keys.GenerateKeyPair(targetFile, passwordFile)
-
 	if err != nil {
 		return err
 	}
@@ -76,6 +76,14 @@ func GenerateKeyPair(configDir string, moniker string, ip string, isValidator bo
 	pubkey := hex.EncodeToString(
 		crypto.FromECDSAPub(&key.PrivateKey.PublicKey))
 
+	privateKey := key.PrivateKey
+
+	if privateKeyFile != "" {
+		simpleKeyfile := bkeys.NewSimpleKeyfile(privateKeyFile)
+		if err := simpleKeyfile.WriteKey(privateKey); err != nil {
+			return err
+		}
+	}
 	return AddValidatorParamaterised(configDir, moniker, safeLabel, key.Address.Hex(),
 		pubkey, ip, isValidator)
 

@@ -299,7 +299,7 @@ passwordloop:
 
 	}
 
-	keyfilepath := filepath.Join(testConfigDir, keys.DefaultKeyfile)
+	keyfilepath := filepath.Join(testConfigDir, common.DefaultKeyfile)
 	key, err := keys.GenerateKeyPair(keyfilepath, passwordFile)
 	if err != nil {
 		common.MessageWithType(common.MsgError, "Error generating key: ", err)
@@ -630,11 +630,11 @@ confirmloop:
 		{SourceFile: filepath.Join(testConfigDir, common.PwdFile),
 			TargetFile: filepath.Join(defaultMonetConfigDir, common.EthDir, common.PwdFile)},
 
-		{SourceFile: filepath.Join(testConfigDir, keys.DefaultKeyfile),
-			TargetFile: filepath.Join(defaultMonetConfigDir, common.EthDir, "keystore", keys.DefaultKeyfile)},
+		{SourceFile: filepath.Join(testConfigDir, common.DefaultKeyfile),
+			TargetFile: filepath.Join(defaultMonetConfigDir, common.EthDir, "keystore", common.DefaultKeyfile)},
 
-		{SourceFile: filepath.Join(testConfigDir, keys.DefaultKeyfile),
-			TargetFile: filepath.Join(defaultMonetConfigDir, keys.DefaultKeyfile)},
+		{SourceFile: filepath.Join(testConfigDir, common.DefaultKeyfile),
+			TargetFile: filepath.Join(defaultMonetConfigDir, common.DefaultKeyfile)},
 	}
 
 	for i, cf := range copyfiles {

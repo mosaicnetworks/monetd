@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"path/filepath"
 
+	"github.com/mosaicnetworks/babble/src/babble"
 	conf "github.com/mosaicnetworks/monetd/cmd/monetcli/commands/config"
 	"github.com/mosaicnetworks/monetd/src/common"
 	monet "github.com/mosaicnetworks/monetd/src/version"
@@ -232,7 +233,7 @@ func checkConfigurationWizard(configDir string) error {
 }
 
 func generateKeyPairWizard(configDir string) error {
-	var nodename, ip string
+	var nodename, ip, safeLabel string
 	var isValidator bool
 
 	currentNodes, err := GetPeersLabelsListFromToml(configDir)
@@ -244,7 +245,7 @@ nodeloop:
 	for {
 		nodename = common.RequestString("Node Name", "")
 
-		safeLabel := common.GetNodeSafeLabel(nodename)
+		safeLabel = common.GetNodeSafeLabel(nodename)
 		for _, node := range currentNodes {
 			if node == safeLabel {
 				common.MessageWithType(common.MsgError, "That Moniker has already been used", nodename)
@@ -280,7 +281,8 @@ passwordloop:
 		}
 	}
 
-	passwordFile := filepath.Join(configDir, common.PwdFile)
+	passwordFile := filepath.Join(configDir, safeLabel, common.PwdFile)
+	privkeyfile := filepath.Join(configDir, safeLabel, babble.DefaultKeyfile)
 
 	err = common.WriteToFile(passwordFile, password)
 	if err != nil {
@@ -288,7 +290,7 @@ passwordloop:
 		return err
 	}
 
-	return GenerateKeyPair(configDir, nodename, ip, isValidator, passwordFile)
+	return GenerateKeyPair(configDir, nodename, ip, isValidator, passwordFile, privkeyfile)
 }
 
 func compileWizard(configDir string) error {

@@ -29,10 +29,10 @@ const (
 	MonetdTomlDirCaps   = "MONET"
 	MonetcliTomlDirCaps = "MONETCLI"
 
-	BabbleDir = "babble"
-	EthDir    = "eth"
-	PwdFile   = "pwd.txt"
-
+	BabbleDir        = "babble"
+	EthDir           = "eth"
+	PwdFile          = "pwd.txt"
+	DefaultKeyfile   = "keyfile.json"
 	EvmlcTomlDirCaps = "EVMLC"
 	EvmlcTomlDirDot  = ".evmlc"
 

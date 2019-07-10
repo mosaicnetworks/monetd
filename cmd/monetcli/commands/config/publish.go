@@ -5,8 +5,6 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/mosaicnetworks/monetd/cmd/monetcli/commands/keys"
-
 	"github.com/mosaicnetworks/babble/src/babble"
 
 	"github.com/mosaicnetworks/monetd/src/common"
@@ -28,10 +26,10 @@ var (
 			targetfilename: babble.DefaultKeyfile, label: "babble private key", required: false, transformation: false},
 		{sourcefilename: common.PwdFile, subfolder: common.EthDir,
 			targetfilename: common.PwdFile, label: "passphrase doc", required: true, transformation: false},
-		{sourcefilename: keys.DefaultKeyfile, subfolder: common.EthDir + "/keystore",
-			targetfilename: keys.DefaultKeyfile, label: "keystore", required: false, transformation: false},
-		{sourcefilename: keys.DefaultKeyfile, subfolder: "",
-			targetfilename: keys.DefaultKeyfile, label: "keystore", required: false, transformation: false},
+		{sourcefilename: common.DefaultKeyfile, subfolder: common.EthDir + "/keystore",
+			targetfilename: common.DefaultKeyfile, label: "keystore", required: false, transformation: false},
+		{sourcefilename: common.DefaultKeyfile, subfolder: "",
+			targetfilename: common.DefaultKeyfile, label: "keystore", required: false, transformation: false},
 	}
 )
 
@@ -157,7 +155,7 @@ func PublishConfigWithParams(networkConfigDir string, monetConfigDir string) err
 	}
 
 	//TODO Check in node subfolder for the correct key to copy
-	// Also write priv_key - mau need to amend code to look for that.
+	// Also write priv_key - may need to amend code to look for that.
 
 	//	toml := filepath.Join(networkConfigDir, common.MonetcliTomlName+common.TomlSuffix)
 

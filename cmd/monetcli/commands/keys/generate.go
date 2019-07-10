@@ -10,13 +10,13 @@ import (
 
 	"github.com/ethereum/go-ethereum/accounts/keystore"
 	"github.com/ethereum/go-ethereum/crypto"
+	"github.com/mosaicnetworks/monetd/src/common"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
 
 var (
 	//DefaultKeyfile is the default name of the file containing a generated private key
-	DefaultKeyfile = "keyfile.json"
 
 	privateKeyfile string
 )
@@ -63,7 +63,7 @@ func generate(cmd *cobra.Command, args []string) error {
 //GenerateKeyPair generates an Ethereum key pair
 func GenerateKeyPair(keyfilepath, passwordFile string) (*keystore.Key, error) {
 	if keyfilepath == "" {
-		keyfilepath = DefaultKeyfile
+		keyfilepath = common.DefaultKeyfile
 	}
 	if _, err := os.Stat(keyfilepath); err == nil {
 		return nil, fmt.Errorf("Keyfile already exists at %s", keyfilepath)
