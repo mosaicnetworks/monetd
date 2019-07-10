@@ -3,6 +3,7 @@ package network
 import (
 	"errors"
 	"fmt"
+	"os"
 	"path/filepath"
 
 	"github.com/mosaicnetworks/babble/src/babble"
@@ -281,8 +282,17 @@ passwordloop:
 		}
 	}
 
-	passwordFile := filepath.Join(configDir, safeLabel, common.PwdFile)
-	privkeyfile := filepath.Join(configDir, safeLabel, babble.DefaultKeyfile)
+	outDir := filepath.Join(configDir, safeLabel)
+	passwordFile := filepath.Join(outDir, common.PwdFile)
+	privkeyfile := filepath.Join(outDir, babble.DefaultKeyfile)
+
+	if !common.CheckIfExists(outDir) {
+		err := os.MkdirAll(outDir, os.ModePerm)
+		if err != nil {
+			common.Message("Error creating directory: ", outDir)
+			return err
+		}
+	}
 
 	err = common.WriteToFile(passwordFile, password)
 	if err != nil {

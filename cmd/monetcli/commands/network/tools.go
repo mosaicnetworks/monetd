@@ -58,15 +58,13 @@ func GenerateKeyPair(configDir string, moniker string, ip string, isValidator bo
 	}
 
 	targetDir := filepath.Join(configDir, moniker)
-
 	message("Generate to :", targetDir)
+	targetFile := filepath.Join(configDir, moniker, common.DefaultKeyfile)
 
-	if common.CheckIfExists(targetDir) {
+	if common.CheckIfExists(targetFile) {
 		message("Key Pair for " + moniker + " already exists. Aborting.")
 		return errors.New("key pair for " + moniker + " already exists")
 	}
-
-	targetFile := filepath.Join(targetDir, common.DefaultKeyfile)
 
 	key, err := keys.GenerateKeyPair(targetFile, passwordFile)
 	if err != nil {
@@ -84,6 +82,7 @@ func GenerateKeyPair(configDir string, moniker string, ip string, isValidator bo
 			return err
 		}
 	}
+
 	return AddValidatorParamaterised(configDir, moniker, safeLabel, key.Address.Hex(),
 		pubkey, ip, isValidator)
 
