@@ -205,7 +205,7 @@ Use "monetcli config [command] --help" for more information about a command.
 
 **monet config location** displays the location of a monetd configuration. 
 
-**monet config publish** publishes a monetcli configuration to a monetd configuration. 
+**monet config publish** publishes a monetcli configuration to a monetd configuration. There are 2 modes of publishing a configuration. By default the configuration files for all nodes are published, with each in a separate subdirectory. If you specify \-\-node-name only the configuration for that node is published.   
 
 **monet config show** echoes the monet.toml configuration of a monetd configuration to screen. 
 
