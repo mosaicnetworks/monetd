@@ -2,6 +2,7 @@ package config
 
 import (
 	"errors"
+	"io/ioutil"
 	"os"
 	"path/filepath"
 
@@ -37,13 +38,52 @@ func publishConfig(cmd *cobra.Command, args []string) error {
 
 	// Check that we have a valid monetcli config
 
-	//First check that we have a file location
-	return PublishConfigWithParams(networkConfigDir, monetConfigDir)
+	if nodeName == "" {
+		return PublishAllConfigWithParams(networkConfigDir, monetConfigDir)
+	}
+
+	return PublishConfigWithParams(networkConfigDir, getNodePublishDir(monetConfigDir, nodeName), nodeName)
+}
+
+func getNodePublishDir(monetConfigDir string, nodeName string) string {
+	outputDir := filepath.Join(monetConfigDir, common.PublishDir, nodeName)
+
+	if !common.CheckIfExists(outputDir) {
+		if err := os.MkdirAll(outputDir, os.ModePerm); err != nil {
+			return monetConfigDir
+		}
+	}
+	return outputDir
+}
+
+//PublishAllConfigWithParams iterates through all of the nodes with network set up.
+func PublishAllConfigWithParams(networkConfigDir string, monetConfigDir string) error {
+
+	//Get Peers
+	files, err := ioutil.ReadDir(networkConfigDir)
+	if err != nil {
+		return err
+	}
+
+	for _, f := range files {
+		if f.IsDir() {
+
+			outputDir := getNodePublishDir(monetConfigDir, f.Name())
+
+			err = PublishConfigWithParams(networkConfigDir, outputDir, f.Name())
+			if err != nil {
+				return err
+			}
+		}
+
+	}
+
+	return nil
 }
 
 //PublishConfigWithParams exposes the publish configuration actions to allow use from
 //wizards
-func PublishConfigWithParams(networkConfigDir string, monetConfigDir string) error {
+func PublishConfigWithParams(networkConfigDir string, monetConfigDir string, nodeName string) error {
 	if networkConfigDir == "" {
 		common.Message("networkConfigDir is empty")
 		return errors.New("config path not set. use --config-dir parameter")
@@ -110,9 +150,16 @@ func PublishConfigWithParams(networkConfigDir string, monetConfigDir string) err
 	// Currently this working on a single pass. Split to have a validation pass then an action pass.
 	for _, file := range configFileList {
 		fileWithPath := filepath.Join(networkConfigDir, file.sourcefilename)
+		altFileWithPath := filepath.Join(networkConfigDir, nodeName, file.sourcefilename)
 		outFileWithPath := filepath.Join(monetConfigDir, file.targetfilename)
+
 		if file.subfolder != "" {
 			outFileWithPath = filepath.Join(monetConfigDir, file.subfolder, file.targetfilename)
+		}
+
+		// If node-specific version of file exists use it.
+		if common.CheckIfExists(altFileWithPath) {
+			fileWithPath = altFileWithPath
 		}
 
 		if !common.CheckIfExists(fileWithPath) {
@@ -159,14 +206,15 @@ func PublishConfigWithParams(networkConfigDir string, monetConfigDir string) err
 
 	//	toml := filepath.Join(networkConfigDir, common.MonetcliTomlName+common.TomlSuffix)
 
-	switch publishTarget {
-	case "simple":
-		//TODO Enable complex publish targets such as multiple aws nodes
+	/*
+		switch publishTarget {
+		case "simple":
+			//TODO Enable complex publish targets such as multiple aws nodes
 
-	default:
-		return errors.New("unknown publish target")
-	}
-
+		default:
+			return errors.New("unknown publish target")
+		}
+	*/
 	common.MessageWithType(common.MsgInformation, "Publish process completed")
 
 	return nil

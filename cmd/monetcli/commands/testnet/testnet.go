@@ -694,14 +694,14 @@ func updateEvmlcConfig() error {
 	defaultEVMLCConfigDir, _ := common.DefaultHomeDir(common.EvmlcTomlDir)
 	defaultMonetConfigDir, _ := common.DefaultHomeDir(common.MonetdTomlDir)
 	tomlFile := filepath.Join(defaultEVMLCConfigDir, common.EvmlcTomlName+common.TomlSuffix)
-	keystoreFile := filepath.Join(defaultMonetConfigDir, common.EthDir, "keystore")
+	//	keystoreFile := filepath.Join(defaultMonetConfigDir, common.EthDir, "keystore")
 
 	tree, err := common.LoadToml(tomlFile)
 	if err != nil {
 		common.MessageWithType(common.MsgError, "Error loading toml: ", tomlFile)
 	}
 
-	tree.SetPath([]string{"storage", "keystore"}, keystoreFile)
+	//	tree.SetPath([]string{"storage", "keystore"}, keystoreFile)
 	tree.SetPath([]string{"connection", "host"}, common.GetMyIP())
 
 	if myAddress != "" {

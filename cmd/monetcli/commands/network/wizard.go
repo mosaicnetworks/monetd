@@ -207,11 +207,14 @@ func monetDConfigWizard(networkConfigDir string, monetConfigDir string) error {
 
 		conf.Force = true
 	}
-	err := conf.PublishConfigWithParams(networkConfigDir, monetConfigDir)
+
+	err := conf.PublishAllConfigWithParams(networkConfigDir, monetConfigDir)
 	if err != nil {
 		common.MessageWithType(common.MsgDebug, "Error in monetDConfigWizard: ", err)
 		return err
 	}
+
+	common.MessageWithType(common.MsgInformation, "All configurations exported.")
 
 	for {
 

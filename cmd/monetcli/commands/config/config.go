@@ -20,7 +20,7 @@ the monetd server process. `,
 		TraverseChildren: true,
 	}
 
-	publishTarget    string
+	nodeName         string
 	monetConfigDir   string
 	networkConfigDir string
 
@@ -96,7 +96,7 @@ Publish a Monet Node configuration`,
 		RunE: publishConfig,
 	}
 
-	cmd.PersistentFlags().StringVarP(&publishTarget, "publish-target", "t", "simple", "the publish target. One of simple, ...")
+	cmd.PersistentFlags().StringVarP(&nodeName, "node-name", "n", "", "the node to publish")
 	cmd.Flags().BoolVarP(&Force, "force", "f", false, "force the creation of a new config file")
 	viper.BindPFlags(cmd.Flags())
 
