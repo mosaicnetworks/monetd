@@ -32,6 +32,7 @@ const (
 	BabbleDir        = "babble"
 	EthDir           = "eth"
 	PwdFile          = "pwd.txt"
+	PublishDir       = "publish"
 	DefaultKeyfile   = "keyfile.json"
 	EvmlcTomlDirCaps = "EVMLC"
 	EvmlcTomlDirDot  = ".evmlc"
