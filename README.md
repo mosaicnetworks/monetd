@@ -1,5 +1,7 @@
 # Monet Hub
 
+[![Documentation Status](https://readthedocs.org/projects/monetd/badge/?version=latest)](https://monetd.readthedocs.io/en/latest/?badge=latest)
+
 ----
 
 # This repo is currently in the process of being published
@@ -20,7 +22,7 @@ The [MONET Hub](https://monet.network/about.html) is an always-on blockchain tha
 Nodes on the Monet Hub run the `monetd` daemon, which is a specific instance of [mosaicnetwork](https://mosaicnetworks.io)'s [evm-lite](https://github.com/mosaicnetworks/evm-lite)  with 
 [Babble consensus](https://github.com/mosaicnetworks/babble) running with Proof Of Authority.
 
-For the impatient, there is a [quick start document](docs/README.md), and [installation docs](docs/install.md).
+For the impatient, there is a [quick start document](https://monetd.readthedocs.io/en/latest/README.html#quick-start), and [installation docs](https://monetd.readthedocs.io/en/latest/install.html).
 
 ----
 
@@ -64,11 +66,11 @@ For the impatient, there is a [quick start document](docs/README.md), and [insta
 
 ## Installation
 
-Please see the [installation documentation](docs/install.md).
+Please see the [installation documentation](https://monetd.readthedocs.io/en/latest/install.html).
 
 ## Usage
 
-Please see the documentation for each separate program, althought the [quick start document](docs/README.md) may be the best starting point:
+Please see the documentation for each separate program, althought the [quick start document](https://monetd.readthedocs.io/en/latest/README.html) may be the best starting point:
 
-- [monetd](docs/monetd.md) - the actual Monet Hub node daemon.
-- [monetcli](docs/monetcli.md) - useful tools including key management. 
+- [monetd](https://monetd.readthedocs.io/en/latest/monetd.html) - the actual Monet Hub node daemon.
+- [monetcli](https://monetd.readthedocs.io/en/latest/monetcli.html) - useful tools including key management. 
