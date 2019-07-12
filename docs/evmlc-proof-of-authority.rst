@@ -1,3 +1,5 @@
+.. _evmlc_poa_rst:
+
 Proof of Authority Commands
 ===========================
 

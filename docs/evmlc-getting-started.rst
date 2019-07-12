@@ -1,3 +1,5 @@
+.. _evmlc_getting_started_rst:
+
 Getting Started
 ===============
 

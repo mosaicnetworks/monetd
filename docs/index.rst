@@ -31,4 +31,7 @@ Monetd
    clients.rst   
    smartcontract.rst
    examples.rst
+   evmlc-getting-started.rst
+   evmlc-proof-of-authority.rst
+
 

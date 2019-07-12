@@ -25,9 +25,9 @@ or with ``yarn``
 
     yarn global add evm-lite-cli
 
-`Getting Started
-Docs <https://github.com/mosaicnetworks/evm-lite-cli/blob/master/README.md#getting-started>`__
-are available on the github repository.
+See :ref:`evmlc_getting_started_rst` and  :ref:`evmlc_poa_rst` for further examples.
+
+
 
 EVM-Lite Wallet
 ---------------
