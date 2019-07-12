@@ -12,9 +12,10 @@ The Monet Hub
 The monetd respository contains the tools necessary to run and maintain
 a validator hub in a Monet network.
 
-They naturally divide into 2 sections: + :ref:`monetcli_rst` --
-the swiss army knife of utilities + :ref:`monetd_rst` -- the
-hub server process
+They naturally divide into 2 sections: 
+
++ :ref:`monetcli_rst` -- the swiss army knife of utilities 
++ :ref:`monetd_rst` -- the hub server process
 
 Full details can found at the links above, but the Quick Start section
 below may help you where to look.
@@ -25,7 +26,7 @@ Quick Start
 Installation
 ------------
 
-The installation process is covered in `the installation
+The installation process is covered in the installation
 instructions :ref:`install_rst` .
 
 --------------
