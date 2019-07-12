@@ -26,8 +26,7 @@ Quick Start
 Installation
 ------------
 
-The installation process is covered in the installation
-instructions :ref:`install_rst` .
+The installation process is covered in :ref:`install_rst` .
 
 --------------
 
