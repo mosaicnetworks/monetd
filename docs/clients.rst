@@ -3,6 +3,7 @@
 Clients
 =======
 
+.. _clients_rst_evmlc:
 
 EVM-Lite CLI
 ------------

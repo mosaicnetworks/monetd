@@ -7,8 +7,8 @@ nodes and demonstrating basic functionality within that test net.
 Software Installation
 ---------------------
 
-On each of the three nodes, you need to `install monetd <install.md>`__.
-You also will need to install `EVM-Lite CLI <evm-lite-cli.md>`__.
+On each of the three nodes, you need to :ref:`install_rst` .
+You also will need to install :ref:`clients_rst_evmlc` .
 
 Configuration
 -------------
@@ -232,12 +232,11 @@ Watch Script
 EVM-Lite CLI
 ------------
 
-The `getting started <evmlc-getting-started.md>`__ document for
+The :ref:`evmlc_getting_started_rst` document for
 ``evm-lite-cli`` will demonstrate how to manage accounts and make
 transfers.
 
-You can also view the `Proof of
-Authority <evmlc-proof-of-authority.md>`__ document to find an example
+You can also view the :ref:`evmlc_poa_rst` document to find an example
 on how to nominate a new validator.
 
 //TODO Fire up the Wallet
