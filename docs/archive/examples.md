@@ -12,13 +12,14 @@ On each of the three nodes, you need to [install monetd](install.md). You also w
 ### node1
 
 We need to configure and set up 3 nodes, which we will call `node1`, `node2`, and, `node3`. On `node1` we will run `monetcfgsrv`. In a new terminal on `node1` only type:
+
 ```bash
 $ monetcfgsrv
 Starting monetcfgsrv
 192.168.1.18:8088
 ```
 
-Node the address given (in this case: `192.168.1.18:8088`), we will need that for configuring the other nodes.  
+Node the address given (in this case: `192.168.1.18:8088`), we will need that for configuring the other nodes.
 
 Leaving the `monetcfgsrv` window open, open a new terminal session on `node1` and type:
 
@@ -27,6 +28,7 @@ $ monetcli testnet
 ```
 
 if you get a message like this:
+
 ```
 This is a destructive operation. Remove/rename the following folder to proceed.
 /home/jon/.monetcli/testnet
@@ -39,14 +41,14 @@ $ mv /home/jon/.monetcli/testnet /home/jon/.monetcli/testnet.~1~
 ```
 
 ```bash
-/\ \__                   /\ \__                    /\ \__   
-\ \ ,_\     __     ____  \ \ ,_\    ___       __   \ \ ,_\  
- \ \ \/   /'__`\  /',__\  \ \ \/  /' _ `\   /'__`\  \ \ \/  
-  \ \ \_ /\  __/ /\__, `\  \ \ \_ /\ \/\ \ /\  __/   \ \ \_ 
+/\ \__                   /\ \__                    /\ \__
+\ \ ,_\     __     ____  \ \ ,_\    ___       __   \ \ ,_\
+ \ \ \/   /'__`\  /',__\  \ \ \/  /' _ `\   /'__`\  \ \ \/
+  \ \ \_ /\  __/ /\__, `\  \ \ \_ /\ \/\ \ /\  __/   \ \ \_
    \ \__\\ \____\\/\____/   \ \__\\ \_\ \_\\ \____\   \ \__\
     \/__/ \/____/ \/___/     \/__/ \/_/\/_/ \/____/    \/__/
-                                                            
-                                                            
+
+
 
 The configuration server is a running instance of monetcfgsrv, which should be run by one of the initial peers. If you are running it, you can use the localhost default address, otherwise you need to ask the person running it for their IP address.
 ✔ Configuration Server:  : |http://localhost:8088
@@ -54,9 +56,10 @@ The configuration server is a running instance of monetcfgsrv, which should be r
 
 You are asked to specify the configuration server. Whilst the localhost default will work for this node, you will need to change it to the value reported by monetcfgsrv. In this case `http://192.168.1.18:8088`.
 
-Press `Enter` to enter your value. 
+Press `Enter` to enter your value.
 
 Next you enter your moniker - a more user-friendly name than an address or public key. We are going to use node1.
+
 ```bash
 ✗ Enter your moniker:   : |
 ```
@@ -67,21 +70,21 @@ Next up you enter your IP address. The default value should be fine in nearly ca
 ✔ Enter your ip without the port:   : |192.168.1.18
 ```
 
-Then you enter you passphrase used to secure your keys. You need to re-enter to confirm that it was entered correctly. 
+Then you enter you passphrase used to secure your keys. You need to re-enter to confirm that it was entered correctly.
 
 ```bash
 Enter Keystore Password:   : ######|
 ✗ Confirm Keystore Password:   : |
 ```
 
-It then returns your generated address. And offers you some publishing options. At this point you just leave `node1` and move to `node2`.  
+It then returns your generated address. And offers you some publishing options. At this point you just leave `node1` and move to `node2`.
 
 ```bash
 Address: 0x8141948ffAE77ce18D328c930E857DA1ba4c4A65
 Choose publish to build the configuration files.
 Choose check to see if another peer has built them and if so, use them.
-Use the arrow keys to navigate: ↓ ↑ → ← 
-? Choose your action  : 
+Use the arrow keys to navigate: ↓ ↑ → ←
+? Choose your action  :
   ▸ Check if published
     Publish, no more initial peers will be allowed to be added
     Exit
@@ -94,14 +97,14 @@ On `node2` and `node3` in turn, peform the actions in this subsection:
 ```
 $ monetcli testnet
 
-/\ \__                   /\ \__                    /\ \__   
-\ \ ,_\     __     ____  \ \ ,_\    ___       __   \ \ ,_\  
- \ \ \/   /'__`\  /',__\  \ \ \/  /' _ `\   /'__`\  \ \ \/  
-  \ \ \_ /\  __/ /\__, `\  \ \ \_ /\ \/\ \ /\  __/   \ \ \_ 
+/\ \__                   /\ \__                    /\ \__
+\ \ ,_\     __     ____  \ \ ,_\    ___       __   \ \ ,_\
+ \ \ \/   /'__`\  /',__\  \ \ \/  /' _ `\   /'__`\  \ \ \/
+  \ \ \_ /\  __/ /\__, `\  \ \ \_ /\ \/\ \ /\  __/   \ \ \_
    \ \__\\ \____\\/\____/   \ \__\\ \_\ \_\\ \____\   \ \__\
     \/__/ \/____/ \/___/     \/__/ \/_/\/_/ \/____/    \/__/
-                                                            
-                                                            
+
+
 
 The configuration server is a running instance of monetcfgsrv, which should be run by one of the initial peers. If you are running it, you can use the localhost default address, otherwise you need to ask the person running it for their IP address.
 ✔ Configuration Server:  : |http://localhost:8088
@@ -109,9 +112,10 @@ The configuration server is a running instance of monetcfgsrv, which should be r
 
 You are asked to specify the configuration server. You will need to change it to the value reported by `monetcfgsrv` on `node1`. In this case `http://192.168.1.18:8088`.
 
-Press `Enter` to enter your value. 
+Press `Enter` to enter your value.
 
 Next you enter your moniker - a more user-friendly name than an address or public key. We are going to use node1.
+
 ```bash
 ✗ Enter your moniker:   : |
 ```
@@ -122,21 +126,21 @@ Next up you enter your IP address. The default value should be fine in nearly ca
 ✔ Enter your ip without the port:   : |192.168.1.18
 ```
 
-Then you enter you passphrase used to secure your keys. You need to re-enter to confirm that it was entered correctly. 
+Then you enter you passphrase used to secure your keys. You need to re-enter to confirm that it was entered correctly.
 
 ```bash
 Enter Keystore Password:   : ######|
 ✗ Confirm Keystore Password:   : |
 ```
 
-It then returns your generated address. And offers you some publishing options. At this point leave monetcli running and make sure we have reache this stage for all 3 nodes. 
+It then returns your generated address. And offers you some publishing options. At this point leave monetcli running and make sure we have reache this stage for all 3 nodes.
 
 ```
 Address: 0xc930E857DA1ba4c4A658141948ffAE77ce18D328
 Choose publish to build the configuration files.
 Choose check to see if another peer has built them and if so, use them.
-Use the arrow keys to navigate: ↓ ↑ → ← 
-? Choose your action  : 
+Use the arrow keys to navigate: ↓ ↑ → ←
+? Choose your action  :
   ▸ Check if published
     Publish, no more initial peers will be allowed to be added
     Exit
@@ -160,7 +164,7 @@ Downloaded genesisjson
 Enter your ip without the port:   : |192.168.1.18
 ```
 
-You will need to enter the IP of this device. It should default to the correct value.  You will also need to confirm overwriting the Monet configuration bu selecting `Yes`.
+You will need to enter the IP of this device. It should default to the correct value. You will also need to confirm overwriting the Monet configuration bu selecting `Yes`.
 
 ```
 All files downloaded
@@ -178,10 +182,9 @@ Updating evmlc config
 Try running:  monetd run
 ```
 
-The program will exit. 
+The program will exit.
 
-Next on `node2` and `node3` select `Check if published`. 
-
+Next on `node2` and `node3` select `Check if published`.
 
 On each node in turn run:
 
@@ -189,20 +192,18 @@ On each node in turn run:
 $ monetd run
 ```
 
-And leave the windows open. 
+And leave the windows open.
 
 ## Watch Script
 
-//TODO fire up a watch script to show the nodes are up and running. 
+//TODO fire up a watch script to show the nodes are up and running.
 
 ## EVM-Lite CLI
-//TODO Start evmlc
 
-//TODO Transfer money 
+The [getting started](evmlc-getting-started.md) document for `evm-lite-cli` will demonstrate how to manage accounts and make transfers.
+
+You can also view the [Proof of Authority](evmlc-proof-of-authority.md) document to find an example on how to nominate a new validator.
 
 //TODO Fire up the Wallet
 
 //TODO Fire up the Dashboard
-
-//TODO POA walkthrough to show adding a new node 
-
