@@ -51,7 +51,7 @@ const (
 	PeersGenesisJSONTarget = "babble/peers.genesis.json"
 	GenesisJSONTarget      = "eth/genesis.json"
 
-	//TODO Change this value when monetd repo is public
+	//  Commented out value was used when monetd repo was private
 	//  DefaultSolidityContract = "https://raw.githubusercontent.com/mosaicnetworks/evm-lite/poa/e2e/smart-contracts/monet.sol"
 	DefaultSolidityContract = "https://raw.githubusercontent.com/mosaicnetworks/monetd/master/smart-contract/genesis.sol"
 	TemplateContract        = "template.sol"
