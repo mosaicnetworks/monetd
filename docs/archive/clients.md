@@ -36,20 +36,16 @@ yarn global add evm-lite-cli
 [Getting Started Docs](https://github.com/mosaicnetworks/evm-lite-cli/blob/master/README.md#getting-started) are available on the github repository. 
 
 
-[comment]: # (//TODO Polish and monet-ify the client interactions )
 
 ## EVM-Lite Wallet
 
 [EVM-Lite Wallet](https://github.com/mosaicnetworks/evm-lite-wallet) is a client application for interacting with Monet hubs. See the [EVM-Lite Wallet Repository](https://github.com/mosaicnetworks/evm-lite-wallet) on github for more information. 
 
-[comment]: # (//TODO Add some words about evm-lite-wallet )
 
 
 ## Dashboard
 
 [EVM-Lite Dashboard](https://github.com/mosaicnetworks/evm-lite-dashboard) is a graphical dashboard for displaying the status of a monet network. This is currently a pre-beta release. 
-
-[comment]: # (//TODO Add some words about evm-lite-dashboard )
 
 ----
 

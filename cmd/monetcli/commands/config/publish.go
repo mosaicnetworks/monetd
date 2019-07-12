@@ -201,21 +201,7 @@ func PublishConfigWithParams(networkConfigDir string, monetConfigDir string, nod
 		}
 	}
 
-	//TODO Check in node subfolder for the correct key to copy
-	// Also write priv_key - may need to amend code to look for that.
-
-	//	toml := filepath.Join(networkConfigDir, common.MonetcliTomlName+common.TomlSuffix)
-
-	/*
-		switch publishTarget {
-		case "simple":
-			//TODO Enable complex publish targets such as multiple aws nodes
-
-		default:
-			return errors.New("unknown publish target")
-		}
-	*/
-	common.MessageWithType(common.MsgInformation, "Publish process completed")
+	common.MessageWithType(common.MsgInformation, nodeName+" Publish process completed")
 
 	return nil
 }

@@ -69,7 +69,7 @@ func CompileConfigWithParam(configDir string) error {
 	} else { // NB, we do not write the downloaded template to file. Preferable to get fresh is regenerating.
 		message("Loading: ", common.DefaultSolidityContract)
 		resp, err := http.Get(common.DefaultSolidityContract)
-		if err != nil { //TODO more graceful error handling here. We should degrade gracefully not boot back to the shell
+		if err != nil {
 			common.MessageWithType(common.MsgError, "Could not load the standard poa smart contract from GitHub. Aborting.")
 			common.MessageWithType(common.MsgError, "You can specify the contract explicitly using the standard one from [...monetd]/smart-contract/genesis.sol")
 			common.MessageWithType(common.MsgInformation, "monetcli network contract [...monetd]/smart-contract/genesis.sol")
