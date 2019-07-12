@@ -3,10 +3,11 @@
 The Monet Hub
 =============
 
-.. figure:: assets/monet_logo.png
+.. image:: assets/monet_logo.png
+   :height: 300px
+   :width: 300px    
    :alt: Monet Logo
-
-   Monet Logo
+   :align: center
 
 
 The monetd respository contains the tools necessary to run and maintain
