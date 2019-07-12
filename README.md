@@ -1,5 +1,7 @@
 # Monet Hub
 
+[![Documentation Status](https://readthedocs.org/projects/monetd/badge/?version=latest)](https://monetd.readthedocs.io/en/latest/?badge=latest)
+
 ----
 
 # This repo is currently in the process of being published
