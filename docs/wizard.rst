@@ -1,6 +1,6 @@
 .. _wizard_rst:
 
-monetcli wizard
+Monetcli Wizard
 ===============
 
 The ``monetcli wizard``\ command is an interactive tool for building a

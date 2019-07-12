@@ -1,6 +1,6 @@
 .. _monetd_rst:
 
-monetd
+Monetd
 ======
 
 

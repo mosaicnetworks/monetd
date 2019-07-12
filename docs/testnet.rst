@@ -1,6 +1,6 @@
 .. _testnet_rst:
 
-monetcli testnet
+Monetcli Testnet
 ================
 
 
