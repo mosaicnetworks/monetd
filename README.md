@@ -1,8 +1,16 @@
 # Monet Hub
 
-![Monet Logo](docs/assets/monet_logo.png)
+----
 
-[comment]: # (//TODO Finalise logo and overview blurb )
+# This repo is currently in the process of being published
+# It may be unstable during this process
+
+----
+
+----
+
+
+![Monet Logo](docs/assets/monet_logo.png)
 
 
 ## Overview
