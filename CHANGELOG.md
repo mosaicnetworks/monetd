@@ -8,6 +8,7 @@ FEATURES:
 
 IMPROVEMENTS:
 - monetcli: New CLI tool to manage Monet Hub configuration
+- docs:     Documentation published at: https://monetd.readthedocs.io/
 
 
 BUG FIXES:
