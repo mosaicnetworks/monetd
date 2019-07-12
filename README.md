@@ -1,6 +1,13 @@
 # Monet Hub
 
+
+
 [![Documentation Status](https://readthedocs.org/projects/monetd/badge/?version=latest)](https://monetd.readthedocs.io/en/latest/?badge=latest)
+[![Go Report](https://goreportcard.com/badge/github.com/mosaicnetworks/monetd)](https://goreportcard.com/report/github.com/mosaicnetworks/monetd)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+
+
 
 ----
 
