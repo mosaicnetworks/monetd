@@ -5,8 +5,8 @@
 
 .. _index:
 
-Welcome to Babble's documentation!
-==================================
+Welcome to the Monet Hub documentation!
+=======================================
 
 .. image:: assets/monet_logo.png
    :height: 600px
