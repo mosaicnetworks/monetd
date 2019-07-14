@@ -17,20 +17,15 @@ installd:
 		--ldflags "-X github.com/mosaicnetworks/monetd/src/version.GitCommit=`git rev-parse HEAD` -X github.com/mosaicnetworks/monetd/src/version.GitBranch=`git symbolic-ref --short HEAD`" \
 		./cmd/monetd
 
-
-
-
 installcfg:
 	go install \
 		--ldflags "-X github.com/mosaicnetworks/monetd/src/version.GitCommit=`git rev-parse HEAD` -X github.com/mosaicnetworks/monetd/src/version.GitBranch=`git symbolic-ref --short HEAD`" \
 		./cmd/monetcfgsrv
 
-
 installcli:
 	go install \
 		--ldflags "-X github.com/mosaicnetworks/monetd/src/version.GitCommit=`git rev-parse HEAD` -X github.com/mosaicnetworks/monetd/src/version.GitBranch=`git symbolic-ref --short HEAD`" \
 		./cmd/monetcli
-
 
 docker:
 	go build \
@@ -40,6 +35,7 @@ docker:
 		--ldflags '-extldflags "-static"' \
 		-o ./docker/monetcli ./cmd/monetcli/
 
+test: testmonetd testevml testbabble
 
 testmonetd:
 	@echo "\nMonet Tests\n\n" ; glide novendor | xargs go test | sed -e 's?github.com/mosaicnetworks/?.../?g'
@@ -52,9 +48,6 @@ testevml:
 testbabble:
 	@echo "\nBabble Tests\n\n" ; cd vendor/github.com/mosaicnetworks/babble ;   go test ./src/... -count=1 -tags=unit  | sed -e 's?github.com/mosaicnetworks/monetd/vendor/github.com/mosaicnetworks/?.../vendor/.../?g'
 
-
-
-test: testmonetd testevml testbabble
 
 
 .PHONY: all vendor install installd installcli test update docker testmonetd testevml testbabble

@@ -692,7 +692,7 @@ cache = 128
 
 func updateEvmlcConfig() error {
 	defaultEVMLCConfigDir, _ := common.DefaultHomeDir(common.EvmlcTomlDir)
-	defaultMonetConfigDir, _ := common.DefaultHomeDir(common.MonetdTomlDir)
+	//defaultMonetConfigDir, _ := common.DefaultHomeDir(common.MonetdTomlDir)
 	tomlFile := filepath.Join(defaultEVMLCConfigDir, common.EvmlcTomlName+common.TomlSuffix)
 	//	keystoreFile := filepath.Join(defaultMonetConfigDir, common.EthDir, "keystore")
 
