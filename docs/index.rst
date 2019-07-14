@@ -19,8 +19,7 @@ Monetd
 .. toctree::
    :maxdepth: 2
 
-
-   README.rst
+   design.rst
    install.rst
    test.rst
    monetcli.rst

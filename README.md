@@ -16,8 +16,9 @@
 
 ## Overview
 
-The MONET Hub is a blockchain that supports other Mobile ad-hoc blockchains, as 
-defined in the [MONET whitepaper](http://bit.ly/monet-whitepaper). It is a 
+As defined in the [MONET whitepaper](http://bit.ly/monet-whitepaper), the Hub is 
+a blockchain that supports other Mobile ad-hoc blockchains with services like 
+peer-discovery, Inter-Blockchain Communication, and the Tenom token. It is a 
 smart-contract platform based on the Ethereum Virtual Machine and a BFT 
 Consensus algorithm. It leverages 
 [evm-lite](https://github.com/mosaicnetworks/evm-lite) and 
@@ -29,57 +30,13 @@ This repository contains the code for `monetd` and `monetcli`:
 
 - `monetd` is the server process that validators are expected to run.
 
-- `monetcli` is a tool that helps with configuration to join or create a
+- `monetcli` is a tool that helps with configuration to join or create a 
   network.
 
-For the impatient, there is a 
-[quick start document](https://monetd.readthedocs.io/en/latest/README.html#quick-start), 
-and [installation docs](https://monetd.readthedocs.io/en/latest/install.html).
+## Documentation
 
-----
-
-## Table of Contents
-
-+ [Overview](#overview)
-+ [Architecture](#architecture)
-+ [Installation](#installation)
-+ [Usage](#usage)
-
-----
-
-## Architecture
-
-```
-                +-------------------------------------------+
-+----------+    |  +-------------+         +-------------+  |       
-|          |    |  | Service     |         | State       |  |
-|  Client  <-----> |             | <------ |             |  |
-|          |    |  | -API        |         | -EVM        |  |
-+----------+    |  | -Keystore   |         | -Trie       |  |
-                |  |             |         | -Database   |  |
-                |  +-------------+         +-------------+  |
-                |         |                       ^         |     
-                |         v                       |         |
-                |  +-------------------------------------+  |
-                |  | Engine                              |  |
-                |  |                                     |  |
-                |  |       +----------------------+      |  |
-                |  |       |  Babble Consensus    |      |  |
-                |  |       +----------------------+      |  |
-                |  |                                     |  |
-                |  +-------------------------------------+  |
-                |                                           |
-                +-------------------------------------------+
-
-```
-
-## Installation
-
-Please see the [installation documentation](https://monetd.readthedocs.io/en/latest/install.html).
-
-## Usage
-
-Please see the documentation for each separate program, althought the [quick start document](https://monetd.readthedocs.io/en/latest/README.html) may be the best starting point:
-
-- [monetd](https://monetd.readthedocs.io/en/latest/monetd.html) - the server process.
-- [monetcli](https://monetd.readthedocs.io/en/latest/monetcli.html) - useful tools including key management. 
+* [design](https://monetd.readthedocs.io/en/latest/design.html)
+* [installation](https://monetd.readthedocs.io/en/latest/install.html)
+* [monetd](https://monetd.readthedocs.io/en/latest/monetd.html)
+* [monetcli](https://monetd.readthedocs.io/en/latest/monetcli.html)
+* [clients](https://monetd.readthedocs.io/en/latest/clients.html)
