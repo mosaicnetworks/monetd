@@ -1,9 +1,10 @@
 package: github.com/mosaicnetworks/monetd
 import:
 - package: github.com/mosaicnetworks/babble
-  version: develop
+  version: =0.5.0
+#  version: develop
 - package: github.com/mosaicnetworks/evm-lite
-  version: poa
+  version: develop
 - package: github.com/sirupsen/logrus
   version: =1.2.0
 - package: github.com/spf13/cobra
