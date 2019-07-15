@@ -1,7 +1,7 @@
 .. _readme_rst:
 
-The Monet Hub
-=============
+Monet Hub Quick Start
+=====================
 
 .. image:: assets/monet_logo.png
    :height: 300px

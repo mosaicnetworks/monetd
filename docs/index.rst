@@ -21,6 +21,7 @@ Monetd
 
    design.rst
    install.rst
+   quickstart.rst
    test.rst
    monetcli.rst
    network.rst
