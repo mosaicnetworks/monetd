@@ -84,7 +84,7 @@ func readConfig(cmd *cobra.Command) error {
 	config.Babble.Store = true
 
 	// Trickle-down datadir config to sub-config sections (Babble and Eth). Only
-	// effective if config.DataDir is currenlty equal to the evm-lite default
+	// effective if config.DataDir is currently equal to the evm-lite default
 	// (~/.evm-lite).
 	config.SetDataDir(config.DataDir)
 
