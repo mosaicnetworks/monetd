@@ -169,6 +169,10 @@ func testJoinWizard() error {
 	}
 
 	b, err := json.Marshal(peer)
+	if err != nil {
+		return err
+	}
+
 	common.WriteToFile(filepath.Join(testConfigDir, "join.json"), string(b))
 
 	common.MessageWithType(common.MsgInformation, "Downloaded ", fileGenesisJSON)
@@ -337,6 +341,9 @@ passwordloop:
 
 func sendJSON(url string, b []byte, contenttype string) error {
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(b))
+	if err != nil {
+		return err
+	}
 	req.Header.Set("X-Custom-Header", "monetcfgsrv")
 	req.Header.Set("Content-Type", contenttype)
 

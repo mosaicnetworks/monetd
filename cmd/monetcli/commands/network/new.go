@@ -42,7 +42,7 @@ func newConfig(cmd *cobra.Command, args []string) error {
 	// Makes sure that we either have an empty directory or we error out
 	if common.CheckIfExists(fullConfigDir) {
 		message("Directory Exists")
-		isDir, err := common.CheckIsDir(fullConfigDir)
+		isDir, _ := common.CheckIsDir(fullConfigDir)
 		if !isDir {
 			return errors.New("requested directory is an extant file")
 		}

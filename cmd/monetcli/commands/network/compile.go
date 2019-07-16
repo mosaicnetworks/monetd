@@ -65,6 +65,11 @@ func CompileConfigWithParam(configDir string) error {
 		defer file.Close()
 
 		b, err := ioutil.ReadAll(file)
+		if err != nil {
+			message("Error reading: ", filename)
+			return err
+		}
+
 		soliditySource = string(b)
 	} else { // NB, we do not write the downloaded template to file. Preferable to get fresh is regenerating.
 		message("Loading: ", common.DefaultSolidityContract)
@@ -172,6 +177,11 @@ func CompileConfigWithParam(configDir string) error {
 	}
 
 	contractInfo, err := compile.CompileSolidityString("solc", finalSoliditySource)
+	if err != nil {
+		message("Error compiling genesis contract:", err)
+		return err
+	}
+
 	var poagenesis genesisPOA
 
 	// message("Contract Compiled: ", contractInfo)
