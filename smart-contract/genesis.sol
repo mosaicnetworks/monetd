@@ -322,7 +322,7 @@ contract POA_Genesis {
             for (uint i = 0; i<whiteListArray.length; i++) {
                 if (whiteListArray[i] == _address)
                 {  // Replace item to be removed with the last item. Then remove last item.
-                    whiteListArray[i] == whiteListArray[whiteListArray.length - 1];
+                    whiteListArray[i] = whiteListArray[whiteListArray.length - 1];
                     delete whiteListArray[whiteListArray.length - 1];
                 break;
                 }
@@ -351,7 +351,7 @@ contract POA_Genesis {
 			for (uint i = 0; i<nomineeArray.length; i++) {
 				if (nomineeArray[i] == _nomineeAddress)
 				{  // Replace item to be removed with the last item. Then remove last item.
-					nomineeArray[i] == nomineeArray[nomineeArray.length - 1];
+					nomineeArray[i] = nomineeArray[nomineeArray.length - 1];
 					delete nomineeArray[nomineeArray.length - 1];
                   break;
 				}
