@@ -324,6 +324,7 @@ contract POA_Genesis {
                 {  // Replace item to be removed with the last item. Then remove last item.
                     whiteListArray[i] = whiteListArray[whiteListArray.length - 1];
                     delete whiteListArray[whiteListArray.length - 1];
+                    whiteListArray.length--;
                 break;
                 }
             }
@@ -353,6 +354,7 @@ contract POA_Genesis {
 				{  // Replace item to be removed with the last item. Then remove last item.
 					nomineeArray[i] = nomineeArray[nomineeArray.length - 1];
 					delete nomineeArray[nomineeArray.length - 1];
+                    nomineeArray.length--;
                   break;
 				}
 			}
