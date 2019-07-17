@@ -72,19 +72,18 @@ func newkeys(cmd *cobra.Command, args []string) error {
 		return errors.New("that moniker has already been used")
 	}
 
-	/*
-		err := os.MkdirAll(nodeDir, os.ModePerm)
-		if err != nil {
-			common.MessageWithType(common.MsgError, "Error creating directory: ", nodeDir)
-			return err
-		}
-	*/
+	err := os.MkdirAll(nodeDir, os.ModePerm)
+	if err != nil {
+		common.MessageWithType(common.MsgError, "Error creating directory: ", nodeDir)
+		return err
+	}
 
 	// Generate Key
+	keyFile := filepath.Join(nodeDir, common.DefaultKeyfile)
 
-	key, err := GenerateKeyPair(nodeDir, passwordFile)
+	key, err := GenerateKeyPair(keyFile, passwordFile)
 	if err != nil {
-		common.MessageWithType(common.MsgError, "Error creating key pair")
+		common.MessageWithType(common.MsgError, "Error creating key pair: ", keyFile)
 		return err
 	}
 
