@@ -39,9 +39,10 @@ const (
 
 	TomlSuffix = ".toml"
 
-	MonetdTomlName   = "monetd"
-	MonetcliTomlName = "network"
-	EvmlcTomlName    = "config"
+	MonetdTomlName         = "monetd"
+	MonetcliTomlName       = "network"
+	MonetAccountsSubFolder = "accounts"
+	EvmlcTomlName          = "config"
 
 	PeersJSON        = "peers.json"
 	PeersGenesisJSON = "peers.genesis.json"

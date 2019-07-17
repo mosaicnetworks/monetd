@@ -6,8 +6,10 @@ import (
 )
 
 var (
-	passwordFile string
-	outputJSON   bool
+	passwordFile   string
+	outputJSON     bool
+	monikerParam   string
+	monetConfigDir string
 )
 
 //KeysCmd is an Ethereum key manager
@@ -26,7 +28,9 @@ func init() {
 	KeysCmd.AddCommand(
 		NewGenerateCmd(),
 		NewInspectCmd(),
-		NewUpdateCmd())
+		NewUpdateCmd(),
+		NewNewCmd(),
+	)
 
 	//Commonly used command line flags
 	KeysCmd.PersistentFlags().StringVar(&passwordFile, "passfile", "", "the file that contains the passphrase for the keyfile")
