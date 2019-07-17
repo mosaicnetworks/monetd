@@ -71,7 +71,15 @@ If the `--node` parameter is missing or the value does not correspond to a key p
 
 If the `--address` parameter is missing, a best guess IP is shown. 
 
-The configuration files are written to a `.monet` folder in $HOME. You should have a structure like this at this stage.
+The location of the configuration files depend on the OS. On Linux it is `$HOME/.monet`. You can find the location for your instance with this command:
+
+```bash
+$ monetcli config location
+The Monet Configuration files are located at:
+/home/user/.monet
+```
+
+You should have a structure like this at this stage.
 
 ```bash
 # //TODO After writing the code, insert the relevant tree here. 
@@ -127,7 +135,6 @@ As for creating a new network, you need to generate your key pair for your accou
 $ monetcli key new [--moniker moniker] [--passphrase eth.txt]
 ```
 You need to supply a moniker for this node. You will also need to supply a passphrase to secure your key. You can either use the `--passphrase` parameter to specify a file containing the passphrase, or you can specify interactively. 
-
 
 You need to supply a moniker for this node. You will also need to supply a passphrase to secure your key. You can either use the `--passphrase` parameter to specify a file containing the passphrase, or you can specify interactively. 
 
@@ -287,7 +294,7 @@ $ monetcli config build --node node0  --address 192.168.1.4 --peers node1,node2,
 
 + monetcli key new
 
-+ monetcli config clear
++ ~~monetcli config clear~~
 
 + monetcli config build
 

@@ -36,6 +36,7 @@ func init() {
 		NewPublishCmd(),
 		NewLocationCmd(),
 		NewShowCmd(),
+		NewClearCmd(),
 	)
 
 	defaultConfigDir, _ := common.DefaultHomeDir(common.MonetcliTomlDir)
@@ -55,6 +56,21 @@ func NewLocationCmd() *cobra.Command {
 Shows the location of the configuration files for the monetd server.`,
 		Args: cobra.ArbitraryArgs,
 		RunE: locationConfig,
+	}
+	return cmd
+}
+
+//NewLocationCmd shows the config file path
+func NewClearCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "clear",
+		Short: "clears any pre-existing configuration files",
+		Long: `monetcli config clear
+Cleans up configuration files for the monetd server by renaming any pre-existing configuration.
+
+Clearly this will disable any pre-existing configuration.`,
+		Args: cobra.ArbitraryArgs,
+		RunE: clearConfig,
 	}
 	return cmd
 }
@@ -111,6 +127,16 @@ func locationConfig(cmd *cobra.Command, args []string) error {
 
 func showConfig(cmd *cobra.Command, args []string) error {
 	ShowConfigParams(monetConfigDir)
+	return nil
+}
+
+func clearConfig(cmd *cobra.Command, args []string) error {
+
+	if common.CheckIfExists(monetConfigDir) {
+		common.SafeRenameDir(monetConfigDir)
+	}
+
+	//	ShowConfigParams(monetConfigDir)
 	return nil
 }
 
