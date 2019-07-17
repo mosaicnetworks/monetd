@@ -95,6 +95,16 @@ $ monetd run
 This is clearly not a production configuration, where you would use `nohup` and redirect log output to the files. 
 
 
+## Testing
+
+//TODO flesh this out.
+
++ connect evmlc
++ create a new key pair
++ transfer some money
++ run crowdfunding etc.
+
+
 
 # Joining a Network
 
@@ -184,8 +194,15 @@ You next need to apply to join the network.
 
 ```bash
 # //TODO Initial version would be to apply just this 
-$ evmlc poa nominate 
+$ evmlc poa nominate -h 192.168.1.5 --from <your address> --moniker <your moniker>  <your address>
 ```
+
+//TODO **Do we instead have a command like this:**
+```bash
+$ monetcli network apply
+```
+
+**Where you would interactively need to enter a passphrase, but all other required info is in the monetd configuration files.**
 
 
 
@@ -197,10 +214,7 @@ To start running the monetd node in a terminal window run:
 $ monetd run
 ```
 
-This is clearly not a production configuration, where you would use `nohup` and redirect log output to the files. 
-
-
-
+If you are not a validator on this network, monetd asks another peer if you are on the whitelist. If you are, it starts running. If not, it checks to see if you are on the nominee list and exits with a suitable message either telling you to apply to join the network, or confirming that voting is not yet complete. 
 
 
 # Creating A More Complex Network
@@ -218,6 +232,8 @@ $ monetcli key new [--moniker moniker] [--passphrase eth.txt]
 ```
 
 ## Importing Existing Key Pairs
+
+Imports an existing keyfile allow configuration of an existing account.
 
 ```bash
 $ monetcli key import [--keyfile keyfile] [--moniker moniker] [--passphrase eth.txt]
@@ -241,6 +257,31 @@ A structure with 2 nodes create a file structure like this:
 The subfolders of accounts are "safe" versions of the moniker --- i.e. stripped of spaces and special characters. The `peer.toml` file initially contains only the moniker. It would be possible to add items such as genesis block balances and whether they are pre-approved validators. 
 
 
+## Outline
+
++ Generate 5 key pairs
++ Create a network with 3 of them. 
+
+
+
+
+# Dev notes
+
+## Further `monetcli config build` options 
+
++ `--peers` comma separated list of initial peers **excluding** the one specified by `--node`
++ `--peer-address` comma separated list of initial peers **excluding** the one specified by `--node`
+
+
+So to configure a network of nodes: node0, node1, node2, node3 the command would be:
+```bash
+$ monetcli config build --node node0  --address 192.168.1.4 --peers node1,node2,node3 --peer-address host1,host2,host3
+```
+
++ `--defaultbalance` - sets the default balance for an account
++ `--alloc-peers-only` - only funds named peers in the genesis block. Default is to fund all key pairs in the configuration
+
+
 
 ## Development TODO
 
@@ -256,6 +297,9 @@ The subfolders of accounts are "safe" versions of the moniker --- i.e. stripped 
 
     + Modify default log level to be higher level than debug - probably info. We want the monetd output to be less intimidating. 
 
+    + set evmlc config by default 
 + monetcli config pull
+
+
 + monetcli key import
 
