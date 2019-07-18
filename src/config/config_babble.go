@@ -3,8 +3,6 @@ package config
 import (
 	"fmt"
 	"time"
-
-	_babble "github.com/mosaicnetworks/babble/src/babble"
 )
 
 var (
@@ -20,7 +18,11 @@ var (
 	defaultPeersFile      = fmt.Sprintf("%s/peers.json", defaultBabbleDir)
 )
 
-// BabbleConfig contains the configuration of a Babble node
+// BabbleConfig contains the configuration for the Babble node used by monetd.
+// It only presents a subset of the options Babble can accept, because monetd
+// forces some configurations values. In particular, the --fast-sync and
+// --store flags are disabled because monetd does not support the FastSync
+// protocol, and it requires a persistant database.
 type BabbleConfig struct {
 
 	// Directory containing priv_key.pem and peers.json files
@@ -44,14 +46,8 @@ type BabbleConfig struct {
 	// Max number of Event in SyncResponse
 	SyncLimit int `mapstructure:"sync-limit"`
 
-	// Allow node to FastSync
-	EnableFastSync bool `mapstructure:"fast-sync"`
-
 	// Max number of connections in net pool
 	MaxPool int `mapstructure:"max-pool"`
-
-	// Database type; badger or inmeum
-	Store bool `mapstructure:"store"`
 
 	// Bootstrap from database
 	Bootstrap bool `mapstructure:"bootstrap"`
@@ -60,15 +56,14 @@ type BabbleConfig struct {
 // DefaultBabbleConfig returns the default configuration for a Babble node
 func DefaultBabbleConfig() *BabbleConfig {
 	return &BabbleConfig{
-		DataDir:        defaultBabbleDir,
-		BindAddr:       defaultNodeAddr,
-		ServiceAddr:    defaultBabbleAPIAddr,
-		Heartbeat:      defaultHeartbeat,
-		TCPTimeout:     defaultTCPTimeout,
-		CacheSize:      defaultCacheSize,
-		SyncLimit:      defaultSyncLimit,
-		EnableFastSync: defaultEnableFastSync,
-		MaxPool:        defaultMaxPool,
+		DataDir:     defaultBabbleDir,
+		BindAddr:    defaultNodeAddr,
+		ServiceAddr: defaultBabbleAPIAddr,
+		Heartbeat:   defaultHeartbeat,
+		TCPTimeout:  defaultTCPTimeout,
+		CacheSize:   defaultCacheSize,
+		SyncLimit:   defaultSyncLimit,
+		MaxPool:     defaultMaxPool,
 	}
 }
 
@@ -78,22 +73,4 @@ func (c *BabbleConfig) SetDataDir(datadir string) {
 	if c.DataDir == defaultBabbleDir {
 		c.DataDir = datadir
 	}
-}
-
-// ToRealBabbleConfig converts an evm-lite/src/config.BabbleConfig to a
-// babble/src/babble.BabbleConfig as used by Babble
-func (c *BabbleConfig) ToRealBabbleConfig() *_babble.BabbleConfig {
-	babbleConfig := _babble.NewDefaultConfig()
-	babbleConfig.DataDir = c.DataDir
-	babbleConfig.BindAddr = c.BindAddr
-	babbleConfig.ServiceAddr = c.ServiceAddr
-	babbleConfig.MaxPool = c.MaxPool
-	babbleConfig.Store = c.Store
-	babbleConfig.NodeConfig.HeartbeatTimeout = c.Heartbeat
-	babbleConfig.NodeConfig.TCPTimeout = c.TCPTimeout
-	babbleConfig.NodeConfig.CacheSize = c.CacheSize
-	babbleConfig.NodeConfig.SyncLimit = c.SyncLimit
-	babbleConfig.NodeConfig.EnableFastSync = c.EnableFastSync
-	babbleConfig.NodeConfig.Bootstrap = c.Bootstrap
-	return babbleConfig
 }

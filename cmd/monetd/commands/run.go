@@ -69,7 +69,7 @@ READ CONFIG AND RUN
 // Run the EVM-Lite / Babble engine
 func runBabble(cmd *cobra.Command, args []string) error {
 
-	babble := babble.NewInmemBabble(_config.Babble, _logger)
+	babble := babble.NewInmemBabble(_config.ToBabbleConfig(), _logger)
 
 	engine, err := engine.NewEngine(*_config.ToEVMLConfig(), babble, _logger)
 	if err != nil {

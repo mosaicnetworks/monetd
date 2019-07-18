@@ -1,25 +1,24 @@
 package babble
 
 import (
-	_babble "github.com/mosaicnetworks/babble/src/babble"
+	"github.com/mosaicnetworks/babble/src/babble"
 	"github.com/mosaicnetworks/evm-lite/src/service"
 	"github.com/mosaicnetworks/evm-lite/src/state"
-	"github.com/mosaicnetworks/monetd/src/config"
 	"github.com/sirupsen/logrus"
 )
 
-// InmemBabble implementes the Consensus interface.
+// InmemBabble implementes EVM-Lite's Consensus interface.
 // It uses an inmemory Babble node.
 type InmemBabble struct {
-	config     *config.BabbleConfig
-	babble     *_babble.Babble
+	config     *babble.BabbleConfig
+	babble     *babble.Babble
 	ethService *service.Service
 	ethState   *state.State
 	logger     *logrus.Logger
 }
 
 // NewInmemBabble instantiates a new InmemBabble consensus system
-func NewInmemBabble(config *config.BabbleConfig, logger *logrus.Logger) *InmemBabble {
+func NewInmemBabble(config *babble.BabbleConfig, logger *logrus.Logger) *InmemBabble {
 	return &InmemBabble{
 		config: config,
 		logger: logger,
@@ -31,36 +30,35 @@ IMPLEMENT CONSENSUS INTERFACE
 *******************************************************************************/
 
 // Init instantiates a Babble inmemory node
-func (b *InmemBabble) Init(state *state.State, service *service.Service) error {
-	b.logger.Debug("INIT")
+func (ib *InmemBabble) Init(state *state.State, service *service.Service) error {
+	ib.logger.Debug("INIT")
 
-	b.ethState = state
-	b.ethService = service
+	ib.ethState = state
+	ib.ethService = service
 
-	realConfig := b.config.ToRealBabbleConfig()
-	realConfig.Proxy = NewInmemProxy(state, service, service.GetSubmitCh(), b.logger)
+	ib.config.Proxy = NewInmemProxy(state, service, service.GetSubmitCh(), ib.logger)
 
-	babble := _babble.NewBabble(realConfig)
+	babble := babble.NewBabble(ib.config)
 
 	err := babble.Init()
 	if err != nil {
 		return err
 	}
 
-	b.babble = babble
+	ib.babble = babble
 
 	return nil
 }
 
 // Run starts the Babble node
-func (b *InmemBabble) Run() error {
-	b.babble.Run()
+func (ib *InmemBabble) Run() error {
+	ib.babble.Run()
 	return nil
 }
 
 // Info returns Babble stats
-func (b *InmemBabble) Info() (map[string]string, error) {
-	info := b.babble.Node.GetStats()
+func (ib *InmemBabble) Info() (map[string]string, error) {
+	info := ib.babble.Node.GetStats()
 	info["type"] = "babble"
 	return info, nil
 }

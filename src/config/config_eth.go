@@ -19,12 +19,6 @@ type EthConfig struct {
 	// Genesis file
 	Genesis string `mapstructure:"genesis"`
 
-	// Location of ethereum account keys
-	Keystore string `mapstructure:"keystore"`
-
-	// File containing passwords to unlock ethereum accounts
-	PwdFile string `mapstructure:"pwd"`
-
 	// File containing the levelDB database
 	DbFile string `mapstructure:"db"`
 
@@ -39,8 +33,6 @@ type EthConfig struct {
 func DefaultEthConfig() *EthConfig {
 	return &EthConfig{
 		Genesis:    defaultGenesisFile,
-		Keystore:   defaultKeystoreFile,
-		PwdFile:    defaultPwdFile,
 		DbFile:     defaultDbFile,
 		EthAPIAddr: defaultEthAPIAddr,
 		Cache:      defaultCache,
@@ -52,12 +44,6 @@ func DefaultEthConfig() *EthConfig {
 func (c *EthConfig) SetDataDir(datadir string) {
 	if c.Genesis == defaultGenesisFile {
 		c.Genesis = fmt.Sprintf("%s/genesis.json", datadir)
-	}
-	if c.Keystore == defaultKeystoreFile {
-		c.Keystore = fmt.Sprintf("%s/keystore", datadir)
-	}
-	if c.PwdFile == defaultPwdFile {
-		c.PwdFile = fmt.Sprintf("%s/pwd.txt", datadir)
 	}
 	if c.DbFile == defaultDbFile {
 		c.DbFile = fmt.Sprintf("%s/chaindata", datadir)

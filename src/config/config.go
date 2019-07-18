@@ -7,29 +7,34 @@ import (
 	"path/filepath"
 	"runtime"
 
+	"github.com/mosaicnetworks/babble/src/babble"
 	evml_config "github.com/mosaicnetworks/evm-lite/src/config"
 )
 
 var (
 	// Base
 	defaultLogLevel = "debug"
-	DefaultDataDir  = defaultHomeDir()
+
+	// DefaultDataDir is the default root directory for monet configuration and
+	// data files. By default, evm-lite and babble configuration will also be
+	// within this directory.
+	DefaultDataDir = defaultHomeDir()
 )
 
-// Config contains de configuration for an EVM-Lite node
+// Config contains de configuration for MONET node
 type Config struct {
 
 	// Top level options use an anonymous struct
 	BaseConfig `mapstructure:",squash"`
 
-	// Options for EVM and State
+	// Options for evm-lite
 	Eth *EthConfig `mapstructure:"eth"`
 
-	// Options for Babble consensus
+	// Options for Babble
 	Babble *BabbleConfig `mapstructure:"babble"`
 }
 
-// DefaultConfig returns the default configuration for an EVM-Lite node
+// DefaultConfig returns the default configuration for a MONET node
 func DefaultConfig() *Config {
 	return &Config{
 		BaseConfig: DefaultBaseConfig(),
@@ -50,16 +55,42 @@ func (c *Config) SetDataDir(datadir string) {
 	}
 }
 
-// ToEVMLConfig converts a monet config into an evm-lite config
+// ToEVMLConfig extracts evm-lite configuration and returns a config object as
+// used by the evm-lite library.
 func (c *Config) ToEVMLConfig() *evml_config.Config {
 	evmlConfig := evml_config.DefaultConfig()
+
 	evmlConfig.DataDir = c.DataDir
 	evmlConfig.LogLevel = c.LogLevel
 	evmlConfig.Genesis = c.Eth.Genesis
 	evmlConfig.DbFile = c.Eth.DbFile
 	evmlConfig.EthAPIAddr = c.Eth.EthAPIAddr
 	evmlConfig.Cache = c.Eth.Cache
+
 	return evmlConfig
+}
+
+// ToBabbleConfig extracts the babble configuration and returns a config object
+// as used by the Babble library. It enforces the values of Store and
+// EnableFastSync to true and false respectively.
+func (c *Config) ToBabbleConfig() *babble.BabbleConfig {
+	babbleConfig := babble.NewDefaultConfig()
+
+	babbleConfig.DataDir = c.DataDir
+	babbleConfig.BindAddr = c.Babble.BindAddr
+	babbleConfig.ServiceAddr = c.Babble.ServiceAddr
+	babbleConfig.MaxPool = c.Babble.MaxPool
+
+	babbleConfig.NodeConfig.HeartbeatTimeout = c.Babble.Heartbeat
+	babbleConfig.NodeConfig.TCPTimeout = c.Babble.TCPTimeout
+	babbleConfig.NodeConfig.CacheSize = c.Babble.CacheSize
+	babbleConfig.NodeConfig.SyncLimit = c.Babble.SyncLimit
+	babbleConfig.NodeConfig.Bootstrap = c.Babble.Bootstrap
+
+	babbleConfig.Store = true
+	babbleConfig.NodeConfig.EnableFastSync = false
+
+	return babbleConfig
 }
 
 /*******************************************************************************

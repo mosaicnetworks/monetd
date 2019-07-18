@@ -78,11 +78,6 @@ func readConfig(cmd *cobra.Command) error {
 		return err
 	}
 
-	// EnableFastSync and Store are not configurable, they MUST have these
-	// values:
-	_config.Babble.EnableFastSync = false
-	_config.Babble.Store = true
-
 	// Trickle-down datadir config to sub-config sections (Babble and Eth). Only
 	// effective if config.DataDir is currently equal to the monet default
 	// (~/.monet).
@@ -110,9 +105,6 @@ func readConfig(cmd *cobra.Command) error {
 // default config for monetd
 func monetConfig(dataDir string) *config.Config {
 	config := config.DefaultConfig()
-
-	config.Babble.EnableFastSync = false
-	config.Babble.Store = true
 
 	config.SetDataDir(dataDir)
 
