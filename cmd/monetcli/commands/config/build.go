@@ -99,6 +99,8 @@ func buildConfig(cmd *cobra.Command, args []string) error {
 
 	jsonFileName := filepath.Join(monetConfigDir, common.BabbleDir, common.PeersJSON)
 	common.WriteToFile(jsonFileName, string(peersJSONOut))
+	jsonFileName = filepath.Join(monetConfigDir, common.BabbleDir, common.PeersGenesisJSON)
+	common.WriteToFile(jsonFileName, string(peersJSONOut))
 
 	// Create genesis.json
 	// Copy keyfile.json to eth/keystore
