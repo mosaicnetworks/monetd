@@ -35,20 +35,6 @@ func CompileConfigWithParam(configDir string) error {
 
 	tree.SetPath([]string{"poa", "compilerverison"}, version)
 
-	//When contracts are "set" for a network, the solidity source is copied into the monetcli config directory
-	//with a name of template.sol (defined by constant common.TemplateContract). Thus we can check just for that file.
-	//If not found, then we download a fresh contract.
-	filename := filepath.Join(configDir, common.TemplateContract)
-	message("Checking for file: ", filename)
-
-	soliditySource, err := common.GetSoliditySource(filename)
-
-	if err != nil || strings.TrimSpace(soliditySource) == "" {
-		return errors.New("no valid solidity contract source found")
-	}
-
-	// message(soliditySource)
-
 	currentNodes, err := GetPeersLabelsListFromToml(configDir)
 	if err != nil {
 		return err
@@ -80,7 +66,22 @@ func CompileConfigWithParam(configDir string) error {
 
 	}
 
-	finalSoliditySource, err := common.ApplyInitialWhitelistToSoliditySource(soliditySource, peers)
+	/*
+		//When contracts are "set" for a network, the solidity source is copied into the monetcli config directory
+		//with a name of template.sol (defined by constant common.TemplateContract). Thus we can check just for that file.
+		//If not found, then we download a fresh contract.
+		filename := filepath.Join(configDir, common.TemplateContract)
+		message("Checking for file: ", filename)
+
+		soliditySource, err := common.GetSoliditySource(filename)
+
+		if err != nil || strings.TrimSpace(soliditySource) == "" {
+			return errors.New("no valid solidity contract source found")
+		}
+
+		finalSoliditySource, err := common.ApplyInitialWhitelistToSoliditySource(soliditySource, peers)*/
+	finalSoliditySource, err := common.GetFinalSoliditySource(peers)
+
 	if err != nil {
 		message("Error building genesis contract:", err)
 		return err

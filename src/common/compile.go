@@ -4,8 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"io/ioutil"
-	"net/http"
-	"os"
 	"path/filepath"
 	"regexp"
 	"runtime"
@@ -58,6 +56,7 @@ func GetSolidityCompilerVersion() (string, error) {
 	return version, nil
 }
 
+/*
 //GetSoliditySource ...
 func GetSoliditySource(filename string) (string, error) {
 	var soliditySource string
@@ -103,6 +102,7 @@ func GetSoliditySource(filename string) (string, error) {
 
 	return soliditySource, nil
 }
+*/
 
 //CompileSolidityContract ...
 func CompileSolidityContract(soliditySource string) (map[string]*compiler.Contract, error) {
@@ -113,6 +113,13 @@ func CompileSolidityContract(soliditySource string) (map[string]*compiler.Contra
 	return contractInfo, err
 }
 
+type solidityFields struct {
+	Constants string
+	AddTo     string
+	Checks    string
+}
+
+/*
 //ApplyInitialWhitelistToSoliditySource ...
 func ApplyInitialWhitelistToSoliditySource(soliditySource string, peers PeerRecordList) (string, error) {
 
@@ -131,26 +138,25 @@ func ApplyInitialWhitelistToSoliditySource(soliditySource string, peers PeerReco
 		checks = append(checks, " ( initWhitelist"+strconv.Itoa(i)+" == _address ) ")
 	}
 
-	generatedSol := "GENERATED GENESIS BEGIN \n " +
-		" \n" +
-		strings.Join(consts, "\n") +
-		" \n" +
-		" \n" +
-		" \n" +
-		"    function processGenesisWhitelist() private \n" +
-		"    { \n" +
-		strings.Join(addTo, "\n") +
-		" \n" +
-		"    } \n" +
-		" \n" +
-		" \n" +
-		"    function isGenesisWhitelisted(address _address) pure private returns (bool) \n" +
-		"    { \n" +
-		"        return ( " + strings.Join(checks, "||") + "); \n" +
-		"    } \n" +
+	solFields := solidityFields{
+		Constants: strings.Join(consts, "\n"),
+		AddTo:     strings.Join(addTo, "\n"),
+		Checks:    strings.Join(checks, "||"),
+	}
 
-		" \n" +
-		" //GENERATED GENESIS END \n "
+	// GENERATED GENESIS BEGIN
+	{{.Constants}}
+
+	function processGenesisWhitelist() private
+	{
+		{{.AddTo}}
+	}
+
+	function isGenesisWhitelisted(address _address) pure private returns (bool) {
+		return ( {{.Checks}} );
+	}
+	//GENERATED GENESIS END
+
 
 	// replace
 
@@ -159,17 +165,20 @@ func ApplyInitialWhitelistToSoliditySource(soliditySource string, peers PeerReco
 
 	return finalSoliditySource, nil
 }
+*/
 
 //BuildGenesisJSON ...
 func BuildGenesisJSON(monetcliConfigDir string, monetdConfigDir string, peers PeerRecordList, contractAddress string) error {
 	var genesis GenesisFile
 
-	templateSource, err := GetSoliditySource(filepath.Join(monetcliConfigDir, TemplateContract))
-	if err != nil {
-		return err
-	}
+	/*	templateSource, err := GetSoliditySource(filepath.Join(monetcliConfigDir, TemplateContract))
+		if err != nil {
+			return err
+		}
 
-	finalSource, err := ApplyInitialWhitelistToSoliditySource(templateSource, peers)
+		finalSource, err := ApplyInitialWhitelistToSoliditySource(templateSource, peers) */
+
+	finalSource, err := GetFinalSoliditySource(peers)
 	if err != nil {
 		return err
 	}
