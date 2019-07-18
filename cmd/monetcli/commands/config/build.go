@@ -104,6 +104,8 @@ func buildConfig(cmd *cobra.Command, args []string) error {
 	// Create genesis.json
 	// Copy keyfile.json to eth/keystore
 
+	common.CopyFileContents(keyFile, filepath.Join(monetConfigDir, common.EthDir, "keystore", safeLabel+".json"))
+
 	// Derive Private Key and Write to Babble Config
 	keyjson, err := ioutil.ReadFile(keyFile)
 	if err != nil {

@@ -1,11 +1,17 @@
 package config
 
 import (
+	"encoding/hex"
 	"errors"
+	"fmt"
+	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
 
+	"github.com/ethereum/go-ethereum/accounts/keystore"
+	"github.com/ethereum/go-ethereum/crypto"
+	"github.com/mosaicnetworks/babble/src/babble"
 	"github.com/mosaicnetworks/monetd/src/common"
 	"github.com/pelletier/go-toml"
 	"github.com/spf13/cobra"
@@ -68,7 +74,7 @@ func pullConfig(cmd *cobra.Command, args []string) error {
 			Dest: filepath.Join(monetConfigDir, common.BabbleDir, common.PeersGenesisJSON)},
 		&urlList{URL: "http://" + existingPeer + ":" + common.DefaultBabblePort + "/peers",
 			Dest: filepath.Join(monetConfigDir, common.BabbleDir, common.PeersJSON)},
-		&urlList{URL: "http://" + existingPeer + ":" + common.DefaultBabblePort + "/genesis",
+		&urlList{URL: "http://" + existingPeer + ":" + common.DefaultEVMLitePort + "/genesis",
 			Dest: filepath.Join(monetConfigDir, common.EthDir, common.GenesisJSON)},
 	}
 
@@ -81,6 +87,30 @@ func pullConfig(cmd *cobra.Command, args []string) error {
 		}
 		common.MessageWithType(common.MsgDebug, "Downloaded ", filemap.Dest)
 	}
+
+	common.CopyFileContents(keyFile, filepath.Join(monetConfigDir, common.EthDir, "keystore", safeLabel+".json"))
+	// Decrypt just to confirm this address
+	keyjson, err := ioutil.ReadFile(keyFile)
+	if err != nil {
+		return fmt.Errorf("Failed to read the keyfile at '%s': %v", keyFile, err)
+	}
+
+	// Decrypt key with passphrase.
+	passphrase, err := common.GetPassphrase(passwordFile)
+	if err != nil {
+		return err
+	}
+
+	key, err := keystore.DecryptKey(keyjson, passphrase)
+	if err != nil {
+		return fmt.Errorf("Error decrypting key: %v", err)
+	}
+
+	common.MessageWithType(common.MsgInformation, key.Address.Hex())
+
+	// This may go
+	privateKey := hex.EncodeToString(crypto.FromECDSA(key.PrivateKey))
+	common.WriteToFile(filepath.Join(monetConfigDir, common.BabbleDir, babble.DefaultKeyfile), privateKey)
 
 	tomlfile := filepath.Join(networkConfigDir, common.MonetcliTomlName+common.TomlSuffix)
 	monettomlfile := filepath.Join(monetConfigDir, common.MonetdTomlName+common.TomlSuffix)
