@@ -34,6 +34,7 @@ const (
 	PwdFile          = "pwd.txt"
 	PublishDir       = "publish"
 	DefaultKeyfile   = "keyfile.json"
+	NodeFile         = "node.toml"
 	EvmlcTomlDirCaps = "EVMLC"
 	EvmlcTomlDirDot  = ".evmlc"
 
@@ -84,6 +85,16 @@ type KeyValue struct {
 	Answers  []string
 	DataType string
 }
+
+//PeerRecord is Peers.json format with suitable export config
+type PeerRecord struct {
+	NetAddr   string `json:"NetAddr"`
+	PubKeyHex string `json:"PubKeyHex"`
+	Moniker   string `json:"Moniker"`
+}
+
+//PeerRecordList is a slice of PeerRecord
+type PeerRecordList []*PeerRecord
 
 //GetMonetDefaultConfigKeys defines the default config values
 func GetMonetDefaultConfigKeys(monetConfigDir string) []KeyValue {

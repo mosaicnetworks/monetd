@@ -51,6 +51,19 @@ func CheckIfExists(dir string) bool {
 	return true
 }
 
+//CreateDirIfNotExists ...
+func CreateDirIfNotExists(dir string) error {
+	if !CheckIfExists(dir) {
+		err := os.MkdirAll(dir, os.ModePerm)
+		if err != nil {
+			MessageWithType(MsgError, "Error creating directory: ", dir)
+			return err
+		}
+	}
+
+	return nil
+}
+
 //WriteToFile writes a string variable to a file.
 //It overwrites any pre-existing data silently.
 func WriteToFile(filename string, data string) error {

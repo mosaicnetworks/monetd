@@ -31,17 +31,23 @@ You need to supply a moniker for this node. You will also need to supply a passp
 
 Thus we need to run:
 ```bash
-$ monetcli key new --moniker node0 
+$ monetcli keys new --moniker node0 
 Enter Passphrase:
 Re-Enter Passphrase:
 Address: 0x83434e68b52Ef809538224BF78472cc3F6a17bcC
 ```
 
-The configuration files are written to a `.monet` folder in $HOME. You should have a structure like this at this stage.
+The configuration files are written to a `.monetcli` folder. On Linux it is `$HOME/.monetcli`. You can find the location for your instance with this command:
 
 ```bash
-$ tree $HOME/.monet
-.monet
+$ monetcli network location
+```
+
+You should have a structure like this at this stage.
+
+```bash
+$ tree $HOME/.monetcli
+.monetcli
 ├── accounts
 │   └── node0
 │       ├── keyfile.json
@@ -292,7 +298,7 @@ $ monetcli config build --node node0  --address 192.168.1.4 --peers node1,node2,
 
 ## Development TODO
 
-+ monetcli key new
++ ~~monetcli key new~~
 
 + ~~monetcli config clear~~
 

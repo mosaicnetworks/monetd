@@ -51,15 +51,6 @@ type genesisFile struct {
 	Poa   *genesisPOA   `json:"poa"`
 }
 
-//Peers.json format
-type peerRecord struct {
-	NetAddr   string `json:"NetAddr"`
-	PubKeyHex string `json:"PubKeyHex"`
-	Moniker   string `json:"Moniker"`
-}
-
-type peerRecordList []*peerRecord
-
 var (
 	config       configurationRecord
 	configConfig configRecord

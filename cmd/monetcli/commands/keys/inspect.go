@@ -7,6 +7,7 @@ import (
 
 	"github.com/ethereum/go-ethereum/accounts/keystore"
 	"github.com/ethereum/go-ethereum/crypto"
+	"github.com/mosaicnetworks/monetd/src/common"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -54,7 +55,7 @@ func inspect(cmd *cobra.Command, args []string) error {
 	}
 
 	// Decrypt key with passphrase.
-	passphrase, err := getPassphrase(passwordFile)
+	passphrase, err := common.GetPassphrase(passwordFile)
 	if err != nil {
 		return err
 	}

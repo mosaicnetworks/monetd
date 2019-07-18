@@ -6,10 +6,10 @@ import (
 )
 
 var (
-	passwordFile   string
-	outputJSON     bool
-	monikerParam   string
-	monetConfigDir string
+	passwordFile      string
+	outputJSON        bool
+	monikerParam      string
+	monetCliConfigDir string
 )
 
 //KeysCmd is an Ethereum key manager

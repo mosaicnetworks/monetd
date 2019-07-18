@@ -1,12 +1,15 @@
 package keys
 
 import (
+	"encoding/hex"
 	"errors"
-	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
 
+	"github.com/pelletier/go-toml"
+
+	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/mosaicnetworks/monetd/src/common"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -15,8 +18,8 @@ import (
 //AddNewFlags adds flags to the New command
 func AddNewFlags(cmd *cobra.Command) {
 
-	defaultMonetConfigDir, _ := common.DefaultHomeDir(common.MonetdTomlDir)
-	cmd.PersistentFlags().StringVarP(&monetConfigDir, "monet-config-dir", "m", defaultMonetConfigDir, "the directory containing monet nodes configurations")
+	defaultMonetcliConfigDir, _ := common.DefaultHomeDir(common.MonetcliTomlDir)
+	cmd.PersistentFlags().StringVarP(&monetCliConfigDir, "monetcli-config-dir", "m", defaultMonetcliConfigDir, "the directory containing monet nodes configurations")
 	cmd.Flags().StringVar(&monikerParam, "moniker", "", "specify moniker for this key")
 	viper.BindPFlags(cmd.Flags())
 }
@@ -43,13 +46,13 @@ func newkeys(cmd *cobra.Command, args []string) error {
 		return errors.New("You need to specify a moniker with --moniker ")
 	}
 
-	accountsDir := filepath.Join(monetConfigDir, common.MonetAccountsSubFolder)
+	accountsDir := filepath.Join(monetCliConfigDir, common.MonetAccountsSubFolder)
 
 	// Create Monet Config if missing
-	if !common.CheckIfExists(monetConfigDir) {
-		err := os.MkdirAll(monetConfigDir, os.ModePerm)
+	if !common.CheckIfExists(monetCliConfigDir) {
+		err := os.MkdirAll(monetCliConfigDir, os.ModePerm)
 		if err != nil {
-			common.MessageWithType(common.MsgError, "Error creating directory: ", monetConfigDir)
+			common.MessageWithType(common.MsgError, "Error creating directory: ", monetCliConfigDir)
 			return err
 		}
 	}
@@ -80,6 +83,7 @@ func newkeys(cmd *cobra.Command, args []string) error {
 
 	// Generate Key
 	keyFile := filepath.Join(nodeDir, common.DefaultKeyfile)
+	nodeFile := filepath.Join(nodeDir, common.NodeFile)
 
 	key, err := GenerateKeyPair(keyFile, passwordFile)
 	if err != nil {
@@ -87,7 +91,24 @@ func newkeys(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	fmt.Print(key.Address)
+	common.MessageWithType(common.MsgDebug, "Generated Address      : ", key.Address.Hex())
+	common.MessageWithType(common.MsgDebug, "Generated PubKey       : ", hex.EncodeToString(crypto.FromECDSAPub(&key.PrivateKey.PublicKey)))
+	common.MessageWithType(common.MsgDebug, "Generated ID           : ", key.Id)
+
+	//TODO Remove this line
+	common.MessageWithType(common.MsgDebug, "Generated Private Key  : ", hex.EncodeToString(crypto.FromECDSA(key.PrivateKey)))
+
+	// write peers config
+	tree, err := toml.Load("")
+	tree.SetPath([]string{"node", "moniker"}, monikerParam)
+	tree.SetPath([]string{"node", "label"}, safeLabel)
+	tree.SetPath([]string{"node", "address"}, key.Address.Hex())
+	tree.SetPath([]string{"node", "pubkey"}, hex.EncodeToString(crypto.FromECDSAPub(&key.PrivateKey.PublicKey)))
+
+	//TODO Remove this line
+	tree.SetPath([]string{"node", "privatekey"}, hex.EncodeToString(crypto.FromECDSA(key.PrivateKey)))
+
+	common.SaveToml(tree, nodeFile)
 
 	return nil
 }
