@@ -6,6 +6,7 @@ import (
 	"io"
 	"io/ioutil"
 	"log"
+	"net/http"
 	"os"
 	"os/user"
 	"path/filepath"
@@ -148,6 +149,36 @@ func ShowConfigFile(filename string) error {
 
 	color.Unset()
 	return nil
+}
+
+//DownloadFile ...
+func DownloadFile(url string, writefile string) error {
+	b, err := GetRequest(url)
+	if err != nil {
+		MessageWithType(MsgError, "Error getting "+url, err)
+		return err
+	}
+
+	err = WriteToFile(writefile, string(b))
+	if err != nil {
+		MessageWithType(MsgError, "Error writing "+writefile, err)
+		return err
+	}
+	return nil
+}
+
+//GetRequest ...
+func GetRequest(url string) ([]byte, error) {
+	resp, err := http.Get(url)
+	if err != nil {
+		return nil, err
+	}
+	bytes, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+	resp.Body.Close()
+	return bytes, nil
 }
 
 /* Helper Functions */

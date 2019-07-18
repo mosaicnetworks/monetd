@@ -22,10 +22,10 @@ monetcli config clear
 ## Create An Account
 
 Firstly we need to create an account 
-for the validator. We will generate a private and public keypair. The syntax for the `monetcli key new` command is:
+for the validator. We will generate a private and public keypair. The syntax for the `monetcli keys new` command is:
 
 ```bash
-monetcli key new [--moniker moniker] [--passphrase eth.txt]
+monetcli keys new [--moniker moniker] [--passphrase eth.txt]
 ```
 You need to supply a moniker for this node. You will also need to supply a passphrase to secure your key. You can either use the `--passphrase` parameter to specify a file containing the passphrase, or you can specify interactively. 
 
@@ -251,7 +251,7 @@ monetcli config clear
 As for creating a new network, you need to generate your key pair for your account, exactly as per when creating a new network. The syntax of the command is: 
 
 ```bash
-$ monetcli key new [--moniker moniker] [--passphrase eth.txt]
+$ monetcli keys new [--moniker moniker] [--passphrase eth.txt]
 ```
 You need to supply a moniker for this node. You will also need to supply a passphrase to secure your key. You can either use the `--passphrase` parameter to specify a file containing the passphrase, or you can specify interactively. 
 
@@ -259,13 +259,13 @@ You need to supply a moniker for this node. You will also need to supply a passp
 
 Thus we need to run:
 ```bash
-$ monetcli key new --moniker node0 
+$ monetcli keys new --moniker node1 
 Enter Passphrase:
 Re-Enter Passphrase:
-Address: 0x83434e68b52Ef809538224BF78472cc3F6a17bcC
+Address: 0xDd9C70C8a02D1D47c4423850b1bDc7C3bbb43422
 ```
 
-
+//TODO update this tree
 ```bash
 .monet
 ├── accounts
@@ -291,7 +291,7 @@ We need the IP address for the node you building a network upon. For a live netw
 Thus we need to run this command, but replace `192.168.1.4` with the IP address / hostname you discover above, and replace `192.168.1.5` with the address of the existing peer. 
 
 ```bash
-$ monetcli config pull --peer 192.168.1.5 --node node0  --address 192.168.1.4 
+$ monetcli config pull --peer 192.168.1.4 --node node1  --address 192.168.1.5 
 ```
 
 This command builds the configuration files for a monetd node. It adds the lists of nodes given by the `--nodes` parameter to the initial peer set, including adding them to the initial validator whitelist in the POA smart contract. 
@@ -354,7 +354,7 @@ $ monetcli config clear
 ## Generating A New Key Pair
 
 ```bash
-$ monetcli key new [--moniker moniker] [--passphrase eth.txt]
+$ monetcli keys new [--moniker moniker] [--passphrase eth.txt]
 ```
 
 ## Importing Existing Key Pairs
@@ -362,7 +362,7 @@ $ monetcli key new [--moniker moniker] [--passphrase eth.txt]
 Imports an existing keyfile allow configuration of an existing account.
 
 ```bash
-$ monetcli key import [--keyfile keyfile] [--moniker moniker] [--passphrase eth.txt]
+$ monetcli keys import [--keyfile keyfile] [--moniker moniker] [--passphrase eth.txt]
 ```
 
 ## Key Pair Storage
@@ -411,7 +411,7 @@ $ monetcli config build --node node0  --address 192.168.1.4 --peers node1,node2,
 
 ## Development TODO
 
-+ ~~monetcli key new~~
++ ~~monetcli keys new~~
 
 + ~~monetcli config clear~~
 

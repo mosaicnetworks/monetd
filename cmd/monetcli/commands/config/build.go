@@ -37,7 +37,6 @@ func buildConfig(cmd *cobra.Command, args []string) error {
 	//		return errors.New("--passfile parameter is not set")
 	//	}
 
-	//TODO support typing passphrase on demand.
 	safeLabel := common.GetNodeSafeLabel(nodeParam)
 	keyFile := filepath.Join(networkConfigDir, common.MonetAccountsSubFolder, safeLabel, common.DefaultKeyfile)
 

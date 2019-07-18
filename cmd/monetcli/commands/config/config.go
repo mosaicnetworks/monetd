@@ -26,6 +26,7 @@ the monetd server process. `,
 	nodeParam        string
 	addressParam     string
 	passwordFile     string
+	existingPeer     string
 
 	//Force is a flag to allow overwriting of config files without warning. Can be
 	//set programmatically or with --force flag
@@ -85,6 +86,16 @@ Pulls the monetd configuration files from an existing peer.`,
 		Args: cobra.ArbitraryArgs,
 		RunE: pullConfig,
 	}
+
+	cmd.PersistentFlags().StringVarP(&nodeParam, "node", "n", "", "the directory name containing monet nodes configurations")
+	cmd.PersistentFlags().StringVarP(&addressParam, "address", "a", "", " ip address/host name of this node")
+	cmd.PersistentFlags().StringVarP(&passwordFile, "passfile", "p", "", "the file that contains the passphrase for the keyfile")
+	cmd.PersistentFlags().StringVar(&existingPeer, "peer", "", "the address of an existing peer")
+
+	//	KeysCmd.PersistentFlags().BoolVar(&outputJSON, "json", false, "output JSON instead of human-readable format")
+
+	viper.BindPFlags(cmd.Flags())
+
 	return cmd
 }
 
