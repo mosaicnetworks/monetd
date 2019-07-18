@@ -5,6 +5,16 @@ pragma solidity >=0.4.22;
 /// @author Mosaic Networks
 /// @notice Copyright Mosaic Networks 2019, released under the MIT license
 
+
+
+/***********************************************************************
+
+NB This is no longer the master copy. The master copy is embedded in 
+the source code in src/common/solidity.go
+
+**************************************************************************/
+
+
 contract POA_Genesis {
 /// @notice Event emitted when the vote was reached a decision
 /// @param _nominee The address of the nominee
