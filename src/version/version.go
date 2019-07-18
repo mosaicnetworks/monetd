@@ -10,16 +10,12 @@ import (
 
 //Maj is Major Version Number
 const Maj = "0"
-
-//Min is Minor Version Number
-const Min = "1"
-
-//Fix is the Patch Version
-const Fix = "1"
+const Min = "0"
+const Fix = "3"
 
 var (
-	//Version is the full version string
-	Version = "0.1.1"
+	// The full version string
+	Version = "0.0.3"
 
 	// GitCommit is set with --ldflags "-X main.gitCommit=$(git rev-parse HEAD)"
 	GitCommit string
