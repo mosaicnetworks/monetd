@@ -9,7 +9,6 @@ import (
 	"github.com/mosaicnetworks/monetd/src/common"
 
 	types "github.com/ethereum/go-ethereum/common"
-	compile "github.com/ethereum/go-ethereum/common/compiler"
 
 	"github.com/spf13/cobra"
 )
@@ -59,15 +58,15 @@ func CompileConfigWithParam(configDir string) error {
 		return errors.New("Peerset is empty")
 	}
 
-	var alloc = make(genesisAlloc)
+	var alloc = make(common.GenesisAlloc)
 	var peers common.PeerRecordList
 
-	for i, value := range currentNodes {
+	for _, value := range currentNodes {
 
 		rawaddr := tree.GetPath([]string{"validators", value, "address"}).(string)
 		rawmoniker := tree.GetPath([]string{"validators", value, "moniker"}).(string)
 		rawpubkey := tree.GetPath([]string{"validators", value, "pubkey"}).(string)
-		rawisvalidator := tree.GetPath([]string{"validators", value, "validator"}).(bool)
+		//	rawisvalidator := tree.GetPath([]string{"validators", value, "validator"}).(bool)
 		rawip := tree.GetPath([]string{"validators", value, "ip"}).(string)
 
 		// Convert Hex to Address and back out to get a EIP55 compliant address
@@ -76,12 +75,16 @@ func CompileConfigWithParam(configDir string) error {
 		peer := common.PeerRecord{NetAddr: rawip, PubKeyHex: rawpubkey, Moniker: rawmoniker}
 		peers = append(peers, &peer)
 
-		rec := genesisAllocRecord{Moniker: rawmoniker, Balance: common.DefaultAccountBalance}
+		rec := common.GenesisAllocRecord{Moniker: rawmoniker, Balance: common.DefaultAccountBalance}
 		alloc[addr] = &rec
 
 	}
 
-	finalSoliditySource := common.ApplyInitialWhitelistToSoliditySource(soliditySource, peers)
+	finalSoliditySource, err := common.ApplyInitialWhitelistToSoliditySource(soliditySource, peers)
+	if err != nil {
+		message("Error building genesis contract:", err)
+		return err
+	}
 
 	err = common.WriteToFile(filepath.Join(configDir, common.GenesisContract), finalSoliditySource)
 	if err != nil {
@@ -89,13 +92,13 @@ func CompileConfigWithParam(configDir string) error {
 		return err
 	}
 
-	contractInfo, err := compile.CompileSolidityString("solc", finalSoliditySource)
+	contractInfo, err := common.CompileSolidityContract(finalSoliditySource)
 	if err != nil {
 		message("Error compiling genesis contract:", err)
 		return err
 	}
 
-	var poagenesis genesisPOA
+	var poagenesis common.GenesisPOA
 
 	// message("Contract Compiled: ", contractInfo)
 
@@ -127,7 +130,7 @@ func CompileConfigWithParam(configDir string) error {
 		return err
 	}
 
-	var genesis genesisFile
+	var genesis common.GenesisFile
 
 	genesis.Alloc = &alloc
 	genesis.Poa = &poagenesis
@@ -150,10 +153,10 @@ func CompileConfigWithParam(configDir string) error {
 	jsonFileName = filepath.Join(configDir, common.PeersJSON)
 	common.WriteToFile(jsonFileName, string(peersjson))
 
-	peersjson, err = json.MarshalIndent(genesisPeers, "", "\t")
-	if err != nil {
-		return err
-	}
+	/*	peersjson, err = json.MarshalIndent(genesisPeers, "", "\t")
+		if err != nil {
+			return err
+		}*/
 	jsonFileName = filepath.Join(configDir, common.PeersGenesisJSON)
 	common.WriteToFile(jsonFileName, string(peersjson))
 
@@ -240,7 +243,7 @@ func CompileConfigWithParamb(configDir string) error {
 
 	var consts, addTo, checks []string
 
-	var alloc = make(genesisAlloc)
+	var alloc = make(common.GenesisAlloc)
 	var peers common.PeerRecordList
 	var genesisPeers common.PeerRecordList
 
@@ -268,7 +271,7 @@ func CompileConfigWithParamb(configDir string) error {
 			genesisPeers = append(genesisPeers, &peer)
 		}
 
-		rec := genesisAllocRecord{Moniker: rawmoniker, Balance: common.DefaultAccountBalance}
+		rec := common.GenesisAllocRecord{Moniker: rawmoniker, Balance: common.DefaultAccountBalance}
 		alloc[addr] = &rec
 
 	}
@@ -311,7 +314,7 @@ func CompileConfigWithParamb(configDir string) error {
 		return err
 	}
 
-	var poagenesis genesisPOA
+	var poagenesis common.GenesisPOA
 
 	// message("Contract Compiled: ", contractInfo)
 
@@ -343,7 +346,7 @@ func CompileConfigWithParamb(configDir string) error {
 		return err
 	}
 
-	var genesis genesisFile
+	var genesis common.GenesisFile
 
 	genesis.Alloc = &alloc
 	genesis.Poa = &poagenesis

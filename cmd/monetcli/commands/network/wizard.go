@@ -262,7 +262,7 @@ nodeloop:
 
 iploop:
 	for {
-		ip = common.RequestString("Node Address", nodename+":1337")
+		ip = common.RequestString("Node Address", nodename+":"+common.DefaultGossipPort)
 		//Enhancement -  Check if the ip is already in use
 		break iploop
 	}
@@ -340,7 +340,7 @@ nodeloop:
 
 iploop:
 	for {
-		ip = common.RequestString("Node Address", nodename+":1337")
+		ip = common.RequestString("Node Address", nodename+":"+common.DefaultGossipPort)
 		//Enhancement -  Check if the ip is already in use
 		break iploop
 	}

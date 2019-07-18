@@ -132,9 +132,9 @@ func testJoinWizard() error {
 
 	common.MessageWithType(common.MsgInformation, "Contacting ", Peer)
 
-	urlGenesisPeersJSON := "http://" + Peer + ":8000/genesispeers"
-	urlPeersJSON := "http://" + Peer + ":8000/peers"
-	urlGenesisJSON := "http://" + Peer + ":8080/genesis"
+	urlGenesisPeersJSON := "http://" + Peer + ":" + common.DefaultBabblePort + "/genesispeers"
+	urlPeersJSON := "http://" + Peer + ":" + common.DefaultBabblePort + "/peers"
+	urlGenesisJSON := "http://" + Peer + ":" + common.DefaultEVMLitePort + "genesis"
 
 	common.MessageWithType(common.MsgInformation, "Downloading files from ", Peer)
 
@@ -674,8 +674,8 @@ func generateMonetdToml() error {
 log = "debug"
 
 [babble]
-listen = "` + ip + `:1337"
-service-listen = ":8000"
+listen = "` + ip + ":" + common.DefaultGossipPort + `"
+service-listen = ":` + common.DefaultBabblePort + `"
 heartbeat = "500ms"
 timeout = "1s"
 cache-size = 50000
@@ -683,7 +683,7 @@ sync-limit = 1000
 max-pool = 2
 
 [eth]
-listen = ":8080"
+listen = ":` + common.DefaultEVMLitePort + `"
 cache = 128
 `
 

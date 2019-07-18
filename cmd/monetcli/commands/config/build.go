@@ -10,6 +10,8 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/pelletier/go-toml"
+
 	"github.com/ethereum/go-ethereum/accounts/keystore"
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/mosaicnetworks/babble/src/babble"
@@ -51,6 +53,7 @@ func buildConfig(cmd *cobra.Command, args []string) error {
 		monetConfigDir,
 		filepath.Join(monetConfigDir, common.BabbleDir),
 		filepath.Join(monetConfigDir, common.EthDir),
+		filepath.Join(monetConfigDir, common.POADir),
 		filepath.Join(monetConfigDir, common.EthDir, "keystore"),
 	}
 
@@ -67,7 +70,7 @@ func buildConfig(cmd *cobra.Command, args []string) error {
 
 	peerslist := []string{safeLabel} // TODO Add the extended peers list in here
 
-	addr := addressParam
+	addr := addressParam + ":" + common.DefaultGossipPort
 
 	peersJSON := common.PeerRecordList{}
 
@@ -117,8 +120,87 @@ func buildConfig(cmd *cobra.Command, args []string) error {
 		return fmt.Errorf("Error decrypting key: %v", err)
 	}
 
+	// This may go
 	privateKey := hex.EncodeToString(crypto.FromECDSA(key.PrivateKey))
 	common.WriteToFile(filepath.Join(monetConfigDir, common.BabbleDir, babble.DefaultKeyfile), privateKey)
 
+	//TODO you check .monetcli/network.toml for an updated contract address
+
+	err = common.BuildGenesisJSON(networkConfigDir, monetConfigDir, peersJSON, common.DefaultContractAddress)
+	//	monetcliConfigDir string, monetdConfigDir string, peers PeerRecordList, contractAddress string)
+	if err != nil {
+		return err
+	}
+
+	tomlfile := filepath.Join(networkConfigDir, common.MonetcliTomlName+common.TomlSuffix)
+	monettomlfile := filepath.Join(monetConfigDir, common.MonetdTomlName+common.TomlSuffix)
+
+	var tree *toml.Tree
+
+	if common.CheckIfExists(tomlfile) {
+		tree, err = common.LoadToml(tomlfile)
+	} else {
+		tree, err = toml.Load("")
+	}
+	if err != nil {
+		return err
+	}
+
+	err = common.TransformCliTomlToD(tree, monetConfigDir)
+	if err != nil {
+		return err
+	}
+
+	err = common.SaveToml(tree, monettomlfile)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
+
+/*
+//BuildGenesisJSON ...
+func BuildGenesisJSON(peers common.PeerRecordList, networkConfigDir string) error {
+
+	version, err := common.GetSolidityCompilerVersion()
+	if err != nil {
+		return err
+	}
+
+	// Attempts to load contract from standard location, falls back to
+	// github
+	filename := filepath.Join(networkConfigDir, common.TemplateContract)
+	soliditySource, err := common.GetSoliditySource(filename)
+
+	if err != nil || strings.TrimSpace(soliditySource) == "" {
+		return errors.New("no valid solidity contract source found")
+	}
+
+	// We now have the solidity template in a string. We need to apply
+	// the peers to create the initial whitelist.
+
+	finalSoliditySource, err := common.ApplyInitialWhitelistToSoliditySource(soliditySource, peers)
+	if err != nil {
+		common.MessageWithType(common.MsgError, "Error building genesis contract:", err)
+		return err
+	}
+
+	// We write out the final source to file
+
+	err = common.WriteToFile(filepath.Join(networkConfigDir, common.GenesisContract), finalSoliditySource)
+	if err != nil {
+		common.MessageWithType(common.MsgError, "Error writing genesis contract:", err)
+		return err
+	}
+
+	// And we compile the final source
+	contractInfo, err := common.CompileSolidityContract(finalSoliditySource)
+	if err != nil {
+		common.MessageWithType(common.MsgError, "Error compiling genesis contract:", err)
+		return err
+	}
+
+	return nil
+}
+*/

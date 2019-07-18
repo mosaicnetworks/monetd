@@ -29,14 +29,19 @@ const (
 	MonetdTomlDirCaps   = "MONET"
 	MonetcliTomlDirCaps = "MONETCLI"
 
-	BabbleDir        = "babble"
-	EthDir           = "eth"
-	PwdFile          = "pwd.txt"
-	PublishDir       = "publish"
-	DefaultKeyfile   = "keyfile.json"
-	NodeFile         = "node.toml"
-	EvmlcTomlDirCaps = "EVMLC"
-	EvmlcTomlDirDot  = ".evmlc"
+	BabbleDir          = "babble"
+	EthDir             = "eth"
+	PwdFile            = "pwd.txt"
+	PublishDir         = "publish"
+	POADir             = "poa"
+	DefaultKeyfile     = "keyfile.json"
+	NodeFile           = "node.toml"
+	CompileResultFile  = "compile.toml"
+	EvmlcTomlDirCaps   = "EVMLC"
+	EvmlcTomlDirDot    = ".evmlc"
+	DefaultGossipPort  = "1337"
+	DefaultBabblePort  = "8000"
+	DefaultEVMLitePort = "8080"
 
 	TomlSuffix = ".toml"
 
@@ -107,12 +112,12 @@ func GetMonetDefaultConfigKeys(monetConfigDir string) []KeyValue {
 		{Key: "eth.keystore", Value: filepath.Join(monetConfigDir, EthDir, "keystore"), Override: true},
 		{Key: "eth.pwd", Value: filepath.Join(monetConfigDir, EthDir, PwdFile), Override: true},
 		{Key: "eth.db", Value: filepath.Join(monetConfigDir, EthDir, "chaindata"), Override: true},
-		{Key: "eth.listen", Value: ":8080", Override: false},
+		{Key: "eth.listen", Value: ":" + DefaultEVMLitePort, Override: false},
 		{Key: "eth.cache", Value: "128", Override: false},
 
 		{Key: "babble.datadir", Value: filepath.Join(monetConfigDir, BabbleDir), Override: true},
-		{Key: "babble.listen", Value: GetMyIP() + ":1337", Override: false},
-		{Key: "babble.service-listen", Value: ":8000", Override: false},
+		{Key: "babble.listen", Value: GetMyIP() + ":" + DefaultGossipPort, Override: false},
+		{Key: "babble.service-listen", Value: ":" + DefaultBabblePort, Override: false},
 		{Key: "babble.heartbeat", Value: time.Duration(500 * time.Millisecond).String(), Override: false},
 		{Key: "babble.timeout", Value: time.Duration(1000 * time.Millisecond).String(), Override: false},
 		{Key: "babble.cache-size", Value: "50000", Override: false},
