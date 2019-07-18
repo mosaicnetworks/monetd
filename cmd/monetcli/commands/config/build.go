@@ -158,6 +158,11 @@ func buildConfig(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
+	err = common.SendKeyToEVMLC(safeLabel, keyFile)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
