@@ -111,12 +111,125 @@ This is clearly not a production configuration, where you would use `nohup` and 
 
 ## Testing
 
-//TODO flesh this out.
+Start EVM-Lite-CLI in interactive mode, and run some commands:
 
-+ connect evmlc
-+ create a new key pair
-+ transfer some money
+```bash
+$ evmlc i
+  _____  __     __  __  __           _       _   _               ____   _       ___ 
+ | ____| \ \   / / |  \/  |         | |     (_) | |_    ___     / ___| | |     |_ _|
+ |  _|    \ \ / /  | |\/| |  _____  | |     | | | __|  / _ \   | |     | |      | | 
+ | |___    \ V /   | |  | | |_____| | |___  | | | |_  |  __/   | |___  | |___   | | 
+ |_____|    \_/    |_|  |_|         |_____| |_|  \__|  \___|    \____| |_____| |___|
+                                                                                    
+ Mode:        Interactive
+ Data Dir:    /home/jon/.evmlc
+ Config File: /home/jon/.evmlc/config.toml
+ Keystore:    /home/jon/.evmlc/keystore
+
+  Commands:
+
+    help [command...]    Provides help for a given command.
+    exit                 Exits application.
+    clear                Clears interactive mode console output
+    info [options]       Display information about node
+    version [options]    Display current version of cli
+    transfer [options]   Initiate a transfer of token(s) to an address
+
+  Command Groups:
+
+    accounts *           5 sub-commands.
+    config *             2 sub-commands.
+    poa *                6 sub-commands.
+
+evmlc$ info -f
+.-------------------------------------.
+|          Key           |   Value    |
+|------------------------|------------|
+| consensus_events       | 0          |
+| consensus_transactions | 0          |
+| events_per_second      | 0.00       |
+| id                     | 1022922485 |
+| last_block_index       | -1         |
+| last_consensus_round   | nil        |
+| moniker                | node0      |
+| num_peers              | 1          |
+| round_events           | 0          |
+| rounds_per_second      | 0.00       |
+| state                  | Babbling   |
+| sync_rate              | 1.00       |
+| transaction_pool       | 0          |
+| type                   | babble     |
+| undetermined_events    | 0          |
+'-------------------------------------'
+evmlc$ accounts list -f
+.-----------------------------------------------------------------------------.
+|                  Address                   |        Balance         | Nonce |
+|--------------------------------------------|------------------------|-------|
+| 0x46e05762e981d040283af871DcA60A71a6786A23 | 1234000000000000000000 |     0 |
+'-----------------------------------------------------------------------------'
+
+evmlc$ accounts get -f 0x46e05762e981d040283af871DcA60A71a6786A23
+.-----------------------------------------------------------------------------------------------.
+|                  Address                   |            Balance            | Nonce | Bytecode |
+|--------------------------------------------|-------------------------------|-------|----------|
+| 0x46e05762e981d040283af871DcA60A71a6786A23 | 1,234,000,000,000,000,000,000 |     0 |          |
+'-----------------------------------------------------------------------------------------------' 
+evmlc$ exit   
+```
+
+Generate a new key pair value. 
+```bash
+$ monetcli keys generate /tmp/keyfile.json
+Passphrase: 
+Address: 0x7B86a2BE73108a94D54C0Fd2a52676425aCE270c
+```
+
+
+```bash
+evmlc$ accounts get 0x7B86a2BE73108a94D54C0Fd2a52676425aCE270c -f
+.-------------------------------------------------------------------------.
+|                  Address                   | Balance | Nonce | Bytecode |
+|--------------------------------------------|---------|-------|----------|
+| 0x7B86a2BE73108a94D54C0Fd2a52676425aCE270c |       0 |     0 |          |
+'-------------------------------------------------------------------------'
+
+evmlc$ transfer
+? From:  46e05762e981d040283af871dca60a71a6786a23
+? Enter password:  [hidden]
+? To 0x7B86a2BE73108a94D54C0Fd2a52676425aCE270c
+? Value:  5000
+? Gas:  100000000
+? Gas Price:  0
+Transaction {
+  constant: false,
+  parseLogs: undefined,
+  unpackfn: undefined,
+  from: '46e05762e981d040283af871dca60a71a6786a23',
+  to: '7b86a2be73108a94d54c0fd2a52676425ace270c',
+  value: 5000,
+  data: '',
+  gas: 100000000,
+  gasPrice: 0,
+  nonce: undefined,
+  chainId: 1 }
+? Submit transaction Yes
+Transaction submitted successfully.
+evmlc$ accounts get 0x7B86a2BE73108a94D54C0Fd2a52676425aCE270c -f
+.-------------------------------------------------------------------------.
+|                  Address                   | Balance | Nonce | Bytecode |
+|--------------------------------------------|---------|-------|----------|
+| 0x7B86a2BE73108a94D54C0Fd2a52676425aCE270c | 5,000   |     0 |          |
+'-------------------------------------------------------------------------'
+evmlc$ exit
+
+```
+
+
+//TODO flesh this section out.
+
 + run crowdfunding etc.
+
+
 
 
 
