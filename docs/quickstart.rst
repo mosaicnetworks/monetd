@@ -21,8 +21,6 @@ They naturally divide into 2 sections:
 Full details can be found at the links above, but the Quick Start section below 
 may provide some useful insights.
 
-Quick Start
-===========
 
 Installation
 ------------
@@ -31,47 +29,12 @@ The installation process is covered in :ref:`install_rst` .
 
 --------------
 
-Creating a new Test Net
------------------------
 
-To set up a new testnet, with yourself as one of the initial peers, use:
+Examples
+--------
 
-.. code:: bash
-
-    $ monetcli testnet
-
-See the testnet section :ref:`monetcli_testnet` for more information.
-
-N.B. You will need access to a running ``monetcfgsrv`` instance as described in 
-the testnet section and the linked document.
-
---------------
-
-Joining an existing Test Net
-----------------------------
-
-To join an existing testnet use:
-
-.. code:: bash
-
-    $ monetcli testjoin
-
-See the testjoin section in :ref:`monetcli_rst` for more information.
-
---------------
-
-Interactive Configuration
--------------------------
-
-The general purpose guided configuration can be accessed via:
-
-.. code:: bash
-
-    $ monetcli wizard
-
-This tool is used for more flexible configurations than the tools above, which 
-offer less options and are thus more straightforward. See the wizard section in 
-:ref:`monetcli_rst` for more information.
+The :ref:`basic_examples_rst` describes setting up a single node network and then 
+joining additional nodes to it.
 
 --------------
 

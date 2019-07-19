@@ -3,18 +3,12 @@ package network
 import (
 	"encoding/json"
 	"errors"
-	"io/ioutil"
-	"net/http"
-	"os"
 	"path/filepath"
-	"regexp"
-	"strconv"
 	"strings"
 
 	"github.com/mosaicnetworks/monetd/src/common"
 
 	types "github.com/ethereum/go-ethereum/common"
-	compile "github.com/ethereum/go-ethereum/common/compiler"
 
 	"github.com/spf13/cobra"
 )
@@ -26,6 +20,156 @@ func compileConfig(cmd *cobra.Command, args []string) error {
 //CompileConfigWithParam "finishes" the monetcli configuration, compiling the POA smart contract
 //in preparation for a call to monetcli config publish
 func CompileConfigWithParam(configDir string) error {
+	// Load the Current Config
+
+	tree, err := common.LoadTomlConfig(configDir)
+	if err != nil {
+		return err
+	}
+
+	// Retrieve and set the version number
+	version, err := common.GetSolidityCompilerVersion()
+	if err != nil {
+		return err
+	}
+
+	tree.SetPath([]string{"poa", "compilerverison"}, version)
+
+	currentNodes, err := GetPeersLabelsListFromToml(configDir)
+	if err != nil {
+		return err
+	}
+
+	if len(currentNodes) < 1 {
+		return errors.New("Peerset is empty")
+	}
+
+	var alloc = make(common.GenesisAlloc)
+	var peers common.PeerRecordList
+
+	for _, value := range currentNodes {
+
+		rawaddr := tree.GetPath([]string{"validators", value, "address"}).(string)
+		rawmoniker := tree.GetPath([]string{"validators", value, "moniker"}).(string)
+		rawpubkey := tree.GetPath([]string{"validators", value, "pubkey"}).(string)
+		//	rawisvalidator := tree.GetPath([]string{"validators", value, "validator"}).(bool)
+		rawip := tree.GetPath([]string{"validators", value, "ip"}).(string)
+
+		// Convert Hex to Address and back out to get a EIP55 compliant address
+		addr := types.HexToAddress(rawaddr).Hex()
+		// Non-validators are added to the peer set, but not to the genesis peer set.
+		peer := common.PeerRecord{NetAddr: rawip, PubKeyHex: rawpubkey, Moniker: rawmoniker}
+		peers = append(peers, &peer)
+
+		rec := common.GenesisAllocRecord{Moniker: rawmoniker, Balance: common.DefaultAccountBalance}
+		alloc[addr] = &rec
+
+	}
+
+	/*
+		//When contracts are "set" for a network, the solidity source is copied into the monetcli config directory
+		//with a name of template.sol (defined by constant common.TemplateContract). Thus we can check just for that file.
+		//If not found, then we download a fresh contract.
+		filename := filepath.Join(configDir, common.TemplateContract)
+		message("Checking for file: ", filename)
+
+		soliditySource, err := common.GetSoliditySource(filename)
+
+		if err != nil || strings.TrimSpace(soliditySource) == "" {
+			return errors.New("no valid solidity contract source found")
+		}
+
+		finalSoliditySource, err := common.ApplyInitialWhitelistToSoliditySource(soliditySource, peers)*/
+	finalSoliditySource, err := common.GetFinalSoliditySource(peers)
+
+	if err != nil {
+		message("Error building genesis contract:", err)
+		return err
+	}
+
+	err = common.WriteToFile(filepath.Join(configDir, common.GenesisContract), finalSoliditySource)
+	if err != nil {
+		message("Error writing genesis contract:", err)
+		return err
+	}
+
+	contractInfo, err := common.CompileSolidityContract(finalSoliditySource)
+	if err != nil {
+		message("Error compiling genesis contract:", err)
+		return err
+	}
+
+	var poagenesis common.GenesisPOA
+
+	// message("Contract Compiled: ", contractInfo)
+
+	for k, v := range contractInfo {
+		message("Processing Contract: ", k)
+		jsonabi, err := json.MarshalIndent(v.Info.AbiDefinition, "", "\t")
+		if err != nil {
+			message("ABI error:", err)
+			return err
+		}
+
+		tree.SetPath([]string{"poa", "contractclass"}, strings.TrimPrefix(k, "<stdin>:"))
+		tree.SetPath([]string{"poa", "abi"}, string(jsonabi))
+
+		common.WriteToFile(filepath.Join(configDir, common.GenesisABI), string(jsonabi))
+		tree.SetPath([]string{"poa", "bytecode"}, strings.TrimPrefix(v.RuntimeCode, "0x"))
+
+		poagenesis.Abi = string(jsonabi)
+		poagenesis.Address = types.HexToAddress(tree.Get("poa.contractaddress").(string)).Hex() //EIP55 compliant
+		poagenesis.Code = strings.TrimPrefix(v.RuntimeCode, "0x")
+
+		message("Set Contract Items")
+		break // We only have one contract ever so no need to loop. We use the for loop as k is indeterminate
+	}
+
+	err = common.SaveTomlConfig(configDir, tree)
+	if err != nil {
+		common.MessageWithType(common.MsgDebug, "Cannot save TOML file")
+		return err
+	}
+
+	var genesis common.GenesisFile
+
+	genesis.Alloc = &alloc
+	genesis.Poa = &poagenesis
+
+	genesisjson, err := json.MarshalIndent(genesis, "", "\t")
+	if err != nil {
+		return err
+	}
+
+	common.MessageWithType(common.MsgDebug, "Write Genesis.json")
+	jsonFileName := filepath.Join(configDir, common.GenesisJSON)
+	common.WriteToFile(jsonFileName, string(genesisjson))
+
+	common.MessageWithType(common.MsgDebug, "Write Peers.json")
+
+	peersjson, err := json.MarshalIndent(peers, "", "\t")
+	if err != nil {
+		return err
+	}
+	jsonFileName = filepath.Join(configDir, common.PeersJSON)
+	common.WriteToFile(jsonFileName, string(peersjson))
+
+	/*	peersjson, err = json.MarshalIndent(genesisPeers, "", "\t")
+		if err != nil {
+			return err
+		}*/
+	jsonFileName = filepath.Join(configDir, common.PeersGenesisJSON)
+	common.WriteToFile(jsonFileName, string(peersjson))
+
+	common.MessageWithType(common.MsgDebug, "Compilation Task Complete")
+
+	return nil
+}
+
+/*
+//CompileConfigWithParamb "finishes" the monetcli configuration, compiling the POA smart contract
+//in preparation for a call to monetcli config publish
+func CompileConfigWithParamb(configDir string) error {
 	var soliditySource string
 	// Load the Current Config
 
@@ -35,17 +179,10 @@ func CompileConfigWithParam(configDir string) error {
 	}
 
 	// Retrieve and set the version number
-	s, err := compile.SolidityVersion("")
-
+	version, err := common.GetSolidityCompilerVersion()
 	if err != nil {
 		return err
 	}
-
-	common.Message("Path         : ", s.Path)
-	message("Full Version : \n", s.FullVersion)
-	version := s.FullVersion
-	re := regexp.MustCompile(`\r?\n`)
-	version = re.ReplaceAllString(version, " ")
 
 	tree.SetPath([]string{"poa", "compilerverison"}, version)
 
@@ -107,9 +244,9 @@ func CompileConfigWithParam(configDir string) error {
 
 	var consts, addTo, checks []string
 
-	var alloc = make(genesisAlloc)
-	var peers peerRecordList
-	var genesisPeers peerRecordList
+	var alloc = make(common.GenesisAlloc)
+	var peers common.PeerRecordList
+	var genesisPeers common.PeerRecordList
 
 	for i, value := range currentNodes {
 
@@ -122,12 +259,8 @@ func CompileConfigWithParam(configDir string) error {
 		// Convert Hex to Address and back out to get a EIP55 compliant address
 		addr := types.HexToAddress(rawaddr).Hex()
 
-		/*	val, err := strconv.ParseBool(rawisvalidator)
-			if err != nil {
-				return err
-			} */
 		// Non-validators are added to the peer set, but not to the genesis peer set.
-		peer := peerRecord{NetAddr: rawip, PubKeyHex: rawpubkey, Moniker: rawmoniker}
+		peer := common.PeerRecord{NetAddr: rawip, PubKeyHex: rawpubkey, Moniker: rawmoniker}
 		peers = append(peers, &peer)
 
 		if rawisvalidator {
@@ -139,7 +272,7 @@ func CompileConfigWithParam(configDir string) error {
 			genesisPeers = append(genesisPeers, &peer)
 		}
 
-		rec := genesisAllocRecord{Moniker: rawmoniker, Balance: common.DefaultAccountBalance}
+		rec := common.GenesisAllocRecord{Moniker: rawmoniker, Balance: common.DefaultAccountBalance}
 		alloc[addr] = &rec
 
 	}
@@ -182,7 +315,7 @@ func CompileConfigWithParam(configDir string) error {
 		return err
 	}
 
-	var poagenesis genesisPOA
+	var poagenesis common.GenesisPOA
 
 	// message("Contract Compiled: ", contractInfo)
 
@@ -214,7 +347,7 @@ func CompileConfigWithParam(configDir string) error {
 		return err
 	}
 
-	var genesis genesisFile
+	var genesis common.GenesisFile
 
 	genesis.Alloc = &alloc
 	genesis.Poa = &poagenesis
@@ -248,3 +381,4 @@ func CompileConfigWithParam(configDir string) error {
 
 	return nil
 }
+*/

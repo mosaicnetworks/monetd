@@ -16,7 +16,6 @@ func SetParamsWithParams(configDir string) error {
 	// config publish actions any way so there is no lasting impact
 	assumedMonetDir, _ := DefaultHomeDir(MonetdTomlDir)
 	keySet := GetMonetDefaultConfigKeys(assumedMonetDir)
-
 	configFile := filepath.Join(configDir, MonetcliTomlName+TomlSuffix)
 	tree, err := LoadToml(configFile)
 	if err != nil {

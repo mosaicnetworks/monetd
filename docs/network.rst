@@ -1,7 +1,7 @@
 .. _network_rst:
 
 Monetcli network
-================
+----------------
 
 
 The network subcommand deals with **network.toml**, a new file that

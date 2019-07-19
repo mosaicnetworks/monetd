@@ -1,19 +1,42 @@
-pragma solidity >=0.4.22;
+package common
+
+import (
+	"bytes"
+	"strconv"
+	"strings"
+	"text/template"
+)
+
+//GetFinalSoliditySource Embedded Solidity Source Code
+func GetFinalSoliditySource(peers PeerRecordList) (string, error) {
+
+	var consts, addTo, checks []string
+
+	for i, peer := range peers {
+		addr, err := PublicKeyHexToAddressHex(peer.PubKeyHex)
+		if err != nil {
+			return "", err
+		}
+
+		consts = append(consts, "    address constant initWhitelist"+strconv.Itoa(i)+" = "+addr+";")
+		consts = append(consts, "    bytes32 constant initWhitelistMoniker"+strconv.Itoa(i)+" = \""+peer.Moniker+"\";")
+
+		addTo = append(addTo, "     addToWhitelist(initWhitelist"+strconv.Itoa(i)+", initWhitelistMoniker"+strconv.Itoa(i)+");")
+		checks = append(checks, " ( initWhitelist"+strconv.Itoa(i)+" == _address ) ")
+	}
+
+	solFields := solidityFields{
+		Constants: strings.Join(consts, "\n"),
+		AddTo:     strings.Join(addTo, "\n"),
+		Checks:    strings.Join(checks, "||"),
+	}
+
+	const templateSol = `pragma solidity >=0.4.22;
 
 /// @title Proof of Authority Whitelist Proof of Concept
 /// @author Jon Knight
 /// @author Mosaic Networks
 /// @notice Copyright Mosaic Networks 2019, released under the MIT license
-
-
-
-/***********************************************************************
-
-NB This is no longer the master copy. The master copy is embedded in 
-the source code in src/common/solidity.go
-
-**************************************************************************/
-
 
 contract POA_Genesis {
 /// @notice Event emitted when the vote was reached a decision
@@ -94,48 +117,19 @@ contract POA_Genesis {
    mapping (address => bytes32) monikerList;
 
 
-//GENERATED GENESIS BEGIN
+// GENERATED GENESIS BEGIN
+   {{.Constants}}
 
-    // This code should be removed as part of the monetcli network compile  /monetcli wizard process. 
-    // The code within here is included so that the unamended contract is viable. 
+   function processGenesisWhitelist() private 
+   { 
+	   {{.AddTo}}
+   }
+   
+   function isGenesisWhitelisted(address _address) pure private returns (bool) {
+	   return ( {{.Checks}} );
+   }
+//GENERATED GENESIS END 
 
-    address constant initWhitelist1 = 0x1234567890123456789012345678901234567890;
-    address constant initWhitelist2 = 0x2345678901234567890123456789012345678901;
-    address constant initWhitelist0 = 0x3456789012345678901234567890123456789012;
-
-    bytes32 constant initWhitelistMoniker1 = "Tom";
-    bytes32 constant initWhitelistMoniker2 = "Dick";
-    bytes32 constant initWhitelistMoniker0 = "Harry";
-
-   /// @notice function to apply the genesis white list to the whitelist. This will be generated.
-    function processGenesisWhitelist() private
-    {
-        addToWhitelist(initWhitelist1, initWhitelistMoniker1);
-        addToWhitelist(initWhitelist2, initWhitelistMoniker2);
-        addToWhitelist(initWhitelist0, initWhitelistMoniker0);
-    }
-
-
-   /// @notice function to check if an address is on the intial genesis block white list
-   /// @param _address the address to be checked
-   /// @return a boolean value, indicating if _address is on the white list
-    function isGenesisWhitelisted(address _address) pure private returns (bool)
-    {
-        return (  ( initWhitelist1 == _address ) ||  ( initWhitelist2 == _address ));
-    }
-
-    // Code down to here should be replaced. 
-
-//GENERATED GENESIS END
-
-// There is no constructor for the genesis block
-
-   /// @notice Constructor builds the white list with just the contract owner in it
-   /// @param _moniker the name of the contract owner as shown to other users in the wallet
-    constructor(bytes32 _moniker) public {
-        addToWhitelist(address(uint160(msg.sender)), _moniker);
-        processGenesisWhitelist();
-    }
 
 
    /// @notice This is a constructor replacement for contracts placed directly in the genesis block. This is necessary because the constructor does not run in that instance.
@@ -209,7 +203,7 @@ contract POA_Genesis {
    /// @notice Add a new entry to the nominee list
    /// @param _nomineeAddress the address of the nominee
    /// @param _moniker the moniker of the new nominee as displayed during the voting process
-    function submitNominee (address _nomineeAddress, bytes32 _moniker) public payable checkAuthorisedModifier(msg.sender)
+    function submitNominee (address _nomineeAddress, bytes32 _moniker) public payable // checkAuthorisedModifier(msg.sender)
     {
         nomineeList[_nomineeAddress] = NomineeElection({nominee: _nomineeAddress, proposer: msg.sender,
                     yesVotes: 0, noVotes: 0, yesArray: new address[](0),noArray: new address[](0) });
@@ -451,4 +445,15 @@ contract POA_Genesis {
         return (nomineeList[_address].yesVotes,nomineeList[_address].noVotes);
     }
 
+}
+`
+
+	templ, err := template.New("solidity").Parse(templateSol)
+	if err != nil {
+		return "", err
+	}
+	buf := new(bytes.Buffer)
+	templ.Execute(buf, solFields)
+
+	return buf.String(), nil
 }
