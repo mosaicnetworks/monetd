@@ -76,7 +76,7 @@ func (c *Config) ToEVMLConfig() *evml_config.Config {
 func (c *Config) ToBabbleConfig() *babble.BabbleConfig {
 	babbleConfig := babble.NewDefaultConfig()
 
-	babbleConfig.DataDir = c.DataDir
+	babbleConfig.DataDir = c.Babble.DataDir
 	babbleConfig.BindAddr = c.Babble.BindAddr
 	babbleConfig.ServiceAddr = c.Babble.ServiceAddr
 	babbleConfig.MaxPool = c.Babble.MaxPool
