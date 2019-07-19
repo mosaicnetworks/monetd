@@ -1,3 +1,4 @@
+//Package version provides version information for the application
 package version
 
 import (
@@ -38,7 +39,7 @@ func init() {
 	}
 }
 
-//FullVersion outputs version information
+//FullVersion outputs version information for Monet, EVM-Lite, Babble and Geth
 func FullVersion() string {
 	return fmt.Sprintln("Monet Version: "+Version) +
 		fmt.Sprintln("     EVM-Lite Version: "+evm.Version) +

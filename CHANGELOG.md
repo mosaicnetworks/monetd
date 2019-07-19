@@ -1,4 +1,22 @@
-## Version 0.1.0 (Exact Date TBA, July 2019)   //TODO set this date
+## Version 0.1.2 (19th July 2019)   
+
+SECURITY:
+
+FEATURES:
+- New simpler node set up and joining nodes 
+- Self nomination for a vote of potential peers
+
+IMPROVEMENTS:
+- monetcli: Added config build and config pull commands
+- docs:     Quick Start docs updated at: https://monetd.readthedocs.io/
+
+
+BUG FIXES:
+
+
+
+
+## Version 0.1.0 (10th July 2019)   
 
 SECURITY:
 

@@ -1,3 +1,4 @@
+//Package commands implements the CLI commands for monetd
 package commands
 
 import (
