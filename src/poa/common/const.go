@@ -10,14 +10,21 @@ import (
 
 // Directory Constants
 const (
-	BabbleDir = "babble"
-	EthDir    = "eth"
+	BabbleDir   = "babble"
+	EthDir      = "eth"
+	KeyStoreDir = "keystore"
+	POADir      = "poa"
 )
 
 // Monetd Configuration Directory
 const (
 	monetdTomlDirDot  = ".monet"
 	monetdTomlDirCaps = "MONET"
+)
+
+//Keys constants
+const (
+	DefaultKeyfile = "keyfile.json"
 )
 
 //DefaultMonetConfigDir is a wrapper for DefaultConfigDir, but returns the

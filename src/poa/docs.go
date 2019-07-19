@@ -42,12 +42,26 @@
 // allows a sledgehammer approach to directories in other commands - i.e. run
 // these commands and be assured that all the relevant items exist.
 //
-// TODO.
+//  func CreateMonetConfigFolders(configDir string) error
+//
+// CreateMonetConfigFolders creates the default folder structure in configDir. It is a simple wrapper for
+// CreateDirsIfNotExists.
 //
 // Keystore
 //
 // Keys are generated into the keystore subfolder of the configuration folder.
 // TODO.
+//
+// The core function is GenerateKeyPair, whcih  generates an Ethereum key pair. keyfilepath is the path to write the new keyfile to.
+// passwordFile is a plain text file containing the passphrase to use for the keyfile. privateKeyfile is the
+// path to a private key. If specified, this function does not generate a new keyfile, it instead
+// generates a keyfile from the private key. outputJSON controls whether the output to stdio is in
+// JSON format or not.  The function returns a key object which can be used to retrive public or private
+// keys or the address.
+//  func GenerateKeyPair(keyfilepath, passwordFile, privateKeyfile string, outputJSON bool) (*keystore.Key, error)
+// It is not envisaged that this function would be directly used in the Monet architecture. One of the
+// wrappers detailed below would be more appropriate as they also handle placing the key files
+// in the right configs folders.
 //
 // Monetd Toml File
 //
