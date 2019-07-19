@@ -85,18 +85,6 @@ The Monet Configuration files are located at:
 /home/user/.monet
 ```
 
-You should have a structure like this at this stage.
-
-```bash
-# //TODO After writing the code, insert the relevant tree here. 
-$ tree $HOME/.monet
-.monet
-├── accounts
-│   └── node0
-│       ├── keyfile.json
-│       └── peer.toml
-
-```
 
 ## Starting the Node
 
@@ -225,14 +213,6 @@ evmlc$ exit
 ```
 
 
-//TODO flesh this section out.
-
-+ run crowdfunding etc.
-
-
-
-
-
 # Joining a Network
 
 This scenario is for when you wish to join an existing network that is already running, such as the one created in the previous example. This scenario is designed to be run on a machine other than the one is the running the existing node. 
@@ -265,17 +245,6 @@ Re-Enter Passphrase:
 Address: 0xDd9C70C8a02D1D47c4423850b1bDc7C3bbb43422
 ```
 
-//TODO update this tree
-```bash
-.monet
-├── accounts
-│   └── node0
-│       ├── keyfile.json
-│       └── peer.toml
-
-```
-
-
 ## Pull the Configuration
 
 We now pull the monetd configuration files from an existing peer. The syntax for this command is:
@@ -300,33 +269,21 @@ If the `--node` parameter is missing or the value does not correspond to a key p
 
 If the `--address` parameter is missing, a best guess IP is shown. 
 
-The configuration files are written to a `.monet` folder in $HOME. You should have a structure like this at this stage.
-
-```bash
-# //TODO After writing the code, insert the relevant tree here. 
-$ tree $HOME/.monet
-.monet
-├── accounts
-│   └── node0
-│       ├── keyfile.json
-│       └── peer.toml
-
-```
-
 ## Apply to Join the Network
 
-You next need to apply to join the network. 
+You next need to apply to join the network. The syntax is: 
 
 ```bash
-# //TODO Initial version would be to apply just this 
 $ evmlc poa nominate -h <existing node> --from <your address> --moniker <your moniker> --pwd <passphrase file> <your address>
 ```
+
+So we run:
 
 ```bash 
 $ evmlc poa nominate -h 192.168.1.4 --from 0x967c3fE635d2a1e3098b58342D96D74cdD4bf792 --moniker node1  --pwd ~/.monet/eth/pwd.txt 0x967c3fE635d2a1e3098b58342D96D74cdD4bf792
 ```
 
-The existing node needs to start before it can approve your node joining. **On the existing instance**:
+The existing node needs to start before it can approve your node joining. **On the existing instance**, we run the following interactive session, the help output has been trimmed below:
 
 ```bash
 $ evmlc i
@@ -366,6 +323,7 @@ $ monetd run
 ```
 
 If you are not a validator on this network, monetd asks another peer if you are on the whitelist. If you are, it starts running. If not, it checks to see if you are on the nominee list and exits with a suitable message either telling you to apply to join the network, or confirming that voting is not yet complete. 
+
 
 
 # Creating A More Complex Network
