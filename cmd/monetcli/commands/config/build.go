@@ -127,6 +127,8 @@ func buildConfig(cmd *cobra.Command, args []string) error {
 	privateKey := hex.EncodeToString(crypto.FromECDSA(key.PrivateKey))
 	common.WriteToFile(filepath.Join(monetConfigDir, common.BabbleDir, babble.DefaultKeyfile), privateKey)
 
+	common.WriteToFile(filepath.Join(monetConfigDir, common.EthDir, common.PwdFile), passphrase)
+
 	//TODO you check .monetcli/network.toml for an updated contract address
 
 	err = common.BuildGenesisJSON(networkConfigDir, monetConfigDir, peersJSON, common.DefaultContractAddress)

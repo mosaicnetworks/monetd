@@ -111,6 +111,7 @@ func pullConfig(cmd *cobra.Command, args []string) error {
 	// This may go
 	privateKey := hex.EncodeToString(crypto.FromECDSA(key.PrivateKey))
 	common.WriteToFile(filepath.Join(monetConfigDir, common.BabbleDir, babble.DefaultKeyfile), privateKey)
+	common.WriteToFile(filepath.Join(monetConfigDir, common.EthDir, common.PwdFile), passphrase)
 
 	tomlfile := filepath.Join(networkConfigDir, common.MonetcliTomlName+common.TomlSuffix)
 	monettomlfile := filepath.Join(monetConfigDir, common.MonetdTomlName+common.TomlSuffix)
