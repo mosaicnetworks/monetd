@@ -203,7 +203,7 @@ contract POA_Genesis {
    /// @notice Add a new entry to the nominee list
    /// @param _nomineeAddress the address of the nominee
    /// @param _moniker the moniker of the new nominee as displayed during the voting process
-    function submitNominee (address _nomineeAddress, bytes32 _moniker) public payable checkAuthorisedModifier(msg.sender)
+    function submitNominee (address _nomineeAddress, bytes32 _moniker) public payable // checkAuthorisedModifier(msg.sender)
     {
         nomineeList[_nomineeAddress] = NomineeElection({nominee: _nomineeAddress, proposer: msg.sender,
                     yesVotes: 0, noVotes: 0, yesArray: new address[](0),noArray: new address[](0) });
