@@ -101,7 +101,7 @@ func GenerateKeyPair(keyfilepath, passwordFile string) (*keystore.Key, error) {
 	key.PrivateKey = privateKey
 
 	// Encrypt key with passphrase.
-	passphrase, err := common.GetPassphrase(passwordFile)
+	passphrase, err := common.GetPassphrase(passwordFile, true)
 	if err != nil {
 		return nil, err
 	}
