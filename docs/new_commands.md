@@ -317,20 +317,45 @@ $ tree $HOME/.monet
 
 You next need to apply to join the network. 
 
-
 ```bash
 # //TODO Initial version would be to apply just this 
-$ evmlc poa nominate -h 192.168.1.5 --from <your address> --moniker <your moniker>  <your address>
+$ evmlc poa nominate -h <existing node> --from <your address> --moniker <your moniker> --pwd <passphrase file> <your address>
 ```
 
-//TODO **Do we instead have a command like this:**
+```bash 
+$ evmlc poa nominate -h 192.168.1.4 --from 0x967c3fE635d2a1e3098b58342D96D74cdD4bf792 --moniker node1  --pwd ~/.monet/eth/pwd.txt 0x967c3fE635d2a1e3098b58342D96D74cdD4bf792
+```
+
+The existing node needs to start before it can approve your node joining. **On the existing instance**:
+
 ```bash
-$ monetcli network apply
+$ evmlc i
+  _____  __     __  __  __           _       _   _               ____   _       ___ 
+ | ____| \ \   / / |  \/  |         | |     (_) | |_    ___     / ___| | |     |_ _|
+ |  _|    \ \ / /  | |\/| |  _____  | |     | | | __|  / _ \   | |     | |      | | 
+ | |___    \ V /   | |  | | |_____| | |___  | | | |_  |  __/   | |___  | |___   | | 
+ |_____|    \_/    |_|  |_|         |_____| |_|  \__|  \___|    \____| |_____| |___|
+                                                                                    
+ Mode:        Interactive
+ Data Dir:    /home/user/.evmlc
+ Config File: /home/user/.evmlc/config.toml
+ Keystore:    /home/user/.evmlc/keystore
+
+  Commands:
+
+    help [command...]                    Provides help for a given command.
+
+...
+
+evmlc$ poa vote
+? From:  0f4b70c732aa6b03db3724c9d893e85c7c5e218a
+? Passphrase:  [hidden]
+? Nominee:  0x967c3fE635d2a1e3098b58342D96D74cdD4bf792
+? Verdict:  Yes
+You (0x0f4b70c732aa6b03db3724c9d893e85c7c5e218a) voted 'Yes' for '0x967c3fe635d2a1e3098b58342d96d74cdd4bf792'. 
+Election completed with the nominee being 'Accepted'.
+
 ```
-
-**Where you would interactively need to enter a passphrase, but all other required info is in the monetd configuration files.**
-
-
 
 ## Starting the Node
 
