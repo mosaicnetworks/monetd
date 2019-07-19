@@ -7,15 +7,16 @@ import (
 	"path/filepath"
 	"runtime"
 
-	_config "github.com/mosaicnetworks/evm-lite/src/config"
+	"github.com/mosaicnetworks/monetd/src/config"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
 
 var (
-	config = monetConfig(defaultHomeDir())
-	logger = defaultLogger()
+	// _config and _logger are global variables
+	_config = monetConfig(defaultHomeDir())
+	_logger = defaultLogger()
 
 	passwordFile string
 	outputJSON   bool
@@ -35,7 +36,7 @@ var RootCmd = &cobra.Command{
 			return err
 		}
 
-		logger.Level = logLevel(config.LogLevel)
+		_logger.Level = logLevel(_config.LogLevel)
 
 		return nil
 	},
@@ -43,14 +44,13 @@ var RootCmd = &cobra.Command{
 
 func init() {
 	RootCmd.AddCommand(
-		//		InitCmd,
 		NewRunCmd(),
 		VersionCmd,
 	)
 
 	// set global flags
-	RootCmd.PersistentFlags().StringP("datadir", "d", config.DataDir, "Top-level directory for configuration and data")
-	RootCmd.PersistentFlags().String("log", config.LogLevel, "debug, info, warn, error, fatal, panic")
+	RootCmd.PersistentFlags().StringP("datadir", "d", _config.DataDir, "Top-level directory for configuration and data")
+	RootCmd.PersistentFlags().String("log", _config.LogLevel, "debug, info, warn, error, fatal, panic")
 
 	// do not print usage when error occurs
 	RootCmd.SilenceUsage = true
@@ -71,28 +71,23 @@ func readConfig(cmd *cobra.Command) error {
 	// Reset config because evm-lite's SetDataDir only updates values if they
 	// are currently equal to the defaults (~/.evm-lite/*). Before this call,
 	// they should be set to monetd defaults (.monetd/*).
-	config = _config.DefaultConfig()
+	_config = config.DefaultConfig()
 
 	// first unmarshal to read from cli flags
-	if err := viper.Unmarshal(config); err != nil {
+	if err := viper.Unmarshal(_config); err != nil {
 		return err
 	}
 
-	// EnableFastSync and Store are not configurable, they MUST have these
-	// values:
-	config.Babble.EnableFastSync = false
-	config.Babble.Store = true
-
 	// Trickle-down datadir config to sub-config sections (Babble and Eth). Only
-	// effective if config.DataDir is currently equal to the evm-lite default
-	// (~/.evm-lite).
-	config.SetDataDir(config.DataDir)
+	// effective if config.DataDir is currently equal to the monet default
+	// (~/.monet).
+	_config.SetDataDir(_config.DataDir)
 
 	// Read from configuration file if there is one.
 	// ATTENTION: CLI flags will always have precedence of these values.
 
-	viper.SetConfigName("monetd")       // name of config file (without extension)
-	viper.AddConfigPath(config.DataDir) // search root directory
+	viper.SetConfigName("monetd")        // name of config file (without extension)
+	viper.AddConfigPath(_config.DataDir) // search root directory
 
 	// If a config file is found, read it in.
 	if err := viper.ReadInConfig(); err == nil {
@@ -104,15 +99,12 @@ func readConfig(cmd *cobra.Command) error {
 	}
 
 	// second unmarshal to read from config file
-	return viper.Unmarshal(config)
+	return viper.Unmarshal(_config)
 }
 
 // default config for monetd
-func monetConfig(dataDir string) *_config.Config {
-	config := _config.DefaultConfig()
-
-	config.Babble.EnableFastSync = false
-	config.Babble.Store = true
+func monetConfig(dataDir string) *config.Config {
+	config := config.DefaultConfig()
 
 	config.SetDataDir(dataDir)
 
