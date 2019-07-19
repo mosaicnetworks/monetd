@@ -44,7 +44,7 @@ Generate a new keyfile.
 If you want to encrypt an existing private key, it can be specified by setting
 --privatekey with the location of the file containing the private key.
 `,
-		Args: cobra.ExactArgs(1),
+		Args: cobra.ArbitraryArgs,
 		RunE: generate,
 	}
 
@@ -55,7 +55,12 @@ If you want to encrypt an existing private key, it can be specified by setting
 
 func generate(cmd *cobra.Command, args []string) error {
 	// Check if keyfile path given and make sure it doesn't already exist.
-	_, err := GenerateKeyPair(args[0], passwordFile)
+
+	keyfile := ""
+	if len(args) > 0 {
+		keyfile = args[0]
+	}
+	_, err := GenerateKeyPair(keyfile, passwordFile)
 	// message("Address is: ", key.Address)
 	return err
 }
@@ -96,7 +101,7 @@ func GenerateKeyPair(keyfilepath, passwordFile string) (*keystore.Key, error) {
 	key.PrivateKey = privateKey
 
 	// Encrypt key with passphrase.
-	passphrase, err := getPassphrase(passwordFile)
+	passphrase, err := common.GetPassphrase(passwordFile, true)
 	if err != nil {
 		return nil, err
 	}

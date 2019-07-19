@@ -1,7 +1,7 @@
 .. _evmlc_getting_started_rst:
 
-Getting Started
-===============
+EVM-Lite CLI Getting Started
+============================
 
 We explain how to use ``evmlc`` against a single ``evm-lite`` node. We
 will walk through creating accounts, making transfers, and viewing

@@ -23,6 +23,10 @@ the monetd server process. `,
 	nodeName         string
 	monetConfigDir   string
 	networkConfigDir string
+	nodeParam        string
+	addressParam     string
+	passwordFile     string
+	existingPeer     string
 
 	//Force is a flag to allow overwriting of config files without warning. Can be
 	//set programmatically or with --force flag
@@ -36,6 +40,9 @@ func init() {
 		NewPublishCmd(),
 		NewLocationCmd(),
 		NewShowCmd(),
+		NewClearCmd(),
+		NewPullCmd(),
+		NewBuildCmd(),
 	)
 
 	defaultConfigDir, _ := common.DefaultHomeDir(common.MonetcliTomlDir)
@@ -44,6 +51,52 @@ func init() {
 	ConfigCmd.PersistentFlags().StringVarP(&monetConfigDir, "monet-config-dir", "m", defaultMonetConfigDir, "the directory containing monet nodes configurations")
 	ConfigCmd.PersistentFlags().StringVarP(&networkConfigDir, "config-dir", "c", defaultConfigDir, "the directory containing monet nodes configurations")
 	viper.BindPFlags(ConfigCmd.Flags())
+}
+
+//NewBuildCmd echoes the config file to screen
+func NewBuildCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "build",
+		Short: "build the configuration files",
+		Long: `monetcli config build
+Builds the monetd configuration files for the monetd server.`,
+		Args: cobra.ArbitraryArgs,
+		RunE: buildConfig,
+	}
+
+	cmd.PersistentFlags().StringVarP(&nodeParam, "node", "n", "", "the directory name containing monet nodes configurations")
+	cmd.PersistentFlags().StringVarP(&addressParam, "address", "a", "", " ip address/host name of this node")
+	cmd.PersistentFlags().StringVarP(&passwordFile, "passfile", "p", "", "the file that contains the passphrase for the keyfile")
+	//	KeysCmd.PersistentFlags().BoolVar(&outputJSON, "json", false, "output JSON instead of human-readable format")
+
+	viper.BindPFlags(cmd.Flags())
+
+	//--node node0  --address 192.168.1.4 --peers node1,node2,node3 --peer-address host1,host2,host3
+
+	return cmd
+}
+
+//NewPullCmd echoes the config file to screen
+func NewPullCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "pull",
+		Short: "pull the configuration files from a node",
+		Long: `monetcli config pull
+Pulls the monetd configuration files from an existing peer.`,
+		Args: cobra.ArbitraryArgs,
+		RunE: pullConfig,
+	}
+
+	cmd.PersistentFlags().StringVarP(&nodeParam, "node", "n", "", "the directory name containing monet nodes configurations")
+	cmd.PersistentFlags().StringVarP(&addressParam, "address", "a", "", " ip address/host name of this node")
+	cmd.PersistentFlags().StringVarP(&passwordFile, "passfile", "p", "", "the file that contains the passphrase for the keyfile")
+	cmd.PersistentFlags().StringVar(&existingPeer, "peer", "", "the address of an existing peer")
+
+	//	KeysCmd.PersistentFlags().BoolVar(&outputJSON, "json", false, "output JSON instead of human-readable format")
+
+	viper.BindPFlags(cmd.Flags())
+
+	return cmd
 }
 
 //NewLocationCmd shows the config file path
@@ -55,6 +108,21 @@ func NewLocationCmd() *cobra.Command {
 Shows the location of the configuration files for the monetd server.`,
 		Args: cobra.ArbitraryArgs,
 		RunE: locationConfig,
+	}
+	return cmd
+}
+
+//NewClearCmd shows the config file path
+func NewClearCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "clear",
+		Short: "clears any pre-existing configuration files",
+		Long: `monetcli config clear
+Cleans up configuration files for the monetd server by renaming any pre-existing configuration.
+
+Clearly this will disable any pre-existing configuration.`,
+		Args: cobra.ArbitraryArgs,
+		RunE: clearConfig,
 	}
 	return cmd
 }
@@ -111,6 +179,16 @@ func locationConfig(cmd *cobra.Command, args []string) error {
 
 func showConfig(cmd *cobra.Command, args []string) error {
 	ShowConfigParams(monetConfigDir)
+	return nil
+}
+
+func clearConfig(cmd *cobra.Command, args []string) error {
+
+	if common.CheckIfExists(monetConfigDir) {
+		common.SafeRenameDir(monetConfigDir)
+	}
+
+	//	ShowConfigParams(monetConfigDir)
 	return nil
 }
 

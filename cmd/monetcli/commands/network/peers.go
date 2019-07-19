@@ -57,6 +57,10 @@ peerloop:
 				return err
 			}
 		}
+
+		if err != nil {
+			return err
+		}
 		common.ContinuePrompt()
 	}
 

@@ -1,7 +1,7 @@
 .. _testnet_rst:
 
 Monetcli Testnet
-================
+----------------
 
 
 This command builds the configuration for a new test net on separate
@@ -16,7 +16,7 @@ the right folders, and ensuring that the same initial configuration is
 shared between all of the nodes.
 
 Configuration Server Installation and Invocation
-------------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 On **one** machine only
 
@@ -84,7 +84,7 @@ currently selected item. Press the enter key to select a response.
      
 
 Configuring Peers
------------------
+~~~~~~~~~~~~~~~~~
 
 On each peer in a new terminal session run:
 
@@ -241,7 +241,7 @@ perform the same workflow (minus the smart contract compilation - they
 will use the genesis.json file generated above.
 
 Developer Details
------------------
+~~~~~~~~~~~~~~~~~
 
 The testnet wizard places its files in $HOME/.monetcli/testnet (on
 Linux, other OS may vary) as below. The files marked (\*) are only
@@ -259,6 +259,3 @@ created on the device that publishes the network details.
     ├── peers.json
     ├── priv_key
     └── pwd.txt
-
-
-

@@ -1,7 +1,7 @@
 .. _wizard_rst:
 
 Monetcli Wizard
-===============
+---------------
 
 The ``monetcli wizard``\ command is an interactive tool for building a
 monet network configuration.
@@ -9,7 +9,7 @@ monet network configuration.
 
 
 Invocation
-==========
+----------
 
 The tool can be invoked thus:
 
@@ -18,7 +18,7 @@ The tool can be invoked thus:
     $ monetcli wizard
 
 Inputs
-------
+~~~~~~
 
 There are 2 main classes of inputs for the wizard subcommand:
 
@@ -59,10 +59,10 @@ currently selected item. Press the enter key to select a response.
      
 
 Configuration Files
-===================
+-------------------
 
 Monetcli Network Configuration Folder
--------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You are prompted to enter the location of the configuration folder to
 use. Unless there is a pressing reason to change it, we would recommend
@@ -118,7 +118,7 @@ same menu - the latter with existing configuration, the first 2 with a
 clean configuration.
 
 Edit Menu
-=========
+---------
 
 The Edit menu allows you to build and amend your network configuration.
 
@@ -128,7 +128,7 @@ The Edit menu allows you to build and amend your network configuration.
    screenshot of monetcli wizard
 
 Add Key Pair
-------------
+~~~~~~~~~~~~
 
 The add key pair option allows the addition of peers whose private key
 had been generated elsewhere. For testnets you would usually use
@@ -140,7 +140,7 @@ Generate Key Pair, not Add Key Pair.
    screenshot of monetcli wizard
 
 Check Configuration
--------------------
+~~~~~~~~~~~~~~~~~~~
 
 This option runs checks to ensure that the ``network.toml`` is in a
 consistent state.
@@ -151,7 +151,7 @@ consistent state.
    screenshot of monetcli wizard
 
 Compile POA Contract
---------------------
+~~~~~~~~~~~~~~~~~~~~
 
 This option generates an actual monet hub configuration. It implicitly
 runs a network check command. It populates a datadir directory including
@@ -166,7 +166,7 @@ connection to run, unless you have run ``monetcli network contract``.
 The default contract is downloaded directly from github.
 
 Generate Key Pair
------------------
+~~~~~~~~~~~~~~~~~
 
 Generate Key Pair generates a new public and private key pair, and adds
 it as validator to the monetcli network configuration.
@@ -189,7 +189,7 @@ you will be prompted to enter them again.
 The Address generated is echoed to screen.
 
 Edit Params
------------
+~~~~~~~~~~~
 
 The Edit Peers interactive command allows you to set the ``monetcli``
 parameters that are pushed to monet hub configuration files. These
@@ -218,7 +218,7 @@ the parameter list. Parameters which have mandatory values in the Monet
 Hub are not available from this sub command.
 
 Peers
------
+~~~~~
 
 Peers provides an interactive interface for managing peers. You are
 initially show a list of all peers. You can select one from that list to
@@ -230,7 +230,7 @@ node. **N.B.** you will need to use ``Generate Key Pair`` or
 ``Add Peer`` options from the parent menu to add a peer.
 
 Show Configuration
-------------------
+~~~~~~~~~~~~~~~~~~
 
 This option echoes the current ``network.toml`` file to screen.
 
@@ -240,7 +240,7 @@ This option echoes the current ``network.toml`` file to screen.
    screenshot of monetcli wizard
 
 Version Info
-------------
+~~~~~~~~~~~~
 
 The version info command displays version information.
 
@@ -250,7 +250,7 @@ The version info command displays version information.
    screenshot of monetcli wizard
 
 Exit
-----
+~~~~
 
 The exit command closes the program.
 

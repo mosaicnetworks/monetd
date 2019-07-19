@@ -5,7 +5,7 @@ Monet-CLI
 
 
 Monet Hub tools
-===============
+---------------
 
 ``monetcli`` provides a suite of tools for configuring and managing a
 Monet Hub.
@@ -32,7 +32,7 @@ this document).
    subcommands to guide the creation of a new network of hubs.
 
 help
-----
+~~~~
 
 You can get more information about the commands available by using the
 help command or the ``--help`` flag. Thus you can get top level help:
@@ -94,7 +94,7 @@ Or you can get details of a subcommand:
     Use "monetcli keys [command] --help" for more information about a command.
 
 version
--------
+~~~~~~~
 
 This command returns the version number for the ``monetcli``, and the
 version of the EVM-Lite, Babble and Geth librarys used to build it. The
@@ -110,7 +110,7 @@ version.
          Geth Version: 1.8.27
 
 keys
-----
+~~~~
 
 The keys subcommand is used to manage ethereum keys.
 
@@ -172,13 +172,13 @@ You can change the passphrase for the key with the update command:
     Repeat passphrase: 
 
 network
--------
+~~~~~~~
 
 The network subcommand deals with **network.toml**, a new file that
 defines a network. There is a separate document for this command: :ref:`network_rst`.
 
 config
-------
+~~~~~~
 
 The config subcommand deals with the actual ``monetd`` configuration
 datadir.
@@ -228,7 +228,7 @@ configuration to screen.
 .. _monetcli_testnet:
 
 testnet
--------
+~~~~~~~
 
 **testnet** is a menu driven wizard for building a test network,
 enabling peers to create and share a common configuration, via a server,
@@ -261,7 +261,7 @@ This command is documented in :ref:`testnet_rst` .
 
 
 testjoin
---------
+~~~~~~~~
 
 Test join is a command to allow the menu driven configuration for joining an existing network. There are no options as the command is interactive.
 
@@ -336,7 +336,7 @@ The person who nominated you will inform you when (and if) you are
 approved and can thus start your node successfully.
 
 wizard
-------
+~~~~~~
 
 **wizard** is a menu driven front end to the network subcommands to
 guide the creation of a new network of hubs.
@@ -362,7 +362,7 @@ The wizard command is described in :ref:`wizard_rst`.
 --------------
 
 Examples
-========
+--------
 
 First we create a new network.
 

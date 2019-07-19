@@ -1,7 +1,7 @@
 .. _evmlc_poa_rst:
 
-Proof of Authority Commands
-===========================
+EVM-Lite CLI Proof of Authority Commands
+========================================
 
 We explain how to use ``evmlc``. We will walk through nominating a new
 ``address``, voting for that address and other PoA commands.

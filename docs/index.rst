@@ -17,10 +17,12 @@ Monetd
 ------
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
 
    design.rst
    install.rst
+   quickstart.rst
+   basic_examples.rst
    test.rst
    monetcli.rst
    network.rst

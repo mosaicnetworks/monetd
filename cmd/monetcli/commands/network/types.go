@@ -33,33 +33,6 @@ type validatorRecord struct {
 
 type validatorRecordList map[string]*validatorRecord
 
-type genesisAllocRecord struct {
-	Balance string `json:"balance"`
-	Moniker string `json:"moniker"`
-}
-
-type genesisAlloc map[string]*genesisAllocRecord
-
-type genesisPOA struct {
-	Address string `json:"address"`
-	Abi     string `json:"abi"`
-	Code    string `json:"code"`
-}
-
-type genesisFile struct {
-	Alloc *genesisAlloc `json:"alloc"`
-	Poa   *genesisPOA   `json:"poa"`
-}
-
-//Peers.json format
-type peerRecord struct {
-	NetAddr   string `json:"NetAddr"`
-	PubKeyHex string `json:"PubKeyHex"`
-	Moniker   string `json:"Moniker"`
-}
-
-type peerRecordList []*peerRecord
-
 var (
 	config       configurationRecord
 	configConfig configRecord
