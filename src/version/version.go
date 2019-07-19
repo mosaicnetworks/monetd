@@ -15,11 +15,11 @@ const Maj = "0"
 const Min = "1"
 
 //Fix is the Patch Version
-const Fix = "2"
+const Fix = "3"
 
 var (
 	//Version is the full version string
-	Version = "0.1.2"
+	Version = "0.1.3"
 
 	// GitCommit is set with --ldflags "-X main.gitCommit=$(git rev-parse HEAD)"
 	GitCommit string
