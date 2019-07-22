@@ -10,7 +10,7 @@ import (
 
 	"github.com/ethereum/go-ethereum/crypto"
 	bkeys "github.com/mosaicnetworks/babble/src/crypto/keys"
-	keys "github.com/mosaicnetworks/monetd/cmd/monetcli/commands/keys"
+	keys "github.com/mosaicnetworks/monetd/cmd/monetd/commands/keys"
 	"github.com/mosaicnetworks/monetd/src/common"
 	com "github.com/mosaicnetworks/monetd/src/common"
 	"github.com/pelletier/go-toml"

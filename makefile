@@ -10,7 +10,7 @@ update:
 	glide update
 
 # install compiles and places the binary in GOPATH/bin
-install: installd installcli installcfg
+install: installd installcli installcfg installgiv
 
 installd:
 	go install \
@@ -26,6 +26,11 @@ installcli:
 	go install \
 		--ldflags "-X github.com/mosaicnetworks/monetd/src/version.GitCommit=`git rev-parse HEAD` -X github.com/mosaicnetworks/monetd/src/version.GitBranch=`git symbolic-ref --short HEAD`" \
 		./cmd/monetcli
+
+installgiv:
+	go install \
+		--ldflags "-X github.com/mosaicnetworks/giverny/src/version.GitCommit=`git rev-parse HEAD` -X github.com/mosaicnetworks/giverny/src/version.GitBranch=`git symbolic-ref --short HEAD`" \
+		./cmd/giverny
 
 docker:
 	go build \
@@ -50,4 +55,4 @@ testbabble:
 
 
 
-.PHONY: all vendor install installd installcli test update docker testmonetd testevml testbabble
+.PHONY: all vendor install installd installcli installgiv test update docker testmonetd testevml testbabble

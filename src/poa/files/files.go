@@ -58,3 +58,11 @@ func CreateMonetConfigFolders(configDir string) error {
 		filepath.Join(configDir, common.EthDir, common.POADir),
 	})
 }
+
+//CheckIfExists checks if a file / directory exists
+func CheckIfExists(dir string) bool {
+	if _, err := os.Stat(dir); os.IsNotExist(err) {
+		return false
+	}
+	return true
+}

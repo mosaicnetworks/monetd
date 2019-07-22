@@ -60,7 +60,7 @@ func generate(cmd *cobra.Command, args []string) error {
 	if len(args) > 0 {
 		keyfile = args[0]
 	}
-	_, err := GenerateKeyPair(keyfile, passwordFile)
+	_, err := GenerateKeyPair(keyfile, PasswordFile)
 	// message("Address is: ", key.Address)
 	return err
 }
@@ -124,7 +124,7 @@ func GenerateKeyPair(keyfilepath, passwordFile string) (*keystore.Key, error) {
 		Address: key.Address.Hex(),
 	}
 
-	if outputJSON {
+	if OutputJSON {
 		mustPrintJSON(out)
 	} else {
 		fmt.Println("Address:", out.Address)
