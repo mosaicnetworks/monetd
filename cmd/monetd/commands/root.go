@@ -3,22 +3,19 @@ package commands
 
 import (
 	"fmt"
-	"os"
-	"os/user"
-	"path/filepath"
-	"runtime"
+
+	"github.com/mosaicnetworks/monetd/src/poa/common"
 
 	_config "github.com/mosaicnetworks/evm-lite/src/config"
 	"github.com/mosaicnetworks/monetd/cmd/monetd/commands/keys"
 	"github.com/mosaicnetworks/monetd/cmd/monetd/config"
-	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
 
 var (
 	//	config = monetConfig(defaultHomeDir())
-	logger = defaultLogger()
+	logger = common.DefaultLogger()
 
 	passwordFile string
 	outputJSON   bool
@@ -38,7 +35,7 @@ var RootCmd = &cobra.Command{
 			return err
 		}
 
-		logger.Level = logLevel(config.Config.LogLevel)
+		logger.Level = common.LogLevel(config.Config.LogLevel)
 
 		return nil
 	},
@@ -110,56 +107,4 @@ func readConfig(cmd *cobra.Command) error {
 
 	// second unmarshal to read from config file
 	return viper.Unmarshal(config.Config)
-}
-
-// default logger (debug)
-func defaultLogger() *logrus.Logger {
-	logger := logrus.New()
-	logger.Level = logrus.DebugLevel
-	return logger
-}
-
-func defaultHomeDir() string {
-	// Try to place the data folder in the user's home dir
-	home := homeDir()
-	if home != "" {
-		if runtime.GOOS == "darwin" {
-			return filepath.Join(home, "Library", "MONET")
-		} else if runtime.GOOS == "windows" {
-			return filepath.Join(home, "AppData", "Roaming", "MONET")
-		} else {
-			return filepath.Join(home, ".monet")
-		}
-	}
-	// As we cannot guess a stable location, return empty and handle later
-	return ""
-}
-
-func homeDir() string {
-	if home := os.Getenv("HOME"); home != "" {
-		return home
-	}
-	if usr, err := user.Current(); err == nil {
-		return usr.HomeDir
-	}
-	return ""
-}
-
-func logLevel(l string) logrus.Level {
-	switch l {
-	case "debug":
-		return logrus.DebugLevel
-	case "info":
-		return logrus.InfoLevel
-	case "warn":
-		return logrus.WarnLevel
-	case "error":
-		return logrus.ErrorLevel
-	case "fatal":
-		return logrus.FatalLevel
-	case "panic":
-		return logrus.PanicLevel
-	default:
-		return logrus.DebugLevel
-	}
 }

@@ -4,7 +4,6 @@ import (
 	"github.com/mosaicnetworks/monetd/cmd/monetcli/commands/config"
 	"github.com/mosaicnetworks/monetd/cmd/monetcli/commands/network"
 	"github.com/mosaicnetworks/monetd/cmd/monetcli/commands/testnet"
-	"github.com/mosaicnetworks/monetd/cmd/monetd/commands/keys"
 	"github.com/mosaicnetworks/monetd/src/common"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -26,7 +25,6 @@ The best starting points are the commands testnet, testjoin or wizard. `,
 func init() {
 
 	RootCmd.AddCommand(
-		keys.KeysCmd,
 		network.NetworkCmd,
 		config.ConfigCmd,
 		VersionCmd,

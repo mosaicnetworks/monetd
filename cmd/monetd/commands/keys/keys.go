@@ -40,13 +40,14 @@ func init() {
 	//Commonly used command line flags
 	KeysCmd.PersistentFlags().StringVar(&PasswordFile, "passfile", "", "the file that contains the passphrase for the keyfile")
 	KeysCmd.PersistentFlags().BoolVar(&OutputJSON, "json", false, "output JSON instead of human-readable format")
-	KeysCmd.PersistentFlags().StringVar(&monikerParam, "moniker", "", "specify moniker for this key")
+	//	KeysCmd.PersistentFlags().StringVar(&monikerParam, "moniker", "", "specify moniker for this key")
 
 	viper.BindPFlags(KeysCmd.Flags())
 }
 
 //addInspectFlags adds flags to the Inspect command
 func addInspectFlags(cmd *cobra.Command) {
+
 	cmd.Flags().BoolVar(&showPrivate, "private", false, "include the private key in the output")
 	viper.BindPFlags(cmd.Flags())
 }
@@ -54,7 +55,7 @@ func addInspectFlags(cmd *cobra.Command) {
 //NewInspectCmd returns the command that inspects an Ethereum keyfile
 func newInspectCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "inspect",
+		Use:   "inspect [moniker]",
 		Short: "inspect a keyfile",
 		Long: `
 Print various information about the keyfile.
@@ -63,7 +64,7 @@ Private key information can be printed by using the --private flag;
 make sure to use this feature with great caution!
 
 You must specify the moniker for this node with the --moniker parameter.`,
-		Args: cobra.ExactArgs(0),
+		Args: cobra.ExactArgs(1),
 		RunE: inspect,
 	}
 
@@ -73,18 +74,18 @@ You must specify the moniker for this node with the --moniker parameter.`,
 }
 
 func inspect(cmd *cobra.Command, args []string) error {
-
+	monikerParam = args[0]
 	return crypto.InspectKeyMoniker(config.Config.DataDir, monikerParam, PasswordFile, showPrivate, OutputJSON)
 }
 
 //NewNewCmd returns the command that creates a new keypair
 func newNewCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "new",
+		Use:   "new [moniker]",
 		Short: "create a new keypair",
 		Long: `
 Creates a new key pair and stores in under specified moniker`,
-		Args: cobra.ArbitraryArgs,
+		Args: cobra.ExactArgs(1),
 		RunE: newkeys,
 	}
 
@@ -92,6 +93,7 @@ Creates a new key pair and stores in under specified moniker`,
 }
 
 func newkeys(cmd *cobra.Command, args []string) error {
+	monikerParam = args[0]
 
 	// key is returned, but we don't want to do anything with it.
 	_, err := crypto.NewKeyPair(config.Config.DataDir, monikerParam, PasswordFile)
@@ -107,7 +109,7 @@ func addUpdateFlags(cmd *cobra.Command) {
 //NewUpdateCmd returns the command that changes the passphrase of a keyfile
 func newUpdateCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "update",
+		Use:   "update [moniker]",
 		Short: "change the passphrase on a keyfile",
 		Long: `keys update
 Update the passphrase for the keyfile.
@@ -116,7 +118,7 @@ Private key information can be printed by using the --private flag;
 make sure to use this feature with great caution!
 
 You must specify the moniker for this node with the --moniker parameter.`,
-		Args: cobra.ExactArgs(0),
+		Args: cobra.ExactArgs(1),
 		RunE: update,
 	}
 
@@ -126,6 +128,7 @@ You must specify the moniker for this node with the --moniker parameter.`,
 }
 
 func update(cmd *cobra.Command, args []string) error {
+	monikerParam = args[0]
 
 	return crypto.UpdateKeysMoniker(config.Config.DataDir, monikerParam, PasswordFile, newPasswordFile)
 }
