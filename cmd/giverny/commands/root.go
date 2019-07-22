@@ -34,7 +34,7 @@ func init() {
 	//do not print usage when error occurs
 	RootCmd.SilenceUsage = true
 
-	RootCmd.PersistentFlags().StringP("datadir", "d", config.Config.DataDir, "Top-level directory for configuration and data")
-	RootCmd.PersistentFlags().BoolP("verbose", "v", common.VerboseLogging, "Turn on verbose messages")
+	RootCmd.PersistentFlags().StringVarP(&config.Config.DataDir, "datadir", "d", config.Config.DataDir, "Top-level directory for configuration and data")
+	RootCmd.PersistentFlags().BoolVarP(&common.VerboseLogging, "verbose", "v", false, "verbose messages")
 	viper.BindPFlags(RootCmd.Flags())
 }

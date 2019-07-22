@@ -12,7 +12,7 @@ import (
 
 var (
 	//VerboseLogging controls where Message produces any output
-	VerboseLogging = true
+	VerboseLogging = false
 	//HideBanners Suppresses the figlet banner
 	HideBanners = false
 )
