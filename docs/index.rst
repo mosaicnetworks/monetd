@@ -1,4 +1,4 @@
-.. Babble documentation master file, created by
+.. Monetd documentation master file, created by
    sphinx-quickstart on Wed Oct 18 09:22:15 2017.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
@@ -24,6 +24,7 @@ Monetd
    quickstart.rst
    basic_examples.rst
    test.rst
+   monetd_keys.rst
    monetcli.rst
    network.rst
    testnet.rst
@@ -35,4 +36,4 @@ Monetd
    evmlc-getting-started.rst
    evmlc-proof-of-authority.rst
 
-
+.. The above list will need cleaning up. 
