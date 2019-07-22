@@ -1,6 +1,10 @@
 package commands
 
 import (
+	"github.com/mosaicnetworks/monetd/cmd/giverny/commands/keys"
+	"github.com/mosaicnetworks/monetd/cmd/monetd/config"
+	"github.com/mosaicnetworks/monetd/src/poa/common"
+
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -19,7 +23,7 @@ most use cases.`,
 func init() {
 
 	RootCmd.AddCommand(
-		//		keys.KeysCmd,
+		keys.KeysCmd,
 		//		network.NetworkCmd,
 		//		config.ConfigCmd,
 		VersionCmd,
@@ -30,5 +34,7 @@ func init() {
 	//do not print usage when error occurs
 	RootCmd.SilenceUsage = true
 
+	RootCmd.PersistentFlags().StringP("datadir", "d", config.Config.DataDir, "Top-level directory for configuration and data")
+	RootCmd.PersistentFlags().BoolP("verbose", "v", common.VerboseLogging, "Turn on verbose messages")
 	viper.BindPFlags(RootCmd.Flags())
 }

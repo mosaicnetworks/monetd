@@ -64,8 +64,12 @@ func GenerateKeyPair(keyfilepath, passwordFile, privateKeyfile string, outputJSO
 
 	var privateKey *ecdsa.PrivateKey
 	var err error
+
+	com.DebugMessage("Private Key File is: ", privateKeyfile)
+
 	if file := privateKeyfile; file != "" {
 		// Load private key from file.
+		com.DebugMessage("Loading Private Key: ", file)
 		privateKey, err = crypto.LoadECDSA(file)
 		if err != nil {
 			return nil, fmt.Errorf("Can't load private key: %v", err)
@@ -119,10 +123,15 @@ func GenerateKeyPair(keyfilepath, passwordFile, privateKeyfile string, outputJSO
 	return key, nil
 }
 
-//NewKeyPair is a wrapper to GenerateKeyPair. It does not support setting a private key.
+//NewKeyPair is a wrapper to NewKeyPairFull and thus GenerateKeyPair. It does not support setting a private key.
 //Additionally it does not support outputting to JSON format - if required, that can be
 //achieved calling GenerateKeyPair directly.
 func NewKeyPair(configDir, moniker, passwordFile string) (*keystore.Key, error) {
+	return NewKeyPairFull(configDir, moniker, passwordFile, "", false)
+}
+
+//NewKeyPairFull is a wrapper to GenerateKeyPair adding moniker support
+func NewKeyPairFull(configDir, moniker, passwordFile string, privateKeyfile string, outputJSON bool) (*keystore.Key, error) {
 
 	if strings.TrimSpace(moniker) == "" {
 		return nil, errors.New("moniker is not set")
@@ -148,7 +157,7 @@ func NewKeyPair(configDir, moniker, passwordFile string) (*keystore.Key, error) 
 		return nil, errors.New("key for node " + safeLabel + " already exists")
 	}
 
-	key, err := GenerateKeyPair(keyfilepath, passwordFile, "", false)
+	key, err := GenerateKeyPair(keyfilepath, passwordFile, privateKeyfile, outputJSON)
 
 	if err != nil {
 		return key, err
@@ -188,6 +197,7 @@ func WriteTomlForKey(monikerParam, safeLabel, tomlfilepath string, key *keystore
 	return common.SaveToml(tree, tomlfilepath)
 }
 
+//InspectKeyMoniker is a wrapper around InspectKey to add moniker support
 func InspectKeyMoniker(configDir string, moniker string, PasswordFile string, showPrivate bool, outputJSON bool) error {
 	safeLabel := com.GetNodeSafeLabel(moniker)
 	filepath := filepath.Join(configDir, com.KeyStoreDir, safeLabel+".json")

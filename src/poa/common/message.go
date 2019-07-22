@@ -15,7 +15,7 @@ var (
 	//VerboseLogging is a globals that when set to false suppresses
 	//Debug Message output.
 	//Should be set by the --verbose option in monetcli.
-	VerboseLogging = false
+	VerboseLogging = true
 )
 
 //Colour definitions as used in the Message functions in this unit.
