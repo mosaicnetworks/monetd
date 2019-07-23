@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/mosaicnetworks/monetd/src/poa/common"
+	"github.com/mosaicnetworks/monetd/src/poa/files"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -32,7 +33,7 @@ func init() {
 		//			NewPublishCmd(),
 		newLocationCmd(),
 		//			NewShowCmd(),
-		//			NewClearCmd(),
+		newClearCmd(),
 		//			NewPullCmd(),
 		newBuildCmd(),
 	)
@@ -87,6 +88,31 @@ Builds the monetd configuration files for the monetd server.`,
 	return cmd
 }
 
+//newClearCmd shows the config file path
+func newClearCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "clear",
+		Short: "clears any pre-existing configuration files",
+		Long: `monetd config clear
+Cleans up configuration files for the monetd server by renaming any pre-existing configuration.
+
+Clearly this will disable any pre-existing configuration.`,
+		Args: cobra.ArbitraryArgs,
+		RunE: clearConfig,
+	}
+	return cmd
+}
+
 func buildConfig(cmd *cobra.Command, args []string) error {
 	return pconfig.BuildConfig(mconfig.Config.DataDir, nodeParam, addressParam, passwordFile)
+}
+
+func clearConfig(cmd *cobra.Command, args []string) error {
+
+	if files.CheckIfExists(mconfig.Config.DataDir) {
+		files.SafeRenameDir(mconfig.Config.DataDir)
+	}
+
+	//	ShowConfigParams(monetConfigDir)
+	return nil
 }

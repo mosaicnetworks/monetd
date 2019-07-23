@@ -2,9 +2,12 @@
 package files
 
 import (
+	"errors"
+	"fmt"
 	"io"
 	"os"
 	"path/filepath"
+	"strconv"
 
 	"github.com/mosaicnetworks/monetd/src/poa/common"
 )
@@ -92,4 +95,25 @@ func CopyFileContents(src, dst string) (err error) {
 	}
 	err = out.Sync()
 	return
+}
+
+//SafeRenameDir renames a folder to folder.~n~ where n is the lowest value
+//where the folder does not already exist.
+//n is capped at 100 - which would require the user to manually tidy the parent folder.
+func SafeRenameDir(origDir string) error {
+	const maxloops = 100
+
+	for i := 1; i < 100; i++ {
+		newDir := origDir + ".~" + strconv.Itoa(i) + "~"
+		if CheckIfExists(newDir) {
+			continue
+		}
+		fmt.Println("Renaming " + origDir + " to " + newDir)
+		err := os.Rename(origDir, newDir)
+		if err != nil {
+			return err
+		}
+		return nil
+	}
+	return errors.New("you have reached the maximum number of automatic backups. Try removing the .monet.~n~ files")
 }
