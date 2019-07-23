@@ -22,13 +22,9 @@ Monetd
    design.rst
    install.rst
    quickstart.rst
-   basic_examples.rst
+   basic_examples.rst   
    test.rst
    monetd_keys.rst
-   monetcli.rst
-   network.rst
-   testnet.rst
-   wizard.rst
    monetd.rst
    clients.rst   
    smartcontract.rst

@@ -1,4 +1,4 @@
-.. _monetd_keys_rst
+.. _monetd_keys_rst:
 
 Keys
 ====
@@ -6,6 +6,7 @@ Keys
 The keys subcommand is used to manage ethereum keys.
 
 .. code:: bash
+
     $ monetd help keys
     Using config file: /home/user/.monet/monetd.toml
     Keys

@@ -20,18 +20,18 @@ folder.
 
 .. code:: bash
 
-    monetcli config clear
+    monetd config clear
 
 Create An Account
 ~~~~~~~~~~~~~~~~~
 
 Firstly we need to create an account for the validator. We will generate
-a private and public keypair. The syntax for the ``monetcli keys new``
+a private and public keypair. The syntax for the ``monetd keys new``
 command is:
 
 .. code:: bash
 
-    monetcli keys new [--moniker moniker] [--passphrase eth.txt]
+    monetd keys new [moniker] [--passphrase eth.txt]
 
 You need to supply a moniker for this node. You will also need to supply
 a passphrase to secure your key. You can either use the ``--passphrase``
@@ -42,25 +42,25 @@ Thus we need to run:
 
 .. code:: bash
 
-    $ monetcli keys new --moniker node0 
+    $ monetd keys new node0 
     Enter Passphrase:
     Re-Enter Passphrase:
     Address: 0x83434e68b52Ef809538224BF78472cc3F6a17bcC
 
-The configuration files are written to a ``.monetcli`` folder. On Linux
-it is ``$HOME/.monetcli``. You can find the location for your instance
+The configuration files are written to a ``.monet`` folder. On Linux
+it is ``$HOME/.monet``. You can find the location for your instance
 with this command:
 
 .. code:: bash
 
-    $ monetcli network location
+    $ monetd config location
 
 You should have a structure like this at this stage.
 
 .. code:: bash
 
-    $ tree $HOME/.monetcli
-    .monetcli
+    $ tree $HOME/.monet
+    .monet
     ├── accounts
     │   └── node0
     │       ├── keyfile.json
@@ -74,7 +74,7 @@ is:
 
 .. code:: bash
 
-    $ monetcli config build [--node node0] [--address ip]
+    $ monetd config build [--node node0] [--address ip]
 
 We need the IP address for the node you building a network upon. For a
 live network that would clearly be a public IP address, but for an
@@ -86,7 +86,7 @@ IP address / hostname you discover above.
 
 .. code:: bash
 
-    $ monetcli config build --node node0  --address 192.168.1.4 
+    $ monetd config build --node node0  --address 192.168.1.4 
 
 This command builds the configuration files for a monetd node. It adds
 the node given by the ``--node`` parameter to the initial peer set,
@@ -257,7 +257,7 @@ conguration of the previous node**
 
 .. code:: bash
 
-    monetcli config clear
+    monetd config clear
 
 Create An Account
 ~~~~~~~~~~~~~~~~~
@@ -268,7 +268,7 @@ the command is:
 
 .. code:: bash
 
-    $ monetcli keys new [--moniker moniker] [--passphrase eth.txt]
+    $ monetd keys new [moniker] [--passphrase eth.txt]
 
 You need to supply a moniker for this node. You will also need to supply
 a passphrase to secure your key. You can either use the ``--passphrase``
@@ -284,7 +284,7 @@ Thus we need to run:
 
 .. code:: bash
 
-    $ monetcli keys new --moniker node1 
+    $ monetd keys new node1 
     Enter Passphrase:
     Re-Enter Passphrase:
     Address: 0xDd9C70C8a02D1D47c4423850b1bDc7C3bbb43422
@@ -297,7 +297,7 @@ syntax for this command is:
 
 .. code:: bash
 
-    $ monetcli config pull [--peer peer_address] [--node node0] [--address ip]
+    $ monetd config pull [--peer peer_address] [--node node0] [--address ip]
 
 The ``--peer`` parameter is the address / ip of an existing node on the
 network. The network's configuration is requested from this peer.
