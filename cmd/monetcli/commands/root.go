@@ -27,7 +27,6 @@ func init() {
 	RootCmd.AddCommand(
 		network.NetworkCmd,
 		config.ConfigCmd,
-		VersionCmd,
 		network.WizardCmd,
 		testnet.NewTestNetCmd(),
 		testnet.NewTestJoinCmd(),
