@@ -6,9 +6,6 @@ all: vendor install
 vendor:
 	rm -rf vendor && rm glide.lock && glide install
 
-update:
-	glide update
-
 # install compiles and places the binary in GOPATH/bin
 install: installd installcli installcfg
 

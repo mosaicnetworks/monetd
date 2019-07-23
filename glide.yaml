@@ -3,7 +3,7 @@ import:
 - package: github.com/mosaicnetworks/babble
   version: master
 - package: github.com/mosaicnetworks/evm-lite
-  version: refactor
+  version: develop
 - package: github.com/sirupsen/logrus
   version: =1.2.0
 - package: github.com/spf13/cobra
