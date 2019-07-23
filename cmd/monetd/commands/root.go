@@ -15,10 +15,11 @@ import (
 
 var (
 	//	config = monetConfig(defaultHomeDir())
-	logger = common.DefaultLogger()
-
+	logger       = common.DefaultLogger()
 	passwordFile string
 	outputJSON   bool
+	nodeParam    string
+	addressParam string
 )
 
 /*******************************************************************************

@@ -22,9 +22,34 @@ const (
 	monetdTomlDirCaps = "MONET"
 )
 
+// Filename constants
+const (
+	PeersJSON        = "peers.json"
+	PeersGenesisJSON = "peers.genesis.json"
+	GenesisJSON      = "genesis.json"
+	MonetTomlFile    = "monet.toml"
+	WalletTomlFile   = "wallet.toml"
+)
+
+// Port Constants
+const (
+	DefaultGossipPort  = "1337"
+	DefaultBabblePort  = "8000"
+	DefaultEVMLitePort = "8080"
+)
+
 //Keys constants
 const (
 	DefaultKeyfile = "keyfile.json"
+)
+
+// Genesis Constants
+const (
+	DefaultAccountBalance  = "1234567890000000000000"
+	DefaultContractAddress = "abbaabbaabbaabbaabbaabbaabbaabbaabbaabba"
+	GenesisContract        = "contract0.sol"
+	GenesisABI             = "contract0.abi"
+	CompileResultFile      = "compile.toml"
 )
 
 //DefaultMonetConfigDir is a wrapper for DefaultConfigDir, but returns the

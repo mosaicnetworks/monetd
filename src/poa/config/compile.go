@@ -1,4 +1,4 @@
-package common
+package config
 
 import (
 	"encoding/json"
@@ -9,6 +9,12 @@ import (
 	"runtime"
 	"strconv"
 	"strings"
+
+	"github.com/mosaicnetworks/monetd/src/poa/contract"
+	"github.com/mosaicnetworks/monetd/src/poa/files"
+
+	"github.com/mosaicnetworks/monetd/src/poa/common"
+	mtypes "github.com/mosaicnetworks/monetd/src/poa/types"
 
 	"github.com/pelletier/go-toml"
 
@@ -48,8 +54,8 @@ func GetSolidityCompilerVersion() (string, error) {
 		return "", err
 	}
 
-	MessageWithType(MsgDebug, "Path         : ", s.Path)
-	MessageWithType(MsgDebug, "Full Version : \n", s.FullVersion)
+	common.DebugMessage("Path         : ", s.Path)
+	common.DebugMessage("Full Version : \n", s.FullVersion)
 	version := s.FullVersion
 	re := regexp.MustCompile(`\r?\n`)
 	version = re.ReplaceAllString(version, " ")
@@ -108,7 +114,7 @@ func GetSoliditySource(filename string) (string, error) {
 func CompileSolidityContract(soliditySource string) (map[string]*compiler.Contract, error) {
 	contractInfo, err := compiler.CompileSolidityString("solc", soliditySource)
 	if err != nil {
-		MessageWithType(MsgError, "Error compiling genesis contract:", err)
+		common.ErrorMessage("Error compiling genesis contract:", err)
 	}
 	return contractInfo, err
 }
@@ -168,7 +174,7 @@ func ApplyInitialWhitelistToSoliditySource(soliditySource string, peers PeerReco
 */
 
 //BuildGenesisJSON ...
-func BuildGenesisJSON(monetcliConfigDir string, monetdConfigDir string, peers PeerRecordList, contractAddress string) error {
+func BuildGenesisJSON(configDir string, peers mtypes.PeerRecordList, contractAddress string) error {
 	var genesis GenesisFile
 
 	/*	templateSource, err := GetSoliditySource(filepath.Join(monetcliConfigDir, TemplateContract))
@@ -178,14 +184,14 @@ func BuildGenesisJSON(monetcliConfigDir string, monetdConfigDir string, peers Pe
 
 		finalSource, err := ApplyInitialWhitelistToSoliditySource(templateSource, peers) */
 
-	finalSource, err := GetFinalSoliditySource(peers)
+	finalSource, err := contract.GetFinalSoliditySource(peers)
 	if err != nil {
 		return err
 	}
 
-	genesispoa, err := BuildGenesisPOAJSON(finalSource, monetdConfigDir, contractAddress)
+	genesispoa, err := BuildGenesisPOAJSON(finalSource, configDir, contractAddress)
 
-	alloc, err := BuildGenesisAlloc(filepath.Join(monetcliConfigDir, MonetAccountsSubFolder))
+	alloc, err := BuildGenesisAlloc(filepath.Join(configDir, common.KeyStoreDir))
 
 	if err != nil {
 		return err
@@ -199,9 +205,9 @@ func BuildGenesisJSON(monetcliConfigDir string, monetdConfigDir string, peers Pe
 		return err
 	}
 
-	MessageWithType(MsgDebug, "Write Genesis.json")
-	jsonFileName := filepath.Join(monetdConfigDir, EthDir, GenesisJSON)
-	WriteToFile(jsonFileName, string(genesisjson))
+	common.DebugMessage("Write Genesis.json")
+	jsonFileName := filepath.Join(configDir, common.EthDir, common.GenesisJSON)
+	files.WriteToFile(jsonFileName, string(genesisjson))
 
 	return nil
 }
@@ -210,22 +216,20 @@ func BuildGenesisJSON(monetcliConfigDir string, monetdConfigDir string, peers Pe
 func BuildGenesisAlloc(accountsDir string) (GenesisAlloc, error) {
 	var alloc = make(GenesisAlloc)
 
-	files, err := ioutil.ReadDir(accountsDir)
+	tfiles, err := ioutil.ReadDir(accountsDir)
 	if err != nil {
 		return alloc, err
 	}
 
-	for i, f := range files {
-		if !f.IsDir() { // we only want directories
-			continue
-		}
-		tomlFile := filepath.Join(accountsDir, f.Name(), NodeFile)
-
-		if !CheckIfExists(tomlFile) {
+	for i, f := range tfiles {
+		splits := strings.Split(f.Name(), ".")
+		if splits[len(splits)-1] != "toml" {
 			continue
 		}
 
-		tree, err := LoadToml(tomlFile)
+		tomlFile := filepath.Join(accountsDir, f.Name())
+
+		tree, err := files.LoadToml(tomlFile)
 		if err != nil {
 			return alloc, err
 		}
@@ -235,7 +239,7 @@ func BuildGenesisAlloc(accountsDir string) (GenesisAlloc, error) {
 		addr := tree.GetPath([]string{"node", "address"}).(string)
 
 		// Set defaults then overwrite if set
-		balance := DefaultAccountBalance
+		balance := common.DefaultAccountBalance
 		moniker := "node" + strconv.Itoa(i)
 
 		if tree.HasPath([]string{"node", "moniker"}) {
@@ -263,13 +267,13 @@ func BuildGenesisPOAJSON(solidityCode string, monetdConfigDir string, contractAd
 
 	contractInfo, err := CompileSolidityContract(solidityCode)
 	if err != nil {
-		MessageWithType(MsgError, "Error compiling genesis contract:", err)
+		common.ErrorMessage("Error compiling genesis contract:", err)
 		return poagenesis, err
 	}
 
-	poagenesis, err = BuildCompilationReport(version, contractInfo, filepath.Join(monetdConfigDir, POADir), contractAddress, solidityCode)
+	poagenesis, err = BuildCompilationReport(version, contractInfo, filepath.Join(monetdConfigDir, common.EthDir, common.POADir), contractAddress, solidityCode)
 	if err != nil {
-		MessageWithType(MsgError, "Error writing compilation output:", err)
+		common.ErrorMessage("Error writing compilation output:", err)
 		return poagenesis, err
 	}
 
@@ -295,10 +299,10 @@ func BuildCompilationReport(version string, contractInfo map[string]*compiler.Co
 	tree.SetPath([]string{"solc", "arch"}, runtime.GOARCH)
 
 	for k, v := range contractInfo {
-		MessageWithType(MsgDebug, "Processing Contract: ", k)
+		common.DebugMessage("Processing Contract: ", k)
 		jsonabi, err := json.MarshalIndent(v.Info.AbiDefinition, "", "\t")
 		if err != nil {
-			MessageWithType(MsgError, "ABI error:", err)
+			common.ErrorMessage("ABI error:", err)
 			return poagenesis, err
 		}
 
@@ -306,7 +310,7 @@ func BuildCompilationReport(version string, contractInfo map[string]*compiler.Co
 		tree.SetPath([]string{"poa", "abi"}, string(jsonabi))
 		tree.SetPath([]string{"poa", "address"}, eip55addr)
 
-		WriteToFile(filepath.Join(outputDir, GenesisABI), string(jsonabi))
+		files.WriteToFile(filepath.Join(outputDir, common.GenesisABI), string(jsonabi))
 
 		tree.SetPath([]string{"poa", "bytecode"}, strings.TrimPrefix(v.RuntimeCode, "0x"))
 
@@ -318,9 +322,9 @@ func BuildCompilationReport(version string, contractInfo map[string]*compiler.Co
 		// We only have one contract ever so no need to loop. We use the for loop as k is indeterminate
 	}
 
-	WriteToFile(filepath.Join(outputDir, GenesisContract), solidityCode)
+	files.WriteToFile(filepath.Join(outputDir, common.GenesisContract), solidityCode)
 
-	SaveToml(tree, filepath.Join(outputDir, CompileResultFile))
+	files.SaveToml(tree, filepath.Join(outputDir, common.CompileResultFile))
 
 	return poagenesis, nil
 }

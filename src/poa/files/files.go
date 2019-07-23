@@ -66,3 +66,30 @@ func CheckIfExists(dir string) bool {
 	}
 	return true
 }
+
+//CopyFileContents writes the contents to src to a new file dst.
+//This operation is silently destructive
+func CopyFileContents(src, dst string) (err error) {
+
+	common.DebugMessage("Copying from " + src + " to " + dst)
+	in, err := os.Open(src)
+	if err != nil {
+		return
+	}
+	defer in.Close()
+	out, err := os.Create(dst)
+	if err != nil {
+		return
+	}
+	defer func() {
+		cerr := out.Close()
+		if err == nil {
+			err = cerr
+		}
+	}()
+	if _, err = io.Copy(out, in); err != nil {
+		return
+	}
+	err = out.Sync()
+	return
+}

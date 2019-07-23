@@ -6,8 +6,10 @@ import (
 	"github.com/mosaicnetworks/monetd/src/poa/common"
 
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 
-	"github.com/mosaicnetworks/monetd/cmd/monetd/config"
+	mconfig "github.com/mosaicnetworks/monetd/cmd/monetd/config"
+	pconfig "github.com/mosaicnetworks/monetd/src/poa/config"
 )
 
 var (
@@ -29,14 +31,14 @@ func init() {
 		//			NewCheckCmd(),
 		//			NewPublishCmd(),
 		newLocationCmd(),
-	//			NewShowCmd(),
-	//			NewClearCmd(),
-	//			NewPullCmd(),
-	//			NewBuildCmd(),
+		//			NewShowCmd(),
+		//			NewClearCmd(),
+		//			NewPullCmd(),
+		newBuildCmd(),
 	)
 
 	//TODO remove - temporary debug out to preserve the import - we will need it shortly
-	fmt.Print(config.Config.DataDir)
+	fmt.Print(mconfig.Config.DataDir)
 
 	// datadir is now the config for everything...
 
@@ -58,6 +60,33 @@ Shows the location of the configuration files for the monetd server.`,
 
 func locationConfig(cmd *cobra.Command, args []string) error {
 	common.InfoMessage("The Monet Configuration files are located at:")
-	common.InfoMessage(config.Config.DataDir)
+	common.InfoMessage(mconfig.Config.DataDir)
 	return nil
+}
+
+//NewBuildCmd echoes the config file to screen
+func newBuildCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "build",
+		Short: "build the configuration files",
+		Long: `monetd config build
+Builds the monetd configuration files for the monetd server.`,
+		Args: cobra.ArbitraryArgs,
+		RunE: buildConfig,
+	}
+
+	cmd.PersistentFlags().StringVarP(&nodeParam, "node", "n", "", "the directory name containing monet nodes configurations")
+	cmd.PersistentFlags().StringVarP(&addressParam, "address", "a", "", " ip address/host name of this node")
+	cmd.PersistentFlags().StringVarP(&passwordFile, "passfile", "p", "", "the file that contains the passphrase for the keyfile")
+	//	KeysCmd.PersistentFlags().BoolVar(&outputJSON, "json", false, "output JSON instead of human-readable format")
+
+	viper.BindPFlags(cmd.Flags())
+
+	//--node node0  --address 192.168.1.4 --peers node1,node2,node3 --peer-address host1,host2,host3
+
+	return cmd
+}
+
+func buildConfig(cmd *cobra.Command, args []string) error {
+	return pconfig.BuildConfig(mconfig.Config.DataDir, nodeParam, addressParam, passwordFile)
 }

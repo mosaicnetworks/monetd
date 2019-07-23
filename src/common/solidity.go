@@ -7,6 +7,12 @@ import (
 	"text/template"
 )
 
+type solidityFields struct {
+	Constants string
+	AddTo     string
+	Checks    string
+}
+
 //GetFinalSoliditySource Embedded Solidity Source Code
 func GetFinalSoliditySource(peers PeerRecordList) (string, error) {
 

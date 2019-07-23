@@ -12,7 +12,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/mosaicnetworks/monetd/src/common"
+	//	"github.com/mosaicnetworks/monetd/src/common"
+
 	com "github.com/mosaicnetworks/monetd/src/poa/common"
 	"github.com/mosaicnetworks/monetd/src/poa/files"
 	"github.com/pelletier/go-toml"
@@ -194,7 +195,7 @@ func WriteTomlForKey(monikerParam, safeLabel, tomlfilepath string, key *keystore
 	tree.SetPath([]string{"node", "privatekey"}, hex.EncodeToString(crypto.FromECDSA(key.PrivateKey)))
 
 	// pass any errors back up the function tree
-	return common.SaveToml(tree, tomlfilepath)
+	return files.SaveToml(tree, tomlfilepath)
 }
 
 //InspectKeyMoniker is a wrapper around InspectKey to add moniker support
@@ -209,6 +210,28 @@ func InspectKeyMoniker(configDir string, moniker string, PasswordFile string, sh
 	return InspectKey(filepath, PasswordFile, showPrivate, outputJSON)
 }
 
+// GetPrivateKey decrypts a keystore and returns the private key
+func GetPrivateKey(keyfilepath string, PasswordFile string) (string, error) {
+
+	// Read key from file.
+	keyjson, err := ioutil.ReadFile(keyfilepath)
+	if err != nil {
+		return "", fmt.Errorf("Failed to read the keyfile at '%s': %v", keyfilepath, err)
+	}
+
+	// Decrypt key with passphrase.
+	passphrase, err := GetPassphrase(PasswordFile, false)
+	if err != nil {
+		return "", err
+	}
+
+	key, err := keystore.DecryptKey(keyjson, passphrase)
+	if err != nil {
+		return "", fmt.Errorf("Error decrypting key: %v", err)
+	}
+	return hex.EncodeToString(crypto.FromECDSA(key.PrivateKey)), nil
+}
+
 // InspectKey inspects an encrypted keyfile
 func InspectKey(keyfilepath string, PasswordFile string, showPrivate bool, outputJSON bool) error {
 
@@ -219,7 +242,7 @@ func InspectKey(keyfilepath string, PasswordFile string, showPrivate bool, outpu
 	}
 
 	// Decrypt key with passphrase.
-	passphrase, err := common.GetPassphrase(PasswordFile, false)
+	passphrase, err := GetPassphrase(PasswordFile, false)
 	if err != nil {
 		return err
 	}
@@ -275,7 +298,7 @@ func UpdateKeys(keyfilepath string, PasswordFile string, newPasswordFile string)
 	}
 
 	// Decrypt key with passphrase.
-	passphrase, err := common.GetPassphrase(PasswordFile, false)
+	passphrase, err := GetPassphrase(PasswordFile, false)
 	if err != nil {
 		return err
 	}
@@ -295,7 +318,7 @@ func UpdateKeys(keyfilepath string, PasswordFile string, newPasswordFile string)
 		}
 		newPhrase = strings.TrimRight(string(content), "\r\n")
 	} else {
-		newPhrase, err = common.PromptPassphrase(true)
+		newPhrase, err = PromptPassphrase(true)
 		if err != nil {
 			return err
 		}
