@@ -123,9 +123,13 @@ func buildConfig(cmd *cobra.Command, args []string) error {
 		return fmt.Errorf("Error decrypting key: %v", err)
 	}
 
-	// This may go
 	privateKey := hex.EncodeToString(crypto.FromECDSA(key.PrivateKey))
-	common.WriteToFile(filepath.Join(monetConfigDir, common.BabbleDir, babble.DefaultKeyfile), privateKey)
+
+	// write the priv_key with 0600 permissions, otherwise Babble will complain
+	err = ioutil.WriteFile(filepath.Join(monetConfigDir, common.BabbleDir, babble.DefaultKeyfile), []byte(privateKey), 0600)
+	if err != nil {
+		return err
+	}
 
 	common.WriteToFile(filepath.Join(monetConfigDir, common.EthDir, common.PwdFile), passphrase)
 
