@@ -7,8 +7,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// VersionCmd displays the version of evml being used
-var VersionCmd = &cobra.Command{
+// versionCmd displays the version of evml being used
+var versionCmd = &cobra.Command{
 	Use:   "version",
 	Short: "show version info",
 	Long:  `Monetd Version information`,

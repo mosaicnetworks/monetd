@@ -13,8 +13,8 @@ import (
 RunCmd
 *******************************************************************************/
 
-//NewRunCmd returns the command that starts the daemon
-func NewRunCmd() *cobra.Command {
+//newRunCmd returns the command that starts the daemon
+func newRunCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "run",
 		Short: "run a MONET node",

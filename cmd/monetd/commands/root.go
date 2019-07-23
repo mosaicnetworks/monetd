@@ -46,8 +46,9 @@ func init() {
 		//		InitCmd,
 
 		keys.KeysCmd,
-		NewRunCmd(),
-		VersionCmd,
+		newRunCmd(),
+		versionCmd,
+		configCmd,
 	)
 
 	// set global flags
