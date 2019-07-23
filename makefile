@@ -10,7 +10,7 @@ update:
 	glide update
 
 # install compiles and places the binary in GOPATH/bin
-install: installd installcli installcfg installgiv
+install: installd installcfg installgiv
 
 installd:
 	go install \
