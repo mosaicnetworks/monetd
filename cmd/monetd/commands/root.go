@@ -20,6 +20,7 @@ var (
 	outputJSON   bool
 	nodeParam    string
 	addressParam string
+	existingPeer string
 )
 
 /*******************************************************************************

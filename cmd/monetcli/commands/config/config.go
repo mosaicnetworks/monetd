@@ -38,11 +38,11 @@ func init() {
 	ConfigCmd.AddCommand(
 		NewCheckCmd(),
 		NewPublishCmd(),
-		NewLocationCmd(),
+		//		NewLocationCmd(),
 		NewShowCmd(),
 		NewClearCmd(),
 		NewPullCmd(),
-		NewBuildCmd(),
+		//		NewBuildCmd(),
 	)
 
 	defaultConfigDir, _ := common.DefaultHomeDir(common.MonetcliTomlDir)
@@ -51,29 +51,6 @@ func init() {
 	ConfigCmd.PersistentFlags().StringVarP(&monetConfigDir, "monet-config-dir", "m", defaultMonetConfigDir, "the directory containing monet nodes configurations")
 	ConfigCmd.PersistentFlags().StringVarP(&networkConfigDir, "config-dir", "c", defaultConfigDir, "the directory containing monet nodes configurations")
 	viper.BindPFlags(ConfigCmd.Flags())
-}
-
-//NewBuildCmd echoes the config file to screen
-func NewBuildCmd() *cobra.Command {
-	cmd := &cobra.Command{
-		Use:   "build",
-		Short: "build the configuration files",
-		Long: `monetcli config build
-Builds the monetd configuration files for the monetd server.`,
-		Args: cobra.ArbitraryArgs,
-		RunE: buildConfig,
-	}
-
-	cmd.PersistentFlags().StringVarP(&nodeParam, "node", "n", "", "the directory name containing monet nodes configurations")
-	cmd.PersistentFlags().StringVarP(&addressParam, "address", "a", "", " ip address/host name of this node")
-	cmd.PersistentFlags().StringVarP(&passwordFile, "passfile", "p", "", "the file that contains the passphrase for the keyfile")
-	//	KeysCmd.PersistentFlags().BoolVar(&outputJSON, "json", false, "output JSON instead of human-readable format")
-
-	viper.BindPFlags(cmd.Flags())
-
-	//--node node0  --address 192.168.1.4 --peers node1,node2,node3 --peer-address host1,host2,host3
-
-	return cmd
 }
 
 //NewPullCmd echoes the config file to screen

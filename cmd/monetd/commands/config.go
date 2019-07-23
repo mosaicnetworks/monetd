@@ -34,7 +34,7 @@ func init() {
 		newLocationCmd(),
 		//			NewShowCmd(),
 		newClearCmd(),
-		//			NewPullCmd(),
+		newPullCmd(),
 		newBuildCmd(),
 	)
 
@@ -103,6 +103,28 @@ Clearly this will disable any pre-existing configuration.`,
 	return cmd
 }
 
+func newPullCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "pull",
+		Short: "pull the configuration files from a node",
+		Long: `monetd config pull
+Pulls the monetd configuration files from an existing peer.`,
+		Args: cobra.ArbitraryArgs,
+		RunE: pullConfig,
+	}
+
+	cmd.PersistentFlags().StringVarP(&nodeParam, "node", "n", "", "the directory name containing monet nodes configurations")
+	cmd.PersistentFlags().StringVarP(&addressParam, "address", "a", "", " ip address/host name of this node")
+	cmd.PersistentFlags().StringVarP(&passwordFile, "passfile", "p", "", "the file that contains the passphrase for the keyfile")
+	cmd.PersistentFlags().StringVar(&existingPeer, "peer", "", "the address of an existing peer")
+
+	//	KeysCmd.PersistentFlags().BoolVar(&outputJSON, "json", false, "output JSON instead of human-readable format")
+
+	viper.BindPFlags(cmd.Flags())
+
+	return cmd
+}
+
 func buildConfig(cmd *cobra.Command, args []string) error {
 	return pconfig.BuildConfig(mconfig.Config.DataDir, nodeParam, addressParam, passwordFile)
 }
@@ -114,5 +136,9 @@ func clearConfig(cmd *cobra.Command, args []string) error {
 	}
 
 	//	ShowConfigParams(monetConfigDir)
+	return nil
+}
+
+func pullConfig(cmd *cobra.Command, args []string) error {
 	return nil
 }

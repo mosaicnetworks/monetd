@@ -5,6 +5,8 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"io/ioutil"
+	"net/http"
 	"os"
 	"path/filepath"
 	"strconv"
@@ -116,4 +118,34 @@ func SafeRenameDir(origDir string) error {
 		return nil
 	}
 	return errors.New("you have reached the maximum number of automatic backups. Try removing the .monet.~n~ files")
+}
+
+//DownloadFile downs a file from a URL and writes it to disk
+func DownloadFile(url string, writefile string) error {
+	b, err := getRequest(url)
+	if err != nil {
+		fmt.Println("Error getting "+url, err)
+		return err
+	}
+
+	err = WriteToFile(writefile, string(b))
+	if err != nil {
+		fmt.Println("Error writing "+writefile, err)
+		return err
+	}
+	return nil
+}
+
+//GetRequest gets a request from a URL
+func getRequest(url string) ([]byte, error) {
+	resp, err := http.Get(url)
+	if err != nil {
+		return nil, err
+	}
+	bytes, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+	resp.Body.Close()
+	return bytes, nil
 }
