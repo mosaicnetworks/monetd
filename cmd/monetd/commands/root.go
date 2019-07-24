@@ -6,6 +6,7 @@ import (
 
 	"github.com/mosaicnetworks/monetd/src/poa/common"
 
+	"github.com/mosaicnetworks/monetd/cmd/monetd/commands/config"
 	"github.com/mosaicnetworks/monetd/cmd/monetd/commands/keys"
 	"github.com/mosaicnetworks/monetd/src/configuration"
 	"github.com/spf13/cobra"
@@ -14,12 +15,6 @@ import (
 
 var (
 	_logger = common.DefaultLogger()
-
-	passwordFile string
-	outputJSON   bool
-	nodeParam    string
-	addressParam string
-	existingPeer string
 )
 
 /*******************************************************************************
@@ -44,12 +39,10 @@ var RootCmd = &cobra.Command{
 
 func init() {
 	RootCmd.AddCommand(
-		//		InitCmd,
-
 		keys.KeysCmd,
+		config.ConfigCmd,
 		newRunCmd(),
 		versionCmd,
-		configCmd,
 	)
 
 	// set global flags
