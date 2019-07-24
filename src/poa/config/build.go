@@ -88,8 +88,6 @@ func BuildConfig(configDir, nodeParam, addressParam, passwordFile string) error 
 	//  pwd.txt is deprecated
 	//	files.WriteToFile(filepath.Join(monetConfigDir, common.EthDir, common.PwdFile), passphrase)
 
-	//TODO you check .monetcli/network.toml for an updated contract address
-
 	err = BuildGenesisJSON(configDir, peersJSON, common.DefaultContractAddress)
 	//	monetcliConfigDir string, monetdConfigDir string, peers PeerRecordList, contractAddress string)
 	if err != nil {
@@ -97,21 +95,6 @@ func BuildConfig(configDir, nodeParam, addressParam, passwordFile string) error 
 	}
 
 	monettomlfile := filepath.Join(configDir, common.MonetTomlFile)
-
-	/*
-		tomlfile := filepath.Join(configDir, common.MonetcliTomlName+common.TomlSuffix)
-
-		var tree *toml.Tree
-
-		if files.CheckIfExists(tomlfile) {
-			tree, err = files.LoadToml(tomlfile)
-		} else {
-			tree, err = toml.Load("")
-		}
-	*/
-	// With the removal of the monetcli structures, we have just populate
-	// monet.toml with the defaults.
-
 	tree, err := toml.Load("")
 
 	if err != nil {
@@ -127,13 +110,6 @@ func BuildConfig(configDir, nodeParam, addressParam, passwordFile string) error 
 	if err != nil {
 		return err
 	}
-
-	/*	// Deprecated as we now have a common keystore
-		err = common.SendKeyToEVMLC(safeLabel, keyFile)
-		if err != nil {
-			return err
-		}
-	*/
 
 	//TODO - write to wallet.toml to ensure gas is set appropriately highly
 	// Set the default from address

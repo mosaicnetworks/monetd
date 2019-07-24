@@ -9,7 +9,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-//RootCmd is the root command for monetcli
+//RootCmd is the root command for giverny
 var RootCmd = &cobra.Command{
 	Use:   "giverny",
 	Short: "Giverny",

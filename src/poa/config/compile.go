@@ -62,54 +62,6 @@ func GetSolidityCompilerVersion() (string, error) {
 	return version, nil
 }
 
-/*
-//GetSoliditySource ...
-func GetSoliditySource(filename string) (string, error) {
-	var soliditySource string
-
-	if _, err := os.Stat(filename); err == nil {
-		MessageWithType(MsgDebug, "Opening: ", filename)
-		file, err := os.Open(filename)
-		if err != nil {
-			MessageWithType(MsgError, "Error opening: ", filename)
-			return "", err
-		}
-		defer file.Close()
-
-		b, err := ioutil.ReadAll(file)
-		if err != nil {
-			MessageWithType(MsgError, "Error reading: ", filename)
-			return "", err
-		}
-
-		soliditySource = string(b)
-	} else { // NB, we do not write the downloaded template to file. Preferable to get fresh is regenerating.
-		MessageWithType(MsgDebug, "Loading: ", DefaultSolidityContract)
-		resp, err := http.Get(DefaultSolidityContract)
-		if err != nil {
-			MessageWithType(MsgError, "Could not load the standard poa smart contract from GitHub. Aborting.")
-			MessageWithType(MsgError, "You can specify the contract explicitly using the standard one from [...monetd]/smart-contract/genesis.sol")
-			MessageWithType(MsgInformation, "monetcli network contract [...monetd]/smart-contract/genesis.sol")
-
-			MessageWithType(MsgError, "Error loading: ", DefaultSolidityContract)
-
-			return "", err
-		}
-		defer resp.Body.Close()
-
-		body, err := ioutil.ReadAll(resp.Body)
-		if err != nil {
-			MessageWithType(MsgError, "Error reading body of Solidity Contract")
-			return "", err
-		}
-
-		soliditySource = string(body)
-	}
-
-	return soliditySource, nil
-}
-*/
-
 //CompileSolidityContract ...
 func CompileSolidityContract(soliditySource string) (map[string]*compiler.Contract, error) {
 	contractInfo, err := compiler.CompileSolidityString("solc", soliditySource)
@@ -125,64 +77,9 @@ type solidityFields struct {
 	Checks    string
 }
 
-/*
-//ApplyInitialWhitelistToSoliditySource ...
-func ApplyInitialWhitelistToSoliditySource(soliditySource string, peers PeerRecordList) (string, error) {
-
-	var consts, addTo, checks []string
-
-	for i, peer := range peers {
-		addr, err := PublicKeyHexToAddressHex(peer.PubKeyHex)
-		if err != nil {
-			return "", err
-		}
-
-		consts = append(consts, "    address constant initWhitelist"+strconv.Itoa(i)+" = "+addr+";")
-		consts = append(consts, "    bytes32 constant initWhitelistMoniker"+strconv.Itoa(i)+" = \""+peer.Moniker+"\";")
-
-		addTo = append(addTo, "     addToWhitelist(initWhitelist"+strconv.Itoa(i)+", initWhitelistMoniker"+strconv.Itoa(i)+");")
-		checks = append(checks, " ( initWhitelist"+strconv.Itoa(i)+" == _address ) ")
-	}
-
-	solFields := solidityFields{
-		Constants: strings.Join(consts, "\n"),
-		AddTo:     strings.Join(addTo, "\n"),
-		Checks:    strings.Join(checks, "||"),
-	}
-
-	// GENERATED GENESIS BEGIN
-	{{.Constants}}
-
-	function processGenesisWhitelist() private
-	{
-		{{.AddTo}}
-	}
-
-	function isGenesisWhitelisted(address _address) pure private returns (bool) {
-		return ( {{.Checks}} );
-	}
-	//GENERATED GENESIS END
-
-
-	// replace
-
-	reg := regexp.MustCompile(`(?s)GENERATED GENESIS BEGIN.*GENERATED GENESIS END`)
-	finalSoliditySource := reg.ReplaceAllString(soliditySource, generatedSol)
-
-	return finalSoliditySource, nil
-}
-*/
-
 //BuildGenesisJSON ...
 func BuildGenesisJSON(configDir string, peers mtypes.PeerRecordList, contractAddress string) error {
 	var genesis GenesisFile
-
-	/*	templateSource, err := GetSoliditySource(filepath.Join(monetcliConfigDir, TemplateContract))
-		if err != nil {
-			return err
-		}
-
-		finalSource, err := ApplyInitialWhitelistToSoliditySource(templateSource, peers) */
 
 	finalSource, err := contract.GetFinalSoliditySource(peers)
 	if err != nil {

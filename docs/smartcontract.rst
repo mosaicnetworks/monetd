@@ -5,7 +5,7 @@ Monet Hub POA Smart Contract
 
 This document describes the requirements for a smart contract to
 implement POA in a Monet hub. The default contract supplied with
-``monetcli`` already meets these requirements.
+``monetd`` already meets these requirements.
 
 
 
@@ -153,8 +153,7 @@ Generated Genesis Whitelist Section
 
 The template contract has a block of code delimited by the commments
 ``//GENERATED GENESIS BEGIN`` and ``//GENERATED GENESIS END``. In the
-``monetcli network compile`` command (or its ``wizard``, ``testnet`` or
-``testjoin`` counterpart) that block of code is replaced with generated
+``monetd config build`` command that block of code is replaced with generated
 code. That code is customised to include the initial authorised peers
 list in the genesis block.
 

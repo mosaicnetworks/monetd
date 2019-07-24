@@ -80,17 +80,6 @@ func PullConfig(configDir, nodeParam, addressParam, existingPeer, passwordFile s
 
 	monettomlfile := filepath.Join(configDir, common.MonetTomlFile)
 
-	/*
-		tomlfile := filepath.Join(configDir, common.MonetcliTomlName+common.TomlSuffix)
-
-		var tree *toml.Tree
-
-		if files.CheckIfExists(tomlfile) {
-			tree, err = files.LoadToml(tomlfile)
-		} else {
-			tree, err = toml.Load("")
-		}
-	*/
 	// With the removal of the monetcli structures, we have just populate
 	// monet.toml with the defaults.
 

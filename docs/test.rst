@@ -13,13 +13,6 @@ to run tests. A sample (passing) session is included here.
     Monet Tests
 
 
-    ?       .../monetd/cmd/monetcfgsrv  [no test files]
-    ?       .../monetd/cmd/monetcli [no test files]
-    ?       .../monetd/cmd/monetcli/commands    [no test files]
-    ?       .../monetd/cmd/monetcli/commands/config [no test files]
-    ?       .../monetd/cmd/monetcli/commands/keys   [no test files]
-    ?       .../monetd/cmd/monetcli/commands/network    [no test files]
-    ?       .../monetd/cmd/monetcli/commands/testnet    [no test files]
     ?       .../monetd/cmd/monetd   [no test files]
     ?       .../monetd/cmd/monetd/commands  [no test files]
     ?       .../monetd/src/common   [no test files]
