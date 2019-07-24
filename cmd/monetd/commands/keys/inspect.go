@@ -1,6 +1,8 @@
 package keys
 
 import (
+	"fmt"
+
 	"github.com/mosaicnetworks/monetd/src/configuration"
 	"github.com/mosaicnetworks/monetd/src/poa/crypto"
 	"github.com/spf13/cobra"
@@ -31,5 +33,11 @@ func addInspectFlags(cmd *cobra.Command) {
 
 func inspect(cmd *cobra.Command, args []string) error {
 	moniker := args[0]
-	return crypto.InspectKeyMoniker(configuration.Configuration.DataDir, moniker, PasswordFile, showPrivate, OutputJSON)
+
+	err := crypto.InspectKeyMoniker(configuration.Configuration.DataDir, moniker, PasswordFile, showPrivate, OutputJSON)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	return nil
 }

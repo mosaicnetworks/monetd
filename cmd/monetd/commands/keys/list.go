@@ -14,7 +14,7 @@ import (
 func newListCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "list",
-		Short: "list keys in keystore",
+		Short: "list keyfiles",
 		RunE:  list,
 	}
 
@@ -28,7 +28,8 @@ func list(cmd *cobra.Command, args []string) error {
 
 	files, err := ioutil.ReadDir(keystore)
 	if err != nil {
-		return err
+		fmt.Println(err)
+		return nil
 	}
 
 	for _, file := range files {
