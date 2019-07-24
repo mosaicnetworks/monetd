@@ -1,3 +1,5 @@
+// Package configuration holds shared configuration structs for Monet, EVM-Lite and Babble.
+
 package configuration
 
 import (

@@ -28,5 +28,6 @@ func init() {
 		newClearCmd(),
 		newPullCmd(),
 		newBuildCmd(),
+		newContractCmd(),
 	)
 }
