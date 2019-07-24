@@ -1,6 +1,8 @@
 package config
 
 import (
+	"github.com/mosaicnetworks/monetd/src/configuration"
+	pconfig "github.com/mosaicnetworks/monetd/src/poa/config"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -26,5 +28,5 @@ func addPullFlags(cmd *cobra.Command) {
 }
 
 func pullConfig(cmd *cobra.Command, args []string) error {
-	return nil
+	return pconfig.PullConfig(configuration.Configuration.DataDir, nodeParam, addressParam, existingPeer, passwordFile)
 }

@@ -85,7 +85,7 @@ func BuildConfig(configDir, nodeParam, addressParam, passwordFile string) error 
 	if err != nil {
 		return err
 	}
-	files.WriteToFile(filepath.Join(configDir, common.BabbleDir, common.DefaultKeyfile), privateKey)
+	files.WriteToFile(filepath.Join(configDir, common.BabbleDir, common.DefaultPrivateKeyFile), privateKey)
 
 	//  pwd.txt is deprecated
 	//	files.WriteToFile(filepath.Join(monetConfigDir, common.EthDir, common.PwdFile), passphrase)

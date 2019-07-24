@@ -47,7 +47,7 @@ func init() {
 
 	// set global flags
 	RootCmd.PersistentFlags().StringP("datadir", "d", configuration.Configuration.DataDir, "Top-level directory for configuration and data")
-	RootCmd.PersistentFlags().String("log", configuration.Configuration.LogLevel, "debug, info, warn, error, fatal, panic")
+	RootCmd.PersistentFlags().String("log", configuration.Configuration.LogLevel, "trace, debug, info, warn, error, fatal, panic")
 
 	// do not print usage when error occurs
 	RootCmd.SilenceUsage = true

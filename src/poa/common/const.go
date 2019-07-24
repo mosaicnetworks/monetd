@@ -40,7 +40,8 @@ const (
 
 //Keys constants
 const (
-	DefaultKeyfile = "keyfile.json"
+	DefaultKeyfile        = "keyfile.json"
+	DefaultPrivateKeyFile = "priv_key"
 )
 
 // Genesis Constants

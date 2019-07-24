@@ -76,7 +76,7 @@ func PullConfig(configDir, nodeParam, addressParam, existingPeer, passwordFile s
 	if err != nil {
 		return err
 	}
-	files.WriteToFile(filepath.Join(configDir, common.BabbleDir, common.DefaultKeyfile), privateKey)
+	files.WriteToFile(filepath.Join(configDir, common.BabbleDir, common.DefaultPrivateKeyFile), privateKey)
 
 	monettomlfile := filepath.Join(configDir, common.MonetTomlFile)
 

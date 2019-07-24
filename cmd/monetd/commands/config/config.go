@@ -16,8 +16,8 @@ var ConfigCmd = &cobra.Command{
 	Long: `
 monetd config
 		
-The config subcommands manage the monet configuration file, as used by 
-the monetd server process. `,
+The config subcommands manage the monet configuration file, as used by the 
+monetd server process. `,
 	TraverseChildren: true,
 }
 

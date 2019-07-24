@@ -14,8 +14,8 @@ import (
 var (
 	//VerboseLogging is a globals that when set to false suppresses
 	//Debug Message output.
-	//Should be set by the --verbose option in monetcli.
-	VerboseLogging = true
+	//Should be set by the --verbose option in monetd.
+	VerboseLogging = false
 )
 
 //Colour definitions as used in the Message functions in this unit.

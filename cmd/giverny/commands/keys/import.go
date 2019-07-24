@@ -12,7 +12,7 @@ import (
 )
 
 var (
-	//DefaultKeyfile is the default name of the file containing a importd private key
+	//privateKeyfile is the default name of the file containing a imported private key
 
 	privateKeyfile string
 )
