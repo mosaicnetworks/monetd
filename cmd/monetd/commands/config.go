@@ -1,8 +1,6 @@
 package commands
 
 import (
-	"fmt"
-
 	"github.com/mosaicnetworks/monetd/src/poa/common"
 	"github.com/mosaicnetworks/monetd/src/poa/files"
 
@@ -37,9 +35,6 @@ func init() {
 		newPullCmd(),
 		newBuildCmd(),
 	)
-
-	//TODO remove - temporary debug out to preserve the import - we will need it shortly
-	fmt.Print(mconfig.Configuration.DataDir)
 
 	// datadir is now the config for everything...
 
@@ -140,5 +135,6 @@ func clearConfig(cmd *cobra.Command, args []string) error {
 }
 
 func pullConfig(cmd *cobra.Command, args []string) error {
-	return nil
+	return pconfig.PullConfig(mconfig.Configuration.DataDir, nodeParam, addressParam, existingPeer, passwordFile)
+
 }
