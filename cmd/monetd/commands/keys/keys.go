@@ -24,6 +24,7 @@ func init() {
 		newInspectCmd(),
 		newUpdateCmd(),
 		newNewCmd(),
+		newListCmd(),
 	)
 
 	// Flags that are common to all Keys subcommands
