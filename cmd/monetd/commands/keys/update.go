@@ -1,6 +1,8 @@
 package keys
 
 import (
+	"fmt"
+
 	"github.com/mosaicnetworks/monetd/src/configuration"
 	"github.com/mosaicnetworks/monetd/src/poa/crypto"
 	"github.com/spf13/cobra"
@@ -30,5 +32,11 @@ func addUpdateFlags(cmd *cobra.Command) {
 
 func update(cmd *cobra.Command, args []string) error {
 	moniker := args[0]
-	return crypto.UpdateKeysMoniker(configuration.Configuration.DataDir, moniker, PasswordFile, newPasswordFile)
+
+	err := crypto.UpdateKeysMoniker(configuration.Configuration.DataDir, moniker, PasswordFile, newPasswordFile)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	return nil
 }

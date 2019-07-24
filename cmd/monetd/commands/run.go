@@ -18,7 +18,8 @@ func newRunCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "run",
 		Short: "run a MONET node",
-		Long: `Run a MONET node.
+		Long: `
+Run a MONET node.
 	
 Start a daemon which acts as a full node on a MONET network. All data and 
 configuration are stored under a directory [datadir] controlled by the 
