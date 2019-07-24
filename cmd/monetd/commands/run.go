@@ -25,11 +25,14 @@ configuration are stored under a directory [datadir] controlled by the
 --datadir flag ($HOME/.monet by default on UNIX systems). 
 
 [datadir] must contain a set of files defining the network that this node is 
-attempting to join or create. Please refer to monetcli for a tool to manage 
+attempting to join or create. Please refer to monetd config for tools to manage 
 this configuration. 
 
 Further options pertaining to the operation of the node are read from the 
-[datadir]/monetd.toml file, or overwritten by the following flags.`,
+[datadir]/monetd.toml file, or overwritten by the following flags. The following 
+command displays the expected output:
+
+monetd config location `,
 
 		PreRunE: func(cmd *cobra.Command, args []string) (err error) {
 			_logger.WithField("Base", fmt.Sprintf("%+v", configuration.Configuration.BaseConfig)).Debug("Config Base")

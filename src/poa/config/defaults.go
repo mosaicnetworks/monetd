@@ -9,7 +9,7 @@ import (
 	"github.com/mosaicnetworks/monetd/src/poa/common"
 )
 
-//KeyValue is a struct for holding toml keys, default values and whether the default overrides the monetcli supplied value
+//KeyValue is a struct for holding toml keys, default values and whether the default overrides the interim supplied value
 type KeyValue struct {
 	Key      string
 	Value    interface{}

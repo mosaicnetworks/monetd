@@ -24,9 +24,6 @@ docker:
 	go build \
 		--ldflags '-extldflags "-static"' \
 		-o ./docker/monetd ./cmd/monetd/
-	go build \
-		--ldflags '-extldflags "-static"' \
-		-o ./docker/monetcli ./cmd/monetcli/
 
 test: testmonetd testevml testbabble
 

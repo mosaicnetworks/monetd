@@ -96,7 +96,7 @@ contract POA_Genesis {
 
 //GENERATED GENESIS BEGIN
 
-    // This code should be removed as part of the monetcli network compile  /monetcli wizard process. 
+    // This code should be removed as part of the monetd config build process. 
     // The code within here is included so that the unamended contract is viable. 
 
     address constant initWhitelist1 = 0x1234567890123456789012345678901234567890;

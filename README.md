@@ -26,17 +26,14 @@ Consensus algorithm. It leverages
 
 More information about MONET can be found on the [website](https://monet.network/about.html).
 
-This repository contains the code for `monetd` and `monetcli`:
+This repository contains the code for `monetd` and `giverny`:
 
-- `monetd` is the server process that validators are expected to run.
-
-- `monetcli` is a tool that helps with configuration to join or create a 
-  network.
+- `monetd` is the server process, and CLI, that validators are expected to run.
+- `giverny` is the advanced CLI for advanced test net creation and management.
 
 ## Documentation
 
 * [design](https://monetd.readthedocs.io/en/latest/design.html)
 * [installation](https://monetd.readthedocs.io/en/latest/install.html)
 * [monetd](https://monetd.readthedocs.io/en/latest/monetd.html)
-* [monetcli](https://monetd.readthedocs.io/en/latest/monetcli.html)
 * [clients](https://monetd.readthedocs.io/en/latest/clients.html)

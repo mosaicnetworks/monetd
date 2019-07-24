@@ -36,11 +36,11 @@ All the configuration required to run a node is stored under a directory
 with a very specific structure. By default, ``monetd`` will look for
 this directory in ``$HOME/.monet`` (on UNIX systems), but it is possible
 to override this with the ``--datadir`` flag. You would not normally
-need to access these configuration files directly. The ``monetcli`` tool
-provides interactive and CLI interfaces to set up a Monet network.
+need to access these configuration files directly. The ``monetd config`` tool
+provides CLI interfaces to set up a Monet network.
 
 ``datadir`` must contain a set of files defining the network that this
-node is attempting to join or create. Please refer to ``monetcli`` for a
+node is attempting to join or create. Please refer to ``monetd config`` for a
 tool to manage this configuration.
 
 In particular:

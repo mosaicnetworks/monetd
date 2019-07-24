@@ -104,7 +104,7 @@ command:
 
 .. code:: bash
 
-    $ monetcli config location
+    $ monetd config location
     The Monet Configuration files are located at:
     /home/user/.monet
 
@@ -193,7 +193,7 @@ Generate a new key pair value.
 
 .. code:: bash
 
-    $ monetcli keys generate /tmp/keyfile.json
+    $ monetd keys generate node2
     Passphrase: 
     Address: 0x7B86a2BE73108a94D54C0Fd2a52676425aCE270c
 
@@ -313,7 +313,7 @@ with the address of the existing peer.
 
 .. code:: bash
 
-    $ monetcli config pull --peer 192.168.1.4 --node node1  --address 192.168.1.5 
+    $ monetd config pull --peer 192.168.1.4 --node node1  --address 192.168.1.5 
 
 This command builds the configuration files for a monetd node. It adds
 the lists of nodes given by the ``--nodes`` parameter to the initial
