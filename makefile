@@ -10,17 +10,12 @@ update:
 	glide update
 
 # install compiles and places the binary in GOPATH/bin
-install: installd installcfg installgiv
+install: installd installgiv
 
 installd:
 	go install \
 		--ldflags "-X github.com/mosaicnetworks/monetd/src/version.GitCommit=`git rev-parse HEAD` -X github.com/mosaicnetworks/monetd/src/version.GitBranch=`git symbolic-ref --short HEAD`" \
 		./cmd/monetd
-
-installcfg:
-	go install \
-		--ldflags "-X github.com/mosaicnetworks/monetd/src/version.GitCommit=`git rev-parse HEAD` -X github.com/mosaicnetworks/monetd/src/version.GitBranch=`git symbolic-ref --short HEAD`" \
-		./cmd/monetcfgsrv
 
 
 installgiv:
