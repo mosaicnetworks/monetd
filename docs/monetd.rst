@@ -29,7 +29,7 @@ easy to use any consensus system, including
 We have taken EVM-Lite and Babble and surrounded them with a thin
 wrapper to encapsulate the Monet Hub solution in a single repository.
 
-USAGE
+Usage
 -----
 
 All the configuration required to run a node is stored under a directory
@@ -94,7 +94,7 @@ the following stucture:
 
 ::
 
-    host:~/.monetd$ tree
+    host:~/.monet$ tree
     ├── babble
     │   ├── peers.json
     │   └── priv_key
@@ -255,7 +255,7 @@ example:
        "round_events" : "0"
     }
 
-CLIENT
+Client
 ------
 
 Please refer to `EVM-Lite
