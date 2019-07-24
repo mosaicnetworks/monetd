@@ -11,7 +11,7 @@ Monet Hub Quick Start
 
 
 The monetd respository contains the tools necessary to run and maintain a 
-validator in a Monet network.
+validator in a Monet network:
 
 
 Installation

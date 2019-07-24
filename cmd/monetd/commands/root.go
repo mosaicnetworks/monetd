@@ -4,10 +4,15 @@ package commands
 import (
 	"fmt"
 
+<<<<<<< HEAD
 	"github.com/mosaicnetworks/monetd/src/poa/common"
 
 	"github.com/mosaicnetworks/monetd/cmd/monetd/commands/keys"
 	"github.com/mosaicnetworks/monetd/src/configuration"
+=======
+	"github.com/mosaicnetworks/monetd/src/config"
+	"github.com/sirupsen/logrus"
+>>>>>>> origin/develop
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )

@@ -8,12 +8,11 @@ Dependencies
 ------------
 
 The key components of the Monet Hub are written in
-`Golang <https://golang.org/>`__. Hence, the first step is to install
-**Go version 1.9 or above** which is both the programming language and a
-CLI tool for managing Go code. Go is very opinionated and will require
-you to `define a
-workspace <https://golang.org/doc/code.html#Workspaces>`__ where all
-your go code will reside. The simplest test of a go installation is:
+`Golang <https://golang.org/>`__. Hence, the first step is to install **Go 
+version 1.9 or above** which is both the programming language and a CLI tool for 
+managing Go code. Go is very opinionated and will require you to `define a
+workspace <https://golang.org/doc/code.html#Workspaces>`__ where all your go 
+code will reside. The simplest test of a go installation is:
 
 .. code:: bash
 
@@ -22,13 +21,13 @@ your go code will reside. The simplest test of a go installation is:
 Solidity Compiler
 ~~~~~~~~~~~~~~~~~
 
-The Monet Hub uses proof of authority for its validator nodes. This is
+The Monet Hub uses proof of authority for its validator nodes. This is 
 implemented using a smart contract written in
 `Solidity <https://solidity.readthedocs.io/en/develop/introduction-to-smart-contracts.html>`__,
-with the initial peers set embedded in it, being placed in the genesis
-block. To build the genesis block, at least one of the initial peers
-will need to have the Solidity Compiler solc available to be able to
-compile the contract into the genesis block.
+with the initial peers set embedded in it, being placed in the genesis block. To 
+build the genesis block, at least one of the initial peers will need to have the 
+Solidity Compiler solc available to be able to compile the contract into the 
+genesis block.
 
 Please refer to the `solidity compiler installation
 instructions <https://solidity.readthedocs.io/en/develop/installing-solidity.html>`__.
@@ -36,9 +35,8 @@ instructions <https://solidity.readthedocs.io/en/develop/installing-solidity.htm
 Other requirements
 ~~~~~~~~~~~~~~~~~~
 
-Bash scripts used in this project assume the use of GNU versions of
-coreutils. Please ensure you have GNU versions of these programs
-installed:-
+Bash scripts used in this project assume the use of GNU versions of coreutils. 
+Please ensure you have GNU versions of these programs installed:-
 
 example for macOS:
 
@@ -50,8 +48,8 @@ example for macOS:
 Installation
 ------------
 
-Clone the `repository <https://github.com/mosaicnetworks/monetd>`__ in
-the appropriate GOPATH subdirectory:
+Clone the `repository <https://github.com/mosaicnetworks/monetd>`__ in the 
+appropriate GOPATH subdirectory:
 
 .. code:: bash
 
@@ -67,8 +65,7 @@ dependencies.
     [...]/babble$ curl https://glide.sh/get | sh
     [...]/babble$ glide install
 
-This will download all dependencies and put them in the **vendor**
-folder.
+This will download all dependencies and put them in the **vendor** folder.
 
 Then build and install:
 
@@ -79,7 +76,7 @@ Then build and install:
 Tests
 -----
 
-The Monet hub has extensive unit-testing. Use the Go tool to run tests:
+Use the Go tool to run tests:
 
 .. code:: bash
 
@@ -95,8 +92,4 @@ To build binaries for use in docker:
 .. code:: bash
 
     [...]/monetd$ make docker
-
---------------
-
-After installing you may wish to read the :ref:`readme_rst`.
 

@@ -5,7 +5,10 @@ import (
 
 	"github.com/mosaicnetworks/evm-lite/src/engine"
 	"github.com/mosaicnetworks/monetd/src/babble"
+<<<<<<< HEAD
 	"github.com/mosaicnetworks/monetd/src/configuration"
+=======
+>>>>>>> origin/develop
 	"github.com/spf13/cobra"
 )
 
@@ -32,9 +35,15 @@ Further options pertaining to the operation of the node are read from the
 [datadir]/monetd.toml file, or overwritten by the following flags.`,
 
 		PreRunE: func(cmd *cobra.Command, args []string) (err error) {
+<<<<<<< HEAD
 			_logger.WithField("Base", fmt.Sprintf("%+v", configuration.Configuration.BaseConfig)).Debug("Config Base")
 			_logger.WithField("Babble", fmt.Sprintf("%+v", configuration.Configuration.Babble)).Debug("Config Babble")
 			_logger.WithField("Eth", fmt.Sprintf("%+v", configuration.Configuration.Eth)).Debug("Config Eth")
+=======
+			_logger.WithField("Base", fmt.Sprintf("%+v", _config.BaseConfig)).Debug("Config Base")
+			_logger.WithField("Babble", fmt.Sprintf("%+v", _config.Babble)).Debug("Config Babble")
+			_logger.WithField("Eth", fmt.Sprintf("%+v", _config.Eth)).Debug("Config Eth")
+>>>>>>> origin/develop
 
 			return nil
 		},
