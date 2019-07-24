@@ -5,7 +5,7 @@ import (
 
 	"github.com/mosaicnetworks/monetd/src/poa/common"
 
-	"github.com/mosaicnetworks/monetd/cmd/monetd/config"
+	"github.com/mosaicnetworks/monetd/src/configuration"
 	monetcrypto "github.com/mosaicnetworks/monetd/src/poa/crypto"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -53,7 +53,7 @@ func importKey(cmd *cobra.Command, args []string) error {
 		return errors.New("you have not specified a file to import using the --privatekey parameter")
 	}
 
-	_, err := monetcrypto.NewKeyPairFull(config.Config.DataDir, moniker, passwordFile, privateKeyfile, outputJSON)
+	_, err := monetcrypto.NewKeyPairFull(configuration.Configuration.DataDir, moniker, passwordFile, privateKeyfile, outputJSON)
 
 	return err
 }

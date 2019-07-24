@@ -1,7 +1,7 @@
 package keys
 
 import (
-	"github.com/mosaicnetworks/monetd/cmd/monetd/config"
+	"github.com/mosaicnetworks/monetd/src/configuration"
 	"github.com/mosaicnetworks/monetd/src/poa/crypto"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -75,7 +75,7 @@ You must specify the moniker for this node with the --moniker parameter.`,
 
 func inspect(cmd *cobra.Command, args []string) error {
 	monikerParam = args[0]
-	return crypto.InspectKeyMoniker(config.Config.DataDir, monikerParam, PasswordFile, showPrivate, OutputJSON)
+	return crypto.InspectKeyMoniker(configuration.Configuration.DataDir, monikerParam, PasswordFile, showPrivate, OutputJSON)
 }
 
 //NewNewCmd returns the command that creates a new keypair
@@ -96,7 +96,7 @@ func newkeys(cmd *cobra.Command, args []string) error {
 	monikerParam = args[0]
 
 	// key is returned, but we don't want to do anything with it.
-	_, err := crypto.NewKeyPair(config.Config.DataDir, monikerParam, PasswordFile)
+	_, err := crypto.NewKeyPair(configuration.Configuration.DataDir, monikerParam, PasswordFile)
 
 	return err
 }
@@ -130,5 +130,5 @@ You must specify the moniker for this node with the --moniker parameter.`,
 func update(cmd *cobra.Command, args []string) error {
 	monikerParam = args[0]
 
-	return crypto.UpdateKeysMoniker(config.Config.DataDir, monikerParam, PasswordFile, newPasswordFile)
+	return crypto.UpdateKeysMoniker(configuration.Configuration.DataDir, monikerParam, PasswordFile, newPasswordFile)
 }

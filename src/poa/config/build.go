@@ -8,7 +8,6 @@ import (
 
 	"github.com/pelletier/go-toml"
 
-	"github.com/mosaicnetworks/babble/src/babble"
 	"github.com/mosaicnetworks/monetd/src/poa/common"
 	"github.com/mosaicnetworks/monetd/src/poa/crypto"
 	"github.com/mosaicnetworks/monetd/src/poa/files"
@@ -86,7 +85,7 @@ func BuildConfig(configDir, nodeParam, addressParam, passwordFile string) error 
 	if err != nil {
 		return err
 	}
-	files.WriteToFile(filepath.Join(configDir, common.BabbleDir, babble.DefaultKeyfile), privateKey)
+	files.WriteToFile(filepath.Join(configDir, common.BabbleDir, common.DefaultKeyfile), privateKey)
 
 	//  pwd.txt is deprecated
 	//	files.WriteToFile(filepath.Join(monetConfigDir, common.EthDir, common.PwdFile), passphrase)

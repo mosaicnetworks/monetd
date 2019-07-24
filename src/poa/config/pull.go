@@ -5,7 +5,6 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/mosaicnetworks/babble/src/babble"
 	"github.com/mosaicnetworks/monetd/src/poa/common"
 	"github.com/mosaicnetworks/monetd/src/poa/crypto"
 	"github.com/mosaicnetworks/monetd/src/poa/files"
@@ -77,7 +76,7 @@ func PullConfig(configDir, nodeParam, addressParam, existingPeer, passwordFile s
 	if err != nil {
 		return err
 	}
-	files.WriteToFile(filepath.Join(configDir, common.BabbleDir, babble.DefaultKeyfile), privateKey)
+	files.WriteToFile(filepath.Join(configDir, common.BabbleDir, common.DefaultKeyfile), privateKey)
 
 	monettomlfile := filepath.Join(configDir, common.MonetTomlFile)
 

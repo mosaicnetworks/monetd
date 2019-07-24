@@ -41,6 +41,8 @@ func DefaultLogger() *logrus.Logger {
 // LogLevel converts a string to a logrus logging level constant
 func LogLevel(l string) logrus.Level {
 	switch l {
+	case "trace":
+		return logrus.TraceLevel
 	case "debug":
 		return logrus.DebugLevel
 	case "info":

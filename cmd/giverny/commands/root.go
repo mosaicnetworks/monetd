@@ -2,7 +2,7 @@ package commands
 
 import (
 	"github.com/mosaicnetworks/monetd/cmd/giverny/commands/keys"
-	"github.com/mosaicnetworks/monetd/cmd/monetd/config"
+	"github.com/mosaicnetworks/monetd/src/configuration"
 	"github.com/mosaicnetworks/monetd/src/poa/common"
 
 	"github.com/spf13/cobra"
@@ -34,7 +34,7 @@ func init() {
 	//do not print usage when error occurs
 	RootCmd.SilenceUsage = true
 
-	RootCmd.PersistentFlags().StringVarP(&config.Config.DataDir, "datadir", "d", config.Config.DataDir, "Top-level directory for configuration and data")
+	RootCmd.PersistentFlags().StringVarP(&configuration.Configuration.DataDir, "datadir", "d", configuration.Configuration.DataDir, "Top-level directory for configuration and data")
 	RootCmd.PersistentFlags().BoolVarP(&common.VerboseLogging, "verbose", "v", false, "verbose messages")
 	viper.BindPFlags(RootCmd.Flags())
 }

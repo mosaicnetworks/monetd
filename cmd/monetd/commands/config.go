@@ -9,7 +9,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	mconfig "github.com/mosaicnetworks/monetd/cmd/monetd/config"
+	mconfig "github.com/mosaicnetworks/monetd/src/configuration"
 	pconfig "github.com/mosaicnetworks/monetd/src/poa/config"
 )
 
@@ -39,7 +39,7 @@ func init() {
 	)
 
 	//TODO remove - temporary debug out to preserve the import - we will need it shortly
-	fmt.Print(mconfig.Config.DataDir)
+	fmt.Print(mconfig.Configuration.DataDir)
 
 	// datadir is now the config for everything...
 
@@ -61,7 +61,7 @@ Shows the location of the configuration files for the monetd server.`,
 
 func locationConfig(cmd *cobra.Command, args []string) error {
 	common.InfoMessage("The Monet Configuration files are located at:")
-	common.InfoMessage(mconfig.Config.DataDir)
+	common.InfoMessage(mconfig.Configuration.DataDir)
 	return nil
 }
 
@@ -126,13 +126,13 @@ Pulls the monetd configuration files from an existing peer.`,
 }
 
 func buildConfig(cmd *cobra.Command, args []string) error {
-	return pconfig.BuildConfig(mconfig.Config.DataDir, nodeParam, addressParam, passwordFile)
+	return pconfig.BuildConfig(mconfig.Configuration.DataDir, nodeParam, addressParam, passwordFile)
 }
 
 func clearConfig(cmd *cobra.Command, args []string) error {
 
-	if files.CheckIfExists(mconfig.Config.DataDir) {
-		files.SafeRenameDir(mconfig.Config.DataDir)
+	if files.CheckIfExists(mconfig.Configuration.DataDir) {
+		files.SafeRenameDir(mconfig.Configuration.DataDir)
 	}
 
 	//	ShowConfigParams(monetConfigDir)
