@@ -5,7 +5,6 @@ import (
 	"errors"
 	"io/ioutil"
 	"path/filepath"
-	"strings"
 
 	"github.com/pelletier/go-toml"
 
@@ -22,14 +21,6 @@ func BuildConfig(configDir, nodeParam, addressParam, passwordFile string) error 
 	common.DebugMessage("Building Config for: ", nodeParam)
 	common.DebugMessage("Using Network Address: ", addressParam)
 	common.DebugMessage("Using Password File: ", passwordFile)
-
-	// Reject empty parameters with a helpful message
-	if strings.TrimSpace(nodeParam) == "" {
-		return errors.New("--node parameter is not set")
-	}
-	if strings.TrimSpace(addressParam) == "" {
-		return errors.New("--address parameter is not set")
-	}
 
 	safeLabel := common.GetNodeSafeLabel(nodeParam)
 	keyFile := filepath.Join(configDir, common.KeyStoreDir, safeLabel+".json")

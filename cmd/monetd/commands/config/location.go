@@ -1,8 +1,9 @@
 package config
 
 import (
+	"fmt"
+
 	"github.com/mosaicnetworks/monetd/src/configuration"
-	"github.com/mosaicnetworks/monetd/src/poa/common"
 	"github.com/spf13/cobra"
 )
 
@@ -17,8 +18,6 @@ func newLocationCmd() *cobra.Command {
 }
 
 func locationConfig(cmd *cobra.Command, args []string) error {
-	common.InfoMessage("The Monet Configuration files are located at:")
-	// XXX this should use the [datadir] inherited from the root command
-	common.InfoMessage(configuration.Configuration.DataDir)
+	fmt.Println(configuration.Configuration.DataDir)
 	return nil
 }

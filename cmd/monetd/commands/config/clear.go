@@ -6,16 +6,15 @@ import (
 	"github.com/spf13/cobra"
 )
 
-//newClearCmd shows the config file path
+// newClearCmd returns the clear command which creates a backup of the current
+// configuration folder, before clearing it completely.
 func newClearCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "clear",
-		Short: "clears any pre-existing configuration files",
+		Short: "backup and clear configuration folder",
 		Long: `
-monetd config clear
-
-Cleans up configuration files for the monetd server by 
-renaming any pre-existing configuration.
+The clear subcommand creates a backup of the current configuration folder 
+([datadir]) before deleting it.
 `,
 		RunE: clearConfig,
 	}
