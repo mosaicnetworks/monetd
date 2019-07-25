@@ -3,7 +3,83 @@
 Monetd Commands
 ===============
 
+Monetd provides the core commands needed to configure and run a Monet
+node. Monetd has context sensitive help accessed either by
+running ``monetd help`` or by adding a ``-h`` parameter to the relevant
+command. 
 
+.. code:: bash
+    $ monetd help
+    MONET-Daemon
+        
+    Monetd provides the core commands needed to configure and run a Monet
+    node. The minimal quickstart configuration is:
+
+        $ monetd config clear
+        $ monetd keys new node0
+        $ monetd config build node0
+        $ monetd run
+
+    See the documentation at https://monetd.readthedocs.io/ for further information.
+
+    Usage:
+    monetd [command]
+
+    Available Commands:
+    config      manage monetd configuration
+    help        Help about any command
+    keys        monet key manager
+    run         run a MONET node
+    version     show version info
+
+    Flags:
+    -d, --datadir string   Top-level directory for configuration and data (default "/home/jon/.monet")
+    -h, --help             help for monetd
+        --log string       trace, debug, info, warn, error, fatal, panic (default "debug")
+    -v, --verbose          verbose messages
+
+    Use "monetd [command] --help" for more information about a command.
+
+
+There are 5 subcommands. ``help`` is described above. The other 4 commands are
+described in separate sections below:
+
+- **help** --- show help for the command and subcommands
+- **version** --- shows the current version of monet and subsystems
+- **keys** --- creates and manages keys
+- **config** --- creates and manages configurations
+- **run** --- runs the monet daemon, i.e. starts a node
+
+
+Global Parameters
+-----------------
+
+Global Parameters are available for all subcommands.
+
+- **-d, --datadir string** --- overrides the default location of the configuration file
+- **-h, --help** --- help command as discussed above
+- **--log string** --- Set to one of trace, debug, info, warn, error, fatal, panic. Selects
+  the logging level for daemon subcommands such as ``run``, the higher the level, the less events will be logged. 
+- **-v, --verbose** --- turns on verbose messages for the non-daemon commands. 
+  Defaults to false.
+
+
+Version
+-------
+
+The version command outputs the version number for ``monetd``, ``EVM-Lite``, 
+``Babble`` and ``Geth``. 
+
+If you compile your own tools, the suffices are the GIT branch and the GIT
+commit hash. 
+
+.. code:: bash
+
+    $ monetd version
+    Monet Version: 0.2.1-develop-ceb36cba
+        EVM-Lite Version: 0.2.1
+        Babble Version: 0.5.0
+        Geth Version: 1.8.27
 
 
 Keys
@@ -115,4 +191,12 @@ List
 
 The **list** subcommand outputs a list of the nodes in your keystore. It provides a list of the valid nodes
 that can be specified to the other keys subcommands.
+
+
+Config 
+------
+
+Run
+---
+
 
