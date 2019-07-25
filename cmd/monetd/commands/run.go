@@ -43,7 +43,7 @@ monetd config location `,
 			return nil
 		},
 
-		RunE: runBabble,
+		RunE: runMonet,
 	}
 
 	bindFlags(cmd)
@@ -72,7 +72,7 @@ READ CONFIG AND RUN
 *******************************************************************************/
 
 // Run the EVM-Lite / Babble engine
-func runBabble(cmd *cobra.Command, args []string) error {
+func runMonet(cmd *cobra.Command, args []string) error {
 
 	babble := babble.NewInmemBabble(configuration.Configuration.ToBabbleConfig(), _logger)
 	engine, err := engine.NewEngine(*configuration.Configuration.ToEVMLConfig(), babble, _logger)
