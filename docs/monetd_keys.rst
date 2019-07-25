@@ -5,7 +5,8 @@ Keys
 
 The keys subcommand is used to manage monet keys.
 
-    .. code:: bash
+.. code:: bash
+
     $ monetd help keys
 
     This command manages keys in the [datadir]/keystore folder.
