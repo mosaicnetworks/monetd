@@ -17,7 +17,7 @@ installd:
 
 installgiv:
 	go install \
-		--ldflags "-X github.com/mosaicnetworks/giverny/src/version.GitCommit=`git rev-parse HEAD` -X github.com/mosaicnetworks/giverny/src/version.GitBranch=`git symbolic-ref --short HEAD`" \
+		--ldflags "-X github.com/mosaicnetworks/monetd/src/version.GitCommit=`git rev-parse HEAD` -X github.com/mosaicnetworks/monetd/src/version.GitBranch=`git symbolic-ref --short HEAD`" \
 		./cmd/giverny
 
 docker:
