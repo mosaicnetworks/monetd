@@ -328,11 +328,96 @@ An example session:
     node2
 
 
-
-
-
 Config 
 ------
+
+The config subcommand initialises the configuration for a monetd node. The 
+folder can be overridden by the ``--datadir`` parameter. The configuration
+commands create all the files necessary for a node to join an existing network or 
+to create a new one.
+
+There are 5 subcommands each described in a separate section below:
+
+- **clear** --- backup and clear configuration folder
+- **contract** --- displays poa contract
+- **location** --- show the location of the configuration files
+- **build** --- create the configuration for a single-node network
+- **pull** --- pull the configuration files from a node
+
+
+The two most common scenarios are:
+
+- config build - config build creates the configuration for a single-node 
+                 network, based on one of the keys in [datadir]/keystore. 
+                 This is a quick and easy way to get started with monetd. 
+
+- config pull - config pull is used to join an existing network. It fetches the 
+                configuration from one of the existing nodes.
+
+
+Both of these scenarios are described in :ref:`basic_examples_rst`. For more complex scenarios, please refer to :ref:`giverny_rst`, which is a specialised 
+monet configuration tool.
+
+
+Clear
+~~~~~
+
+Clear is a command which safely clears any previous Monet configuration. It 
+renames the previous configuration with a ``.~n~`` suffix, where n is the 
+lowest integer where the resultant filename does not already exist. 
+
+The configurations are renamed and not deleted to avoid the potential for 
+inadvertent deletion of keys. 
+
+
+.. code:: bash
+
+    $ monetd config clear
+    Renaming /home/user/.monet to /home/user/.monet.~1~
+
+
+Contract
+~~~~~~~~
+
+The contract command generates the Solidity source for a POA smart contract
+with the supplied node as the sole entry on the initial whitelist. This 
+command is not used in the standard workflow, but is provided to provide a 
+convenient mechanism to retrieve the solidity source. 
+
+.. code:: bash
+
+    $ monetd help config contract
+
+    monetd config contract
+
+    Outputs the standard monetd contract, configured with [moniker] as the initial
+    whitelist.
+
+    Usage:
+    monetd config contract [moniker] [flags]
+
+
+A sample session is as follows. The contract is written to stdout, so you will
+probably wish to redirect it to a file or a pager. 
+
+.. code:: bash
+
+    $ monetd config contract node0 | more
+    pragma solidity >=0.4.22;
+
+    /// @title Proof of Authority Whitelist Contract
+
+    ...
+
+Location
+~~~~~~~~
+
+Build
+~~~~~
+
+Pull
+~~~~
+
 
 Run
 ---

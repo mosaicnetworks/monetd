@@ -24,7 +24,7 @@ var ConfigCmd = &cobra.Command{
 	Long: `
 The config subcommand initialises the configuration for a monetd node in the
 folder specified by [datadir] (~/.monet by default on Linux). The configuration
-consists in all the files necessary for a node to join an existing network or 
+creates all the files necessary for a node to join an existing network or 
 to create a new one.
 
 There are two ways of initialising the configuration:
