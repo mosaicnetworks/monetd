@@ -25,7 +25,8 @@ RootCmd
 var RootCmd = &cobra.Command{
 	Use:   "monetd",
 	Short: "MONET-Daemon",
-	Long: `
+	Long: `MONET-Daemon
+	
 Monetd provides the core commands needed to configure and run a Monet
 node. The minimal quickstart configuration is:
 
