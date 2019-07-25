@@ -88,7 +88,7 @@ func readConfig(cmd *cobra.Command) error {
 
 	// If a config file is found, read it in.
 	if err := viper.ReadInConfig(); err == nil {
-		fmt.Printf("Using config file: %s\n", viper.ConfigFileUsed())
+		common.DebugMessage(fmt.Sprintf("Using config file: %s", viper.ConfigFileUsed()))
 	} else if _, ok := err.(viper.ConfigFileNotFoundError); ok {
 		// fmt.Printf("No config file monetd.toml found in %s\n", _config.DataDir)
 	} else {
