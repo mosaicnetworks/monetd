@@ -23,7 +23,7 @@ var logErr string
 
 func init() {
 
-	configDir := filepath.Join(configuration.Configuration.DataDir, common.ServerDir)
+	configDir := filepath.Join(configuration.Global.DataDir, common.ServerDir)
 	pidFile = filepath.Join(configDir, common.ServerPIDFile)
 	logOut = filepath.Join(configDir, "log.out")
 	logErr = filepath.Join(configDir, "error.out")

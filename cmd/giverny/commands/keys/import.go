@@ -31,7 +31,7 @@ func importKey(cmd *cobra.Command, args []string) error {
 
 	common.DebugMessage(fmt.Sprintf("Importing to node %s from %s", moniker, privateKeyfile))
 
-	_, err := monetcrypto.NewKeyPairFull(configuration.Configuration.DataDir, moniker, passwordFile, privateKeyfile, outputJSON)
+	_, err := monetcrypto.NewKeyPairFull(configuration.Global.DataDir, moniker, passwordFile, privateKeyfile, outputJSON)
 
 	return err
 }

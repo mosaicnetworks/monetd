@@ -1,8 +1,8 @@
 package commands
 
 import (
-	"github.com/mosaicnetworks/monetd/cmd/giverny/commands/server"
 	"github.com/mosaicnetworks/monetd/cmd/giverny/commands/keys"
+	"github.com/mosaicnetworks/monetd/cmd/giverny/commands/server"
 	"github.com/mosaicnetworks/monetd/src/configuration"
 	"github.com/mosaicnetworks/monetd/src/poa/common"
 
@@ -25,7 +25,7 @@ func init() {
 
 	RootCmd.AddCommand(
 		keys.KeysCmd,
-		server.ServerCmd
+		server.ServerCmd,
 		//		network.NetworkCmd,
 		//		config.ConfigCmd,
 		VersionCmd,
@@ -36,7 +36,7 @@ func init() {
 	//do not print usage when error occurs
 	RootCmd.SilenceUsage = true
 
-	RootCmd.PersistentFlags().StringVarP(&configuration.Configuration.DataDir, "datadir", "d", configuration.Configuration.DataDir, "Top-level directory for configuration and data")
+	RootCmd.PersistentFlags().StringVarP(&configuration.Global.DataDir, "datadir", "d", configuration.Global.DataDir, "Top-level directory for configuration and data")
 	RootCmd.PersistentFlags().BoolVarP(&common.VerboseLogging, "verbose", "v", false, "verbose messages")
 	viper.BindPFlags(RootCmd.Flags())
 }
