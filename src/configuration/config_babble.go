@@ -3,10 +3,12 @@ package configuration
 import (
 	"fmt"
 	"time"
+
+	"github.com/mosaicnetworks/monetd/src/common"
 )
 
 var (
-	defaultNodeAddr       = "127.0.0.1:1337"
+	defaultNodeAddr       = fmt.Sprintf("%s:%d", common.GetMyIP(), 1337)
 	defaultBabbleAPIAddr  = ":8000"
 	defaultHeartbeat      = 500 * time.Millisecond
 	defaultTCPTimeout     = 1000 * time.Millisecond

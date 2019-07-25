@@ -41,17 +41,17 @@ func addLocationFlags(cmd *cobra.Command) {
 func locationConfig(cmd *cobra.Command, args []string) error {
 
 	if longFormat {
-		fmt.Println("Config root   : " + configuration.Configuration.DataDir)
-		fmt.Println("Babble Dir    : " + filepath.Join(configuration.Configuration.DataDir, common.BabbleDir))
-		fmt.Println("EVM-Lite Dir  : " + filepath.Join(configuration.Configuration.DataDir, common.EthDir))
-		fmt.Println("Keystore Dir  : " + filepath.Join(configuration.Configuration.DataDir, common.KeyStoreDir))
-		fmt.Println("Config File   : " + filepath.Join(configuration.Configuration.DataDir, common.MonetTomlFile))
-		fmt.Println("Wallet Config : " + filepath.Join(configuration.Configuration.DataDir, common.WalletTomlFile))
-		fmt.Println("Peers         : " + filepath.Join(configuration.Configuration.DataDir, common.BabbleDir, common.PeersJSON))
-		fmt.Println("Genesis Peers : " + filepath.Join(configuration.Configuration.DataDir, common.BabbleDir, common.PeersGenesisJSON))
-		fmt.Println("Genesis File  : " + filepath.Join(configuration.Configuration.DataDir, common.EthDir, common.GenesisJSON))
+		fmt.Println("Config root   : " + configuration.Global.DataDir)
+		fmt.Println("Babble Dir    : " + filepath.Join(configuration.Global.DataDir, common.BabbleDir))
+		fmt.Println("EVM-Lite Dir  : " + filepath.Join(configuration.Global.DataDir, common.EthDir))
+		fmt.Println("Keystore Dir  : " + filepath.Join(configuration.Global.DataDir, common.KeyStoreDir))
+		fmt.Println("Config File   : " + filepath.Join(configuration.Global.DataDir, common.MonetTomlFile))
+		fmt.Println("Wallet Config : " + filepath.Join(configuration.Global.DataDir, common.WalletTomlFile))
+		fmt.Println("Peers         : " + filepath.Join(configuration.Global.DataDir, common.BabbleDir, common.PeersJSON))
+		fmt.Println("Genesis Peers : " + filepath.Join(configuration.Global.DataDir, common.BabbleDir, common.PeersGenesisJSON))
+		fmt.Println("Genesis File  : " + filepath.Join(configuration.Global.DataDir, common.EthDir, common.GenesisJSON))
 	} else {
-		fmt.Println(configuration.Configuration.DataDir)
+		fmt.Println(configuration.Global.DataDir)
 	}
 
 	return nil

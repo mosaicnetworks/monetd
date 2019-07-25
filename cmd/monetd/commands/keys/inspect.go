@@ -38,7 +38,7 @@ func addInspectFlags(cmd *cobra.Command) {
 func inspect(cmd *cobra.Command, args []string) error {
 	moniker := args[0]
 
-	err := crypto.InspectKeyMoniker(configuration.Configuration.DataDir, moniker, PasswordFile, showPrivate, OutputJSON)
+	err := crypto.InspectKeyMoniker(configuration.Global.DataDir, moniker, PasswordFile, showPrivate, OutputJSON)
 	if err != nil {
 		fmt.Println(err)
 	}

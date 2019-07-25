@@ -13,9 +13,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-var (
-	_logger = common.DefaultLogger()
-)
+var _logger = common.DefaultLogger()
 
 /*******************************************************************************
 RootCmd
@@ -43,7 +41,7 @@ See the documentation at https://monetd.readthedocs.io/ for further information.
 			return err
 		}
 
-		_logger.Level = common.LogLevel(configuration.Configuration.LogLevel)
+		_logger.Level = common.LogLevel(configuration.Global.LogLevel)
 
 		return nil
 	},
@@ -58,9 +56,10 @@ func init() {
 	)
 
 	// set global flags
-	RootCmd.PersistentFlags().StringP("datadir", "d", configuration.Configuration.DataDir, "Top-level directory for configuration and data")
-	RootCmd.PersistentFlags().String("log", configuration.Configuration.LogLevel, "trace, debug, info, warn, error, fatal, panic")
+	RootCmd.PersistentFlags().StringP("datadir", "d", configuration.Global.DataDir, "Top-level directory for configuration and data")
+	RootCmd.PersistentFlags().String("log", configuration.Global.LogLevel, "trace, debug, info, warn, error, fatal, panic")
 	RootCmd.PersistentFlags().BoolVarP(&common.VerboseLogging, "verbose", "v", false, "verbose messages")
+
 	// do not print usage when error occurs
 	RootCmd.SilenceUsage = true
 }
@@ -80,23 +79,23 @@ func readConfig(cmd *cobra.Command) error {
 	// Reset config because evm-lite's SetDataDir only updates values if they
 	// are currently equal to the defaults (~/.evm-lite/*). Before this call,
 	// they should be set to monetd defaults (.monet/*).
-	configuration.Configuration = configuration.DefaultConfig()
+	configuration.Global = configuration.DefaultConfig()
 
 	// first unmarshal to read from cli flags
-	if err := viper.Unmarshal(configuration.Configuration); err != nil {
+	if err := viper.Unmarshal(configuration.Global); err != nil {
 		return err
 	}
 
 	// Trickle-down datadir config to sub-config sections (Babble and Eth). Only
 	// effective if _config.DataDir is currently equal to the monet default
 	// (~/.monet) on Linux.
-	configuration.Configuration.SetDataDir(configuration.Configuration.DataDir)
+	configuration.Global.SetDataDir(configuration.Global.DataDir)
 
 	// Read from configuration file if there is one.
 	// ATTENTION: CLI flags will always have precedence of these values.
 
-	viper.SetConfigName("monet")                             // name of config file (without extension)
-	viper.AddConfigPath(configuration.Configuration.DataDir) // search root directory
+	viper.SetConfigName("monetd")                     // name of config file (without extension)
+	viper.AddConfigPath(configuration.Global.DataDir) // search root directory
 
 	// If a config file is found, read it in.
 	if err := viper.ReadInConfig(); err == nil {
@@ -108,7 +107,7 @@ func readConfig(cmd *cobra.Command) error {
 	}
 
 	// second unmarshal to read from config file
-	return viper.Unmarshal(configuration.Configuration)
+	return viper.Unmarshal(configuration.Global)
 }
 
 // default config for monetd

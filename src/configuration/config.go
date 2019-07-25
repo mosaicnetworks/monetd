@@ -15,8 +15,10 @@ var (
 	// Base
 	defaultLogLevel   = "debug"
 	defaultDataDir, _ = common.DefaultMonetConfigDir()
-	// Configuration contains the configuration for Monetd, EVM-Lite and Babble
-	Configuration = monetConfig(defaultDataDir)
+
+	// Global is a global Config object that is used by commands in cmd/ to
+	// manipulate configuration options.
+	Global = monetConfig(defaultDataDir)
 )
 
 // default config for monetd

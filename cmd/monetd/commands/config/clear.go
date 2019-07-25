@@ -22,8 +22,8 @@ The clear subcommand creates a backup of the current configuration folder
 }
 
 func clearConfig(cmd *cobra.Command, args []string) error {
-	if files.CheckIfExists(configuration.Configuration.DataDir) {
-		files.SafeRenameDir(configuration.Configuration.DataDir)
+	if files.CheckIfExists(configuration.Global.DataDir) {
+		files.SafeRenameDir(configuration.Global.DataDir)
 	}
 	return nil
 }

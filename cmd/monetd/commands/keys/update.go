@@ -37,7 +37,7 @@ func addUpdateFlags(cmd *cobra.Command) {
 func update(cmd *cobra.Command, args []string) error {
 	moniker := args[0]
 
-	err := crypto.UpdateKeysMoniker(configuration.Configuration.DataDir, moniker, PasswordFile, newPasswordFile)
+	err := crypto.UpdateKeysMoniker(configuration.Global.DataDir, moniker, PasswordFile, newPasswordFile)
 	if err != nil {
 		fmt.Println(err)
 	}

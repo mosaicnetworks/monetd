@@ -27,17 +27,17 @@ passphrase manually. Otherwise, it will be read from the file pointed to by
 --passfile.
 `,
 		Args: cobra.ExactArgs(1),
-		RunE: newkeys,
+		RunE: newKey,
 	}
 
 	return cmd
 }
 
-func newkeys(cmd *cobra.Command, args []string) error {
+func newKey(cmd *cobra.Command, args []string) error {
 	moniker := args[0]
 
 	// key is returned, but we don't want to do anything with it.
-	_, err := crypto.NewKeyPair(configuration.Configuration.DataDir, moniker, PasswordFile)
+	_, err := crypto.NewKeyPair(configuration.Global.DataDir, moniker, PasswordFile)
 	if err != nil {
 		fmt.Println(err)
 	}

@@ -47,7 +47,7 @@ func buildConfig(cmd *cobra.Command, args []string) error {
 
 	common.InfoMessage(fmt.Sprintf("Builing configuration for key %s on %s", moniker, addressParam))
 
-	err := pconfig.BuildConfig(configuration.Configuration.DataDir, moniker, addressParam, passwordFile)
+	err := pconfig.BuildConfig(configuration.Global.DataDir, moniker, addressParam, passwordFile)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
