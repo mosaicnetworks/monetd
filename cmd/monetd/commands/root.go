@@ -83,7 +83,7 @@ func readConfig(cmd *cobra.Command) error {
 	// Read from configuration file if there is one.
 	// ATTENTION: CLI flags will always have precedence of these values.
 
-	viper.SetConfigName("monetd")                            // name of config file (without extension)
+	viper.SetConfigName("monet")                             // name of config file (without extension)
 	viper.AddConfigPath(configuration.Configuration.DataDir) // search root directory
 
 	// If a config file is found, read it in.

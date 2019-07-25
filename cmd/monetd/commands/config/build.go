@@ -1,6 +1,8 @@
 package config
 
 import (
+	"fmt"
+
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
@@ -11,12 +13,16 @@ import (
 // newBuildCmd initialises a bare-bones configuration for monetd
 func newBuildCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "build",
-		Short: "build the configuration files",
+		Use:   "build [moniker]",
+		Short: "create the configuration for a single-node network",
 		Long: `
-monetd config build
-
-Builds a bare-bones configuration for monetd`,
+The build subcommand initialises the bare-bones configuration to get started 
+with monetd. It uses one of the accounts from the keystore to define a network 
+consisting of a unique node, which is automatically added to the PoA whitelist.
+Additionally, all the accounts in [datadir]/keystore are credited with a large
+amount of tokens in the genesis file. This command is mostly used for testing.
+`,
+		Args: cobra.ExactArgs(1),
 		RunE: buildConfig,
 	}
 
@@ -26,12 +32,18 @@ Builds a bare-bones configuration for monetd`,
 }
 
 func addBuildFlags(cmd *cobra.Command) {
-	cmd.Flags().StringVarP(&nodeParam, "node", "n", "", "the directory name containing monet nodes configurations")
-	cmd.Flags().StringVarP(&addressParam, "address", "a", "", " ip address/host name of this node")
-	cmd.Flags().StringVarP(&passwordFile, "passfile", "p", "", "the file that contains the passphrase for the keyfile")
+	cmd.Flags().StringVar(&addressParam, "address", addressParam, "IP/hostname of this node")
+	cmd.Flags().StringVar(&passwordFile, "passfile", "", "file containing the passphrase")
 	viper.BindPFlags(cmd.Flags())
 }
 
 func buildConfig(cmd *cobra.Command, args []string) error {
-	return pconfig.BuildConfig(configuration.Configuration.DataDir, nodeParam, addressParam, passwordFile)
+	moniker := args[0]
+
+	err := pconfig.BuildConfig(configuration.Configuration.DataDir, moniker, addressParam, passwordFile)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
+	return nil
 }
