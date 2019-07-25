@@ -238,7 +238,8 @@ returns the associated private key.
         --private   include the private key in the output
 
 
-
+A sample session showing the command usage with and without the ``--private`` 
+parameter.
 
 .. code:: bash
 
@@ -247,6 +248,9 @@ returns the associated private key.
     Address:        0x02f6f3D24E447218d396C14F3B47f9Ea369DADf9
     Public key:     0481d3528eec6138f8428932e4fe99571a4f77bd79ae13219540b0a929014cb490a4e5ced2f9e651b531522c2567b6dc5de75d485193615e768b8aa1190603d2c2
     Private key:    bc553aaa7e55c5d0f58f6897ba9bffdb88233c420da622d363f2fe4bd6d78df1
+ 
+.. code:: bash
+  
     jon@hpjon:~/go/src/github.com/mosaicnetworks/monetd$ monetd keys inspect node0 
     Passphrase: 
     Address:        0x02f6f3D24E447218d396C14F3B47f9Ea369DADf9
@@ -257,7 +261,33 @@ Update
 
 The ``update`` subcommand allows you to change the passphrase for an encrypted
 key file. You are prompted for the old passphrase, then you need to enter, and 
-confirm, and new passphrase.
+confirm, the new passphrase.
+
+You can suppress the prompts by specifying the ``--passfile`` parameter to 
+supply the current passphrase and ``--new-passphrase`` to supply the new
+passphrase.
+
+.. code:: bash
+    $ monetd keys update -h
+
+    The update subcommand allows you to change the passphrase for an encrypted
+    key file. Unless you specifgy passfiles on the command line you are prompted 
+    for the old passphrase, then you need to enter, and confirm, the new passphrase.
+
+    Usage:
+    monetd keys update [moniker] [flags]
+
+    Flags:
+    -h, --help                  help for update
+        --new-passfile string   the file containing the new passphrase for the keyfile
+
+    Global Flags:
+         --passfile string   file containing the passphrase
+
+
+
+
+An example session updating the passphrase for a key:
 
 .. code:: bash
 
@@ -272,6 +302,23 @@ List
 
 The ``list`` subcommand outputs a list of the nodes in your keystore. It provides a list of the valid nodes
 that can be specified to the other keys subcommands.
+
+
+.. code:: bash
+
+    $ monetd keys list -h
+
+    The list command supplies a list of moniker for the keys in the keystore 
+    subfolder of the configuration folder. 
+
+    The monikers are in safe format where any character not matching [0-9A-Za-z]
+    is converted to an underscore.
+
+    Usage:
+    monetd keys list [flags]
+
+
+An example session:
 
 .. code:: bash
 
