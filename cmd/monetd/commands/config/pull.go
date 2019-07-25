@@ -40,7 +40,7 @@ func addPullFlags(cmd *cobra.Command) {
 func pullConfig(cmd *cobra.Command, args []string) error {
 	peerAddr := args[0]
 
-	err := pconfig.PullConfig(configuration.Configuration.DataDir, keyParam, addressParam, peerAddr, passwordFile)
+	err := pconfig.PullConfig(configuration.Global.DataDir, keyParam, addressParam, peerAddr, passwordFile)
 	if err != nil {
 		fmt.Println(err.Error())
 	}

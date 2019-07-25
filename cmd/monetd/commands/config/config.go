@@ -6,14 +6,14 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/mosaicnetworks/monetd/src/common"
 	"github.com/mosaicnetworks/monetd/src/configuration"
-	"github.com/mosaicnetworks/monetd/src/poa/network"
 	"github.com/spf13/cobra"
 )
 
 var (
 	keyParam     = getDefaultKey() //get default keyfile
-	addressParam = network.GetMyIP()
+	addressParam = common.GetMyIP()
 	passwordFile string
 )
 
@@ -57,7 +57,7 @@ func init() {
 // [datadir]/keystore
 func getDefaultKey() string {
 
-	keystore := filepath.Join(configuration.Configuration.DataDir, "keystore")
+	keystore := filepath.Join(configuration.Global.DataDir, "keystore")
 
 	files, err := ioutil.ReadDir(keystore)
 	if err != nil {

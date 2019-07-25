@@ -35,7 +35,7 @@ func contractConfig(cmd *cobra.Command, args []string) error {
 	node := args[0]
 	safeLabel := common.GetNodeSafeLabel(node)
 
-	tomlfile := filepath.Join(configuration.Configuration.DataDir, common.KeyStoreDir, safeLabel+".toml")
+	tomlfile := filepath.Join(configuration.Global.DataDir, common.KeyStoreDir, safeLabel+".toml")
 	tree, err := files.LoadToml(tomlfile)
 	if err != nil {
 		common.MessageWithType(common.MsgError, "Cannot read peer configuration: ", tomlfile)

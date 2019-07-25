@@ -40,7 +40,7 @@ func addBuildFlags(cmd *cobra.Command) {
 func buildConfig(cmd *cobra.Command, args []string) error {
 	moniker := args[0]
 
-	err := pconfig.BuildConfig(configuration.Configuration.DataDir, moniker, addressParam, passwordFile)
+	err := pconfig.BuildConfig(configuration.Global.DataDir, moniker, addressParam, passwordFile)
 	if err != nil {
 		fmt.Println(err.Error())
 	}

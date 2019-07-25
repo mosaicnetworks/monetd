@@ -211,25 +211,39 @@ func InspectKeyMoniker(configDir string, moniker string, PasswordFile string, sh
 }
 
 // GetPrivateKey decrypts a keystore and returns the private key
-func GetPrivateKey(keyfilepath string, PasswordFile string) (string, error) {
+func GetPrivateKey(keyfilepath string, PasswordFile string) (*ecdsa.PrivateKey, error) {
 
 	// Read key from file.
 	keyjson, err := ioutil.ReadFile(keyfilepath)
 	if err != nil {
-		return "", fmt.Errorf("Failed to read the keyfile at '%s': %v", keyfilepath, err)
+		return nil, fmt.Errorf("Failed to read the keyfile at '%s': %v", keyfilepath, err)
 	}
 
 	// Decrypt key with passphrase.
 	passphrase, err := GetPassphrase(PasswordFile, false)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	key, err := keystore.DecryptKey(keyjson, passphrase)
 	if err != nil {
-		return "", fmt.Errorf("Error decrypting key: %v", err)
+		return nil, fmt.Errorf("Error decrypting key: %v", err)
 	}
-	return hex.EncodeToString(crypto.FromECDSA(key.PrivateKey)), nil
+
+	return key.PrivateKey, nil
+
+}
+
+// GetPrivateKeyString decrypts a keystore and returns the private key as a
+// string
+func GetPrivateKeyString(keyfilePath string, passwordFile string) (string, error) {
+
+	privKey, err := GetPrivateKey(keyfilePath, passwordFile)
+	if err != nil {
+		return "", err
+	}
+
+	return hex.EncodeToString(crypto.FromECDSA(privKey)), nil
 }
 
 // InspectKey inspects an encrypted keyfile

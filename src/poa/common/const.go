@@ -27,7 +27,7 @@ const (
 	PeersJSON        = "peers.json"
 	PeersGenesisJSON = "peers.genesis.json"
 	GenesisJSON      = "genesis.json"
-	MonetTomlFile    = "monet.toml"
+	MonetTomlFile    = "monetd.toml"
 	WalletTomlFile   = "wallet.toml"
 )
 

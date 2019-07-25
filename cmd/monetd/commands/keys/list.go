@@ -24,7 +24,7 @@ func newListCmd() *cobra.Command {
 // list prints all the *.json files in [datadir]/keystore
 func list(cmd *cobra.Command, args []string) error {
 
-	keystore := filepath.Join(configuration.Configuration.DataDir, "keystore")
+	keystore := filepath.Join(configuration.Global.DataDir, "keystore")
 
 	files, err := ioutil.ReadDir(keystore)
 	if err != nil {

@@ -18,6 +18,6 @@ func newLocationCmd() *cobra.Command {
 }
 
 func locationConfig(cmd *cobra.Command, args []string) error {
-	fmt.Println(configuration.Configuration.DataDir)
+	fmt.Println(configuration.Global.DataDir)
 	return nil
 }

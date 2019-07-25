@@ -52,9 +52,9 @@ func CreateDirsIfNotExists(d []string) error {
 	return nil
 }
 
-//CreateMonetConfigFolders creates the standard directory layout for a configuration folder
+// CreateMonetConfigFolders creates the standard directory layout for a
+// monet configuration folder
 func CreateMonetConfigFolders(configDir string) error {
-
 	return CreateDirsIfNotExists([]string{
 		configDir,
 		filepath.Join(configDir, common.BabbleDir),

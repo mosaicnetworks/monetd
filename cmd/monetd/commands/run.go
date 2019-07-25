@@ -36,9 +36,9 @@ command displays the expected output:
 monetd config location `,
 
 		PreRunE: func(cmd *cobra.Command, args []string) (err error) {
-			_logger.WithField("Base", fmt.Sprintf("%+v", configuration.Configuration.BaseConfig)).Debug("Config Base")
-			_logger.WithField("Babble", fmt.Sprintf("%+v", configuration.Configuration.Babble)).Debug("Config Babble")
-			_logger.WithField("Eth", fmt.Sprintf("%+v", configuration.Configuration.Eth)).Debug("Config Eth")
+			_logger.WithField("Base", fmt.Sprintf("%+v", configuration.Global.BaseConfig)).Debug("Config Base")
+			_logger.WithField("Babble", fmt.Sprintf("%+v", configuration.Global.Babble)).Debug("Config Babble")
+			_logger.WithField("Eth", fmt.Sprintf("%+v", configuration.Global.Eth)).Debug("Config Eth")
 
 			return nil
 		},
@@ -53,18 +53,18 @@ monetd config location `,
 
 func bindFlags(cmd *cobra.Command) {
 	// Babble config
-	cmd.Flags().String("babble.listen", configuration.Configuration.Babble.BindAddr, "IP:PORT of Babble node")
-	cmd.Flags().String("babble.service-listen", configuration.Configuration.Babble.ServiceAddr, "IP:PORT of Babble HTTP API service")
-	cmd.Flags().Duration("babble.heartbeat", configuration.Configuration.Babble.Heartbeat, "Heartbeat time milliseconds (time between gossips)")
-	cmd.Flags().Duration("babble.timeout", configuration.Configuration.Babble.TCPTimeout, "TCP timeout milliseconds")
-	cmd.Flags().Int("babble.cache-size", configuration.Configuration.Babble.CacheSize, "Number of items in LRU caches")
-	cmd.Flags().Int("babble.sync-limit", configuration.Configuration.Babble.SyncLimit, "Max number of Events per sync")
-	cmd.Flags().Int("babble.max-pool", configuration.Configuration.Babble.MaxPool, "Max number of pool connections")
-	cmd.Flags().Bool("babble.bootstrap", configuration.Configuration.Babble.Bootstrap, "Bootstrap Babble from database")
+	cmd.Flags().String("babble.listen", configuration.Global.Babble.BindAddr, "IP:PORT of Babble node")
+	cmd.Flags().String("babble.service-listen", configuration.Global.Babble.ServiceAddr, "IP:PORT of Babble HTTP API service")
+	cmd.Flags().Duration("babble.heartbeat", configuration.Global.Babble.Heartbeat, "Heartbeat time milliseconds (time between gossips)")
+	cmd.Flags().Duration("babble.timeout", configuration.Global.Babble.TCPTimeout, "TCP timeout milliseconds")
+	cmd.Flags().Int("babble.cache-size", configuration.Global.Babble.CacheSize, "Number of items in LRU caches")
+	cmd.Flags().Int("babble.sync-limit", configuration.Global.Babble.SyncLimit, "Max number of Events per sync")
+	cmd.Flags().Int("babble.max-pool", configuration.Global.Babble.MaxPool, "Max number of pool connections")
+	cmd.Flags().Bool("babble.bootstrap", configuration.Global.Babble.Bootstrap, "Bootstrap Babble from database")
 
 	// Eth config
-	cmd.Flags().String("eth.listen", configuration.Configuration.Eth.EthAPIAddr, "IP:PORT of Monet HTTP API service")
-	cmd.Flags().Int("eth.cache", configuration.Configuration.Eth.Cache, "Megabytes of memory allocated to internal caching (min 16MB / database forced)")
+	cmd.Flags().String("eth.listen", configuration.Global.Eth.EthAPIAddr, "IP:PORT of Monet HTTP API service")
+	cmd.Flags().Int("eth.cache", configuration.Global.Eth.Cache, "Megabytes of memory allocated to internal caching (min 16MB / database forced)")
 }
 
 /*******************************************************************************
@@ -74,8 +74,8 @@ READ CONFIG AND RUN
 // Run the EVM-Lite / Babble engine
 func runBabble(cmd *cobra.Command, args []string) error {
 
-	babble := babble.NewInmemBabble(configuration.Configuration.ToBabbleConfig(), _logger)
-	engine, err := engine.NewEngine(*configuration.Configuration.ToEVMLConfig(), babble, _logger)
+	babble := babble.NewInmemBabble(configuration.Global.ToBabbleConfig(), _logger)
+	engine, err := engine.NewEngine(*configuration.Global.ToEVMLConfig(), babble, _logger)
 	if err != nil {
 		return fmt.Errorf("Error building Engine: %s", err)
 	}
