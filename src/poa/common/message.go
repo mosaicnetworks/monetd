@@ -41,20 +41,16 @@ const (
 
 //InfoMessage is a simple wrapper for stdout logging of Information Messages
 func InfoMessage(a ...interface{}) (n int, err error) {
-	if VerboseLogging {
-		n, err = MessageWithType(MsgInformation, a...)
-		return n, err
-	}
-	return 0, nil
+	return MessageWithType(MsgInformation, a...)
 }
 
 //ErrorMessage is a simple wrapper for stdout logging for Error Messages.
 func ErrorMessage(a ...interface{}) (n int, err error) {
-	if VerboseLogging {
-		n, err = MessageWithType(MsgError, a...)
-		return n, err
-	}
-	return 0, nil
+	//	if VerboseLogging {
+	n, err = MessageWithType(MsgError, a...)
+	return n, err
+	//	}
+	//	return 0, nil
 }
 
 //DebugMessage is a simple wrapper for stdout logging. Setting VerboseLayout to false disables its output

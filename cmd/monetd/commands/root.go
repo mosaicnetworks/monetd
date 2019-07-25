@@ -21,8 +21,20 @@ RootCmd
 
 //RootCmd is the root command for monetd
 var RootCmd = &cobra.Command{
-	Use:              "monetd",
-	Short:            "MONET-Daemon",
+	Use:   "monetd",
+	Short: "MONET-Daemon",
+	Long: `MONET-Daemon
+	
+Monetd provides the core commands needed to configure and run a Monet
+node. The minimal quickstart configuration is:
+
+	$ monetd config clear
+	$ monetd keys new node0
+	$ monetd config build node0
+	$ monetd run
+
+See the documentation at https://monetd.readthedocs.io/ for further information.
+`,
 	TraverseChildren: true,
 	PersistentPreRunE: func(cmd *cobra.Command, args []string) (err error) {
 		if err := readConfig(cmd); err != nil {
@@ -46,6 +58,7 @@ func init() {
 	// set global flags
 	RootCmd.PersistentFlags().StringP("datadir", "d", configuration.Global.DataDir, "Top-level directory for configuration and data")
 	RootCmd.PersistentFlags().String("log", configuration.Global.LogLevel, "trace, debug, info, warn, error, fatal, panic")
+	RootCmd.PersistentFlags().BoolVarP(&common.VerboseLogging, "verbose", "v", false, "verbose messages")
 
 	// do not print usage when error occurs
 	RootCmd.SilenceUsage = true
@@ -81,12 +94,12 @@ func readConfig(cmd *cobra.Command) error {
 	// Read from configuration file if there is one.
 	// ATTENTION: CLI flags will always have precedence of these values.
 
-	viper.SetConfigName("monetd")                            // name of config file (without extension)
+	viper.SetConfigName("monetd")                     // name of config file (without extension)
 	viper.AddConfigPath(configuration.Global.DataDir) // search root directory
 
 	// If a config file is found, read it in.
 	if err := viper.ReadInConfig(); err == nil {
-		fmt.Printf("Using config file: %s\n", viper.ConfigFileUsed())
+		common.DebugMessage(fmt.Sprintf("Using config file: %s", viper.ConfigFileUsed()))
 	} else if _, ok := err.(viper.ConfigFileNotFoundError); ok {
 		// fmt.Printf("No config file monetd.toml found in %s\n", _config.DataDir)
 	} else {

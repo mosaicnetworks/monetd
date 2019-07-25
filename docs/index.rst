@@ -24,8 +24,9 @@ Monetd
    quickstart.rst
    basic_examples.rst   
    test.rst
-   monetd_keys.rst
+   monetd_commands.rst
    monetd.rst
+   giverny.rst
    clients.rst   
    smartcontract.rst
    evmlc-getting-started.rst

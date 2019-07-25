@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/mosaicnetworks/monetd/src/configuration"
+	"github.com/mosaicnetworks/monetd/src/poa/common"
 	pconfig "github.com/mosaicnetworks/monetd/src/poa/config"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -39,6 +40,9 @@ func addPullFlags(cmd *cobra.Command) {
 
 func pullConfig(cmd *cobra.Command, args []string) error {
 	peerAddr := args[0]
+
+	common.InfoMessage(fmt.Sprintf("Pulling configuration from %s for key %s on %s",
+		peerAddr, keyParam, addressParam))
 
 	err := pconfig.PullConfig(configuration.Global.DataDir, keyParam, addressParam, peerAddr, passwordFile)
 	if err != nil {

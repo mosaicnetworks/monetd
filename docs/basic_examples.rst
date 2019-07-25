@@ -74,19 +74,20 @@ is:
 
 .. code:: bash
 
-    $ monetd config build [--node node0] [--address ip]
+    $ monetd config build [moniker] [--address ip] [--passfile file]
 
 We need the IP address for the node you building a network upon. For a
 live network that would clearly be a public IP address, but for an
 exploratory test net, we would recommend using an internal IP address.
-On Linux ``ifconfig`` will give you IP address information.
+On Linux ``ifconfig`` will give you IP address information. If you omit 
+the --address parameter, monetd will pick your first non-loopback address.
+The --passfile parameter specifies a file containing your passphrase. We
+would recommnend using the interactive prompt to enter the passphrase.
 
-Thus we need to run this command, but replace ``192.168.1.4`` with the
-IP address / hostname you discover above.
 
 .. code:: bash
 
-    $ monetd config build --node node0  --address 192.168.1.4 
+    $ monetd config build node0  
 
 This command builds the configuration files for a monetd node. It adds
 the node given by the ``--node`` parameter to the initial peer set,
@@ -297,23 +298,29 @@ syntax for this command is:
 
 .. code:: bash
 
-    $ monetd config pull [--peer peer_address] [--node node0] [--address ip]
+    $ monetd config pull [peer] [--key node0] [--address ip]
 
-The ``--peer`` parameter is the address / ip of an existing node on the
-network. The network's configuration is requested from this peer.
+The peer parameter is the address / ip of an existing node on the
+network. The network's configuration is requested from this peer. If the 
+address does not specify a port, (e.g. a :1337 suffix), the default 
+gossip port (1337) is assumed. 
 
 We need the IP address for the node you building a network upon. For a
 live network that would clearly be a public IP address, but for an
 exploratory test net, we would recommend using an internal IP address.
-On Linux ``ifconfig`` will give you IP address information.
+On Linux ``ifconfig`` will give you IP address information. This can be set 
+by using the --address flag. If not specified monetd will pick the first
+non-loopback address. 
 
-Thus we need to run this command, but replace ``192.168.1.4`` with the
-IP address / hostname you discover above, and replace ``192.168.1.5``
+The ``--key`` parameter specifies the keyfile to use by moniker. monetd 
+will pick one if this parameter is omitted.  
+
+Thus we need to run the following command, but replace ``192.168.1.5``
 with the address of the existing peer.
 
 .. code:: bash
 
-    $ monetd config pull --peer 192.168.1.4 --node node1  --address 192.168.1.5 
+    $ monetd config pull 192.168.1.5 --key node1  
 
 This command builds the configuration files for a monetd node. It adds
 the lists of nodes given by the ``--nodes`` parameter to the initial

@@ -16,12 +16,12 @@ import (
 //newClearCmd shows the config file path
 func newContractCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "contract [node]",
+		Use:   "contract [moniker]",
 		Short: "displays poa contract",
 		Long: `
 monetd config contract
 
-Outputs the standard monetd contract, configured with [node] as the initial
+Outputs the standard monetd contract, configured with [moniker] as the initial
 whitelist.
 `,
 		Args: cobra.ExactArgs(1),
