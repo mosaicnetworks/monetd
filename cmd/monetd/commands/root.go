@@ -25,6 +25,17 @@ RootCmd
 var RootCmd = &cobra.Command{
 	Use:              "monetd",
 	Short:            "MONET-Daemon",
+	Long:           `
+Monetd provides the core commands needed to configure and run a Monet
+node. The minimal quickstart configuration is:
+
+	$ monetd config clear
+	$ monetd keys new node0
+	$ monetd config build node0
+	$ monetd run
+
+See the documentation at https://monetd.readthedocs.io/ for further information.
+`
 	TraverseChildren: true,
 	PersistentPreRunE: func(cmd *cobra.Command, args []string) (err error) {
 		if err := readConfig(cmd); err != nil {

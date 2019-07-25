@@ -24,7 +24,7 @@ Monetd
    quickstart.rst
    basic_examples.rst   
    test.rst
-   monetd_keys.rst
+   monetd_commands.rst
    monetd.rst
    clients.rst   
    smartcontract.rst

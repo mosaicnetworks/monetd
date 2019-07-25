@@ -1,7 +1,13 @@
-.. _monetd_keys_rst:
+.. _monetd_commands_rst:
+
+Monetd Commands
+===============
+
+
+
 
 Keys
-====
+----
 
 The keys subcommand is used to manage monet keys.
 
@@ -54,7 +60,7 @@ The keys subcommand is used to manage monet keys.
     Use "monetd keys [command] --help" for more information about a command.
 
 New
----
+~~~
 
 The **new** subcommand generates a new key pair and associates it with the specified moniker. 
 You will be prompted for a passphrase which is used to encrypt the keyfile. 
@@ -70,7 +76,7 @@ It writes the encrypted keyfile to the Monetd keystore area by default.
 
 
 Inspect
--------
+~~~~~~~
 
 The **inspect** subcommand interrogates an encrypted keyfile and returns the 
 public key and address. If you specify the --private parameter, it also 
@@ -90,7 +96,7 @@ returns the associated private key.
     Public key:     0481d3528eec6138f8428932e4fe99571a4f77bd79ae13219540b0a929014cb490a4e5ced2f9e651b531522c2567b6dc5de75d485193615e768b8aa1190603d2c2
 
 Update
-------
+~~~~~~
 
 The **update** subcommand allows you to change the passphrase for an encrypted
 key file. You are prompted for the old passphrase, then you need to enter, and 
@@ -105,7 +111,7 @@ confirm, and new passphrase.
     Repeat passphrase: 
 
 List
-----
+~~~~
 
 The **list** subcommand outputs a list of the nodes in your keystore. It provides a list of the valid nodes
 that can be specified to the other keys subcommands.

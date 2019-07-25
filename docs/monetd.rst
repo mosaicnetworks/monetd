@@ -52,10 +52,11 @@ In particular:
 -  **babble/priv\_key**: contains the validator's private key for
    Babble.
 
-Further options pertaining to the operation of the node are read from
-the [datadir]/monetd.toml file, or overwritten by the following flags.
-It is envisaged that you would not need to use these flags in a
-production environment.
+The command ``monetd config location --expanded`` provides further details of
+the filepaths used for your instance. Further options pertaining to the 
+operation of the node are read from the [datadir]/monetd.toml file, or 
+overwritten by the following flags. It is envisaged that you would not need to 
+use these flags in a production environment.
 
 ::
 
@@ -96,11 +97,21 @@ the following stucture:
 
     host:~/.monet$ tree
     ├── babble
-    │   ├── peers.json
-    │   └── priv_key
+    │   ├── peers.genesis.json
+    │   ├── peers.json
+    │   └── priv_key
     ├── eth
-    │   ├── genesis.json
-    └── monetd.toml
+    │   ├── genesis.json
+    │   └── poa
+    │       ├── compile.toml
+    │       ├── contract0.abi
+    │       └── contract0.sol
+    ├── keystore
+    │   ├── node0.json
+    │   ├── node0.toml
+    ├── monet.toml
+    └── wallet.toml
+
 
 The Ethereum genesis file defines Ethereum accounts and is stripped of
 all the Ethereum POW stuff. This file is useful to predefine a set of
@@ -162,7 +173,8 @@ Get any account
 ~~~~~~~~~~~~~~~
 
 This method retrieves the information about any account, not just the
-ones whose keys are included in the keystore.
+ones whose keys are included in the keystore. It assumes that you have
+``json_pp`` and ``curl`` installed.
 
 .. code:: bash
 
