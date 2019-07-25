@@ -13,8 +13,7 @@ func newPullCmd() *cobra.Command {
 		Short: "pull the configuration files from a node",
 		RunE:  pullConfig,
 	}
-
-	addBuildFlags(cmd)
+	addPullFlags(cmd)
 
 	return cmd
 }
