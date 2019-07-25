@@ -1,6 +1,7 @@
 package commands
 
 import (
+	"github.com/mosaicnetworks/monetd/cmd/giverny/commands/server"
 	"github.com/mosaicnetworks/monetd/cmd/giverny/commands/keys"
 	"github.com/mosaicnetworks/monetd/src/configuration"
 	"github.com/mosaicnetworks/monetd/src/poa/common"
@@ -24,6 +25,7 @@ func init() {
 
 	RootCmd.AddCommand(
 		keys.KeysCmd,
+		server.ServerCmd
 		//		network.NetworkCmd,
 		//		config.ConfigCmd,
 		VersionCmd,

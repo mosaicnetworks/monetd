@@ -14,6 +14,7 @@ const (
 	EthDir      = "eth"
 	KeyStoreDir = "keystore"
 	POADir      = "poa"
+	ServerDir   = "server"
 )
 
 // Monetd Configuration Directory
@@ -29,6 +30,7 @@ const (
 	GenesisJSON      = "genesis.json"
 	MonetTomlFile    = "monet.toml"
 	WalletTomlFile   = "wallet.toml"
+	ServerPIDFile    = "server.pid"
 )
 
 // Port Constants
