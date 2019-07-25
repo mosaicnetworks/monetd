@@ -4,6 +4,7 @@ import (
 	"encoding/hex"
 
 	eth_crypto "github.com/ethereum/go-ethereum/crypto"
+	"github.com/mosaicnetworks/monetd/src/configuration"
 	"github.com/mosaicnetworks/monetd/src/poa/common"
 	"github.com/mosaicnetworks/monetd/src/poa/files"
 )
@@ -47,13 +48,13 @@ func BuildConfig(configDir, moniker, selfAddress, passwordFile string) error {
 	}
 
 	// Create the eth/genesis.json file
-	err = BuildGenesisJSON(configDir, peers, common.DefaultContractAddress)
+	err = BuildGenesisJSON(configDir, peers, configuration.DefaultContractAddress)
 	if err != nil {
 		return err
 	}
 
 	// Write TOML file for monetd based on global config object
-	if err := dumpConfigTOML(configDir, common.MonetTomlFile); err != nil {
+	if err := dumpConfigTOML(configDir, configuration.MonetTomlFile); err != nil {
 		return err
 	}
 

@@ -4,7 +4,7 @@ all: vendor install
 
 # vendor uses Glide to install all the Go dependencies in vendor/
 vendor:
-	rm -rf vendor && rm glide.lock && glide install
+	 (rm glide.lock || rm -rf vendor ) && glide install
 
 # install compiles and places the binary in GOPATH/bin
 install: installd installgiv

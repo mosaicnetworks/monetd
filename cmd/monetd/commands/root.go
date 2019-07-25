@@ -86,11 +86,6 @@ func readConfig(cmd *cobra.Command) error {
 		return err
 	}
 
-	// Trickle-down datadir config to sub-config sections (Babble and Eth). Only
-	// effective if _config.DataDir is currently equal to the monet default
-	// (~/.monet) on Linux.
-	configuration.Global.SetDataDir(configuration.Global.DataDir)
-
 	// Read from configuration file if there is one.
 	// ATTENTION: CLI flags will always have precedence of these values.
 
@@ -108,13 +103,4 @@ func readConfig(cmd *cobra.Command) error {
 
 	// second unmarshal to read from config file
 	return viper.Unmarshal(configuration.Global)
-}
-
-// default config for monetd
-func monetConfig(dataDir string) *configuration.Config {
-	config := configuration.DefaultConfig()
-
-	config.SetDataDir(dataDir)
-
-	return config
 }

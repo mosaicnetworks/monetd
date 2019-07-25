@@ -22,19 +22,16 @@ var ConfigCmd = &cobra.Command{
 	Use:   "config",
 	Short: "manage monetd configuration",
 	Long: `
-The config subcommand initialises the configuration for a monetd node in the
-folder specified by [datadir] (~/.monet by default on Linux). The configuration
-creates all the files necessary for a node to join an existing network or 
-to create a new one.
+The monetd server reads configuration from --datadir.
 
 There are two ways of initialising the configuration:
 
-* config build - config build creates the configuration for a single-node 
-                 network, based on one of the keys in [datadir]/keystore. 
-                 This is a quick and easy way to get started with monetd. 
+* config build - creates the configuration for a single-node network, based on 
+                 one of the keys in [datadir]/keystore. This is a quick and easy 
+                 way to get started with monetd. 
 
-* config pull - config pull is used to join an existing network. It fetches the 
-                configuration from one of the existing nodes.
+* config pull -  fetches the configuration from a running node. This is used to
+                 join an existing network.
 
 For more complex scenarios, please refer to 'giverny', which is a specialised 
 monet configuration tool. 

@@ -9,10 +9,10 @@ import (
 const configTOML = `
 datadir = "{{.DataDir}}"
 log = "{{.LogLevel}}"
+api-listen = "{{.APIAddr}}"
 
 [babble]
   listen = "{{.Babble.BindAddr}}"
-  service-listen = "{{.Babble.ServiceAddr}}"
   heartbeat = "{{.Babble.Heartbeat}}"
   timeout = "{{.Babble.TCPTimeout}}"
   cache-size = {{.Babble.CacheSize}}
@@ -21,7 +21,6 @@ log = "{{.LogLevel}}"
   bootstrap = {{.Babble.Bootstrap}}
 
 [eth]
-  listen = "{{.Eth.EthAPIAddr}}"
   cache = {{.Eth.Cache}}
 `
 

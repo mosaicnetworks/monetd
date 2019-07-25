@@ -1,13 +1,15 @@
 package config
 
 import (
+	"fmt"
 	"path/filepath"
 
+	"github.com/mosaicnetworks/monetd/src/configuration"
 	"github.com/mosaicnetworks/monetd/src/poa/common"
 	"github.com/mosaicnetworks/monetd/src/poa/files"
 )
 
-type urlList struct {
+type downloadItem struct {
 	URL  string
 	Dest string
 }
@@ -39,29 +41,28 @@ func PullConfig(configDir, moniker, selfAddress, otherAddress, passwordFile stri
 		return err
 	}
 
-	babbleRootURL := "http://" + otherAddress + ":" + common.DefaultBabblePort
-	ethRootURL := "http://" + otherAddress + ":" + common.DefaultEVMLitePort
+	rootURL := "http://" + otherAddress
 
-	filesList := []*urlList{
-		&urlList{URL: babbleRootURL + "/genesispeers",
-			Dest: filepath.Join(configDir, common.BabbleDir, common.PeersGenesisJSON)},
-		&urlList{URL: babbleRootURL + "/peers",
-			Dest: filepath.Join(configDir, common.BabbleDir, common.PeersJSON)},
-		&urlList{URL: ethRootURL + "/genesis",
-			Dest: filepath.Join(configDir, common.EthDir, common.GenesisJSON)},
+	filesList := []*downloadItem{
+		&downloadItem{URL: rootURL + "/genesispeers",
+			Dest: filepath.Join(configDir, configuration.BabbleDir, configuration.PeersGenesisJSON)},
+		&downloadItem{URL: rootURL + "/peers",
+			Dest: filepath.Join(configDir, configuration.BabbleDir, configuration.PeersJSON)},
+		&downloadItem{URL: rootURL + "/genesis",
+			Dest: filepath.Join(configDir, configuration.EthDir, configuration.GenesisJSON)},
 	}
 
-	for _, filemap := range filesList {
-		err := files.DownloadFile(filemap.URL, filemap.Dest)
+	for _, item := range filesList {
+		err := files.DownloadFile(item.URL, item.Dest)
 		if err != nil {
-			common.ErrorMessage("Error downloading genesis peers")
+			common.ErrorMessage(fmt.Sprintf("Error downloading %s", item.URL))
 			return err
 		}
-		common.DebugMessage("Downloaded ", filemap.Dest)
+		common.DebugMessage("Downloaded ", item.Dest)
 	}
 
 	// Write TOML file for monetd based on global config object
-	if err := dumpConfigTOML(configDir, common.MonetTomlFile); err != nil {
+	if err := dumpConfigTOML(configDir, configuration.MonetTomlFile); err != nil {
 		return err
 	}
 

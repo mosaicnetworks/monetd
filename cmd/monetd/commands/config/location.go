@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"path/filepath"
 
-	"github.com/mosaicnetworks/monetd/src/poa/common"
-
 	"github.com/mosaicnetworks/monetd/src/configuration"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -36,14 +34,14 @@ func locationConfig(cmd *cobra.Command, args []string) error {
 
 	if longFormat {
 		fmt.Println("Config root   : " + configuration.Global.DataDir)
-		fmt.Println("Babble Dir    : " + filepath.Join(configuration.Global.DataDir, common.BabbleDir))
-		fmt.Println("EVM-Lite Dir  : " + filepath.Join(configuration.Global.DataDir, common.EthDir))
-		fmt.Println("Keystore Dir  : " + filepath.Join(configuration.Global.DataDir, common.KeyStoreDir))
-		fmt.Println("Config File   : " + filepath.Join(configuration.Global.DataDir, common.MonetTomlFile))
-		fmt.Println("Wallet Config : " + filepath.Join(configuration.Global.DataDir, common.WalletTomlFile))
-		fmt.Println("Peers         : " + filepath.Join(configuration.Global.DataDir, common.BabbleDir, common.PeersJSON))
-		fmt.Println("Genesis Peers : " + filepath.Join(configuration.Global.DataDir, common.BabbleDir, common.PeersGenesisJSON))
-		fmt.Println("Genesis File  : " + filepath.Join(configuration.Global.DataDir, common.EthDir, common.GenesisJSON))
+		fmt.Println("Babble Dir    : " + filepath.Join(configuration.Global.DataDir, configuration.BabbleDir))
+		fmt.Println("EVM-Lite Dir  : " + filepath.Join(configuration.Global.DataDir, configuration.EthDir))
+		fmt.Println("Keystore Dir  : " + filepath.Join(configuration.Global.DataDir, configuration.KeyStoreDir))
+		fmt.Println("Config File   : " + filepath.Join(configuration.Global.DataDir, configuration.MonetTomlFile))
+		fmt.Println("Wallet Config : " + filepath.Join(configuration.Global.DataDir, configuration.WalletTomlFile))
+		fmt.Println("Peers         : " + filepath.Join(configuration.Global.DataDir, configuration.BabbleDir, configuration.PeersJSON))
+		fmt.Println("Genesis Peers : " + filepath.Join(configuration.Global.DataDir, configuration.BabbleDir, configuration.PeersGenesisJSON))
+		fmt.Println("Genesis File  : " + filepath.Join(configuration.Global.DataDir, configuration.EthDir, configuration.GenesisJSON))
 	} else {
 		fmt.Println(configuration.Global.DataDir)
 	}

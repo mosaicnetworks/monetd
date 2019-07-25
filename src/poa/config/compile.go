@@ -10,6 +10,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/mosaicnetworks/monetd/src/configuration"
 	"github.com/mosaicnetworks/monetd/src/poa/contract"
 	"github.com/mosaicnetworks/monetd/src/poa/files"
 
@@ -88,7 +89,7 @@ func BuildGenesisJSON(configDir string, peers mtypes.PeerRecordList, contractAdd
 
 	genesispoa, err := BuildGenesisPOAJSON(finalSource, configDir, contractAddress)
 
-	alloc, err := BuildGenesisAlloc(filepath.Join(configDir, common.KeyStoreDir))
+	alloc, err := BuildGenesisAlloc(filepath.Join(configDir, configuration.KeyStoreDir))
 
 	if err != nil {
 		return err
@@ -103,7 +104,7 @@ func BuildGenesisJSON(configDir string, peers mtypes.PeerRecordList, contractAdd
 	}
 
 	common.DebugMessage("Write Genesis.json")
-	jsonFileName := filepath.Join(configDir, common.EthDir, common.GenesisJSON)
+	jsonFileName := filepath.Join(configDir, configuration.EthDir, configuration.GenesisJSON)
 	files.WriteToFile(jsonFileName, string(genesisjson))
 
 	return nil
@@ -136,7 +137,7 @@ func BuildGenesisAlloc(accountsDir string) (GenesisAlloc, error) {
 		addr := tree.GetPath([]string{"node", "address"}).(string)
 
 		// Set defaults then overwrite if set
-		balance := common.DefaultAccountBalance
+		balance := configuration.DefaultAccountBalance
 		moniker := "node" + strconv.Itoa(i)
 
 		if tree.HasPath([]string{"node", "moniker"}) {
@@ -168,7 +169,7 @@ func BuildGenesisPOAJSON(solidityCode string, monetdConfigDir string, contractAd
 		return poagenesis, err
 	}
 
-	poagenesis, err = BuildCompilationReport(version, contractInfo, filepath.Join(monetdConfigDir, common.EthDir, common.POADir), contractAddress, solidityCode)
+	poagenesis, err = BuildCompilationReport(version, contractInfo, filepath.Join(monetdConfigDir, configuration.EthDir, configuration.POADir), contractAddress, solidityCode)
 	if err != nil {
 		common.ErrorMessage("Error writing compilation output:", err)
 		return poagenesis, err
@@ -207,7 +208,7 @@ func BuildCompilationReport(version string, contractInfo map[string]*compiler.Co
 		tree.SetPath([]string{"poa", "abi"}, string(jsonabi))
 		tree.SetPath([]string{"poa", "address"}, eip55addr)
 
-		files.WriteToFile(filepath.Join(outputDir, common.GenesisABI), string(jsonabi))
+		files.WriteToFile(filepath.Join(outputDir, configuration.GenesisABI), string(jsonabi))
 
 		tree.SetPath([]string{"poa", "bytecode"}, strings.TrimPrefix(v.RuntimeCode, "0x"))
 
@@ -219,9 +220,9 @@ func BuildCompilationReport(version string, contractInfo map[string]*compiler.Co
 		// We only have one contract ever so no need to loop. We use the for loop as k is indeterminate
 	}
 
-	files.WriteToFile(filepath.Join(outputDir, common.GenesisContract), solidityCode)
+	files.WriteToFile(filepath.Join(outputDir, configuration.GenesisContract), solidityCode)
 
-	files.SaveToml(tree, filepath.Join(outputDir, common.CompileResultFile))
+	files.SaveToml(tree, filepath.Join(outputDir, configuration.CompileResultFile))
 
 	return poagenesis, nil
 }

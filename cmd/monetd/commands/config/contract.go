@@ -13,7 +13,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-//newClearCmd shows the config file path
+// newContractCommand returns the ContractCmd
 func newContractCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "contract [moniker]",
@@ -35,7 +35,7 @@ func contractConfig(cmd *cobra.Command, args []string) error {
 	node := args[0]
 	safeLabel := common.GetNodeSafeLabel(node)
 
-	tomlfile := filepath.Join(configuration.Global.DataDir, common.KeyStoreDir, safeLabel+".toml")
+	tomlfile := filepath.Join(configuration.Global.DataDir, configuration.KeyStoreDir, safeLabel+".toml")
 	tree, err := files.LoadToml(tomlfile)
 	if err != nil {
 		common.MessageWithType(common.MsgError, "Cannot read peer configuration: ", tomlfile)

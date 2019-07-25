@@ -1,4 +1,4 @@
-package common
+package configuration
 
 import (
 	"errors"
@@ -29,13 +29,13 @@ const (
 	GenesisJSON      = "genesis.json"
 	MonetTomlFile    = "monetd.toml"
 	WalletTomlFile   = "wallet.toml"
+	Chaindata        = "chaindata"
 )
 
-// Port Constants
+// Network Constants
 const (
-	DefaultGossipPort  = "1337"
-	DefaultBabblePort  = "8000"
-	DefaultEVMLitePort = "8080"
+	DefaultGossipPort = "1337"
+	DefaultAPIAddr    = ":8080"
 )
 
 //Keys constants

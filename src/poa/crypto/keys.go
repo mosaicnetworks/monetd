@@ -14,13 +14,13 @@ import (
 
 	//	"github.com/mosaicnetworks/monetd/src/common"
 
-	com "github.com/mosaicnetworks/monetd/src/poa/common"
-	"github.com/mosaicnetworks/monetd/src/poa/files"
-	"github.com/pelletier/go-toml"
-
 	"github.com/ethereum/go-ethereum/accounts/keystore"
 	ethcommon "github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/crypto"
+	"github.com/mosaicnetworks/monetd/src/configuration"
+	"github.com/mosaicnetworks/monetd/src/poa/common"
+	"github.com/mosaicnetworks/monetd/src/poa/files"
+	"github.com/pelletier/go-toml"
 )
 
 type outputGenerate struct {
@@ -55,7 +55,7 @@ func PublicKeyHexToAddressHex(publicKey string) (string, error) {
 //keys or the address.
 func GenerateKeyPair(keyfilepath, passwordFile, privateKeyfile string, outputJSON bool) (*keystore.Key, error) {
 	if keyfilepath == "" {
-		keyfilepath = com.DefaultKeyfile
+		keyfilepath = configuration.DefaultKeyfile
 	}
 	if _, err := os.Stat(keyfilepath); err == nil {
 		return nil, fmt.Errorf("Keyfile already exists at %s", keyfilepath)
@@ -66,11 +66,11 @@ func GenerateKeyPair(keyfilepath, passwordFile, privateKeyfile string, outputJSO
 	var privateKey *ecdsa.PrivateKey
 	var err error
 
-	com.DebugMessage("Private Key File is: ", privateKeyfile)
+	common.DebugMessage("Private Key File is: ", privateKeyfile)
 
 	if file := privateKeyfile; file != "" {
 		// Load private key from file.
-		com.DebugMessage("Loading Private Key: ", file)
+		common.DebugMessage("Loading Private Key: ", file)
 		privateKey, err = crypto.LoadECDSA(file)
 		if err != nil {
 			return nil, fmt.Errorf("Can't load private key: %v", err)
@@ -116,7 +116,7 @@ func GenerateKeyPair(keyfilepath, passwordFile, privateKeyfile string, outputJSO
 	}
 
 	if outputJSON {
-		com.MustPrintJSON(out)
+		common.MustPrintJSON(out)
 	} else {
 		fmt.Println("Address:", out.Address)
 	}
@@ -138,21 +138,21 @@ func NewKeyPairFull(configDir, moniker, passwordFile string, privateKeyfile stri
 		return nil, errors.New("moniker is not set")
 	}
 
-	safeLabel := com.GetNodeSafeLabel(moniker)
+	safeLabel := common.GetNodeSafeLabel(moniker)
 
 	dirlist := []string{configDir,
-		filepath.Join(configDir, com.KeyStoreDir),
+		filepath.Join(configDir, configuration.KeyStoreDir),
 	}
 
 	err := files.CreateDirsIfNotExists(dirlist)
 
 	if err != nil {
-		com.ErrorMessage("cannot create keystore directories")
+		common.ErrorMessage("cannot create keystore directories")
 		return nil, err
 	}
 
-	keyfilepath := filepath.Join(configDir, com.KeyStoreDir, safeLabel+".json")
-	tomlfilepath := filepath.Join(configDir, com.KeyStoreDir, safeLabel+".toml")
+	keyfilepath := filepath.Join(configDir, configuration.KeyStoreDir, safeLabel+".json")
+	tomlfilepath := filepath.Join(configDir, configuration.KeyStoreDir, safeLabel+".toml")
 
 	if files.CheckIfExists(keyfilepath) {
 		return nil, errors.New("key for node " + safeLabel + " already exists")
@@ -174,12 +174,12 @@ func NewKeyPairFull(configDir, moniker, passwordFile string, privateKeyfile stri
 // without having to decrypt the keyfile each time.
 func WriteTomlForKey(monikerParam, safeLabel, tomlfilepath string, key *keystore.Key) error {
 
-	com.DebugMessage("Generated Address      : ", key.Address.Hex())
-	com.DebugMessage("Generated PubKey       : ", hex.EncodeToString(crypto.FromECDSAPub(&key.PrivateKey.PublicKey)))
-	com.DebugMessage("Generated ID           : ", key.Id)
+	common.DebugMessage("Generated Address      : ", key.Address.Hex())
+	common.DebugMessage("Generated PubKey       : ", hex.EncodeToString(crypto.FromECDSAPub(&key.PrivateKey.PublicKey)))
+	common.DebugMessage("Generated ID           : ", key.Id)
 
 	//TODO Remove this line
-	com.DebugMessage("Generated Private Key  : ", hex.EncodeToString(crypto.FromECDSA(key.PrivateKey)))
+	common.DebugMessage("Generated Private Key  : ", hex.EncodeToString(crypto.FromECDSA(key.PrivateKey)))
 
 	// write peers config
 	tree, err := toml.Load("")
@@ -200,8 +200,8 @@ func WriteTomlForKey(monikerParam, safeLabel, tomlfilepath string, key *keystore
 
 //InspectKeyMoniker is a wrapper around InspectKey to add moniker support
 func InspectKeyMoniker(configDir string, moniker string, PasswordFile string, showPrivate bool, outputJSON bool) error {
-	safeLabel := com.GetNodeSafeLabel(moniker)
-	filepath := filepath.Join(configDir, com.KeyStoreDir, safeLabel+".json")
+	safeLabel := common.GetNodeSafeLabel(moniker)
+	filepath := filepath.Join(configDir, configuration.KeyStoreDir, safeLabel+".json")
 
 	if !files.CheckIfExists(filepath) {
 		return errors.New("cannot find keyfile for that moniker")
@@ -277,7 +277,7 @@ func InspectKey(keyfilepath string, PasswordFile string, showPrivate bool, outpu
 	}
 
 	if outputJSON {
-		com.MustPrintJSON(out)
+		common.MustPrintJSON(out)
 	} else {
 		fmt.Println("Address:       ", out.Address)
 		fmt.Println("Public key:    ", out.PublicKey)
@@ -291,8 +291,8 @@ func InspectKey(keyfilepath string, PasswordFile string, showPrivate bool, outpu
 
 // UpdateKeysMoniker wraps UpdateKeys adding moniker support
 func UpdateKeysMoniker(configDir string, moniker string, PasswordFile string, newPasswordFile string) error {
-	safeLabel := com.GetNodeSafeLabel(moniker)
-	filepath := filepath.Join(configDir, com.KeyStoreDir, safeLabel+".json")
+	safeLabel := common.GetNodeSafeLabel(moniker)
+	filepath := filepath.Join(configDir, configuration.KeyStoreDir, safeLabel+".json")
 
 	if !files.CheckIfExists(filepath) {
 		return errors.New("cannot find keyfile for that moniker")

@@ -12,19 +12,24 @@ import (
 
 func newPullCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "pull [peer]",
+		Use:   "pull [host:port]",
 		Short: "pull the configuration files from a node",
 		Long: `
 The pull subcommand is used to join an existing Monet network. It takes the
-address of a running node, and downloads the following set of files into the
-configuration directory [datadir]:
+address (host:port) of a running node, and downloads the following set of files 
+into the configuration directory [datadir]:
 
 - babble/peers.json         : The current validator-set 
 - babble/peers.genesis.json : The initial validator-set
 - eth/genesis.json          : The genesis file
+
+Additionally, this command configures the validator-key and the network address
+of the new node. The --key and --passfile options refer to the validator-key, 
+while --address sets the network address of monetd.
 `,
-		Args: cobra.ExactArgs(1),
-		RunE: pullConfig,
+		Example: `  monetd config pull "192.168.5.1:8080"`,
+		Args:    cobra.ExactArgs(1),
+		RunE:    pullConfig,
 	}
 	addPullFlags(cmd)
 

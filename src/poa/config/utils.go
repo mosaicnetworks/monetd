@@ -23,7 +23,7 @@ func getKey(configDir, moniker, passwordFile string) (*ecdsa.PrivateKey, error) 
 	// Find keyfile based on moniker
 	safeLabel := common.GetNodeSafeLabel(moniker)
 
-	keyfile := filepath.Join(configDir, common.KeyStoreDir, safeLabel+".json")
+	keyfile := filepath.Join(configDir, configuration.KeyStoreDir, safeLabel+".json")
 
 	privateKey, err := crypto.GetPrivateKey(keyfile, passwordFile)
 	if err != nil {
@@ -60,8 +60,8 @@ func dumpPrivKey(configDir string, privKey *ecdsa.PrivateKey) error {
 	// complain otherwise
 	err := ioutil.WriteFile(
 		filepath.Join(configDir,
-			common.BabbleDir,
-			common.DefaultPrivateKeyFile,
+			configuration.BabbleDir,
+			configuration.DefaultPrivateKeyFile,
 		),
 		[]byte(keyString), 0600)
 	if err != nil {
@@ -80,11 +80,11 @@ func dumpPeers(configDir string, peers types.PeerRecordList) error {
 	}
 
 	// peers.json
-	jsonFileName := filepath.Join(configDir, common.BabbleDir, common.PeersJSON)
+	jsonFileName := filepath.Join(configDir, configuration.BabbleDir, configuration.PeersJSON)
 	files.WriteToFile(jsonFileName, string(peersJSONOut))
 
 	// peers.genesis.json
-	jsonFileName = filepath.Join(configDir, common.BabbleDir, common.PeersGenesisJSON)
+	jsonFileName = filepath.Join(configDir, configuration.BabbleDir, configuration.PeersGenesisJSON)
 	files.WriteToFile(jsonFileName, string(peersJSONOut))
 
 	return nil
@@ -92,7 +92,7 @@ func dumpPeers(configDir string, peers types.PeerRecordList) error {
 
 // createSoloPeers creates PeerRecordList with a single node
 func createSoloPeerRecordList(moniker, selfAddress, pubKey string) (types.PeerRecordList, error) {
-	addr := selfAddress + ":" + common.DefaultGossipPort
+	addr := selfAddress + ":" + configuration.DefaultGossipPort
 
 	peers := types.PeerRecordList{
 		&types.PeerRecord{NetAddr: addr, PubKeyHex: pubKey, Moniker: moniker},
