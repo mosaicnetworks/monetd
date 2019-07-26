@@ -11,6 +11,7 @@ import (
 	"path/filepath"
 	"strconv"
 
+	"github.com/mosaicnetworks/monetd/src/configuration"
 	"github.com/mosaicnetworks/monetd/src/poa/common"
 )
 
@@ -57,10 +58,10 @@ func CreateDirsIfNotExists(d []string) error {
 func CreateMonetConfigFolders(configDir string) error {
 	return CreateDirsIfNotExists([]string{
 		configDir,
-		filepath.Join(configDir, common.BabbleDir),
-		filepath.Join(configDir, common.EthDir),
-		filepath.Join(configDir, common.KeyStoreDir),
-		filepath.Join(configDir, common.EthDir, common.POADir),
+		filepath.Join(configDir, configuration.BabbleDir),
+		filepath.Join(configDir, configuration.EthDir),
+		filepath.Join(configDir, configuration.KeyStoreDir),
+		filepath.Join(configDir, configuration.EthDir, configuration.POADir),
 	})
 }
 

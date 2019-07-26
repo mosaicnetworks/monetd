@@ -5,8 +5,6 @@ package configuration
 import (
 	"fmt"
 
-	"github.com/mosaicnetworks/monetd/src/poa/common"
-
 	"github.com/mosaicnetworks/babble/src/babble"
 	evml_config "github.com/mosaicnetworks/evm-lite/src/config"
 )
@@ -14,25 +12,12 @@ import (
 var (
 	// Base
 	defaultLogLevel   = "debug"
-	defaultDataDir, _ = common.DefaultMonetConfigDir()
+	defaultDataDir, _ = DefaultMonetConfigDir()
 
-	// Global is a global Config object that is used by commands in cmd/ to
-	// manipulate configuration options.
-	Global = monetConfig(defaultDataDir)
+	// Global is a global Config object used by commands in cmd/ to manipulate
+	// configuration options.
+	Global = DefaultConfig()
 )
-
-// default config for monetd
-func monetConfig(dataDir string) *Config {
-	_config := DefaultConfig()
-
-	if dataDir == "" { // fall through to default settings
-		file, _ := common.DefaultMonetConfigDir()
-		_config.SetDataDir(file)
-	} else {
-		_config.SetDataDir(dataDir)
-	}
-	return _config
-}
 
 // Config contains the configuration for MONET node
 type Config struct {
@@ -56,18 +41,6 @@ func DefaultConfig() *Config {
 	}
 }
 
-// SetDataDir updates the root data directory as well as the config for EVM-Lite
-// and Babble
-func (c *Config) SetDataDir(datadir string) {
-	c.BaseConfig.DataDir = datadir
-	if c.Eth != nil {
-		c.Eth.SetDataDir(fmt.Sprintf("%s/eth", datadir))
-	}
-	if c.Babble != nil {
-		c.Babble.SetDataDir(fmt.Sprintf("%s/babble", datadir))
-	}
-}
-
 // ToEVMLConfig extracts evm-lite configuration and returns a config object as
 // used by the evm-lite library.
 func (c *Config) ToEVMLConfig() *evml_config.Config {
@@ -75,9 +48,9 @@ func (c *Config) ToEVMLConfig() *evml_config.Config {
 
 	evmlConfig.DataDir = c.DataDir
 	evmlConfig.LogLevel = c.LogLevel
-	evmlConfig.Genesis = c.Eth.Genesis
-	evmlConfig.DbFile = c.Eth.DbFile
-	evmlConfig.EthAPIAddr = c.Eth.EthAPIAddr
+	evmlConfig.EthAPIAddr = c.APIAddr
+	evmlConfig.Genesis = fmt.Sprintf("%s/%s/%s", c.DataDir, EthDir, GenesisJSON)
+	evmlConfig.DbFile = fmt.Sprintf("%s/%s/%s", c.DataDir, EthDir, Chaindata)
 	evmlConfig.Cache = c.Eth.Cache
 
 	return evmlConfig
@@ -89,11 +62,10 @@ func (c *Config) ToEVMLConfig() *evml_config.Config {
 func (c *Config) ToBabbleConfig() *babble.BabbleConfig {
 	babbleConfig := babble.NewDefaultConfig()
 
-	babbleConfig.DataDir = c.Babble.DataDir
+	babbleConfig.ServiceAddr = c.APIAddr
+	babbleConfig.DataDir = fmt.Sprintf("%s/%s", c.DataDir, BabbleDir)
 	babbleConfig.BindAddr = c.Babble.BindAddr
-	babbleConfig.ServiceAddr = c.Babble.ServiceAddr
 	babbleConfig.MaxPool = c.Babble.MaxPool
-
 	babbleConfig.NodeConfig.HeartbeatTimeout = c.Babble.Heartbeat
 	babbleConfig.NodeConfig.TCPTimeout = c.Babble.TCPTimeout
 	babbleConfig.NodeConfig.CacheSize = c.Babble.CacheSize
@@ -118,6 +90,9 @@ type BaseConfig struct {
 
 	// Debug, info, warn, error, fatal, panic
 	LogLevel string `mapstructure:"log"`
+
+	// IP/PORT of API
+	APIAddr string `mapstructure:"api-listen"`
 }
 
 // DefaultBaseConfig returns the default top-level configuration for EVM-Babble
@@ -125,5 +100,6 @@ func DefaultBaseConfig() BaseConfig {
 	return BaseConfig{
 		DataDir:  defaultDataDir,
 		LogLevel: defaultLogLevel,
+		APIAddr:  DefaultAPIAddr,
 	}
 }

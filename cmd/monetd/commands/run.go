@@ -52,9 +52,11 @@ monetd config location `,
 }
 
 func bindFlags(cmd *cobra.Command) {
+	// EVM-Lite and Babble share the same API address
+	cmd.Flags().String("api-listen", configuration.Global.APIAddr, "IP:PORT of Monet HTTP API service")
+
 	// Babble config
 	cmd.Flags().String("babble.listen", configuration.Global.Babble.BindAddr, "IP:PORT of Babble node")
-	cmd.Flags().String("babble.service-listen", configuration.Global.Babble.ServiceAddr, "IP:PORT of Babble HTTP API service")
 	cmd.Flags().Duration("babble.heartbeat", configuration.Global.Babble.Heartbeat, "Heartbeat time milliseconds (time between gossips)")
 	cmd.Flags().Duration("babble.timeout", configuration.Global.Babble.TCPTimeout, "TCP timeout milliseconds")
 	cmd.Flags().Int("babble.cache-size", configuration.Global.Babble.CacheSize, "Number of items in LRU caches")
@@ -63,7 +65,6 @@ func bindFlags(cmd *cobra.Command) {
 	cmd.Flags().Bool("babble.bootstrap", configuration.Global.Babble.Bootstrap, "Bootstrap Babble from database")
 
 	// Eth config
-	cmd.Flags().String("eth.listen", configuration.Global.Eth.EthAPIAddr, "IP:PORT of Monet HTTP API service")
 	cmd.Flags().Int("eth.cache", configuration.Global.Eth.Cache, "Megabytes of memory allocated to internal caching (min 16MB / database forced)")
 }
 
