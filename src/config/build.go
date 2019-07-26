@@ -5,8 +5,8 @@ import (
 
 	eth_crypto "github.com/ethereum/go-ethereum/crypto"
 	"github.com/mosaicnetworks/monetd/src/configuration"
-	"github.com/mosaicnetworks/monetd/src/poa/common"
-	"github.com/mosaicnetworks/monetd/src/poa/files"
+	"github.com/mosaicnetworks/monetd/src/common"
+	"github.com/mosaicnetworks/monetd/src/files"
 )
 
 // BuildConfig provides the functionality for monetd config build.

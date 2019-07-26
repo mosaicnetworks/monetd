@@ -1,7 +1,7 @@
 .. _monetd_commands_rst:
 
-Monetd Commands
-===============
+Monetd Reference
+================
 
 Monetd provides the core commands needed to configure and run a Monet
 node. Monetd has context sensitive help accessed either by
@@ -33,7 +33,7 @@ command.
     version     show version info
 
     Flags:
-    -d, --datadir string   Top-level directory for configuration and data (default "/home/jon/.monet")
+    -d, --datadir string   Top-level directory for configuration and data (default "/home/user/.monet")
     -h, --help             help for monetd
         --log string       trace, debug, info, warn, error, fatal, panic (default "debug")
     -v, --verbose          verbose messages
@@ -146,7 +146,7 @@ The help for the keys command is:
         --passfile string   file containing the passphrase
 
     Global Flags:
-    -d, --datadir string   Top-level directory for configuration and data (default "/home/jon/.monet")
+    -d, --datadir string   Top-level directory for configuration and data (default "/home/user/.monet")
         --log string       trace, debug, info, warn, error, fatal, panic (default "debug")
     -v, --verbose          verbose messages
 
@@ -251,7 +251,7 @@ parameter.
  
 .. code:: bash
   
-    jon@hpjon:~/go/src/github.com/mosaicnetworks/monetd$ monetd keys inspect node0 
+    $ monetd keys inspect node0 
     Passphrase: 
     Address:        0x02f6f3D24E447218d396C14F3B47f9Ea369DADf9
     Public key:     0481d3528eec6138f8428932e4fe99571a4f77bd79ae13219540b0a929014cb490a4e5ced2f9e651b531522c2567b6dc5de75d485193615e768b8aa1190603d2c2
@@ -412,14 +412,159 @@ probably wish to redirect it to a file or a pager.
 Location
 ~~~~~~~~
 
+The location subcommand displays the path to the configuration folder. With the 
+``--expanded`` parameter, a list of directories and configuration files are 
+output.  
+
+.. code:: bash
+
+    $ monetd help config location 
+
+    The location subcommand shows the location of the monetd configuration files. It 
+    respects any --datadir parameter. 
+
+    If you specify --expanded then a list of configuration folders and directories
+    is output.
+
+    Usage:
+    monetd config location [flags]
+
+    Flags:
+    -x, --expanded   show expanded information
+
+
+.. code:: bash
+
+        $ monetd config location 
+        /home/user/.monet
+
+.. code:: bash
+
+        $ monetd config location --expanded
+        Config root   : /home/user/.monet
+        Babble Dir    : /home/user/.monet/babble
+        EVM-Lite Dir  : /home/user/.monet/eth
+        Keystore Dir  : /home/user/.monet/keystore
+        Config File   : /home/user/.monet/monet.toml
+        Wallet Config : /home/user/.monet/wallet.toml
+        Peers         : /home/user/.monet/babble/peers.json
+        Genesis Peers : /home/user/.monet/babble/peers.genesis.json
+        Genesis File  : /home/user/.monet/eth/genesis.json
+
+
 Build
 ~~~~~
 
+The build subcommand initialises the bare-bones configuration to get started 
+with monetd. It uses one of the accounts from the keystore to define a network 
+consisting of a unique node, which is automatically added to the PoA whitelist.
+Additionally, all the accounts in [datadir]/keystore are credited with a large
+amount of tokens in the genesis file. This command is mostly used for testing.
+
+If the --address flag is omitted, the first non-loopback address for this 
+instance is used.
+
+
+.. code:: bash
+
+    $ monetd help config build 
+
+    The build subcommand initialises the bare-bones configuration to get started 
+    with monetd. It uses one of the accounts from the keystore to define a network 
+    consisting of a unique node, which is automatically added to the PoA whitelist.
+    Additionally, all the accounts in [datadir]/keystore are credited with a large
+    amount of tokens in the genesis file. This command is mostly used for testing.
+
+    If the --address flag is omitted, the first non-loopback address for this 
+    instance is used.
+
+    Usage:
+    monetd config build [moniker] [flags]
+
+    Flags:
+        --address string    IP/hostname of this node (default "192.168.68.130")
+    -h, --help              help for build
+        --passfile string   file containing the passphrase
+
+
 Pull
 ~~~~
+
+The pull subcommand is used to join an existing Monet network. It takes the
+address of a running peer, and downloads the following set of files into the
+configuration directory [datadir]:
+
+- babble/peers.json         : The current validator-set 
+- babble/peers.genesis.json : The initial validator-set
+- eth/genesis.json          : The genesis file
+
+It also builds all of the required configuration files for a monetd node. If 
+the peer specified does not specify a port, the default gossip port (1337) is
+used. 
+
+.. code:: bash
+
+$ monetd help config pull
+
+    The pull subcommand is used to join an existing Monet network. It takes the
+    address of a running node, and downloads the following set of files into the
+    configuration directory [datadir]:
+
+    - babble/peers.json         : The current validator-set 
+    - babble/peers.genesis.json : The initial validator-set
+    - eth/genesis.json          : The genesis file
+
+    Usage:
+    monetd config pull [peer] [flags]
+
+    Flags:
+        --address string    IP/hostname of this node (default "192.168.1.4")
+        --key string        moniker of the key to use for this node (default "node0")
+        --passfile string   file containing the passphrase
 
 
 Run
 ---
 
+The ``run`` subcommands starts the monet node running. Whilst there are legacy
+parameters ``--babble.*`` and ``--eth.*``, we strongly recommend that they are
+not used. The equivalent changes can be made in the configuration files. 
 
+.. code:: bash
+    $ monetd help  run
+
+    Run a MONET node.
+        
+    Start a daemon which acts as a full node on a MONET network. All data and 
+    configuration are stored under a directory [datadir] controlled by the 
+    --datadir flag ($HOME/.monet by default on UNIX systems). 
+
+    [datadir] must contain a set of files defining the network that this node is 
+    attempting to join or create. Please refer to monetd config for tools to manage 
+    this configuration. 
+
+    Further options pertaining to the operation of the node are read from the 
+    [datadir]/monetd.toml file, or overwritten by the following flags. The following 
+    command displays the expected output:
+
+    monetd config location
+
+    Usage:
+    monetd run [flags]
+
+    Flags:
+        --babble.bootstrap               Bootstrap Babble from database
+        --babble.cache-size int          Number of items in LRU caches (default 50000)
+        --babble.heartbeat duration      Heartbeat time milliseconds (time between gossips) (default 500ms)
+        --babble.listen string           IP:PORT of Babble node (default "127.0.0.1:1337")
+        --babble.max-pool int            Max number of pool connections (default 2)
+        --babble.service-listen string   IP:PORT of Babble HTTP API service (default ":8000")
+        --babble.sync-limit int          Max number of Events per sync (default 1000)
+        --babble.timeout duration        TCP timeout milliseconds (default 1s)
+        --eth.cache int                  Megabytes of memory allocated to internal caching (min 16MB / database forced) (default 128)
+        --eth.listen string              IP:PORT of Monet HTTP API service (default ":8080")
+    -h, --help                           help for run
+
+    Global Flags:
+    -d, --datadir string   Top-level directory for configuration and data (default "/home/jon/.monet")
+        --log string       trace, debug, info, warn, error, fatal, panic (default "debug")

@@ -4,8 +4,8 @@ import (
 	"fmt"
 
 	"github.com/mosaicnetworks/monetd/src/configuration"
-	"github.com/mosaicnetworks/monetd/src/poa/common"
-	pconfig "github.com/mosaicnetworks/monetd/src/poa/config"
+	"github.com/mosaicnetworks/monetd/src/common"
+	pconfig "github.com/mosaicnetworks/monetd/src/config"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )

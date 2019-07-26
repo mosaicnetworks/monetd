@@ -5,11 +5,11 @@ import (
 	"path/filepath"
 
 	"github.com/mosaicnetworks/monetd/src/configuration"
-	"github.com/mosaicnetworks/monetd/src/poa/contract"
+	"github.com/mosaicnetworks/monetd/src/contract"
 
-	"github.com/mosaicnetworks/monetd/src/poa/common"
-	"github.com/mosaicnetworks/monetd/src/poa/files"
-	"github.com/mosaicnetworks/monetd/src/poa/types"
+	"github.com/mosaicnetworks/monetd/src/common"
+	"github.com/mosaicnetworks/monetd/src/files"
+	"github.com/mosaicnetworks/monetd/src/types"
 	"github.com/spf13/cobra"
 )
 

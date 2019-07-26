@@ -12,7 +12,7 @@ import (
 	"strconv"
 
 	"github.com/mosaicnetworks/monetd/src/configuration"
-	"github.com/mosaicnetworks/monetd/src/poa/common"
+	"github.com/mosaicnetworks/monetd/src/common"
 )
 
 //WriteToFile writes a string variable to a file.

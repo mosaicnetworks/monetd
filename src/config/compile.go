@@ -11,11 +11,11 @@ import (
 	"strings"
 
 	"github.com/mosaicnetworks/monetd/src/configuration"
-	"github.com/mosaicnetworks/monetd/src/poa/contract"
-	"github.com/mosaicnetworks/monetd/src/poa/files"
+	"github.com/mosaicnetworks/monetd/src/contract"
+	"github.com/mosaicnetworks/monetd/src/files"
 
-	"github.com/mosaicnetworks/monetd/src/poa/common"
-	mtypes "github.com/mosaicnetworks/monetd/src/poa/types"
+	"github.com/mosaicnetworks/monetd/src/common"
+	mtypes "github.com/mosaicnetworks/monetd/src/types"
 
 	"github.com/pelletier/go-toml"
 

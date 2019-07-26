@@ -2,7 +2,7 @@ package config
 
 import (
 	"github.com/mosaicnetworks/monetd/src/configuration"
-	"github.com/mosaicnetworks/monetd/src/poa/files"
+	"github.com/mosaicnetworks/monetd/src/files"
 	"github.com/spf13/cobra"
 )
 

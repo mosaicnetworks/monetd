@@ -3,13 +3,13 @@ package config
 import (
 	"fmt"
 
-	"github.com/mosaicnetworks/monetd/src/poa/common"
+	"github.com/mosaicnetworks/monetd/src/common"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
 	"github.com/mosaicnetworks/monetd/src/configuration"
-	pconfig "github.com/mosaicnetworks/monetd/src/poa/config"
+	pconfig "github.com/mosaicnetworks/monetd/src/config"
 )
 
 // newBuildCmd initialises a bare-bones configuration for monetd

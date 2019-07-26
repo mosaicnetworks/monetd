@@ -2,7 +2,7 @@ package contract
 
 import (
 	"github.com/ethereum/go-ethereum/common/compiler"
-	"github.com/mosaicnetworks/monetd/src/poa/common"
+	"github.com/mosaicnetworks/monetd/src/common"
 )
 
 //CompileSolidityContract is a simple wrapper for the Geth compiler function.

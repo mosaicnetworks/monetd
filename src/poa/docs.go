@@ -1,5 +1,12 @@
 // Package poa provides standard function for create and managing POA networks.
 //
+//
+//****************************************************************
+//
+//TODO   extract this documentation and put in the separate packages
+//
+//*****************************************************************
+//
 // There is no functionality in package poa itself, it all resides in subpackages.
 //
 // A typical monetd configuration looks like this:

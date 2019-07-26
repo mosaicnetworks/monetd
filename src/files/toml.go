@@ -1,7 +1,7 @@
 package files
 
 import (
-	"github.com/mosaicnetworks/monetd/src/poa/common"
+	"github.com/mosaicnetworks/monetd/src/common"
 	"github.com/pelletier/go-toml"
 )
 
