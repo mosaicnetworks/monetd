@@ -3,7 +3,6 @@ package crypto
 
 import (
 	"crypto/ecdsa"
-	"crypto/rand"
 	"encoding/hex"
 	"errors"
 	"fmt"
@@ -17,8 +16,8 @@ import (
 	"github.com/ethereum/go-ethereum/accounts/keystore"
 	ethcommon "github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/mosaicnetworks/monetd/src/configuration"
 	"github.com/mosaicnetworks/monetd/src/common"
+	"github.com/mosaicnetworks/monetd/src/configuration"
 	"github.com/mosaicnetworks/monetd/src/files"
 	"github.com/pelletier/go-toml"
 )
@@ -34,8 +33,8 @@ type outputInspect struct {
 	PrivateKey string
 }
 
-// PublicKeyHexToAddressHex takes a Hex string public key and returns a hex string
-// Ethereum style address.
+// PublicKeyHexToAddressHex takes a Hex string public key and returns a hex
+// string Ethereum style address.
 func PublicKeyHexToAddressHex(publicKey string) (string, error) {
 	pubBytes, err := hex.DecodeString(publicKey)
 	if err != nil {
@@ -47,12 +46,21 @@ func PublicKeyHexToAddressHex(publicKey string) (string, error) {
 	return ethcommon.BytesToAddress(pubKeyHash).Hex(), nil
 }
 
-//GenerateKeyPair generates an Ethereum key pair. keyfilepath is the path to write the new keyfile to.
-//passwordFile is a plain text file containing the passphrase to use for the keyfile. privateKeyfile is the
-//path to a private key. If specified, this function does not generate a new keyfile, it instead
-//generates a keyfile from the private key. outputJSON controls whether the output to stdio is in
-//JSON format or not.  The function returns a key object which can be used to retrive public or private
-//keys or the address.
+/* GenerateKeyPair generates an Ethereum key pair.
+
+keyfilepath: path to write the new keyfile to.
+
+passwordFile: plain text file containing the passphrase to use for the
+              keyfile.
+
+privateKeyfile: the path to an unencrypted private key. If specified, this
+                function does not generate a new keyfile, it instead
+                generates a keyfile from the unencrypted private key.
+
+outputJSON: controls whether the output to stdio is in JSON format or not.
+            The function returns a key object which can be used to retrieve
+            public or private keys or the address.
+*/
 func GenerateKeyPair(keyfilepath, passwordFile, privateKeyfile string, outputJSON bool) (*keystore.Key, error) {
 	if keyfilepath == "" {
 		keyfilepath = configuration.DefaultKeyfile
@@ -83,13 +91,8 @@ func GenerateKeyPair(keyfilepath, passwordFile, privateKeyfile string, outputJSO
 		}
 	}
 
-	//Create the keyfile object with a random UUID
-	//It would be preferable to create the key manually, rather by calling this
-	//function, but we cannot use pborman/uuid directly because it is vendored
-	//in go-ethereum. That package defines the type of keystore.Key.Id.
-	key := keystore.NewKeyForDirectICAP(rand.Reader)
-	key.Address = crypto.PubkeyToAddress(privateKey.PublicKey)
-	key.PrivateKey = privateKey
+	// Create the keyfile object with a random UUID
+	key := WrapKey(privateKey)
 
 	// Encrypt key with passphrase.
 	passphrase, err := GetPassphrase(passwordFile, true)
@@ -97,7 +100,7 @@ func GenerateKeyPair(keyfilepath, passwordFile, privateKeyfile string, outputJSO
 		return nil, err
 	}
 
-	keyjson, err := keystore.EncryptKey(key, passphrase, keystore.StandardScryptN, keystore.StandardScryptP)
+	keyjson, err := EncryptKey(key, passphrase, keystore.StandardScryptN, keystore.StandardScryptP)
 	if err != nil {
 		return nil, fmt.Errorf("Error encrypting key: %v", err)
 	}
@@ -124,14 +127,15 @@ func GenerateKeyPair(keyfilepath, passwordFile, privateKeyfile string, outputJSO
 	return key, nil
 }
 
-//NewKeyPair is a wrapper to NewKeyPairFull and thus GenerateKeyPair. It does not support setting a private key.
-//Additionally it does not support outputting to JSON format - if required, that can be
-//achieved calling GenerateKeyPair directly.
+// NewKeyPair is a wrapper to NewKeyPairFull and thus GenerateKeyPair. It does
+// not support setting a private key. Additionally it does not support
+// outputting to JSON format - if required, that can be achieved calling
+// GenerateKeyPair directly.
 func NewKeyPair(configDir, moniker, passwordFile string) (*keystore.Key, error) {
 	return NewKeyPairFull(configDir, moniker, passwordFile, "", false)
 }
 
-//NewKeyPairFull is a wrapper to GenerateKeyPair adding moniker support
+// NewKeyPairFull is a wrapper to GenerateKeyPair adding moniker support
 func NewKeyPairFull(configDir, moniker, passwordFile string, privateKeyfile string, outputJSON bool) (*keystore.Key, error) {
 
 	if strings.TrimSpace(moniker) == "" {
@@ -170,8 +174,8 @@ func NewKeyPairFull(configDir, moniker, passwordFile string, privateKeyfile stri
 }
 
 // WriteTomlForKey takes a key and writes the .toml file for it with Address,
-// ID, pubkey etc. It allows basic information about a key file to be assertained
-// without having to decrypt the keyfile each time.
+// ID, pubkey etc. It allows basic information about a key file to be
+// assertained without having to decrypt the keyfile each time.
 func WriteTomlForKey(monikerParam, safeLabel, tomlfilepath string, key *keystore.Key) error {
 
 	common.DebugMessage("Generated Address      : ", key.Address.Hex())
@@ -225,7 +229,7 @@ func GetPrivateKey(keyfilepath string, PasswordFile string) (*ecdsa.PrivateKey, 
 		return nil, err
 	}
 
-	key, err := keystore.DecryptKey(keyjson, passphrase)
+	key, err := DecryptKey(keyjson, passphrase)
 	if err != nil {
 		return nil, fmt.Errorf("Error decrypting key: %v", err)
 	}
@@ -261,7 +265,7 @@ func InspectKey(keyfilepath string, PasswordFile string, showPrivate bool, outpu
 		return err
 	}
 
-	key, err := keystore.DecryptKey(keyjson, passphrase)
+	key, err := DecryptKey(keyjson, passphrase)
 	if err != nil {
 		return fmt.Errorf("Error decrypting key: %v", err)
 	}
@@ -317,7 +321,7 @@ func UpdateKeys(keyfilepath string, PasswordFile string, newPasswordFile string)
 		return err
 	}
 
-	key, err := keystore.DecryptKey(keyjson, passphrase)
+	key, err := DecryptKey(keyjson, passphrase)
 	if err != nil {
 		return fmt.Errorf("Error decrypting key: %v", err)
 	}
@@ -339,7 +343,7 @@ func UpdateKeys(keyfilepath string, PasswordFile string, newPasswordFile string)
 	}
 
 	// Encrypt the key with the new passphrase.
-	newJSON, err := keystore.EncryptKey(key, newPhrase, keystore.StandardScryptN, keystore.StandardScryptP)
+	newJSON, err := EncryptKey(key, newPhrase, keystore.StandardScryptN, keystore.StandardScryptP)
 	if err != nil {
 		return fmt.Errorf("Error encrypting with new passphrase: %v", err)
 	}
