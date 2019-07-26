@@ -8,21 +8,18 @@ import (
 	"github.com/mosaicnetworks/monetd/src/poa/files"
 
 	"github.com/mosaicnetworks/monetd/src/configuration"
-	"github.com/mosaicnetworks/monetd/src/poa/common"
 )
 
 var pidFile string
 var logOut string
-var logErr string
 
 // "/tmp/daemonize.pid"
 
 func init() {
 
-	configDir := filepath.Join(configuration.Global.DataDir, common.ServerDir)
-	pidFile = filepath.Join(configDir, common.ServerPIDFile)
-	logOut = filepath.Join(configDir, "log.out")
-	logErr = filepath.Join(configDir, "error.out")
+	configDir := filepath.Join(configuration.Global.DataDir, ServerDir)
+	pidFile = filepath.Join(configDir, ServerPIDFile)
+	logOut = filepath.Join(configDir, ServerLogFile)
 
 	files.CreateDirsIfNotExists([]string{configDir})
 }

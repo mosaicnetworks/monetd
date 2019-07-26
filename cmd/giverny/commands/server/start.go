@@ -3,6 +3,7 @@ package server
 import (
 	"errors"
 	"fmt"
+	"log"
 	"os"
 	"os/exec"
 	"os/signal"
@@ -59,14 +60,22 @@ func maincmd() error {
 	ch := make(chan os.Signal, 1)
 	signal.Notify(ch, os.Interrupt, os.Kill, syscall.SIGTERM)
 
+	f, err := os.OpenFile(logOut, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	if err != nil {
+		log.Fatalf("error opening file: %v", err)
+	}
+	defer f.Close()
+
+	log.SetOutput(f)
+
 	go func() {
 		signalType := <-ch
 		signal.Stop(ch)
-		fmt.Println("Exit command received. Exiting...")
+		log.Println("Exit command received. Exiting...")
 
 		// this is a good place to flush everything to disk
 		// before terminating.
-		fmt.Println("Received signal type : ", signalType)
+		log.Println("Received signal type : ", signalType)
 
 		// remove PID file
 		os.Remove(pidFile)

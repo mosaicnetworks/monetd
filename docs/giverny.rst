@@ -76,7 +76,7 @@ Server
 The ``server`` sub-command is used for admninstering a REST server used to co-ordinate 
 configurations between multiple nodes prior to the initial node of a network. 
 
-The server listens on port 8088. 
+The server listens on port 8088. It writes logs to ``.monet/giverny/server.log``.
 
 For instructions on how to use, see the recipes for setting up networks. 
 
@@ -97,4 +97,16 @@ To stop the server:
 .. code:: bash
 
     $ giverny server stop
+
+
+Status
+~~~~~~
+
+Reports on the status of the server. It both checks for the PID file in 
+``.monet/giverny/server.pid`` and checks the the server is responding on 
+localhost:8088. 
+
+.. code:: bash
+
+    $ giverny server status
 

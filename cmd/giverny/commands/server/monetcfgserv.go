@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/mosaicnetworks/monetd/src/common"
 )
@@ -30,19 +31,21 @@ var (
 
 func servermain() {
 
-	fmt.Println("Starting monetcfgsrv")
-	fmt.Println(common.GetMyIP() + ":8088")
+	log.Println("Starting monetcfgsrv")
+	log.Println(common.GetMyIP() + ":8088")
 
 	http.HandleFunc("/", cfgHandler)
 
 	if err := http.ListenAndServe(":8088", nil); err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println("Started monetcfgsrv")
+	log.Println("Started monetcfgsrv")
 
 }
 
 func cfgHandler(w http.ResponseWriter, r *http.Request) {
+
+	start := time.Now()
 
 	switch r.URL.Path {
 	case "/peersjson":
@@ -66,6 +69,17 @@ func cfgHandler(w http.ResponseWriter, r *http.Request) {
 
 	}
 
+	// log request by who(IP address)
+	requesterIP := r.RemoteAddr
+
+	log.Printf(
+		"%s\t\t%s\t\t%s\t\t%v",
+		r.Method,
+		r.RequestURI,
+		requesterIP,
+		time.Since(start),
+	)
+
 }
 
 func publish(w http.ResponseWriter) {
@@ -80,7 +94,7 @@ func publish(w http.ResponseWriter) {
 func addGenesisJSON(w http.ResponseWriter, r *http.Request) {
 	b, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		fmt.Println("Error in addGenesisJSON: ", err.Error())
+		log.Println("Error in addGenesisJSON: ", err.Error())
 		fmt.Fprint(w, "false")
 		return
 	}
@@ -91,7 +105,7 @@ func addGenesisJSON(w http.ResponseWriter, r *http.Request) {
 func addNetworkTOML(w http.ResponseWriter, r *http.Request) {
 	b, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		fmt.Println("Error in addNetworkTOML: ", err.Error())
+		log.Println("Error in addNetworkTOML: ", err.Error())
 		fmt.Fprint(w, "false")
 		return
 	}
@@ -111,7 +125,7 @@ func addPeer(w http.ResponseWriter, r *http.Request) {
 
 	err := decoder.Decode(&p)
 	if err != nil {
-		fmt.Println("Error in addpeer: ", err.Error())
+		log.Println("Error in addpeer: ", err.Error())
 		fmt.Fprint(w, "false")
 		return
 	}
@@ -123,7 +137,7 @@ func addPeer(w http.ResponseWriter, r *http.Request) {
 func outputPeers(w http.ResponseWriter) {
 	b, err := json.Marshal(peerlist)
 	if err != nil {
-		fmt.Println(err.Error())
+		log.Println(err.Error())
 		fmt.Fprint(w, "false")
 		return
 	}
