@@ -62,7 +62,6 @@ func (c *Config) ToEVMLConfig() *evml_config.Config {
 func (c *Config) ToBabbleConfig() *babble.BabbleConfig {
 	babbleConfig := babble.NewDefaultConfig()
 
-	babbleConfig.ServiceAddr = c.APIAddr
 	babbleConfig.DataDir = fmt.Sprintf("%s/%s", c.DataDir, BabbleDir)
 	babbleConfig.BindAddr = c.Babble.BindAddr
 	babbleConfig.MaxPool = c.Babble.MaxPool
@@ -72,8 +71,17 @@ func (c *Config) ToBabbleConfig() *babble.BabbleConfig {
 	babbleConfig.NodeConfig.SyncLimit = c.Babble.SyncLimit
 	babbleConfig.NodeConfig.Bootstrap = c.Babble.Bootstrap
 
+	// Force Babble to use persistant storage.
 	babbleConfig.Store = true
+
+	// Force FastSync = false because EVM-Lite does not support Snapshot/Restore
+	// yet.
 	babbleConfig.NodeConfig.EnableFastSync = false
+
+	// An empty ServiceAddr tells Babble not to start an API server. The API
+	// handlers are still registered with the DefaultServeMux, so they will be
+	// served by the EVM-Lite API server automatically.
+	babbleConfig.ServiceAddr = ""
 
 	return babbleConfig
 }
