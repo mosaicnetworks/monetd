@@ -35,7 +35,6 @@ func init() {
 		newStartCmd(),
 		newStopCmd(),
 		newStatusCmd(),
-		newRunCmd(),
 	)
 
 }
