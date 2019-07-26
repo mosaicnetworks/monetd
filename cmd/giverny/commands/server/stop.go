@@ -17,7 +17,7 @@ func newStopCmd() *cobra.Command {
 Stop the giverny server.
 `,
 		Args: cobra.ExactArgs(0),
-		RunE: startServer,
+		RunE: stopServer,
 	}
 
 	return cmd
@@ -34,20 +34,20 @@ func stopServer(cmd *cobra.Command, args []string) error {
 		data, err := ioutil.ReadFile(pidFile)
 		if err != nil {
 			fmt.Println("Not running")
-			os.Exit(1)
+			return err
 		}
 		ProcessID, err := strconv.Atoi(string(data))
 
 		if err != nil {
 			fmt.Println("Unable to read and parse process id found in ", pidFile)
-			os.Exit(1)
+			return err
 		}
 
 		process, err := os.FindProcess(ProcessID)
 
 		if err != nil {
 			fmt.Printf("Unable to find process ID [%v] with error %v \n", ProcessID, err)
-			os.Exit(1)
+			return err
 		}
 		// remove PID file
 		os.Remove(pidFile)
@@ -58,16 +58,13 @@ func stopServer(cmd *cobra.Command, args []string) error {
 
 		if err != nil {
 			fmt.Printf("Unable to kill process ID [%v] with error %v \n", ProcessID, err)
-			os.Exit(1)
-		} else {
-			fmt.Printf("Killed process ID [%v]\n", ProcessID)
-			os.Exit(0)
+			return err
 		}
+		fmt.Printf("Killed process ID [%v]\n", ProcessID)
 
 	} else {
 
 		fmt.Println("Not running.")
-		os.Exit(1)
 	}
 
 	return nil

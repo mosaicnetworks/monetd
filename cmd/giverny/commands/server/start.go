@@ -1,8 +1,13 @@
 package server
 
 import (
+	"errors"
 	"fmt"
 	"os"
+	"os/exec"
+	"os/signal"
+	"strconv"
+	"syscall"
 
 	"github.com/spf13/cobra"
 )
@@ -14,7 +19,7 @@ func newStartCmd() *cobra.Command {
 		Long: `
 Start the giverny server.
 `,
-		Args: cobra.ExactArgs(0),
+		Args: cobra.ArbitraryArgs,
 		RunE: startServer,
 	}
 
@@ -23,12 +28,54 @@ Start the giverny server.
 
 func startServer(cmd *cobra.Command, args []string) error {
 
-	if _, err := os.Stat(pidFile); err == nil {
-		fmt.Println("Already running or " + pidFile + " file exist.")
-		os.Exit(1)
+	// this is a hidden parameter. Whilst not ideal it is a least bad pragmatic
+	// choice. The regular start command performs checks for the pid file. It then
+	// launches a background process of "giverny server start main". This actually
+	// starts the server. We did not want a method of bypassing the already running
+	// checks in the documentation.
+	if len(args) > 0 && args[0] == "main" {
+		return maincmd()
 	}
 
-	daemonize("/dev/null", logOut, logErr)
+	return start()
+}
+
+func start() error {
+
+	// check if daemon already running.
+	if _, err := os.Stat(pidFile); err == nil {
+		return errors.New("already running or " + pidFile + " exists")
+	}
+
+	cmd := exec.Command(os.Args[0], "server", "start", "main")
+	cmd.Start()
+	fmt.Println("Daemon process ID is : ", cmd.Process.Pid)
+	savePID(strconv.Itoa(cmd.Process.Pid))
+
+	return nil
+}
+
+func maincmd() error {
+	ch := make(chan os.Signal, 1)
+	signal.Notify(ch, os.Interrupt, os.Kill, syscall.SIGTERM)
+
+	go func() {
+		signalType := <-ch
+		signal.Stop(ch)
+		fmt.Println("Exit command received. Exiting...")
+
+		// this is a good place to flush everything to disk
+		// before terminating.
+		fmt.Println("Received signal type : ", signalType)
+
+		// remove PID file
+		os.Remove(pidFile)
+
+		os.Exit(0)
+
+	}()
+
+	servermain()
 
 	return nil
 }
