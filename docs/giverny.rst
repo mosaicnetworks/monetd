@@ -21,6 +21,26 @@ running ``giverny help`` or by adding a ``-h`` parameter to the relevant
 command. 
 
 
+
+Version
+-------
+
+The version command outputs the version number for ``monetd``, ``EVM-Lite``, 
+``Babble`` and ``Geth``. 
+
+If you compile your own tools, the suffices are the GIT branch and the GIT
+commit hash. 
+
+.. code:: bash
+
+    $ giverny version
+    Monet Version: 0.2.1-develop-ceb36cba
+        EVM-Lite Version: 0.2.1
+        Babble Version: 0.5.0
+        Geth Version: 1.8.27
+
+
+
 Keys
 ----
 
@@ -50,22 +70,31 @@ setting a passphrase.
         --passfile string   the file that contains the passphrase for the keyfile
 
 
+Server
+------
 
+The ``server`` sub-command is used for admninstering a REST server used to co-ordinate 
+configurations between multiple nodes prior to the initial node of a network. 
 
-Version
--------
+The server listens on port 8088. 
 
-The version command outputs the version number for ``monetd``, ``EVM-Lite``, 
-``Babble`` and ``Geth``. 
+For instructions on how to use, see the recipes for setting up networks. 
 
-If you compile your own tools, the suffices are the GIT branch and the GIT
-commit hash. 
+Start
+~~~~~
+
+To start the server:
 
 .. code:: bash
 
-    $ giverny version
-    Monet Version: 0.2.1-develop-ceb36cba
-        EVM-Lite Version: 0.2.1
-        Babble Version: 0.5.0
-        Geth Version: 1.8.27
+    $ giverny server start
+
+Stop
+~~~~
+
+To stop the server: 
+
+.. code:: bash
+
+    $ giverny server stop
 
