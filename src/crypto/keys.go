@@ -186,7 +186,7 @@ func GetPrivateKey(keyfilepath string, PasswordFile string) (*ecdsa.PrivateKey, 
 		return nil, err
 	}
 
-	key, err := DecryptKey(keyjson, passphrase)
+	key, err := keystore.DecryptKey(keyjson, passphrase)
 	if err != nil {
 		return nil, fmt.Errorf("Error decrypting key: %v", err)
 	}
@@ -233,7 +233,7 @@ func InspectKey(keyfilepath string, PasswordFile string, showPrivate bool, outpu
 		return err
 	}
 
-	key, err := DecryptKey(keyjson, passphrase)
+	key, err := keystore.DecryptKey(keyjson, passphrase)
 	if err != nil {
 		return fmt.Errorf("Error decrypting key: %v", err)
 	}
@@ -288,7 +288,7 @@ func UpdateKeys(keyfilepath string, PasswordFile string, newPasswordFile string)
 		return err
 	}
 
-	key, err := DecryptKey(keyjson, passphrase)
+	key, err := keystore.DecryptKey(keyjson, passphrase)
 	if err != nil {
 		return fmt.Errorf("Error decrypting key: %v", err)
 	}
