@@ -10,7 +10,6 @@ import (
 
 	eth_crypto "github.com/ethereum/go-ethereum/crypto"
 	"github.com/mosaicnetworks/monetd/src/configuration"
-	"github.com/mosaicnetworks/monetd/src/common"
 	"github.com/mosaicnetworks/monetd/src/crypto"
 	"github.com/mosaicnetworks/monetd/src/files"
 	"github.com/mosaicnetworks/monetd/src/types"
@@ -20,10 +19,7 @@ import (
 // moniker. If it exists, it decrypts it and returns the private key. Otherwise,
 // it returns an error
 func getKey(configDir, moniker, passwordFile string) (*ecdsa.PrivateKey, error) {
-	// Find keyfile based on moniker
-	safeLabel := common.GetNodeSafeLabel(moniker)
-
-	keyfile := filepath.Join(configDir, configuration.KeyStoreDir, safeLabel+".json")
+	keyfile := filepath.Join(configDir, configuration.KeyStoreDir, moniker+".json")
 
 	privateKey, err := crypto.GetPrivateKey(keyfile, passwordFile)
 	if err != nil {
