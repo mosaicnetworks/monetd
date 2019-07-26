@@ -1,11 +1,6 @@
-// Package poa provides standard function for create and managing POA networks.
+// Package config provides standard function for create and managing POA networks.
 //
 //
-//****************************************************************
-//
-//TODO   extract this documentation and put in the separate packages
-//
-//*****************************************************************
 //
 // There is no functionality in package poa itself, it all resides in subpackages.
 //
@@ -110,4 +105,4 @@
 // Config Join
 //
 // TODO.
-package poa
+package config
