@@ -19,7 +19,6 @@ import (
 	"github.com/mosaicnetworks/monetd/src/common"
 	"github.com/mosaicnetworks/monetd/src/configuration"
 	"github.com/mosaicnetworks/monetd/src/files"
-	"github.com/pelletier/go-toml"
 )
 
 type outputGenerate struct {
@@ -156,7 +155,6 @@ func NewKeyPairFull(configDir, moniker, passwordFile string, privateKeyfile stri
 	}
 
 	keyfilepath := filepath.Join(configDir, configuration.KeyStoreDir, safeLabel+".json")
-	tomlfilepath := filepath.Join(configDir, configuration.KeyStoreDir, safeLabel+".toml")
 
 	if files.CheckIfExists(keyfilepath) {
 		return nil, errors.New("key for node " + safeLabel + " already exists")
@@ -168,50 +166,7 @@ func NewKeyPairFull(configDir, moniker, passwordFile string, privateKeyfile stri
 		return key, err
 	}
 
-	err = WriteTomlForKey(moniker, safeLabel, tomlfilepath, key)
-	// Skip err check as we are returning the error anyway.
-	return key, err
-}
-
-// WriteTomlForKey takes a key and writes the .toml file for it with Address,
-// ID, pubkey etc. It allows basic information about a key file to be
-// assertained without having to decrypt the keyfile each time.
-func WriteTomlForKey(monikerParam, safeLabel, tomlfilepath string, key *keystore.Key) error {
-
-	common.DebugMessage("Generated Address      : ", key.Address.Hex())
-	common.DebugMessage("Generated PubKey       : ", hex.EncodeToString(crypto.FromECDSAPub(&key.PrivateKey.PublicKey)))
-	common.DebugMessage("Generated ID           : ", key.Id)
-
-	//TODO Remove this line
-	common.DebugMessage("Generated Private Key  : ", hex.EncodeToString(crypto.FromECDSA(key.PrivateKey)))
-
-	// write peers config
-	tree, err := toml.Load("")
-	if err != nil {
-		return err
-	}
-	tree.SetPath([]string{"node", "moniker"}, monikerParam)
-	tree.SetPath([]string{"node", "label"}, safeLabel)
-	tree.SetPath([]string{"node", "address"}, key.Address.Hex())
-	tree.SetPath([]string{"node", "pubkey"}, hex.EncodeToString(crypto.FromECDSAPub(&key.PrivateKey.PublicKey)))
-
-	//TODO Remove this line
-	tree.SetPath([]string{"node", "privatekey"}, hex.EncodeToString(crypto.FromECDSA(key.PrivateKey)))
-
-	// pass any errors back up the function tree
-	return files.SaveToml(tree, tomlfilepath)
-}
-
-//InspectKeyMoniker is a wrapper around InspectKey to add moniker support
-func InspectKeyMoniker(configDir string, moniker string, PasswordFile string, showPrivate bool, outputJSON bool) error {
-	safeLabel := common.GetNodeSafeLabel(moniker)
-	filepath := filepath.Join(configDir, configuration.KeyStoreDir, safeLabel+".json")
-
-	if !files.CheckIfExists(filepath) {
-		return errors.New("cannot find keyfile for that moniker")
-	}
-
-	return InspectKey(filepath, PasswordFile, showPrivate, outputJSON)
+	return key, nil
 }
 
 // GetPrivateKey decrypts a keystore and returns the private key
@@ -248,6 +203,18 @@ func GetPrivateKeyString(keyfilePath string, passwordFile string) (string, error
 	}
 
 	return hex.EncodeToString(crypto.FromECDSA(privKey)), nil
+}
+
+// InspectKeyMoniker is a wrapper around InspectKey to add moniker support
+func InspectKeyMoniker(configDir string, moniker string, PasswordFile string, showPrivate bool, outputJSON bool) error {
+	safeLabel := common.GetNodeSafeLabel(moniker)
+	filepath := filepath.Join(configDir, configuration.KeyStoreDir, safeLabel+".json")
+
+	if !files.CheckIfExists(filepath) {
+		return errors.New("cannot find keyfile for that moniker")
+	}
+
+	return InspectKey(filepath, PasswordFile, showPrivate, outputJSON)
 }
 
 // InspectKey inspects an encrypted keyfile

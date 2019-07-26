@@ -30,7 +30,7 @@ type encryptedKeyJSONV3 struct {
 	Version int                 `json:"version"`
 }
 
-type encryptedKeyJSONMonet struct {
+type EncryptedKeyJSONMonet struct {
 	Address   string              `json:"address"`
 	PublicKey string              `json:"pub"`
 	Crypto    keystore.CryptoJSON `json:"crypto"`
@@ -46,7 +46,7 @@ func EncryptKey(key *keystore.Key, auth string, scryptN, scryptP int) ([]byte, e
 	if err != nil {
 		return nil, err
 	}
-	encryptedKeyJSONMonet := encryptedKeyJSONMonet{
+	encryptedKeyJSONMonet := EncryptedKeyJSONMonet{
 		hex.EncodeToString(key.Address[:]),
 		hex.EncodeToString(crypto.FromECDSAPub(&key.PrivateKey.PublicKey)),
 		cryptoStruct,
