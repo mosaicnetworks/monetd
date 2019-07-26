@@ -1,0 +1,80 @@
+package network
+
+import (
+	"path/filepath"
+	"runtime"
+
+	"github.com/mosaicnetworks/monetd/src/configuration"
+	"github.com/mosaicnetworks/monetd/src/files"
+	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
+)
+
+const (
+	givernyTomlDirCaps = "GIVERNY"
+	givernyomlDirDot   = ".giverny"
+	givernyNetworksDir = "networks"
+	givernyKeystoreDir = "keystore"
+	defaultTokens      = "1234567890000000000000"
+)
+
+var (
+	numberOfNodes       = 4
+	networkName         = "network0"
+	givernyConfigDir, _ = defaultGivernyConfigDir()
+)
+
+//NetworkCmd is the CLI subcommand
+var NetworkCmd = &cobra.Command{
+	Use:   "network",
+	Short: "Advanced Network Configuration",
+	Long: `Network
+	
+Advanced Network Config Manager. `,
+
+	TraverseChildren: true,
+}
+
+func init() {
+
+	//Subcommands
+	NetworkCmd.AddCommand(
+		newBuildCmd(),
+		newNewCmd(),
+		newPushCmd(),
+		newStartCmd(),
+		newStatusCmd(),
+		newStopCmd(),
+		newLocationCmd(),
+	)
+
+	//Commonly used command line flags
+	//	NetworkCmd.PersistentFlags().StringVar(&passwordFile, "passfile", "", "the file that contains the passphrase for the keyfile")
+	//	NetworkCmd.PersistentFlags().BoolVar(&outputJSON, "json", false, "output JSON instead of human-readable format")
+	NetworkCmd.PersistentFlags().IntVarP(&numberOfNodes, "nodes", "n", numberOfNodes, "number of nodes in this configuration")
+
+	viper.BindPFlags(NetworkCmd.Flags())
+
+	// make sure the giverny config folders exist.
+	createGivernyRootNetworkFolders()
+
+}
+
+//defaultGivernyConfigDir is a wrapper for DefaultConfigDir, but returns the
+//location of the monetd configuration file.
+func defaultGivernyConfigDir() (string, error) {
+	if runtime.GOOS == "darwin" || runtime.GOOS == "windows" {
+		return configuration.DefaultConfigDir(givernyTomlDirCaps)
+	}
+	return configuration.DefaultConfigDir(givernyomlDirDot)
+}
+
+func createGivernyRootNetworkFolders() error {
+
+	files.CreateDirsIfNotExists([]string{
+		givernyConfigDir,
+		filepath.Join(givernyConfigDir, givernyNetworksDir),
+	})
+
+	return nil
+}

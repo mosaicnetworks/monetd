@@ -23,7 +23,7 @@ func MustPrintJSON(jsonObject interface{}) error {
 //GetNodeSafeLabel converts a free format string into a node label friendly format
 //Anything other than an alphanumeric is converted to _
 func GetNodeSafeLabel(moniker string) string {
-	reg, err := regexp.Compile("[^a-zA-Z0-9]+")
+	reg, err := regexp.Compile("[^a-zA-Z0-9_]+")
 	if err != nil {
 		log.Fatal(err)
 	}

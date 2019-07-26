@@ -10,6 +10,8 @@ The current subcommands are:
 - **help** --- help
 - **version** --- outputs version information
 - **keys** --- key management tools
+- **server** --- configuration server management
+- **network** --- configure and build monet networks
 
 **This documentation is being lovingly crafted now, and will be ready very soon.**
 
@@ -123,4 +125,20 @@ localhost:8088.
 .. code:: bash
 
     $ giverny server status
+
+
+Network
+-------
+
+network_name must contain only standard letters (i.e. no accented versions) or digits
+
+
+New
+~~~
+
+Network name may 
+
+.. code:: bash
+
+    $ giverny network new [network_name]
 
