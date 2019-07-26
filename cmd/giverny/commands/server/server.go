@@ -22,7 +22,9 @@ var ServerCmd = &cobra.Command{
 	Long: `Server
 	
 The giverny server is a simple REST server to facilitate the sharing of
-Monet configurations prior to instantiation of the node. `,
+Monet configurations prior to instantiation of the node. The server 
+is started with the run subcommand for foreground operation, start for background
+operation.`,
 
 	TraverseChildren: true,
 }
@@ -33,11 +35,7 @@ func init() {
 		newStartCmd(),
 		newStopCmd(),
 		newStatusCmd(),
+		newRunCmd(),
 	)
-	/*
-		//Commonly used command line flags
-		KeysCmd.PersistentFlags().StringVar(&passwordFile, "passfile", "", "the file that contains the passphrase for the keyfile")
-		KeysCmd.PersistentFlags().BoolVar(&outputJSON, "json", false, "output JSON instead of human-readable format")
-		viper.BindPFlags(KeysCmd.Flags())
-	*/
+
 }

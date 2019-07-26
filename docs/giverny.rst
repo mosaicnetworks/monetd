@@ -83,16 +83,29 @@ For instructions on how to use, see the recipes for setting up networks.
 Start
 ~~~~~
 
-To start the server:
+To start the server in the background:
 
 .. code:: bash
 
     $ giverny server start
 
+
+
+Run 
+~~~
+
+The run subcommand starts the server in the foreground. 
+
+.. code:: bash
+
+    $ giverny server run
+
+
+
 Stop
 ~~~~
 
-To stop the server: 
+To stop a server running in the background: 
 
 .. code:: bash
 
