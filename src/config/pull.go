@@ -5,8 +5,8 @@ import (
 	"path/filepath"
 
 	"github.com/mosaicnetworks/monetd/src/configuration"
-	"github.com/mosaicnetworks/monetd/src/poa/common"
-	"github.com/mosaicnetworks/monetd/src/poa/files"
+	"github.com/mosaicnetworks/monetd/src/common"
+	"github.com/mosaicnetworks/monetd/src/files"
 )
 
 type downloadItem struct {

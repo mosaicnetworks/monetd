@@ -3,10 +3,10 @@ package keys
 import (
 	"fmt"
 
-	"github.com/mosaicnetworks/monetd/src/poa/common"
+	"github.com/mosaicnetworks/monetd/src/common"
 
 	"github.com/mosaicnetworks/monetd/src/configuration"
-	monetcrypto "github.com/mosaicnetworks/monetd/src/poa/crypto"
+	monetcrypto "github.com/mosaicnetworks/monetd/src/crypto"
 	"github.com/spf13/cobra"
 )
 

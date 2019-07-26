@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/mosaicnetworks/monetd/src/configuration"
-	"github.com/mosaicnetworks/monetd/src/poa/crypto"
+	"github.com/mosaicnetworks/monetd/src/crypto"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )

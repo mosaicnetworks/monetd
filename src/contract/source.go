@@ -6,8 +6,8 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/mosaicnetworks/monetd/src/poa/crypto"
-	poatypes "github.com/mosaicnetworks/monetd/src/poa/types"
+	"github.com/mosaicnetworks/monetd/src/crypto"
+	poatypes "github.com/mosaicnetworks/monetd/src/types"
 )
 
 //GetFinalSoliditySource has the POA contract embedded within the function.

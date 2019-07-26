@@ -5,7 +5,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/mosaicnetworks/monetd/src/poa/files"
+	"github.com/mosaicnetworks/monetd/src/files"
 
 	"github.com/mosaicnetworks/monetd/src/configuration"
 )

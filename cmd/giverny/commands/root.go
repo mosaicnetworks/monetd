@@ -4,7 +4,7 @@ import (
 	"github.com/mosaicnetworks/monetd/cmd/giverny/commands/keys"
 	"github.com/mosaicnetworks/monetd/cmd/giverny/commands/server"
 	"github.com/mosaicnetworks/monetd/src/configuration"
-	"github.com/mosaicnetworks/monetd/src/poa/common"
+	"github.com/mosaicnetworks/monetd/src/common"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
