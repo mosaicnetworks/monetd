@@ -12,6 +12,7 @@ import (
 const (
 	givernyNetworksDir  = "networks"
 	givernyKeystoreDir  = "keystore"
+	givernyExportDir    = "exports"
 	defaultTokens       = "1234567890000000000000"
 	networkTomlFileName = "network.toml"
 )
@@ -37,6 +38,7 @@ func init() {
 	//Subcommands
 	NetworkCmd.AddCommand(
 		newBuildCmd(),
+		newExportCmd(),
 		newNewCmd(),
 		newPushCmd(),
 		newStartCmd(),

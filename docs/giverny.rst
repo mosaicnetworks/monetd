@@ -139,12 +139,12 @@ Network
 
 The ``network`` command is used to build complex monet networks. The ``new``
 command generates the nodes and keys for a network, and automatically calls
-the ``build`` command which generates and builds ``genesis.json`` and 
+the ``build`` command which generates and builds ``genesis.json`` and
 ``peers.json`` files. You can adjust the network by editting the
 ``network.toml`` file. The ``location`` command outputs the relevant paths.
 The ``push`` command is used to push a giverny network node configuration to a
 docker or actual node so it can be used by ``monetd``. ``start``, ``stop`` and
-``status`` are used to manage the docker instance. 
+``status`` are used to manage the docker instance.
 
 
 The *network name* and *node names* must contain only standard letters
@@ -314,4 +314,13 @@ A "built" network will have a file structure like this:
     ├── monetd.toml
     ├── network.toml
     └── peers.json
+
+Export
+======
+
+Export takes a configuration that has been generated and exports it to the 
+exports subfolder of the giverny configuration folders as a zip file. The flag
+``--include-pass`` includes any passphrase file. The ``network export`` command
+has a mandatory network name parameter, and optionally one or more node names.
+If the node names are omitted, all of the nodes for that network are exported.
 
