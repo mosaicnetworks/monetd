@@ -141,7 +141,7 @@ underscores (_).
 New
 ===
 
-The ``new`` sub-command creates a new test network configuration. 
+The ``new`` sub-command creates a new test network configuration. It also
 
 Syntax
 ------
@@ -217,6 +217,13 @@ The typical use case scenarios for these flags would be:
 - ``--pass`` and ``--save-pass`` --- the specified pass phrase is used **and** saved in the config folder
 - ``--generate-pass`` only --- pass phrases are generated and saved
 - ``--save-pass`` only --- you are prompted to enter the passphrase for each node, which is saved in the config folder
+
+
+Build
+-----
+
+By default ``giverny network new`` will run ``giverny network build`` 
+automatically. This can be disabled by specifying the ``-no-build`` flag.
 
 
 An example of the new subcommand:
