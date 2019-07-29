@@ -64,21 +64,54 @@ func getNodesWithNames(srcFile string, numNodes int, numValidators int, initialI
 
 	i := 1
 	for scanner.Scan() {
+
+		var moniker string
+
 		if IPStem != "" {
 			netaddr = IPStem + strconv.Itoa(lastDigit+i-1)
 		}
 
-		moniker := strings.TrimSpace(scanner.Text())
-		if moniker == "" {
+		line := strings.TrimSpace(scanner.Text())
+		if line == "" {
 			continue
 		} // Ignore blank lines
+
+		validator := (numValidators < 1 || i <= numValidators)
+		tokens := defaultTokens
+
+		if strings.Contains(line, ",") {
+			arrLine := strings.Split(line, ",")
+			moniker = arrLine[0]
+			common.DebugMessage("Setting moniker to " + moniker)
+			if len(arrLine) > 1 {
+				netaddr = arrLine[1]
+			}
+
+			if len(arrLine) > 2 {
+				moneysplit := strings.Split(arrLine[2], "E")
+				if len(moneysplit) == 1 {
+					tokens = arrLine[2]
+				} else {
+					format := "%0" + moneysplit[1] + "d"
+					tokens = moneysplit[0] + fmt.Sprintf(format, 0)
+				}
+			}
+
+			if len(arrLine) > 3 {
+				validator, _ = strconv.ParseBool(arrLine[3])
+			}
+
+		} else {
+			moniker = line
+		}
+
 		if !common.CheckMoniker(moniker) {
 			return rtn, errors.New("node name " + moniker + " contains invalid characters")
 		}
 
-		rtn = append(rtn, node{Moniker: scanner.Text(),
-			NetAddr: netaddr, Validator: (numValidators < 1 || i <= numValidators),
-			Tokens: defaultTokens, Address: "", PubKeyHex: ""})
+		rtn = append(rtn, node{Moniker: moniker,
+			NetAddr: netaddr, Validator: validator,
+			Tokens: tokens, Address: netaddr, PubKeyHex: ""})
 
 		if i >= numNodes {
 			break

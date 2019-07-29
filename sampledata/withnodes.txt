@@ -1,0 +1,3 @@
+Jon,192.168.1.18,1E18,true
+Martin,192.168.1.3,1E15,true
+Kevin,192.168.1.16,1E12,false

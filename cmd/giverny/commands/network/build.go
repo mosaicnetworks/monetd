@@ -172,6 +172,8 @@ func BuildGenesisJSON(configDir string, peers types.PeerRecordList, contractAddr
 
 	common.DebugMessage("POA Section Build")
 
+	//TODO source the Token values from the genesis file.
+
 	alloc, err := config.BuildGenesisAlloc(filepath.Join(configDir, monetconfig.KeyStoreDir))
 	if err != nil {
 		return err
