@@ -10,11 +10,10 @@ import (
 )
 
 const (
-	givernyTomlDirCaps = "GIVERNY"
-	givernyomlDirDot   = ".giverny"
-	givernyNetworksDir = "networks"
-	givernyKeystoreDir = "keystore"
-	defaultTokens      = "1234567890000000000000"
+	givernyNetworksDir  = "networks"
+	givernyKeystoreDir  = "keystore"
+	defaultTokens       = "1234567890000000000000"
+	networkTomlFileName = "network.toml"
 )
 
 var (

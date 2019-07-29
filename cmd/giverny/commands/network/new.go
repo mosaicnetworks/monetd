@@ -7,9 +7,14 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/pelletier/go-toml"
+
 	ecrypto "github.com/ethereum/go-ethereum/crypto"
 	"github.com/mosaicnetworks/monetd/cmd/giverny/configuration"
 	"github.com/mosaicnetworks/monetd/src/common"
+	monetconf "github.com/mosaicnetworks/monetd/src/config"
+
+	mconfiguration "github.com/mosaicnetworks/monetd/src/configuration"
 	"github.com/mosaicnetworks/monetd/src/crypto"
 	"github.com/mosaicnetworks/monetd/src/files"
 	"github.com/spf13/cobra"
@@ -24,6 +29,7 @@ var (
 	initPeers       = 0
 	generatePassKey = false
 	savePassKey     = false
+	noBuild         = false
 )
 
 func newNewCmd() *cobra.Command {
@@ -50,6 +56,7 @@ func addNewFlags(cmd *cobra.Command) {
 	cmd.Flags().StringVar(&initIP, "initial-ip", "", "initial IP address of range")
 	cmd.Flags().BoolVar(&generatePassKey, "generate-pass", generatePassKey, "generate pass phrases")
 	cmd.Flags().BoolVar(&savePassKey, "save-pass", savePassKey, "save pass phrase entered on command line")
+	cmd.Flags().BoolVar(&noBuild, "no-build", noBuild, "disables the automatic build of a new network")
 
 	viper.BindPFlags(cmd.Flags())
 }
@@ -128,10 +135,33 @@ func networkNew(cmd *cobra.Command, args []string) error {
 		common.DebugMessage("   " + n.Address)
 	}
 
+	// Build nodes.toml
+
+	conf := Config{Network: networkConfig{Name: networkName}, Nodes: nodeList}
+	tomlBytes, err := toml.Marshal(conf)
+	if err != nil {
+		return err
+	}
+
+	err = files.WriteToFile(filepath.Join(networkDir, networkTomlFileName), string(tomlBytes))
+	if err != nil {
+		return err
+	}
+
+	// Build monetd.toml
+
+	monetconf.DumpConfigTOML(networkDir, mconfiguration.MonetTomlFile)
+
 	//TODO remove this loop, it is just debug verification code
 	/*	for j, n := range nodeList {
 			fmt.Println(strconv.Itoa(j) + " " + n.PubKeyHex)
 		}
 	*/
-	return nil
+
+	// exit if build is not required
+	if noBuild {
+		return nil
+	}
+
+	return buildNetwork(networkName)
 }
