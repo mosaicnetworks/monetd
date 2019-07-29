@@ -1,8 +1,7 @@
 .. _install_rst:
 
-Monet Hub Installation
-======================
-
+Installation
+============
 
 Dependencies
 ------------

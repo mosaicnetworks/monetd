@@ -22,10 +22,9 @@ Monetd
    design.rst
    install.rst
    quickstart.rst
-   basic_examples.rst   
-   test.rst
    monetd.rst
    monetd_commands.rst
+   monetd_api.rst
    giverny.rst
    clients.rst   
    smartcontract.rst

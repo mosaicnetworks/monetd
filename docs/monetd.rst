@@ -3,8 +3,7 @@
 Monetd
 ======
 
-
-Ethereum with Babble consensus
+Ethereum with Babble Consensus
 ------------------------------
 
 To build the Monet Hub solution, we took the
@@ -141,98 +140,3 @@ Example Ethereum genesis.json defining two account:
             }
        }
     }
-
-API
----
-
-The Service exposes an API at the address specified by the --api-listen flag for
-clients to interact with the node and the network.
-
-Get any account
-~~~~~~~~~~~~~~~
-
-This method retrieves the information about any account.
-
-.. code:: bash
-
-    host:~$ curl http://[api_addr]/account/0x629007eb99ff5c3539ada8a5800847eacfc25727 -s | json_pp
-    {
-        "address":"0x629007eb99ff5c3539ada8a5800847eacfc25727",
-        "balance":1337000000000000000000,
-        "nonce":0
-    }
-
-Send raw signed transactions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-This endpoint allows sending NON-READONLY transactions ALREADY SIGNED. The
-client is left to compose a transaction, sign it and RLP encode it. The
-resulting bytes, represented as a Hex string, are passed to this method to be
-forwarded to the EVM.
-
-This is an ASYNCHRONOUS operation and the effect on the State should be verified
-by fetching the transaction' receipt.
-
-example:
-
-.. code:: bash
-
-    host:~$ curl -X POST http://[api_addr]/rawtx -d '0xf8628080830f424094564686380e267d1572ee409368e1d42081562a8e8201f48026a022b4f68bfbd4f4c309524ebdbf4bac858e0ad65fd06108c934b45a6da88b92f7a046433c388997fd7b02eb7128f4d2401ef2d10d574c42edf15875a43ee51a1993' -s | json_pp
-    {
-        "txHash":"0x5496489c606d74ad7435568393fa2c4619e64497267f80864109277631aa849d"
-    }
-
-Get Transaction receipt
-~~~~~~~~~~~~~~~~~~~~~~~
-
-example:
-
-.. code:: bash
-
-    host:~$ curl http://[api_addr]/tx/0xeeeed34877502baa305442e3a72df094cfbb0b928a7c53447745ff35d50020bf -s | json_pp
-    {
-       "to" : "0xe32e14de8b81d8d3aedacb1868619c74a68feab0",
-       "root" : "0xc8f90911c9280651a0cd84116826d31773e902e48cb9a15b7bb1e7a6abc850c5",
-       "gasUsed" : "0x5208",
-       "from" : "0x629007eb99ff5c3539ada8a5800847eacfc25727",
-       "transactionHash" : "0xeeeed34877502baa305442e3a72df094cfbb0b928a7c53447745ff35d50020bf",
-       "logs" : [],
-       "cumulativeGasUsed" : "0x5208",
-       "contractAddress" : null,
-       "logsBloom" : "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
-    }
-
-Get consensus info
-------------------
-
-The ``/info`` endpoint exposes a map of information provided by the consensus
-system.
-
-example:
-
-.. code:: bash
-
-    host:-$ curl http://[api_addr]/info | json_pp
-    {
-       "rounds_per_second" : "0.00",
-       "type" : "babble",
-       "consensus_transactions" : "10",
-       "num_peers" : "4",
-       "consensus_events" : "10",
-       "sync_rate" : "1.00",
-       "transaction_pool" : "0",
-       "state" : "Babbling",
-       "events_per_second" : "0.00",
-       "undetermined_events" : "22",
-       "id" : "1785923847",
-       "last_consensus_round" : "1",
-       "last_block_index" : "0",
-       "round_events" : "0"
-    }
-
-Client
-------
-
-Please refer to `EVM-Lite
-CLI <https://github.com/mosaicnetworks/evm-lite-cli>`__ for Javascript
-utilities and a CLI to interact with the API.
