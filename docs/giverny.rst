@@ -14,8 +14,6 @@ The current subcommands are:
 - **server** --- configuration server management
 - **network** --- configure and build monet networks
 
-**This documentation is being lovingly crafted now, and will be ready
-very soon.**
 
 ****
 Help
@@ -341,4 +339,6 @@ node name for the import. The source for the import can be configured thus:
   key pairs or sensitive configuration, as it may be exposed.
 - ``--dir`` --- specify the folder the export zip is in. Do not rename the zip
   file. This is used when a secondary channel is used to communicate the keys.
+
+
 

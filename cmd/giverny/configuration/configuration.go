@@ -16,6 +16,8 @@ var GivernyExportDir = "exports"
 const (
 	givernyTomlDirCaps = "Giverny"
 	givernyTomlDirDot  = ".giverny"
+	// GivernyServerPort is the default port for Giverny Server
+	GivernyServerPort = "8088"
 )
 
 func defaultGivernyConfigDir() string {

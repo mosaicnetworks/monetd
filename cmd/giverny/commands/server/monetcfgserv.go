@@ -38,7 +38,7 @@ var (
 func servermain() {
 
 	log.Println("Starting monetcfgsrv")
-	log.Println(common.GetMyIP() + ":8088")
+	log.Println(common.GetMyIP() + ":" + configuration.GivernyServerPort)
 
 	r := mux.NewRouter()
 	//	http.HandleFunc("/", cfgHandler)
@@ -52,7 +52,7 @@ func servermain() {
 	r.HandleFunc("/setnetworktoml", addNetworkTOML)
 	r.HandleFunc("/publish", publish)
 
-	if err := http.ListenAndServe(":8088", r); err != nil {
+	if err := http.ListenAndServe(":"+configuration.GivernyServerPort, r); err != nil {
 		log.Fatal(err)
 	}
 	log.Println("Started monetcfgsrv")

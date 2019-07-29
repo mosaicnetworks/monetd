@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/mosaicnetworks/monetd/src/config"
 	mconfig "github.com/mosaicnetworks/monetd/src/configuration"
@@ -61,10 +62,15 @@ func networkImport(cmd *cobra.Command, args []string) error {
 			zipName = filepath.Join(srcdir, networkName+"_"+nodeName+".zip")
 		} else {
 			if srvAddress != "" {
+
+				if !strings.Contains(srvAddress, ":") {
+					srvAddress += ":" + configuration.GivernyServerPort
+				}
+
 				tmpDir := filepath.Join(configuration.GivernyConfigDir, givernyTmpDir)
 				files.CreateDirsIfNotExists([]string{tmpDir})
 				zipName = filepath.Join(tmpDir, networkName+"_"+nodeName+".zip")
-				url := "http://" + srvAddress + ":8088" + "/import/" + networkName + "/" + nodeName
+				url := "http://" + srvAddress + ":" + configuration.GivernyServerPort + "/import/" + networkName + "/" + nodeName
 				err := downloadFile(zipName, url)
 				if err != nil {
 					return err
