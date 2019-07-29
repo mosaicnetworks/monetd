@@ -68,6 +68,15 @@ func getNodesWithNames(srcFile string, numNodes int, numValidators int, initialI
 			netaddr = IPStem + strconv.Itoa(lastDigit+i-1)
 		}
 
+		moniker := strings.TrimSpace(scanner.Text())
+		if moniker == "" {
+			continue
+		} // Ignore blank lines
+		safeMoniker := common.GetNodeSafeLabel(moniker)
+		if moniker != safeMoniker {
+			return rtn, errors.New("node name " + moniker + " contains invalid characters")
+		}
+
 		rtn = append(rtn, node{Moniker: scanner.Text(),
 			NetAddr: netaddr, Validator: (numValidators < 1 || i <= numValidators),
 			Tokens: defaultTokens, Address: "", PubKeyHex: ""})
@@ -76,10 +85,8 @@ func getNodesWithNames(srcFile string, numNodes int, numValidators int, initialI
 			break
 		}
 		i++
-
 	}
 
 	file.Close()
-
 	return rtn, nil
 }

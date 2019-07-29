@@ -3,6 +3,8 @@ package network
 import (
 	"fmt"
 
+	"github.com/mosaicnetworks/monetd/cmd/giverny/configuration"
+
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -31,7 +33,7 @@ func addLocationFlags(cmd *cobra.Command) {
 
 func networkLocation(cmd *cobra.Command, args []string) error {
 
-	fmt.Println(givernyConfigDir)
+	fmt.Println(configuration.GivernyConfigDir)
 
 	return nil
 }

@@ -2,9 +2,8 @@ package network
 
 import (
 	"path/filepath"
-	"runtime"
 
-	"github.com/mosaicnetworks/monetd/src/configuration"
+	"github.com/mosaicnetworks/monetd/cmd/giverny/configuration"
 	"github.com/mosaicnetworks/monetd/src/files"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -19,9 +18,8 @@ const (
 )
 
 var (
-	numberOfNodes       = 4
-	networkName         = "network0"
-	givernyConfigDir, _ = defaultGivernyConfigDir()
+	numberOfNodes = 4
+	networkName   = "network0"
 )
 
 //NetworkCmd is the CLI subcommand
@@ -60,20 +58,11 @@ func init() {
 
 }
 
-//defaultGivernyConfigDir is a wrapper for DefaultConfigDir, but returns the
-//location of the monetd configuration file.
-func defaultGivernyConfigDir() (string, error) {
-	if runtime.GOOS == "darwin" || runtime.GOOS == "windows" {
-		return configuration.DefaultConfigDir(givernyTomlDirCaps)
-	}
-	return configuration.DefaultConfigDir(givernyomlDirDot)
-}
-
 func createGivernyRootNetworkFolders() error {
 
 	files.CreateDirsIfNotExists([]string{
-		givernyConfigDir,
-		filepath.Join(givernyConfigDir, givernyNetworksDir),
+		configuration.GivernyConfigDir,
+		filepath.Join(configuration.GivernyConfigDir, givernyNetworksDir),
 	})
 
 	return nil

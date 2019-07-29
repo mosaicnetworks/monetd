@@ -5,9 +5,9 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/mosaicnetworks/monetd/src/files"
+	"github.com/mosaicnetworks/monetd/cmd/giverny/configuration"
 
-	"github.com/mosaicnetworks/monetd/src/configuration"
+	"github.com/mosaicnetworks/monetd/src/files"
 )
 
 var pidFile string
@@ -17,7 +17,7 @@ var logOut string
 
 func init() {
 
-	configDir := filepath.Join(configuration.Global.DataDir, ServerDir)
+	configDir := filepath.Join(configuration.GivernyConfigDir, ServerDir)
 	pidFile = filepath.Join(configDir, ServerPIDFile)
 	logOut = filepath.Join(configDir, ServerLogFile)
 

@@ -9,6 +9,7 @@ running ``monetd help`` or by adding a ``-h`` parameter to the relevant
 command. 
 
 .. code:: bash
+
     $ monetd help
     MONET-Daemon
         
@@ -268,6 +269,7 @@ supply the current passphrase and ``--new-passphrase`` to supply the new
 passphrase.
 
 .. code:: bash
+
     $ monetd keys update -h
 
     The update subcommand allows you to change the passphrase for an encrypted
@@ -504,7 +506,7 @@ used.
 
 .. code:: bash
 
-$ monetd help config pull
+    $ monetd help config pull
 
     The pull subcommand is used to join an existing Monet network. It takes the
     address of a running node, and downloads the following set of files into the
@@ -531,6 +533,7 @@ parameters ``--babble.*`` and ``--eth.*``, we strongly recommend that they are
 not used. The equivalent changes can be made in the configuration files. 
 
 .. code:: bash
+
     $ monetd help  run
 
     Run a MONET node.
