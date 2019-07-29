@@ -58,19 +58,18 @@ func networkNew(cmd *cobra.Command, args []string) error {
 
 	// First validate network name
 	networkName = strings.TrimSpace(args[0])
-	safeLabel := common.GetNodeSafeLabel(networkName)
 
 	if (passFile != "") && (generatePassKey) {
 		return errors.New("incompatible options --pass and --generate-pass")
 	}
 
-	if safeLabel != networkName {
+	if !common.CheckMoniker(networkName) {
 		return errors.New("network name must only contains characters in the range 0-9 or A-Z or a-z")
 	}
 
 	// Check if already exists; if does, abort
 
-	networkDir := filepath.Join(configuration.GivernyConfigDir, givernyNetworksDir, safeLabel)
+	networkDir := filepath.Join(configuration.GivernyConfigDir, givernyNetworksDir, networkName)
 	if files.CheckIfExists(networkDir) {
 		return errors.New("network already exists: " + networkDir)
 	}

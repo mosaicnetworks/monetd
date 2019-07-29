@@ -134,7 +134,8 @@ localhost:8088.
 Network
 *******
 
-network_name must contain only standard letters (i.e. no accented versions) or digits
+The *network name* and *node names* must contain only standard letters (i.e. no accented versions), digits (0--9) or
+underscores (_). 
 
 
 New
@@ -194,8 +195,8 @@ The default node names are a standard prefix of *node* with a unique integer
 suffix. You can override the default and supply a list of node names, which are
 used in the order supplied, via the ``--names`` parameter. 
 
-Node names must contain only standard Latin alphabet characters (ie *a-z* or 
-*A-Z* with no accents), underscores (_), or digits (*0-9*).
+Node names must contain only standard Latin alphabet characters (ie *a--z* or 
+*A--Z* with no accents), underscores (_), or digits (*0--9*).
 
 Pass Phrases
 ------------

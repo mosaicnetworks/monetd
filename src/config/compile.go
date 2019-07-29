@@ -3,15 +3,16 @@ package config
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io/ioutil"
 	"path/filepath"
 	"regexp"
 	"runtime"
-	"strconv"
 	"strings"
 
 	"github.com/mosaicnetworks/monetd/src/configuration"
 	"github.com/mosaicnetworks/monetd/src/contract"
+	"github.com/mosaicnetworks/monetd/src/crypto"
 	"github.com/mosaicnetworks/monetd/src/files"
 
 	"github.com/mosaicnetworks/monetd/src/common"
@@ -24,61 +25,35 @@ import (
 	types "github.com/ethereum/go-ethereum/common"
 )
 
-// GenesisAllocRecord ...
+// GenesisAllocRecord is an object that contains information about a pre-funded
+// acount.
 type GenesisAllocRecord struct {
 	Balance string `json:"balance"`
 	Moniker string `json:"moniker"`
 }
 
-// GenesisAlloc ...
+// GenesisAlloc is the section of a genesis file that contains the list of
+// pre-funded accounts.
 type GenesisAlloc map[string]*GenesisAllocRecord
 
-// GenesisPOA ...
+// GenesisPOA is the section of a genesis file that contains information about
+// the POA smart-contract.
 type GenesisPOA struct {
 	Address string `json:"address"`
 	Abi     string `json:"abi"`
 	Code    string `json:"code"`
 }
 
-// GenesisFile ...
+// GenesisFile is the structure that a Genesis file gets parsed into.
 type GenesisFile struct {
 	Alloc *GenesisAlloc `json:"alloc"`
 	Poa   *GenesisPOA   `json:"poa"`
 }
 
-//GetSolidityCompilerVersion does exactly that
-func GetSolidityCompilerVersion() (string, error) {
-
-	s, err := compiler.SolidityVersion("")
-
-	if err != nil {
-		return "", err
-	}
-
-	common.DebugMessage("Path         : ", s.Path)
-	common.DebugMessage("Full Version : \n", s.FullVersion)
-	version := s.FullVersion
-	re := regexp.MustCompile(`\r?\n`)
-	version = re.ReplaceAllString(version, " ")
-	return version, nil
-}
-
-//CompileSolidityContract ...
-func CompileSolidityContract(soliditySource string) (map[string]*compiler.Contract, error) {
-	contractInfo, err := compiler.CompileSolidityString("solc", soliditySource)
-	if err != nil {
-		common.ErrorMessage("Error compiling genesis contract:", err)
-	}
-	return contractInfo, err
-}
-
-type solidityFields struct {
-	Constants string
-	AddTo     string
-	Checks    string
-}
-
-//BuildGenesisJSON ...
+// BuildGenesisJSON compiles the POA solitity smart-contract with the peers
+// baked into the whitelist. It then creates a genesis file with the
+// corresponding POA section, and fills the Alloc section with all the keys from
+// [datadir]/keystore
 func BuildGenesisJSON(configDir string, peers mtypes.PeerRecordList, contractAddress string) error {
 	var genesis GenesisFile
 
@@ -88,15 +63,16 @@ func BuildGenesisJSON(configDir string, peers mtypes.PeerRecordList, contractAdd
 	}
 
 	genesispoa, err := BuildGenesisPOAJSON(finalSource, configDir, contractAddress)
-
-	alloc, err := BuildGenesisAlloc(filepath.Join(configDir, configuration.KeyStoreDir))
-
 	if err != nil {
 		return err
 	}
-
-	genesis.Alloc = &alloc
 	genesis.Poa = &genesispoa
+
+	alloc, err := BuildGenesisAlloc(filepath.Join(configDir, configuration.KeyStoreDir))
+	if err != nil {
+		return err
+	}
+	genesis.Alloc = &alloc
 
 	genesisjson, err := json.MarshalIndent(genesis, "", "\t")
 	if err != nil {
@@ -110,7 +86,7 @@ func BuildGenesisJSON(configDir string, peers mtypes.PeerRecordList, contractAdd
 	return nil
 }
 
-//BuildGenesisAlloc builds the alloc structure of the Genesis File
+// BuildGenesisAlloc builds the alloc structure of the genesis file
 func BuildGenesisAlloc(accountsDir string) (GenesisAlloc, error) {
 	var alloc = make(GenesisAlloc)
 
@@ -119,33 +95,27 @@ func BuildGenesisAlloc(accountsDir string) (GenesisAlloc, error) {
 		return alloc, err
 	}
 
-	for i, f := range tfiles {
-		splits := strings.Split(f.Name(), ".")
-		if splits[len(splits)-1] != "toml" {
+	for _, f := range tfiles {
+		if filepath.Ext(f.Name()) != ".json" {
 			continue
 		}
 
-		tomlFile := filepath.Join(accountsDir, f.Name())
+		path := filepath.Join(accountsDir, f.Name())
 
-		tree, err := files.LoadToml(tomlFile)
+		// Read key from file.
+		keyjson, err := ioutil.ReadFile(path)
 		if err != nil {
-			return alloc, err
+			return nil, fmt.Errorf("Failed to read the keyfile at '%s': %v", path, err)
 		}
-		if !tree.HasPath([]string{"node", "address"}) {
-			continue
-		} // Need a address
-		addr := tree.GetPath([]string{"node", "address"}).(string)
 
-		// Set defaults then overwrite if set
+		k := new(crypto.EncryptedKeyJSONMonet)
+		if err := json.Unmarshal(keyjson, k); err != nil {
+			return nil, err
+		}
+
+		moniker := strings.TrimSuffix(f.Name(), ".json")
 		balance := configuration.DefaultAccountBalance
-		moniker := "node" + strconv.Itoa(i)
-
-		if tree.HasPath([]string{"node", "moniker"}) {
-			moniker = tree.GetPath([]string{"node", "moniker"}).(string)
-		}
-		if tree.HasPath([]string{"node", "balance"}) {
-			balance = tree.GetPath([]string{"node", "balance"}).(string)
-		}
+		addr := k.Address
 
 		rec := GenesisAllocRecord{Moniker: moniker, Balance: balance}
 		alloc[addr] = &rec
@@ -154,9 +124,10 @@ func BuildGenesisAlloc(accountsDir string) (GenesisAlloc, error) {
 	return alloc, nil
 }
 
-//BuildGenesisPOAJSON ...
+// BuildGenesisPOAJSON builds the poa section of the genesis file
 func BuildGenesisPOAJSON(solidityCode string, monetdConfigDir string, contractAddress string) (GenesisPOA, error) {
 	var poagenesis GenesisPOA
+
 	// Retrieve and set the version number
 	version, err := GetSolidityCompilerVersion()
 	if err != nil {
@@ -178,8 +149,36 @@ func BuildGenesisPOAJSON(solidityCode string, monetdConfigDir string, contractAd
 	return poagenesis, nil
 }
 
-//BuildCompilationReport outputs compiler results in a standard format and
-//builds the poa structure that is written to the Genesis File
+// GetSolidityCompilerVersion gets the version of the solidity compiler that
+// comes with Geth.
+func GetSolidityCompilerVersion() (string, error) {
+
+	s, err := compiler.SolidityVersion("")
+
+	if err != nil {
+		return "", err
+	}
+
+	common.DebugMessage("Path         : ", s.Path)
+	common.DebugMessage("Full Version : \n", s.FullVersion)
+	version := s.FullVersion
+	re := regexp.MustCompile(`\r?\n`)
+	version = re.ReplaceAllString(version, " ")
+	return version, nil
+}
+
+// CompileSolidityContract compiles a solitity smart-contract using the compiler
+// that comes with Geth.
+func CompileSolidityContract(soliditySource string) (map[string]*compiler.Contract, error) {
+	contractInfo, err := compiler.CompileSolidityString("solc", soliditySource)
+	if err != nil {
+		common.ErrorMessage("Error compiling genesis contract:", err)
+	}
+	return contractInfo, err
+}
+
+// BuildCompilationReport outputs compiler results in a standard format and
+// builds the poa structure that is written to the Genesis File
 func BuildCompilationReport(version string, contractInfo map[string]*compiler.Contract, outputDir string, contractAddress string, solidityCode string) (GenesisPOA, error) {
 
 	var poagenesis GenesisPOA

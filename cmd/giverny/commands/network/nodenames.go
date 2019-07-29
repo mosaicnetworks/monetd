@@ -72,8 +72,7 @@ func getNodesWithNames(srcFile string, numNodes int, numValidators int, initialI
 		if moniker == "" {
 			continue
 		} // Ignore blank lines
-		safeMoniker := common.GetNodeSafeLabel(moniker)
-		if moniker != safeMoniker {
+		if !common.CheckMoniker(moniker) {
 			return rtn, errors.New("node name " + moniker + " contains invalid characters")
 		}
 
