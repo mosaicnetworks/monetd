@@ -7,7 +7,7 @@ Monet Hub Installation
 Dependencies
 ------------
 
-The key components of the Monet Hub are written in
+The key components of the Monet Hub are written in 
 `Golang <https://golang.org/>`__. Hence, the first step is to install **Go 
 version 1.9 or above** which is both the programming language and a CLI tool for 
 managing Go code. Go is very opinionated and will require you to `define a
@@ -21,16 +21,19 @@ code will reside. The simplest test of a go installation is:
 Solidity Compiler
 ~~~~~~~~~~~~~~~~~
 
-The Monet Hub uses proof of authority for its validator nodes. This is 
-implemented using a smart contract written in
+The Monet Hub uses Proof of Authority (PoA) to manage the validator set. This is 
+implemented using a smart-contract written in
 `Solidity <https://solidity.readthedocs.io/en/develop/introduction-to-smart-contracts.html>`__,
-with the initial peers set embedded in it, being placed in the genesis block. To 
-build the genesis block, at least one of the initial peers will need to have the 
-Solidity Compiler solc available to be able to compile the contract into the 
-genesis block.
+with the corresponding EVM bytecode set in the genesis file. For every newly 
+defined network, the smart-contract needs to be re-compiled because it should 
+embed the initial whitelist. Hence, the Solidity compiler (solc) is a 
+requirement to define a new network and produce the appropriate genesis file.
 
 Please refer to the `solidity compiler installation
 instructions <https://solidity.readthedocs.io/en/develop/installing-solidity.html>`__.
+
+Attention: The Node.js version of the compiler is not supported. Do not install
+via `npm install solc`.
 
 Other requirements
 ~~~~~~~~~~~~~~~~~~
@@ -62,8 +65,7 @@ dependencies.
 
 .. code:: bash
 
-    [...]/babble$ curl https://glide.sh/get | sh
-    [...]/babble$ glide install
+    [...]/monetd$ make vendor
 
 This will download all dependencies and put them in the **vendor** folder.
 

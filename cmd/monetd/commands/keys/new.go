@@ -14,10 +14,8 @@ func newNewCmd() *cobra.Command {
 		Use:   "new [moniker]",
 		Short: "create a new keyfile",
 		Long: `
-This command generates a new cryptographic key-pair, and produces two files:
-
-- [datadir]/keystore/[moniker].json : The encrypted keyfile
-- [datadir]/keystore/[moniker].toml : Key metadata
+This command generates a new cryptographic key-pair, and encrypted json file in
+[datadir]/keystore/[moniker].json : The encrypted keyfile
 
 [moniker] is a friendly name, which can be reused in other commands to refer to 
 the key without having to type or copy a long string of characters.
