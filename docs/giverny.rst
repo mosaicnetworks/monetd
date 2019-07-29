@@ -318,9 +318,27 @@ A "built" network will have a file structure like this:
 Export
 ======
 
-Export takes a configuration that has been generated and exports it to the 
+Export takes a configuration that has been generated and exports it to the
 exports subfolder of the giverny configuration folders as a zip file. The flag
 ``--include-pass`` includes any passphrase file. The ``network export`` command
 has a mandatory network name parameter, and optionally one or more node names.
 If the node names are omitted, all of the nodes for that network are exported.
+
+
+Import
+======
+
+Import takes a configuration previously exports it and configures monetd to use
+the new configuration. You will always need to specify a network name and a
+node name for the import. The source for the import can be configured thus:
+
+- ``--from-exports`` --- from the exports subfolder in the giverny
+  configuration folders. This is the default output location for the ``export``
+  command.
+- ``--server`` --- from a giverny server. The giverny server will look in the
+  exports subfolder in the giverny configuration folders on the instance it is
+  running on. N.B. do not run the giverny server on any instance with live
+  key pairs or sensitive configuration, as it may be exposed.
+- ``--dir`` --- specify the folder the export zip is in. Do not rename the zip
+  file. This is used when a secondary channel is used to communicate the keys.
 

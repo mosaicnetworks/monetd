@@ -10,6 +10,9 @@ import (
 //GivernyConfigDir is the root config directory for Giverny.
 var GivernyConfigDir = defaultGivernyConfigDir()
 
+//GivernyExportDir is the exports subfolder of the Giverny config folder
+var GivernyExportDir = "exports"
+
 const (
 	givernyTomlDirCaps = "Giverny"
 	givernyTomlDirDot  = ".giverny"

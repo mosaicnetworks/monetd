@@ -39,7 +39,7 @@ func buildZip(configDir string, networkName, nodeName string, includePassPhrase 
 		}
 	}
 
-	outputDir := filepath.Join(configuration.GivernyConfigDir, givernyExportDir)
+	outputDir := filepath.Join(configuration.GivernyConfigDir, configuration.GivernyExportDir)
 	err := files.CreateDirsIfNotExists([]string{outputDir})
 	if err != nil {
 		return err
