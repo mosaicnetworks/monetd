@@ -99,6 +99,8 @@ func dumpPeersJSON(tree *toml.Tree, thisNetworkDir string) error {
 		return err
 	}
 
+	var alloc = make(config.GenesisAlloc)
+
 	for _, value := range nodesquery.Values() {
 
 		//		common.DebugMessage(reflect.TypeOf(value).String())
@@ -108,11 +110,7 @@ func dumpPeersJSON(tree *toml.Tree, thisNetworkDir string) error {
 			nodes := value.([]*toml.Tree)
 
 			for _, tr := range nodes {
-				var moniker, netaddr, pubkey string
-
-				if tr.HasPath([]string{"validator"}) && (!tr.GetPath([]string{"validator"}).(bool)) {
-					continue
-				}
+				var addr, moniker, netaddr, pubkey, tokens string
 
 				if tr.HasPath([]string{"moniker"}) {
 					moniker = tr.GetPath([]string{"moniker"}).(string)
@@ -122,6 +120,19 @@ func dumpPeersJSON(tree *toml.Tree, thisNetworkDir string) error {
 				}
 				if tr.HasPath([]string{"pubkey"}) {
 					pubkey = tr.GetPath([]string{"pubkey"}).(string)
+				}
+				if tr.HasPath([]string{"tokens"}) {
+					tokens = tr.GetPath([]string{"tokens"}).(string)
+				}
+				if tr.HasPath([]string{"address"}) {
+					addr = tr.GetPath([]string{"address"}).(string)
+				}
+
+				rec := config.GenesisAllocRecord{Moniker: moniker, Balance: tokens}
+				alloc[addr] = &rec
+
+				if tr.HasPath([]string{"validator"}) && (!tr.GetPath([]string{"validator"}).(bool)) {
+					continue
 				}
 
 				peers = append(peers, &types.PeerRecord{Moniker: moniker,
@@ -143,7 +154,7 @@ func dumpPeersJSON(tree *toml.Tree, thisNetworkDir string) error {
 		return err
 	}
 
-	err = BuildGenesisJSON(thisNetworkDir, peers, monetconfig.DefaultContractAddress)
+	err = BuildGenesisJSON(thisNetworkDir, peers, monetconfig.DefaultContractAddress, alloc)
 	if err != nil {
 		return err
 	}
@@ -152,7 +163,7 @@ func dumpPeersJSON(tree *toml.Tree, thisNetworkDir string) error {
 }
 
 //BuildGenesisJSON compiles and build a genesis.json file
-func BuildGenesisJSON(configDir string, peers types.PeerRecordList, contractAddress string) error {
+func BuildGenesisJSON(configDir string, peers types.PeerRecordList, contractAddress string, alloc config.GenesisAlloc) error {
 	var genesis config.GenesisFile
 
 	common.DebugMessage("buildGenesisJSON")
@@ -172,12 +183,10 @@ func BuildGenesisJSON(configDir string, peers types.PeerRecordList, contractAddr
 
 	common.DebugMessage("POA Section Build")
 
-	//TODO source the Token values from the genesis file.
-
-	alloc, err := config.BuildGenesisAlloc(filepath.Join(configDir, monetconfig.KeyStoreDir))
+	/* alloc, err := buildGenesisAlloc(filepath.Join(configDir, monetconfig.KeyStoreDir))
 	if err != nil {
 		return err
-	}
+	} */
 	genesis.Alloc = &alloc
 
 	common.DebugMessage("Alloc Built")
