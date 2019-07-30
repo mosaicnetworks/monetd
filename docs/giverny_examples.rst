@@ -33,12 +33,19 @@ For reference, the options for ``giverny network new``:
 
 
 
-
-
 *************************
 Development Test Networks
 *************************
 
+To make commands repeatable, and to reflect code changes, the following
+commands can be prefixed to all the commands below:
+
+``make installgiv; rm -rf ~/.giverny/networks/test9;``
+
+The command above rebuilds the ``giverny`` app and removes the network
+``test9``allow the ``new`` commands to be run repeatedly. If you do not remove
+the previous network ``test9`` before running ``giverny network new`` then the
+command aborts.
 
 New
 ===
@@ -48,7 +55,7 @@ passphrases.
 
 .. code:: bash
 
-    make installgiv; rm -rf ~/.giverny/networks/test9; giverny network new test9 --generate-pass  --names sampledata/names.txt --nodes 8 --initial-peers 4  -v
+    giverny network new test9 --generate-pass  --names sampledata/names.txt --nodes 8 --initial-peers 4  -v
 
 
 3 node network with named nodes, 2 initial peers. Passphrased prompted for on
@@ -78,7 +85,7 @@ To export all nodes in a network, type this:
     $ giverny network export test9
 
 
-To export all nodes in a network, and include the passphrase to avoid retyping 
+To export all nodes in a network, and include the passphrase to avoid retyping
 it, type this:
 
 .. code:: bash
