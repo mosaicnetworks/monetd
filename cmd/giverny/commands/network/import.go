@@ -70,7 +70,7 @@ func networkImport(cmd *cobra.Command, args []string) error {
 				tmpDir := filepath.Join(configuration.GivernyConfigDir, givernyTmpDir)
 				files.CreateDirsIfNotExists([]string{tmpDir})
 				zipName = filepath.Join(tmpDir, networkName+"_"+nodeName+".zip")
-				url := "http://" + srvAddress + ":" + configuration.GivernyServerPort + "/import/" + networkName + "/" + nodeName
+				url := "http://" + srvAddress + "/import/" + networkName + "/" + nodeName
 				err := downloadFile(zipName, url)
 				if err != nil {
 					return err
