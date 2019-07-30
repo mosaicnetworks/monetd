@@ -22,10 +22,9 @@ Monetd
    design.rst
    install.rst
    quickstart.rst
-   basic_examples.rst
-   test.rst
-   monetd.rst
+   monetd_configuration.rst
    monetd_commands.rst
+   monetd_api.rst
    giverny.rst
    giverny_examples.rst
    clients.rst
