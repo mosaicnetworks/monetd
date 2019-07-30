@@ -141,6 +141,12 @@ func dumpPeersJSON(tree *toml.Tree, thisNetworkDir string) error {
 				peers = append(peers, &types.PeerRecord{Moniker: moniker,
 					NetAddr:   netaddr,
 					PubKeyHex: pubkey})
+
+				// If we reach this point this node is a validator
+				if err := createKeyFileIfNotExists(thisNetworkDir, moniker, addr, pubkey); err != nil {
+					return err
+				}
+
 			}
 
 		}
@@ -170,6 +176,31 @@ func dumpPeersJSON(tree *toml.Tree, thisNetworkDir string) error {
 	}
 
 	return err
+}
+
+func createKeyFileIfNotExists(configDir string, moniker string, addr string, pubkey string) error {
+	keyfile := filepath.Join(configDir, monetconfig.KeyStoreDir, moniker+".json")
+	if files.CheckIfExists(keyfile) {
+		return nil
+	} // If exists, nothing to do
+
+	type minjson struct {
+		Address string `json:"address"`
+		Pub     string `json:"pub"`
+	}
+
+	j := minjson{Address: addr, Pub: pubkey}
+	out, err := json.Marshal(j)
+	if err != nil {
+		return err
+	}
+
+	err = files.WriteToFile(keyfile, string(out))
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 //BuildGenesisJSON compiles and build a genesis.json file
