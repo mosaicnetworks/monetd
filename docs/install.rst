@@ -43,6 +43,13 @@ resides. The simplest test of a Go installation is:
 
     $ go version
 
+Monetd uses `Glide <http://github.com/Masterminds/glide>`__ to manage
+dependencies. 
+
+.. code::
+
+    $ curl https://glide.sh/get | sh   
+
 Solidity Compiler
 ~~~~~~~~~~~~~~~~~
 
@@ -83,11 +90,10 @@ appropriate GOPATH subdirectory:
 
     $ mkdir -p $GOPATH/src/github.com/mosaicnetworks/
     $ cd $GOPATH/src/github.com/mosaicnetworks
-    [...]/mosaicnetworks$ git clone https://github.com/mosaicnetworks/monetd.git
+    [...]/mosaicnetworks$ git clone https://github.com/mosaicnetworks/monetd.git  
 
-Monetd uses `Glide <http://github.com/Masterminds/glide>`__ to manage
-dependencies. Run the following command to download all dependencies and put
-them in the **vendor** folder.
+Run the following command to download all dependencies and put them in the 
+**vendor** folder.
 
 .. code:: bash
 
