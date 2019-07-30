@@ -121,31 +121,33 @@ func ImportZip(src string, dest string) error {
 // moniker match, it uses the local value. Otherwise it uses the current IP
 func getListenForPeer(moniker string, peersfile string) (string, error) {
 
-	jsonFile, err := os.Open(peersfile)
-	if err != nil {
-		common.ErrorMessage("Error opening " + peersfile)
-		return "", err
-	}
-	defer jsonFile.Close()
+	if moniker != "" { // No point validating against unset moniker
 
-	byteValue, _ := ioutil.ReadAll(jsonFile)
-	var result []interface{}
-	json.Unmarshal([]byte(byteValue), &result)
-
-	for _, peer := range result {
-		if peer.(map[string]interface{})["Moniker"].(string) == moniker {
-			netaddr := peer.(map[string]interface{})["NetAddr"].(string)
-			if strings.Index(netaddr, ":") < 0 {
-				netaddr = netaddr + ":" + configuration.DefaultGossipPort
-			}
-			common.DebugMessage("Set listen from peers: " + netaddr)
-			return netaddr, nil
+		jsonFile, err := os.Open(peersfile)
+		if err != nil {
+			common.ErrorMessage("Error opening " + peersfile)
+			return "", err
 		}
+		defer jsonFile.Close()
 
+		byteValue, _ := ioutil.ReadAll(jsonFile)
+		var result []interface{}
+		json.Unmarshal([]byte(byteValue), &result)
+
+		for _, peer := range result {
+			if peer.(map[string]interface{})["Moniker"].(string) == moniker {
+				netaddr := peer.(map[string]interface{})["NetAddr"].(string)
+				if strings.Index(netaddr, ":") < 0 {
+					netaddr = netaddr + ":" + configuration.DefaultGossipPort
+				}
+				common.DebugMessage("Set listen from peers: " + netaddr)
+				return netaddr, nil
+			}
+
+		}
 	}
-
 	netaddr := common.GetMyIP() + ":" + configuration.DefaultGossipPort
-	common.DebugMessage("Set listen from peers: " + netaddr)
+	common.DebugMessage("Set listen from ip: " + netaddr)
 	return netaddr, nil
 }
 
@@ -166,7 +168,10 @@ func setLocalParamsInToml(datadir string, toml string, listen string) error {
 
 func generateBabblePrivateKey(datadir string, basename string) error {
 
-	//	privateKeyfile := filepath.Join(datadir, configuration.BabbleDir, configuration.DefaultPrivateKeyFile)
+	if basename == "" {
+		return nil
+	} // If account not set, do nothing
+
 	jsonfile := filepath.Join(datadir, configuration.KeyStoreDir, basename+".json")
 	pwdfile := filepath.Join(datadir, configuration.KeyStoreDir, basename+".txt")
 
@@ -196,9 +201,7 @@ func generateBabblePrivateKey(datadir string, basename string) error {
 	}
 
 	addr := key.Address.Hex()
-
 	dumpPrivKey(datadir, key.PrivateKey)
-
 	common.DebugMessage("Written Private Key for " + addr)
 
 	return nil
