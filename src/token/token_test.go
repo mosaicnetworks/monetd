@@ -1,6 +1,10 @@
 package token_test
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/mosaicnetworks/monetd/src/token"
+)
 
 type testRecord struct {
 	input  string
@@ -32,7 +36,7 @@ func TestExpandBalance(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		ret, _ := ExpandBalance(test.input)
+		ret, _ := token.ExpandBalance(test.input)
 		if ret != test.output {
 			t.Errorf("\nWrong Answer: %s\nGot: %s\nExpected: %s\n", test.input, ret, test.output)
 		} else {

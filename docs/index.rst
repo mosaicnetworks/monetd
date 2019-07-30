@@ -22,14 +22,15 @@ Monetd
    design.rst
    install.rst
    quickstart.rst
-   basic_examples.rst   
+   basic_examples.rst
    test.rst
    monetd.rst
    monetd_commands.rst
    giverny.rst
-   clients.rst   
+   giverny_examples.rst
+   clients.rst
    smartcontract.rst
    evmlc-getting-started.rst
    evmlc-proof-of-authority.rst
 
-.. The above list will need cleaning up. 
+.. The above list will need cleaning up.

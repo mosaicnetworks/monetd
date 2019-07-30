@@ -1,0 +1,102 @@
+.. _giverny_examples_rst:
+
+################
+Giverny Examples
+################
+
+For reference, the options for ``giverny network new``:
+
+.. code:: bash
+
+    $ giverny network new -h
+
+    giverny network build
+
+    Usage:
+    giverny network new [network_name] [flags]
+
+    Flags:
+        --generate-pass       generate pass phrases
+    -h, --help                help for new
+        --initial-ip string   initial IP address of range
+        --initial-peers int   number of initial peers
+        --names string        filename of a file containing a list of node monikers
+        --no-build            disables the automatic build of a new network
+        -p-pass string         filename of a file containing a passphrase
+        --save-pass           save pass phrase entered on command line
+
+    Global Flags:
+    -g, --giverny-data-dir string   Top-level giverny directory for configuration and data (default "/home/jon/.giverny")
+    -m, --monet-data-dir string     Top-level monetd directory for configuration and data (default "/home/jon/.monet")
+    -n, --nodes int                 number of nodes in this configuration (default 4)
+    -v, --verbose                   verbose messages
+
+
+
+
+
+*************************
+Development Test Networks
+*************************
+
+
+New
+===
+
+8 node network, 4 initial peers, named from prebaked list of names, generated
+passphrases.
+
+.. code:: bash
+
+    make installgiv; rm -rf ~/.giverny/networks/test9; giverny network new test9 --generate-pass  --names sampledata/names.txt --nodes 8 --initial-peers 4  -v
+
+
+3 node network with named nodes, 2 initial peers. Passphrased prompted for on
+the command line and used for all key files.
+
+.. code:: bash
+
+    make installgiv; rm -rf ~/.giverny/networks/test9; giverny network new test9 --save-pass  --names sampledata/withnodes.txt --nodes 3 --initial-peers 2  -v
+
+The withnodes.txt file is interesting as it shows the expanded syntax:
+
+.. code:: text
+
+    Jon,192.168.1.18,1E18,true
+    Martin,192.168.1.3,1E15,true
+    Kevin,192.168.1.16,1E12,false
+
+
+
+Export Network
+==============
+
+To export all nodes in a network, type this:
+
+.. code:: bash
+
+    $ giverny network export test9
+
+Take a look in ``~/.giverny/exports``. There should be numerous files named
+``test9_[node].zip``. These can be applied to monetd directly on the same
+instance by:
+
+.. code:: bash
+
+    $ giverny network import test9 Danu --from-exports
+
+Alternatively you can use slack to send that zip file and then load it ---
+without changing the name of the file:
+
+.. code:: bash
+
+    $ giverny network import test9 Danu --dir ~/Downloads
+
+
+Or you can use giverny server and pull it directly. Assuming that you have run
+``giverny server start`` on the instance you ran the exports you can:
+
+.. code:: bash
+
+    $ giverny network import test9 Danu --server 192.168.1.4
+
