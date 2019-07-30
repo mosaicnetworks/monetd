@@ -13,7 +13,7 @@ import (
 )
 
 //set by command line flags
-var includePassPhrase = false
+// var includePassPhrase = false
 
 func newExportCmd() *cobra.Command {
 	cmd := &cobra.Command{
@@ -33,7 +33,7 @@ giverny network export
 
 func addExportFlags(cmd *cobra.Command) {
 	//	cmd.Flags().StringVar(&addressParam, "address", addressParam, "IP/hostname of this node")
-	cmd.Flags().BoolVar(&includePassPhrase, "include-pass", includePassPhrase, "include passphrase in export")
+	//	cmd.Flags().BoolVar(&includePassPhrase, "include-pass", includePassPhrase, "include passphrase in export")
 	viper.BindPFlags(cmd.Flags())
 }
 
@@ -61,7 +61,7 @@ func networkExport(cmd *cobra.Command, args []string) error {
 				nodeName := strings.TrimSuffix(
 					file.Name(),
 					filepath.Ext(file.Name()))
-				err := buildZip(configuration.GivernyConfigDir, networkName, nodeName, includePassPhrase)
+				err := buildZip(configuration.GivernyConfigDir, networkName, nodeName)
 				if err != nil {
 					return err
 				}
@@ -72,7 +72,7 @@ func networkExport(cmd *cobra.Command, args []string) error {
 
 	for i := 1; i < len(args); i++ {
 		nodeName := args[i]
-		err := buildZip(configuration.GivernyConfigDir, networkName, nodeName, includePassPhrase)
+		err := buildZip(configuration.GivernyConfigDir, networkName, nodeName)
 		if err != nil {
 			return err
 		}
