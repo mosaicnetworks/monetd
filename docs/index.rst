@@ -22,7 +22,7 @@ Monetd
    design.rst
    install.rst
    quickstart.rst
-   monetd.rst
+   monetd_configuration.rst
    monetd_commands.rst
    monetd_api.rst
    giverny.rst

@@ -1,17 +1,43 @@
 .. _install_rst:
 
-Installation
-============
+Installing Monetd
+=================
+
+Versioning
+++++++++++
+
+Monetd versions follow `semantic versioning <https://semver.org>`__. As we are
+still in the 0.x range, different versions might contain undocumented and/or
+breaking changes. At this stage, the preferable way of installing monetd is by
+building from source.
+
+Docker
+++++++
+
+Docker images of monetd are available from the ``mosaicnetworks`` organisation.
+Use the ``latest`` tag for the latest released version.
+
+TODO: example, passing options, and starting monetd
+
+Downloads
++++++++++
+
+Binary packages of monetd are available at
+`<https://github.com/mosaicnetworks/monetd/releases>`__.
+
+
+Building From Source
+++++++++++++++++++++
 
 Dependencies
 ------------
 
 The key components of the Monet Hub are written in 
 `Golang <https://golang.org/>`__. Hence, the first step is to install **Go 
-version 1.9 or above** which is both the programming language and a CLI tool for 
-managing Go code. Go is very opinionated and will require you to `define a
-workspace <https://golang.org/doc/code.html#Workspaces>`__ where all your go 
-code will reside. The simplest test of a go installation is:
+version 1.9 or above**, which is both the programming language and a CLI tool
+for managing Go code. Go is very opinionated and requires `defining a
+workspace <https://golang.org/doc/code.html#Workspaces>`__ where all Go code 
+resides. The simplest test of a Go installation is:
 
 .. code:: bash
 
@@ -24,15 +50,15 @@ The Monet Hub uses Proof of Authority (PoA) to manage the validator set. This is
 implemented using a smart-contract written in
 `Solidity <https://solidity.readthedocs.io/en/develop/introduction-to-smart-contracts.html>`__,
 with the corresponding EVM bytecode set in the genesis file. For every newly 
-defined network, the smart-contract needs to be re-compiled because it should 
-embed the initial whitelist. Hence, the Solidity compiler (solc) is a 
-requirement to define a new network and produce the appropriate genesis file.
+defined network, the smart-contract needs to be recompiled because it embeds the
+initial whitelist. Hence, the Solidity compiler (solc) is a requirement to
+define a new network and produce the appropriate genesis file.
 
 Please refer to the `solidity compiler installation
 instructions <https://solidity.readthedocs.io/en/develop/installing-solidity.html>`__.
 
-Attention: The Node.js version of the compiler is not supported. Do not install
-via `npm install solc`.
+**Attention**: The Node.js version of the compiler is not supported. **Do not
+install via** ``npm install solc``.
 
 Other requirements
 ~~~~~~~~~~~~~~~~~~
@@ -60,37 +86,15 @@ appropriate GOPATH subdirectory:
     [...]/mosaicnetworks$ git clone https://github.com/mosaicnetworks/monetd.git
 
 Monetd uses `Glide <http://github.com/Masterminds/glide>`__ to manage
-dependencies.
+dependencies. Run the following command to download all dependencies and put
+them in the **vendor** folder.
 
 .. code:: bash
 
     [...]/monetd$ make vendor
-
-This will download all dependencies and put them in the **vendor** folder.
 
 Then build and install:
 
 .. code:: bash
 
     [...]/monetd$ make install
-
-Tests
------
-
-Use the Go tool to run tests:
-
-.. code:: bash
-
-    [...]/monetd $ make test
-
-Further documentation can be found in the :ref:`test_rst`.
-
-Other Make Commands
--------------------
-
-To build binaries for use in docker:
-
-.. code:: bash
-
-    [...]/monetd$ make docker
-

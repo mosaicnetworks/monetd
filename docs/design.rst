@@ -85,14 +85,33 @@ and a reputation system to incentivize good behavior and punish malicious
 actors.
 
 Given the requirements stated in the previous section, we believe that the MONET
-Hub falls in the same category, and requires a permissioned BFT system. We use 
-our own BFT consensus algorithm, Babble, because it is fast, leaderless, and 
-offers finality. For the application state and smart-contract platform, we use 
-the Ethereum Virtual Machine (actually a stripped down version of Geth that 
-plugs into Babble) which is a security oriented virtual machine, designed to 
-permit untrusted code to be executed by a network of computers. The remaining 
-question is how to govern the validator-set, and what to use as a reputation 
-system to punish or incentivise participants to behave correctly.
+Hub falls in the same category, and requires a permissioned BFT system.
+
+Ethereum with Babble Consensus
+------------------------------
+
+To build monetd, the software powering nodes on the MONET Hub, We used our own
+BFT consensus algorithm, `Babble <https://github.com/mosaicnetworks/babble>`__,
+because it is fast, leaderless, and offers finality. For the application state
+and smart-contract platform, we use the Ethereum Virtual Mahcine (EVM) via
+`EVM-Lite <https://github.com/mosaicnetworks/evm-lite>`__, which is a stripped
+down version of `Go-Ethereum <https://github.com/ethereum/go-ethereum>`__.
+
+The EVM is a security-oriented virtual machine specifically designed to run
+untrusted code on a network of computers. Every transaction applied to the EVM
+modifies the State which is persisted in a Merkle Patricia tree. This data
+structure allows to simply check if a given transaction was actually applied to
+the VM and can reduce the entire State to a single hash (merkle root) rather
+analogous to a fingerprint.
+
+The EVM is meant to be used in conjunction with a system that broadcasts 
+transactions across network participants and ensures that everyone executes the
+same transactions in the same order. Ethereum uses a Blockchain and a Proof of
+Work consensus algorithm. EVM-Lite makes it easy to use any consensus system,
+including `Babble <https://github.com/mosaicnetworks/babble>`__.
+
+The remaining question is how to govern the validator-set, and what to use as a 
+reputation system to punish or incentivise participants to behave correctly.
 
 PoS and PoA
 -----------

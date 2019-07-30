@@ -1,15 +1,15 @@
-.. _api_rst:
+.. _monet_api_rst:
 
 Monetd API
 ==========
 
-Monetd exposes an API at the address specified by the ``--api-listen`` flag.
-This document contains the API specification with some basic examples using
-curl. For API clients (javascrip libraries, CLI, and GUI), please refer to 
+Monetd exposes an HTTP API at the address specified by the ``--api-listen``
+flag. This document contains the API specification with some basic examples
+using curl. For API clients (javascrip libraries, CLI, and GUI), please refer to 
 `EVM-Lite CLI <https://github.com/mosaicnetworks/evm-lite-cli>`__
 
 Get Account
----------------
+-----------
 
 Retrieve information about any account.
 

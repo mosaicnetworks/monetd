@@ -283,9 +283,28 @@ Joining a Network
 -----------------
 
 This scenario is for when you wish to join an existing network that is already 
-running, such as the one created in the previous example. **This scenario is 
-designed to be run on a machine other than the one that is running the existing
-node.**
+running, such as the one created in the previous example.
+
+To join an existing monetd network, run the following commands:
+
+.. code::
+
+    $ monetd keys new node1
+    $ monetd config pull [address]:[port] --key node1
+    $ monetcli poa nominate -h [address] -p [port] --from [node1 address] --pwd [password file for node1 key] --moniker node1 [node1 address]
+
+    # wait to be accepted in the whitelist, which can be checked with
+    $ monetd poa whitelist
+    # or
+    $ monetd poa nomineelist
+
+    $ monetd run
+
+Where [address] and [port] correspond to the endpoint of an existing peer in the
+network. 
+
+**This scenario is designed to be run on a machine other than the one that is 
+running the existing node.**
 
 Clear Previous Configurations
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -342,8 +361,7 @@ testnet, we would recommend using an internal IP address. On Linux ``ifconfig``
 will give you IP address information. This can be set by using the --address 
 flag. If not specified monetd will pick the first non-loopback address. 
 
-The ``--key`` parameter specifies the keyfile to use by moniker. monetd will 
-pick one if this parameter is omitted.  
+The ``--key`` parameter specifies the keyfile to use by moniker. 
 
 Thus we need to run the following command, but replace ``192.168.1.5:8080`` with 
 the endpoint of the existing peer.
