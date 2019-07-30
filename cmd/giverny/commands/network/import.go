@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/mosaicnetworks/monetd/src/common"
 	"github.com/mosaicnetworks/monetd/src/config"
 	mconfig "github.com/mosaicnetworks/monetd/src/configuration"
 
@@ -55,6 +56,18 @@ func networkImport(cmd *cobra.Command, args []string) error {
 
 	var zipName = ""
 
+	for _, file := range []string{
+		filepath.Join(mconfig.Global.DataDir, mconfig.KeyStoreDir, nodeName+".json"),
+		filepath.Join(mconfig.Global.DataDir, mconfig.KeyStoreDir, nodeName+".txt"),
+		filepath.Join(mconfig.Global.DataDir, mconfig.BabbleDir, mconfig.DefaultPrivateKeyFile),
+	} {
+		err := files.SafeRenameDir(file)
+		if err != nil {
+			common.ErrorMessage("Error backing up " + file)
+			return err
+		}
+	}
+
 	if useExportDir {
 		zipName = filepath.Join(configuration.GivernyConfigDir, configuration.GivernyExportDir, networkName+"_"+nodeName+".zip")
 	} else {
@@ -70,7 +83,7 @@ func networkImport(cmd *cobra.Command, args []string) error {
 				tmpDir := filepath.Join(configuration.GivernyConfigDir, givernyTmpDir)
 				files.CreateDirsIfNotExists([]string{tmpDir})
 				zipName = filepath.Join(tmpDir, networkName+"_"+nodeName+".zip")
-				url := "http://" + srvAddress + ":" + configuration.GivernyServerPort + "/import/" + networkName + "/" + nodeName
+				url := "http://" + srvAddress + "/import/" + networkName + "/" + nodeName
 				err := downloadFile(zipName, url)
 				if err != nil {
 					return err

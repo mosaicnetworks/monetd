@@ -117,6 +117,9 @@ func dumpPeersJSON(tree *toml.Tree, thisNetworkDir string) error {
 				}
 				if tr.HasPath([]string{"netaddr"}) {
 					netaddr = tr.GetPath([]string{"netaddr"}).(string)
+					if !strings.Contains(netaddr, ":") {
+						netaddr += ":" + monetconfig.DefaultGossipPort
+					}
 				}
 				if tr.HasPath([]string{"pubkey"}) {
 					pubkey = tr.GetPath([]string{"pubkey"}).(string)
@@ -149,6 +152,13 @@ func dumpPeersJSON(tree *toml.Tree, thisNetworkDir string) error {
 	}
 
 	jsonFileName := filepath.Join(thisNetworkDir, monetconfig.PeersJSON)
+	err = files.WriteToFile(jsonFileName, string(peersJSONOut))
+	if err != nil {
+		return err
+	}
+
+	// Write copy of peers.json to peers.genesis.json
+	jsonFileName = filepath.Join(thisNetworkDir, monetconfig.PeersGenesisJSON)
 	err = files.WriteToFile(jsonFileName, string(peersJSONOut))
 	if err != nil {
 		return err

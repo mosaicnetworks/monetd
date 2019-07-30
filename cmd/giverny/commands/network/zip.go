@@ -2,8 +2,10 @@ package network
 
 import (
 	"archive/zip"
+	"encoding/json"
 	"errors"
 	"io"
+	"io/ioutil"
 	"os"
 	"path/filepath"
 
@@ -14,10 +16,11 @@ import (
 	mconfiguration "github.com/mosaicnetworks/monetd/src/configuration"
 )
 
-func buildZip(configDir string, networkName, nodeName string, includePassPhrase bool) error {
+func buildZip(configDir string, networkName, nodeName string) error {
 	sourceDir := filepath.Join(configuration.GivernyConfigDir, givernyNetworksDir, networkName)
 	monetdtoml := filepath.Join(sourceDir, mconfiguration.MonetTomlFile)
 	peersjson := filepath.Join(sourceDir, mconfiguration.PeersJSON)
+	peersgenesisjson := filepath.Join(sourceDir, mconfiguration.PeersGenesisJSON)
 	genesisjson := filepath.Join(sourceDir, mconfiguration.GenesisJSON)
 	acctjson := filepath.Join(sourceDir, givernyKeystoreDir, nodeName+".json")
 	passphrase := filepath.Join(sourceDir, givernyKeystoreDir, nodeName+".txt")
@@ -25,11 +28,12 @@ func buildZip(configDir string, networkName, nodeName string, includePassPhrase 
 	filesList := []string{
 		monetdtoml,
 		peersjson,
+		peersgenesisjson,
 		genesisjson,
-		acctjson,
 	}
 
-	if includePassPhrase {
+	if checkIfKeyfileContainsPrivateKey(acctjson) {
+		filesList = append(filesList, acctjson)
 		filesList = append(filesList, passphrase)
 	}
 
@@ -98,4 +102,27 @@ func zipFiles(filename string, files []string, perservePath bool) error {
 		}
 	}
 	return nil
+}
+
+func checkIfKeyfileContainsPrivateKey(keyfilename string) bool {
+
+	common.DebugMessage("Checking " + keyfilename)
+	jsonFile, err := os.Open(keyfilename)
+	if err != nil {
+		common.ErrorMessage("Error opening " + keyfilename)
+		common.ErrorMessage(err.Error())
+
+		return false
+	}
+	defer jsonFile.Close()
+
+	byteValue, _ := ioutil.ReadAll(jsonFile)
+	var result map[string]interface{}
+	json.Unmarshal([]byte(byteValue), &result)
+
+	if _, ok := result["crypto"]; ok {
+		return true
+	}
+
+	return false
 }

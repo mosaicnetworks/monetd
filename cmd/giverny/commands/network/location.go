@@ -59,6 +59,8 @@ func networkLocation(cmd *cobra.Command, args []string) error {
 		filepath.Join(configuration.GivernyConfigDir, givernyNetworksDir, networkName, givernyKeystoreDir))
 	common.InfoMessage("Peers JSON              : " +
 		filepath.Join(configuration.GivernyConfigDir, givernyNetworksDir, networkName, mconfiguration.PeersJSON))
+	common.InfoMessage("Peers Genesis JSON      : " +
+		filepath.Join(configuration.GivernyConfigDir, givernyNetworksDir, networkName, mconfiguration.PeersGenesisJSON))
 	common.InfoMessage("Genesis JSON            : " +
 		filepath.Join(configuration.GivernyConfigDir, givernyNetworksDir, networkName, mconfiguration.GenesisJSON))
 	common.InfoMessage("Monetd TOML             : " +

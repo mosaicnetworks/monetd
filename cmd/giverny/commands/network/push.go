@@ -31,8 +31,6 @@ func addPushFlags(cmd *cobra.Command) {
 func networkPush(cmd *cobra.Command, args []string) error {
 	networkName := args[0]
 	nodeName := args[1]
-	includePassPhrase := true
-
-	return buildZip(configuration.GivernyConfigDir, networkName, nodeName, includePassPhrase)
+	return buildZip(configuration.GivernyConfigDir, networkName, nodeName)
 
 }
