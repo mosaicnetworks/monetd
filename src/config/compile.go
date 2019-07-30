@@ -62,7 +62,7 @@ func BuildGenesisJSON(configDir string, peers mtypes.PeerRecordList, contractAdd
 		return err
 	}
 
-	genesispoa, err := BuildGenesisPOAJSON(finalSource, configDir, contractAddress)
+	genesispoa, err := BuildGenesisPOAJSON(finalSource, configDir, contractAddress, true)
 	if err != nil {
 		return err
 	}
@@ -125,7 +125,7 @@ func BuildGenesisAlloc(accountsDir string) (GenesisAlloc, error) {
 }
 
 // BuildGenesisPOAJSON builds the poa section of the genesis file
-func BuildGenesisPOAJSON(solidityCode string, monetdConfigDir string, contractAddress string) (GenesisPOA, error) {
+func BuildGenesisPOAJSON(solidityCode string, monetdConfigDir string, contractAddress string, useSubfolders bool) (GenesisPOA, error) {
 	var poagenesis GenesisPOA
 
 	// Retrieve and set the version number
@@ -140,7 +140,12 @@ func BuildGenesisPOAJSON(solidityCode string, monetdConfigDir string, contractAd
 		return poagenesis, err
 	}
 
-	poagenesis, err = BuildCompilationReport(version, contractInfo, filepath.Join(monetdConfigDir, configuration.EthDir, configuration.POADir), contractAddress, solidityCode)
+	poadir := filepath.Join(monetdConfigDir, configuration.EthDir, configuration.POADir)
+	if !useSubfolders {
+		poadir = monetdConfigDir
+	}
+
+	poagenesis, err = BuildCompilationReport(version, contractInfo, poadir, contractAddress, solidityCode)
 	if err != nil {
 		common.ErrorMessage("Error writing compilation output:", err)
 		return poagenesis, err

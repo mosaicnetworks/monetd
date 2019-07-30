@@ -1,18 +1,19 @@
 package network
 
 import (
+	"github.com/mosaicnetworks/monetd/cmd/giverny/configuration"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
 
 func newPushCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "push",
+		Use:   "push [network] [node]",
 		Short: "push the configuration for a node on the named network",
 		Long: `
 giverny network push
 		`,
-		Args: cobra.ExactArgs(1),
+		Args: cobra.ExactArgs(2),
 		RunE: networkPush,
 	}
 
@@ -28,6 +29,10 @@ func addPushFlags(cmd *cobra.Command) {
 }
 
 func networkPush(cmd *cobra.Command, args []string) error {
+	networkName := args[0]
+	nodeName := args[1]
+	includePassPhrase := true
 
-	return nil
+	return buildZip(configuration.GivernyConfigDir, networkName, nodeName, includePassPhrase)
+
 }

@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/mosaicnetworks/monetd/cmd/giverny/configuration"
+
 	"github.com/spf13/cobra"
 )
 
@@ -31,7 +33,7 @@ func statusServer(cmd *cobra.Command, args []string) error {
 		fmt.Println("PID file does not exist\nServer should not be running")
 	}
 
-	url := "http://localhost:8088/ispublished"
+	url := "http://localhost:" + configuration.GivernyServerPort + "/ispublished"
 
 	resp, err := http.Get(url)
 	if err != nil {

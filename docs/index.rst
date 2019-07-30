@@ -26,9 +26,10 @@ Monetd
    monetd_commands.rst
    monetd_api.rst
    giverny.rst
-   clients.rst   
+   giverny_examples.rst
+   clients.rst
    smartcontract.rst
    evmlc-getting-started.rst
    evmlc-proof-of-authority.rst
 
-.. The above list will need cleaning up. 
+.. The above list will need cleaning up.

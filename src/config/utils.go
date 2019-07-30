@@ -29,9 +29,9 @@ func getKey(configDir, moniker, passwordFile string) (*ecdsa.PrivateKey, error) 
 	return privateKey, nil
 }
 
-// dumpConfigTOML takes the global Config object defined in the configuration
+// DumpConfigTOML takes the global Config object defined in the configuration
 // package, encodes it into a TOML string, and writes it to a file.
-func dumpConfigTOML(configDir, fileName string) error {
+func DumpConfigTOML(configDir, fileName string) error {
 	tomlString, err := configuration.GlobalTOML()
 	if err != nil {
 		return err

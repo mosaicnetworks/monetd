@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"path/filepath"
 
-	"github.com/mosaicnetworks/monetd/src/configuration"
 	"github.com/mosaicnetworks/monetd/src/common"
+	"github.com/mosaicnetworks/monetd/src/configuration"
 	"github.com/mosaicnetworks/monetd/src/files"
 )
 
@@ -62,7 +62,7 @@ func PullConfig(configDir, moniker, selfAddress, otherAddress, passwordFile stri
 	}
 
 	// Write TOML file for monetd based on global config object
-	if err := dumpConfigTOML(configDir, configuration.MonetTomlFile); err != nil {
+	if err := DumpConfigTOML(configDir, configuration.MonetTomlFile); err != nil {
 		return err
 	}
 
