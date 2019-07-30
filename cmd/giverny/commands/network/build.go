@@ -157,6 +157,13 @@ func dumpPeersJSON(tree *toml.Tree, thisNetworkDir string) error {
 		return err
 	}
 
+	// Write copy of peers.json to peers.genesis.json
+	jsonFileName = filepath.Join(thisNetworkDir, monetconfig.PeersGenesisJSON)
+	err = files.WriteToFile(jsonFileName, string(peersJSONOut))
+	if err != nil {
+		return err
+	}
+
 	err = BuildGenesisJSON(thisNetworkDir, peers, monetconfig.DefaultContractAddress, alloc)
 	if err != nil {
 		return err

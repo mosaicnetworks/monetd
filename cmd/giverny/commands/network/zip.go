@@ -18,6 +18,7 @@ func buildZip(configDir string, networkName, nodeName string, includePassPhrase 
 	sourceDir := filepath.Join(configuration.GivernyConfigDir, givernyNetworksDir, networkName)
 	monetdtoml := filepath.Join(sourceDir, mconfiguration.MonetTomlFile)
 	peersjson := filepath.Join(sourceDir, mconfiguration.PeersJSON)
+	peersgenesisjson := filepath.Join(sourceDir, mconfiguration.PeersGenesisJSON)
 	genesisjson := filepath.Join(sourceDir, mconfiguration.GenesisJSON)
 	acctjson := filepath.Join(sourceDir, givernyKeystoreDir, nodeName+".json")
 	passphrase := filepath.Join(sourceDir, givernyKeystoreDir, nodeName+".txt")
@@ -25,6 +26,7 @@ func buildZip(configDir string, networkName, nodeName string, includePassPhrase 
 	filesList := []string{
 		monetdtoml,
 		peersjson,
+		peersgenesisjson,
 		genesisjson,
 		acctjson,
 	}

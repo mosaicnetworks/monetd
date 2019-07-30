@@ -45,6 +45,9 @@ func ImportZip(src string, dest string) error {
 			fpath = filepath.Join(dest, configuration.MonetTomlFile)
 		case configuration.PeersJSON:
 			fpath = filepath.Join(dest, configuration.BabbleDir, configuration.PeersJSON)
+		case configuration.PeersGenesisJSON:
+			fpath = filepath.Join(dest, configuration.BabbleDir, configuration.PeersGenesisJSON)
+
 		default:
 			fpath = filepath.Join(dest, configuration.KeyStoreDir, f.Name)
 			if strings.ToLower(filepath.Ext(f.Name)) == ".json" {
