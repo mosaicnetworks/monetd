@@ -2,7 +2,6 @@ package config
 
 import (
 	"archive/zip"
-	"encoding/hex"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -13,7 +12,6 @@ import (
 	"strings"
 
 	"github.com/ethereum/go-ethereum/accounts/keystore"
-	eth_crypto "github.com/ethereum/go-ethereum/crypto"
 	"github.com/mosaicnetworks/monetd/src/crypto"
 	"github.com/mosaicnetworks/monetd/src/files"
 
@@ -168,7 +166,7 @@ func setLocalParamsInToml(datadir string, toml string, listen string) error {
 
 func generateBabblePrivateKey(datadir string, basename string) error {
 
-	privateKeyfile := filepath.Join(datadir, configuration.BabbleDir, configuration.DefaultPrivateKeyFile)
+	//	privateKeyfile := filepath.Join(datadir, configuration.BabbleDir, configuration.DefaultPrivateKeyFile)
 	jsonfile := filepath.Join(datadir, configuration.KeyStoreDir, basename+".json")
 	pwdfile := filepath.Join(datadir, configuration.KeyStoreDir, basename+".txt")
 
@@ -198,9 +196,8 @@ func generateBabblePrivateKey(datadir string, basename string) error {
 	}
 
 	addr := key.Address.Hex()
-	privkey := hex.EncodeToString(eth_crypto.FromECDSA(key.PrivateKey))
 
-	files.WriteToFile(privateKeyfile, privkey)
+	dumpPrivKey(datadir, key.PrivateKey)
 
 	common.DebugMessage("Written Private Key for " + addr)
 

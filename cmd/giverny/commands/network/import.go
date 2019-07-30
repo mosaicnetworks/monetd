@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/mosaicnetworks/monetd/src/common"
 	"github.com/mosaicnetworks/monetd/src/config"
 	mconfig "github.com/mosaicnetworks/monetd/src/configuration"
 
@@ -54,6 +55,18 @@ func networkImport(cmd *cobra.Command, args []string) error {
 	nodeName := args[1]
 
 	var zipName = ""
+
+	for _, file := range []string{
+		filepath.Join(mconfig.Global.DataDir, mconfig.KeyStoreDir, nodeName+".json"),
+		filepath.Join(mconfig.Global.DataDir, mconfig.KeyStoreDir, nodeName+".txt"),
+		filepath.Join(mconfig.Global.DataDir, mconfig.BabbleDir, mconfig.DefaultPrivateKeyFile),
+	} {
+		err := files.SafeRenameDir(file)
+		if err != nil {
+			common.ErrorMessage("Error backing up " + file)
+			return err
+		}
+	}
 
 	if useExportDir {
 		zipName = filepath.Join(configuration.GivernyConfigDir, configuration.GivernyExportDir, networkName+"_"+nodeName+".zip")
