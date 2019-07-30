@@ -22,12 +22,12 @@ For reference, the options for ``giverny network new``:
         --initial-peers int   number of initial peers
         --names string        filename of a file containing a list of node monikers
         --no-build            disables the automatic build of a new network
-        -p-pass string         filename of a file containing a passphrase
+        --pass string         filename of a file containing a passphrase
         --save-pass           save pass phrase entered on command line
 
     Global Flags:
-    -g, --giverny-data-dir string   Top-level giverny directory for configuration and data (default "/home/jon/.giverny")
-    -m, --monet-data-dir string     Top-level monetd directory for configuration and data (default "/home/jon/.monet")
+    -g, --giverny-data-dir string   Top-level giverny directory for configuration and data (default "~/.giverny")
+    -m, --monet-data-dir string     Top-level monetd directory for configuration and data (default "~/.monet")
     -n, --nodes int                 number of nodes in this configuration (default 4)
     -v, --verbose                   verbose messages
 
