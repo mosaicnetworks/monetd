@@ -1,4 +1,4 @@
-Jon,192.168.1.18,1E18,true
+Jon,192.168.1.18,1E18,false
 Martin,192.168.1.3,1E15,true
 Kevin,192.168.1.15,1E12,true
 Danu,192.168.1.11,1E14,false
