@@ -90,6 +90,12 @@ func networkNew(cmd *cobra.Command, args []string) error {
 		keystoreDir,
 	})
 
+	if savePassKey && passFile == "" && !generatePassKey {
+		passphrase, _ := crypto.GetPassphrase("", true)
+		passFile = filepath.Join(networkDir, "pwd.txt")
+		files.WriteToFile(passFile, passphrase)
+	}
+
 	common.InfoMessage("Generate " + strconv.Itoa(numberOfNodes) + " Nodes with " +
 		strconv.Itoa(initPeers) + " initial peers")
 
