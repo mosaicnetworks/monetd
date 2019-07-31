@@ -85,14 +85,6 @@ To export all nodes in a network, type this:
     $ giverny network export test9
 
 
-To export all nodes in a network, and include the passphrase to avoid retyping
-it, type this:
-
-.. code:: bash
-
-    $ giverny network export test9 --include-pass
-
-
 
 
 Take a look in ``~/.giverny/exports``. There should be numerous files named

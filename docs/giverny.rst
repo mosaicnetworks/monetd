@@ -317,8 +317,8 @@ Export
 ======
 
 Export takes a configuration that has been generated and exports it to the
-exports subfolder of the giverny configuration folders as a zip file. The flag
-``--include-pass`` includes any passphrase file. The ``network export`` command
+exports subfolder of the giverny configuration folders as a zip file.
+The ``network export`` command
 has a mandatory network name parameter, and optionally one or more node names.
 If the node names are omitted, all of the nodes for that network are exported.
 
