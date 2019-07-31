@@ -1,9 +1,18 @@
 package network
 
 import (
+	"errors"
+	"path/filepath"
+
+	"github.com/mosaicnetworks/monetd/cmd/giverny/configuration"
+	"github.com/mosaicnetworks/monetd/src/common"
+	"github.com/mosaicnetworks/monetd/src/docker"
+	"github.com/mosaicnetworks/monetd/src/files"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
+
+var forceNetwork = false
 
 func newStartCmd() *cobra.Command {
 	cmd := &cobra.Command{
@@ -24,7 +33,7 @@ Starts a network. Does not start individual nodes
 }
 
 func addStartFlags(cmd *cobra.Command) {
-	//	cmd.Flags().StringVar(&addressParam, "address", addressParam, "IP/hostname of this node")
+	cmd.Flags().BoolVar(&forceNetwork, "force-network", forceNetwork, "force network down if already exists")
 	//	cmd.Flags().StringVar(&passwordFile, "passfile", "", "file containing the passphrase")
 	viper.BindPFlags(cmd.Flags())
 }
@@ -32,10 +41,74 @@ func addStartFlags(cmd *cobra.Command) {
 func networkStart(cmd *cobra.Command, args []string) error {
 	network := args[0]
 
-	return nil
+	return startDockerNetwork(network)
 }
 
-func startDockerNetwork(networkName string) err {
+func startDockerNetwork(networkName string) error {
+
+	// Set some paths
+	thisNetworkDir := filepath.Join(configuration.GivernyConfigDir, givernyNetworksDir, networkName)
+	networkTomlFile := filepath.Join(thisNetworkDir, networkTomlFileName)
+
+	// Check expect config exists
+	if !files.CheckIfExists(thisNetworkDir) {
+		return errors.New("cannot find the configuration folder, " + thisNetworkDir + " for " + networkName)
+	}
+
+	if !files.CheckIfExists(networkTomlFile) {
+		return errors.New("cannot find the configuration file: " + networkTomlFile)
+	}
+
+	// Load Toml file to a tree
+	tree, err := files.LoadToml(networkTomlFile)
+	if err != nil {
+		common.ErrorMessage("Cannot load network.toml file: ", networkTomlFile)
+		return err
+	}
+
+	var dockerNetworkName, dockerbaseip, dockersubnet, dockeriprange, dockergateway string
+
+	if tree.HasPath([]string{"docker", "name"}) {
+		dockerNetworkName = tree.GetPath([]string{"docker", "name"}).(string)
+	}
+	if tree.HasPath([]string{"docker", "baseip"}) {
+		dockerbaseip = tree.GetPath([]string{"docker", "baseip"}).(string)
+	}
+	if tree.HasPath([]string{"docker", "subnet"}) {
+		dockersubnet = tree.GetPath([]string{"docker", "subnet"}).(string)
+	}
+	if tree.HasPath([]string{"docker", "iprange"}) {
+		dockeriprange = tree.GetPath([]string{"docker", "iprange"}).(string)
+	}
+	if tree.HasPath([]string{"docker", "gateway"}) {
+		dockergateway = tree.GetPath([]string{"docker", "gateway"}).(string)
+	}
+
+	common.DebugMessage("Configuring Network ", dockerNetworkName)
+	common.DebugMessage("Base IP:    ", dockerbaseip)
+	common.DebugMessage("IP Range:   ", dockeriprange)
+	common.DebugMessage("Subnet:     ", dockersubnet)
+	common.DebugMessage("Gateway:    ", dockergateway)
+
+	// Create a Docker Client
+
+	common.DebugMessage("Connecting to Docker Client")
+
+	cli, err := docker.GetDockerClient()
+	if err != nil {
+		return err
+	}
+
+	// Create a Docker Network
+
+	networkID, err := docker.SafeCreateNetwork(cli, dockerNetworkName,
+		dockersubnet, dockeriprange, dockergateway, forceNetwork)
+
+	if err != nil {
+		return err
+	}
+
+	common.DebugMessage("Created Network " + networkID)
 
 	return nil
 }

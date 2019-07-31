@@ -2,11 +2,14 @@ package docker
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/network"
 	"github.com/docker/docker/client"
+	"github.com/mosaicnetworks/monetd/src/common"
+	"github.com/mosaicnetworks/scratch/src/docker"
 )
 
 //GetNetworks lists networks
@@ -54,7 +57,7 @@ func CreateNetwork(cli *client.Client, networkName, subnet, iprange, gateway str
 	netresp, err := cli.NetworkCreate(ctx, networkName, opts)
 
 	if err != nil {
-		fmt.Println(err.Error())
+		return "", err
 	}
 
 	fmt.Println("ID: " + netresp.ID)
@@ -69,4 +72,28 @@ func CreateNetwork(cli *client.Client, networkName, subnet, iprange, gateway str
 func RemoveNetwork(cli *client.Client, networkID string) error {
 	ctx := context.Background()
 	return cli.NetworkRemove(ctx, networkID)
+}
+
+//SafeCreateNetwork provides a wrapper to CreateNetwork, but first ensures that the
+//network does not already exist.
+func SafeCreateNetwork(cli *client.Client, networkName, subnet, iprange, gateway string, force bool) (string, error) {
+
+	// First we get a list of networks
+	nets, err := docker.GetNetworks(cli, false)
+	if err != nil {
+		return "", err
+	}
+
+	if netID, ok := nets[networkName]; ok {
+		// Network already exists
+		if !force {
+			return "", errors.New("the network " + networkName + " already exists")
+		}
+
+		common.DebugMessage("remove the existing network " + networkName)
+		if err := docker.RemoveNetwork(cli, netID); err != nil {
+			return "", err
+		}
+	}
+	return CreateNetwork(cli, networkName, subnet, iprange, gateway)
 }
