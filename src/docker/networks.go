@@ -37,7 +37,7 @@ func GetNetworks(cli *client.Client, output bool) (map[string]string, error) {
 func CreateNetwork(cli *client.Client, networkName, subnet, iprange, gateway string) (string, error) {
 	ctx := context.Background()
 
-	fmt.Println("Creating options")
+	common.DebugMessage("Creating options")
 	opts := types.NetworkCreate{
 		CheckDuplicate: true,
 		Driver:         "bridge",
@@ -53,16 +53,16 @@ func CreateNetwork(cli *client.Client, networkName, subnet, iprange, gateway str
 		},
 	}
 
-	fmt.Println("Creating network")
+	common.DebugMessage("Creating network")
 	netresp, err := cli.NetworkCreate(ctx, networkName, opts)
 
 	if err != nil {
 		return "", err
 	}
 
-	fmt.Println("ID: " + netresp.ID)
+	common.DebugMessage("ID: " + netresp.ID)
 	if netresp.Warning != "" {
-		fmt.Println("Warning: " + netresp.Warning)
+		common.DebugMessage("Warning: " + netresp.Warning)
 	}
 
 	return netresp.ID, err

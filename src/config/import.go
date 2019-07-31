@@ -103,13 +103,13 @@ func ImportZip(src string, dest string) error {
 	}
 
 	// Need to edit monetd.toml and set datadir and listen
-	err = setLocalParamsInToml(dest, filepath.Join(dest, configuration.MonetTomlFile), listen)
+	err = SetLocalParamsInToml(dest, filepath.Join(dest, configuration.MonetTomlFile), listen)
 	if err != nil {
 		return err
 	}
 	// Need to generate private key
 
-	err = generateBabblePrivateKey(dest, keyfile)
+	err = GenerateBabblePrivateKey(dest, keyfile)
 	if err != nil {
 		return err
 	}
@@ -151,7 +151,7 @@ func getListenForPeer(moniker string, peersfile string) (string, error) {
 	return netaddr, nil
 }
 
-func setLocalParamsInToml(datadir string, toml string, listen string) error {
+func SetLocalParamsInToml(datadir string, toml string, listen string) error {
 	tree, err := files.LoadToml(toml)
 	if err != nil {
 		return err
@@ -166,7 +166,7 @@ func setLocalParamsInToml(datadir string, toml string, listen string) error {
 	return nil
 }
 
-func generateBabblePrivateKey(datadir string, basename string) error {
+func GenerateBabblePrivateKey(datadir string, basename string) error {
 
 	if basename == "" {
 		return nil

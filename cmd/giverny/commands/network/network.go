@@ -12,6 +12,7 @@ import (
 const (
 	givernyNetworksDir  = "networks"
 	givernyKeystoreDir  = "keystore"
+	givernyDockerDir    = "docker"
 	givernyTmpDir       = ".tmp"
 	defaultTokens       = "1234567890000000000000"
 	networkTomlFileName = "network.toml"

@@ -115,6 +115,7 @@ func networkNew(cmd *cobra.Command, args []string) error {
 					common.DebugMessage("copied " + passFile + " to " + thisNodePassPhraseFile)
 				} else {
 					passphrase, _ := crypto.GetPassphrase("", true)
+					//TODO file permissions on this
 					files.WriteToFile(thisNodePassPhraseFile, passphrase)
 				}
 			} else {

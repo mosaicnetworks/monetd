@@ -19,8 +19,8 @@ const (
 
 // Monetd Configuration Directory
 const (
-	monetdTomlDirDot  = ".monet"
-	monetdTomlDirCaps = "MONET"
+	MonetdTomlDirDot  = ".monet"
+	MonetdTomlDirCaps = "MONET"
 )
 
 // Filename constants
@@ -59,9 +59,9 @@ const (
 //location of the monetd configuration file.
 func DefaultMonetConfigDir() (string, error) {
 	if runtime.GOOS == "darwin" || runtime.GOOS == "windows" {
-		return DefaultConfigDir(monetdTomlDirCaps)
+		return DefaultConfigDir(MonetdTomlDirCaps)
 	}
-	return DefaultConfigDir(monetdTomlDirDot)
+	return DefaultConfigDir(MonetdTomlDirDot)
 }
 
 //DefaultConfigDir returns a the full path for the default location for a configuration file.
