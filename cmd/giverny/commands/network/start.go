@@ -7,8 +7,8 @@ import (
 
 func newStartCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "start",
-		Short: "start a multi-node network",
+		Use:   "start [network]",
+		Short: "start a docker network",
 		Long: `
 giverny network start
 
@@ -30,6 +30,12 @@ func addStartFlags(cmd *cobra.Command) {
 }
 
 func networkStart(cmd *cobra.Command, args []string) error {
+	network := args[0]
+
+	return nil
+}
+
+func startDockerNetwork(networkName string) err {
 
 	return nil
 }
