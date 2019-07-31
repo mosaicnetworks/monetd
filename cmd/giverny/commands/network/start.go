@@ -20,7 +20,9 @@ import (
 	"github.com/spf13/viper"
 )
 
+//CLI flags
 var forceNetwork = false
+var useExisting = false
 
 type copyRecord struct {
 	from string
@@ -48,6 +50,8 @@ stops and restarts the network.
 
 func addStartFlags(cmd *cobra.Command) {
 	cmd.Flags().BoolVar(&forceNetwork, "force-network", forceNetwork, "force network down if already exists")
+	cmd.Flags().BoolVar(&useExisting, "use-existing", useExisting, "use existing network if already exists")
+
 	//	cmd.Flags().StringVar(&passwordFile, "passfile", "", "file containing the passphrase")
 	viper.BindPFlags(cmd.Flags())
 }
@@ -120,7 +124,7 @@ func startDockerNetwork(networkName string) error {
 	// Create a Docker Network
 
 	networkID, err := docker.SafeCreateNetwork(cli, dockerNetworkName,
-		dockersubnet, dockeriprange, dockergateway, forceNetwork)
+		dockersubnet, dockeriprange, dockergateway, forceNetwork, useExisting)
 
 	if err != nil {
 		return err

@@ -76,7 +76,7 @@ func RemoveNetwork(cli *client.Client, networkID string) error {
 
 //SafeCreateNetwork provides a wrapper to CreateNetwork, but first ensures that the
 //network does not already exist.
-func SafeCreateNetwork(cli *client.Client, networkName, subnet, iprange, gateway string, force bool) (string, error) {
+func SafeCreateNetwork(cli *client.Client, networkName, subnet, iprange, gateway string, force, useExisting bool) (string, error) {
 
 	// First we get a list of networks
 	nets, err := docker.GetNetworks(cli, false)
@@ -86,6 +86,9 @@ func SafeCreateNetwork(cli *client.Client, networkName, subnet, iprange, gateway
 
 	if netID, ok := nets[networkName]; ok {
 		// Network already exists
+		if useExisting { // If useExisting is set, we are cool with that
+			return netID, nil
+		}
 		if !force {
 			return "", errors.New("the network " + networkName + " already exists")
 		}
