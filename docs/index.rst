@@ -20,16 +20,15 @@ Monetd
    :maxdepth: 3
 
    design.rst
+   overview.rst
    install.rst
    quickstart.rst
+   join.rst
    monetd_configuration.rst
    monetd_commands.rst
    monetd_api.rst
+   monetd_poa.rst
    giverny.rst
    giverny_examples.rst
-   clients.rst
-   smartcontract.rst
-   evmlc-getting-started.rst
-   evmlc-proof-of-authority.rst
 
 .. The above list will need cleaning up.

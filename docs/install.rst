@@ -8,16 +8,24 @@ Versioning
 
 Monetd versions follow `semantic versioning <https://semver.org>`__. As we are
 still in the 0.x range, different versions might contain undocumented and/or
-breaking changes. At this stage, the preferable way of installing monetd is by
-building from source.
+breaking changes. At this stage, the prefered way of installing monetd is
+building from source, or using our public Docker images.
 
 Docker
 ++++++
 
 Docker images of monetd are available from the ``mosaicnetworks`` organisation.
-Use the ``latest`` tag for the latest released version.
+Use the ``latest`` tag for the latest released version. The advantage of using
+Docker containers is that they come packaged with all the necessary binary
+files, including solc, and contain an isolated running environment where monetd
+is sure to run.
 
-TODO: example, passing options, and starting monetd
+**Example**: Mount a configuration directory, and run a node from inside a
+monetd container.
+
+.. code::
+
+    docker run --rm -v ~/.monet:/.monet mosaicnetworks/monetd run
 
 Downloads
 +++++++++

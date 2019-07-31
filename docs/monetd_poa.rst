@@ -1,13 +1,11 @@
-.. _smartcontract_rst:
+.. _monetd_poa_rst:
 
-Monet Hub POA Smart Contract
-============================
+POA Smart Contract
+==================
 
-This document describes the requirements for a smart contract to
-implement POA in a Monet hub. The default contract supplied with
-``monetd`` already meets these requirements.
-
-
+This document describes the requirements for a smart-contract to implement POA
+in a Monet hub. The default contract supplied with ``monetd`` already meets
+these requirements.
 
 Solidity
 --------
@@ -15,9 +13,8 @@ Solidity
 Version
 ~~~~~~~
 
-The first line of the contract is a pragma specifying the solidity
-version required. Currently this is set to greater than or equal to
-``0.4.22``.
+The first line of the contract is a pragma specifying the solidity version
+required. Currently this is set to greater than or equal to ``0.4.22``.
 
 .. code:: php
 
@@ -26,29 +23,26 @@ version required. Currently this is set to greater than or equal to
 Constructor
 ~~~~~~~~~~~
 
-The contract is embedded in the genesis block. This means that there is
-no conventional constructor. It is possible to add a hook to payable
-function calls to set an initial state if it has not already been
-initialised.
+The contract is embedded in the genesis block. This means that there is no
+conventional constructor. It is possible to add a hook to payable function calls
+to set an initial state if it has not already been initialised.
 
 Modifier
 ~~~~~~~~
 
-``checkAuthorisedModifier`` is used to restrict access to payable
-functions. The internals of that function could be ameneded to your new
-scheme.
+``checkAuthorisedModifier`` is used to restrict access to payable functions. The
+internals of that function could be ameneded to your new scheme.
 
-Functions linked to Babble
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+CheckAuthorised
+~~~~~~~~~~~~~~~
 
-Babble calls one of the following functions to verify whether a peer
-making a join request as access. Any replacement smark contract aill
-need to implement these functions.
+Babble calls the following function to verify whether a peer making a join 
+request is authorised. Any replacement smart-contract will need to implement
+this function.
 
 .. code:: c
 
     function checkAuthorised(address _address) public view returns (bool)
-    function checkAuthorisedPublicKey(bytes32  _publicKey) public view returns (bool)
 
 Payable calls
 ~~~~~~~~~~~~~
@@ -63,10 +57,9 @@ Functions that the client tools expect to be present.
 Decision Function
 ~~~~~~~~~~~~~~~~~
 
-This function decides when a vote is complete. Currently it requires all
-people on the whitelist to approve. It is anticipated that some form of
-majority voting would be implemented to prevent paralysis if a peer
-drops out.
+This function decides when a vote is complete. Currently it requires all people
+on the whitelist to approve. It is anticipated that some form of majority voting
+would be implemented to prevent paralysis if a peer drops out.
 
 .. code:: c
 
@@ -95,8 +88,8 @@ The following information calls are available:
 Events
 ~~~~~~
 
-The following events are emitted by the smart contract. It is envisaged
-that the same events would be emitted by any replacement contract.
+The following events are emitted by the smart contract. It is envisaged that the
+same events would be emitted by any replacement contract.
 
 .. code:: c
 
@@ -154,8 +147,8 @@ Generated Genesis Whitelist Section
 The template contract has a block of code delimited by the commments
 ``//GENERATED GENESIS BEGIN`` and ``//GENERATED GENESIS END``. In the
 ``monetd config build`` command that block of code is replaced with generated
-code. That code is customised to include the initial authorised peers
-list in the genesis block.
+code. That code is customised to include the initial authorised peers list in
+the genesis block.
 
 A sample generated block is included below.
 
@@ -186,12 +179,10 @@ A sample generated block is included below.
      
      //GENERATED GENESIS END 
 
-The following functions much be defined in the generated block as they
-are referenced in the non-generated code.
+The following functions must be defined in the generated block as they are
+referenced in the non-generated code.
 
 .. code:: c
 
     function processGenesisWhitelist() private 
     function isGenesisWhitelisted(address _address) pure private returns (bool) 
-
-
