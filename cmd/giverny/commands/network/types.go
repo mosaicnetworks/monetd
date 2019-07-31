@@ -13,9 +13,18 @@ type node struct {
 //Config defines the nodes.toml file structure
 type Config struct {
 	Network networkConfig `toml:"network"`
+	Docker  dockerConfig  `toml:"docker"`
 	Nodes   []node        `toml:"nodes,squash"`
 }
 
 type networkConfig struct {
 	Name string `toml:"name"`
+}
+
+type dockerConfig struct {
+	Name    string `toml:"name"`
+	BaseIP  string `toml:"baseip"`
+	Subnet  string `toml:"subnet"`
+	IPRange string `toml:"iprange"`
+	Gateway string `toml:"gateway"`
 }

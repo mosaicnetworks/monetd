@@ -137,7 +137,22 @@ func networkNew(cmd *cobra.Command, args []string) error {
 
 	// Build nodes.toml
 
-	conf := Config{Network: networkConfig{Name: networkName}, Nodes: nodeList}
+	conf := Config{Network: networkConfig{Name: networkName},
+		Nodes:  nodeList,
+		Docker: dockerConfig{}}
+
+	if initIP != "" {
+		conf.Docker.BaseIP = initIP
+
+		arrIP := strings.Split(initIP, ".")
+		if len(arrIP) > 3 {
+			conf.Docker.Name = networkName
+			conf.Docker.Subnet = strings.Join(arrIP[:2], ".") + ".0.0/16"
+			conf.Docker.IPRange = conf.Docker.Subnet
+			conf.Docker.Gateway = strings.Join(arrIP[:3], ".") + ".254"
+		}
+	}
+
 	tomlBytes, err := toml.Marshal(conf)
 	if err != nil {
 		return err
