@@ -8,16 +8,24 @@ Versioning
 
 Monetd versions follow `semantic versioning <https://semver.org>`__. As we are
 still in the 0.x range, different versions might contain undocumented and/or
-breaking changes. At this stage, the preferable way of installing monetd is by
-building from source.
+breaking changes. At this stage, the prefered way of installing monetd is
+building from source, or using our public Docker images.
 
 Docker
 ++++++
 
 Docker images of monetd are available from the ``mosaicnetworks`` organisation.
-Use the ``latest`` tag for the latest released version.
+Use the ``latest`` tag for the latest released version. The advantage of using
+Docker containers is that they come packaged with all the necessary binary
+files, including solc, and contain an isolated running environment where monetd
+is sure to run.
 
-TODO: example, passing options, and starting monetd
+**Example**: Mount a configuration directory, and run a node from inside a
+monetd container.
+
+.. code::
+
+    docker run --rm -v ~/.monet:/.monet mosaicnetworks/monetd run
 
 Downloads
 +++++++++
@@ -42,6 +50,13 @@ resides. The simplest test of a Go installation is:
 .. code:: bash
 
     $ go version
+
+Monetd uses `Glide <http://github.com/Masterminds/glide>`__ to manage
+dependencies. 
+
+.. code::
+
+    $ curl https://glide.sh/get | sh   
 
 Solidity Compiler
 ~~~~~~~~~~~~~~~~~
@@ -83,11 +98,10 @@ appropriate GOPATH subdirectory:
 
     $ mkdir -p $GOPATH/src/github.com/mosaicnetworks/
     $ cd $GOPATH/src/github.com/mosaicnetworks
-    [...]/mosaicnetworks$ git clone https://github.com/mosaicnetworks/monetd.git
+    [...]/mosaicnetworks$ git clone https://github.com/mosaicnetworks/monetd.git  
 
-Monetd uses `Glide <http://github.com/Masterminds/glide>`__ to manage
-dependencies. Run the following command to download all dependencies and put
-them in the **vendor** folder.
+Run the following command to download all dependencies and put them in the 
+**vendor** folder.
 
 .. code:: bash
 
