@@ -90,6 +90,19 @@ func pushDockerNode(networkName, nodeName, networkID, imgName string, isRemoteIm
 		return err
 	}
 
+	// If we don't have a networkID we retrieve one
+
+	if nets, err := docker.GetNetworks(cli, false); err == nil {
+		if net, ok := nets[networkName]; ok {
+			networkID = net
+		} else {
+			return errors.New("network " + networkName + " is not running")
+		}
+	} else {
+		common.ErrorMessage("Error getting network status")
+		return nil
+	}
+
 	// Check current containers to see if node already exists
 	containers, err := docker.GetContainers(cli, false)
 
