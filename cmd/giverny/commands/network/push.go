@@ -6,9 +6,9 @@ import (
 	"io/ioutil"
 	"path/filepath"
 
-	"github.com/BurntSushi/toml"
 	"github.com/docker/docker/api/types/strslice"
 	"github.com/mosaicnetworks/monetd/src/docker"
+	"github.com/pelletier/go-toml"
 
 	"github.com/mosaicnetworks/monetd/cmd/giverny/configuration"
 	"github.com/mosaicnetworks/monetd/src/common"

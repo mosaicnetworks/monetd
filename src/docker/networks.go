@@ -9,7 +9,7 @@ import (
 	"github.com/docker/docker/api/types/network"
 	"github.com/docker/docker/client"
 	"github.com/mosaicnetworks/monetd/src/common"
-	"github.com/mosaicnetworks/scratch/src/docker"
+	"github.com/mosaicnetworks/monetd/src/docker"
 )
 
 //GetNetworks lists networks

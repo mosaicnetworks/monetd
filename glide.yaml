@@ -14,5 +14,5 @@ import:
   version: =1.1.0
 - package: github.com/gorilla/mux
   version: ^1.7.2
-- package: github.com/manifoldco/promptui
-- package: github.com/mbndr/figlet4go
+- package: github.com/docker/docker
+  version: 17.05.x
