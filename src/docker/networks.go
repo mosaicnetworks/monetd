@@ -43,6 +43,7 @@ func CreateNetwork(cli *client.Client, networkName, subnet, iprange, gateway str
 		Driver:         "bridge",
 		IPAM: &network.IPAM{
 			//			Driver: "bridge",
+			Options: make(map[string]string),
 			Config: []network.IPAMConfig{
 				network.IPAMConfig{
 					Subnet:  subnet,

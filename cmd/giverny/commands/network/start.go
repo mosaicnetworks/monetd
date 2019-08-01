@@ -149,7 +149,7 @@ func startDockerNetwork(networkName string) error {
 	if startNodes {
 		for _, n := range nodes {
 			common.DebugMessage("Starting node " + n)
-			if err := pushDockerNode(networkName, n, imgName, imgIsRemote); err != nil {
+			if err := pushDockerNode(networkName, n, networkID, imgName, imgIsRemote); err != nil {
 				return err
 			}
 		}

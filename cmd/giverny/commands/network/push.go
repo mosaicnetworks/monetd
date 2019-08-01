@@ -46,11 +46,11 @@ func addPushFlags(cmd *cobra.Command) {
 func networkPush(cmd *cobra.Command, args []string) error {
 	networkName := args[0]
 	nodeName := args[1]
-	return pushDockerNode(networkName, nodeName, imgName, imgIsRemote)
+	return pushDockerNode(networkName, nodeName, "", imgName, imgIsRemote)
 }
 
 //PushDockerNode builds a docker node, configures it and starts it
-func pushDockerNode(networkName, nodeName, imgName string, isRemoteImage bool) error {
+func pushDockerNode(networkName, nodeName, networkID, imgName string, isRemoteImage bool) error {
 	common.DebugMessage("Pushing network " + networkName + " node " + nodeName)
 
 	// First we validate that the requested node has been created
@@ -107,7 +107,18 @@ func pushDockerNode(networkName, nodeName, imgName string, isRemoteImage bool) e
 
 	// Copy Configuration to Node
 
+	common.DebugMessage("Copying Config to Container ")
 	err = docker.CopyToContainer(cli, containerID, dockerconfigpath, "/")
+	if err != nil {
+		return err
+	}
+
+	// Configure Networking
+
+	//	func ConnectContainerToNetwork(cli *client.Client, networkID string, containerID string, ip string) error {
+	common.DebugMessage("Connecting Container to Network")
+
+	err = docker.ConnectContainerToNetwork(cli, networkID, containerID, config.NetAddr)
 	if err != nil {
 		return err
 	}
