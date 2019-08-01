@@ -9,7 +9,6 @@ import (
 	"github.com/docker/docker/api/types/network"
 	"github.com/docker/docker/client"
 	"github.com/mosaicnetworks/monetd/src/common"
-	"github.com/mosaicnetworks/monetd/src/docker"
 )
 
 //GetNetworks lists networks
@@ -80,7 +79,7 @@ func RemoveNetwork(cli *client.Client, networkID string) error {
 func SafeCreateNetwork(cli *client.Client, networkName, subnet, iprange, gateway string, force, useExisting bool) (string, error) {
 
 	// First we get a list of networks
-	nets, err := docker.GetNetworks(cli, false)
+	nets, err := GetNetworks(cli, false)
 	if err != nil {
 		return "", err
 	}
@@ -95,7 +94,7 @@ func SafeCreateNetwork(cli *client.Client, networkName, subnet, iprange, gateway
 		}
 
 		common.DebugMessage("remove the existing network " + networkName)
-		if err := docker.RemoveNetwork(cli, netID); err != nil {
+		if err := RemoveNetwork(cli, netID); err != nil {
 			return "", err
 		}
 	}
