@@ -6,6 +6,8 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/mosaicnetworks/monetd/src/files"
+
 	"github.com/mosaicnetworks/monetd/src/common"
 
 	"github.com/mosaicnetworks/monetd/cmd/giverny/configuration"
@@ -48,6 +50,10 @@ func networkLocation(cmd *cobra.Command, args []string) error {
 
 	if !common.CheckMoniker(networkName) {
 		return errors.New("the network name, " + networkName + ", is invalid")
+	}
+
+	if !files.CheckIfExists(filepath.Join(configuration.GivernyConfigDir, givernyNetworksDir, networkName)) {
+		return errors.New("the network, " + networkName + " has not been created")
 	}
 
 	common.InfoMessage("Network                 : " + networkName)

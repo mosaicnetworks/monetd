@@ -11,7 +11,7 @@ SOL_FILE="$mydir/../smart-contracts/CrowdFunding.sol"
 KEY_DIR="$HOME/.giverny/networks/$NET/keystore/"
 PWD_FILE="$HOME/.giverny/networks/$NET/pwd.txt"
 
-ips=($($mydir/get_running_nodes.sh | awk '{print $2}' | paste -sd "," -))
+ips=($(giverny network dump $NET | awk -F "|" '{print $2}' | paste -sd "," -))
 
 set -x
 node crowd-funding/demo.js --ips=$ips \
