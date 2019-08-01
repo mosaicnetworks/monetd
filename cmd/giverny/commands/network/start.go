@@ -23,6 +23,7 @@ import (
 //CLI flags
 var forceNetwork = false
 var useExisting = false
+var startNodes = false
 
 type copyRecord struct {
 	from string
@@ -51,6 +52,7 @@ stops and restarts the network.
 func addStartFlags(cmd *cobra.Command) {
 	cmd.Flags().BoolVar(&forceNetwork, "force-network", forceNetwork, "force network down if already exists")
 	cmd.Flags().BoolVar(&useExisting, "use-existing", useExisting, "use existing network if already exists")
+	cmd.Flags().BoolVar(&startNodes, "start-nodes", startNodes, "start nodes")
 
 	//	cmd.Flags().StringVar(&passwordFile, "passfile", "", "file containing the passphrase")
 	viper.BindPFlags(cmd.Flags())
@@ -59,7 +61,11 @@ func addStartFlags(cmd *cobra.Command) {
 func networkStart(cmd *cobra.Command, args []string) error {
 	network := args[0]
 
-	return startDockerNetwork(network)
+	if err := startDockerNetwork(network); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func startDockerNetwork(networkName string) error {
@@ -135,29 +141,42 @@ func startDockerNetwork(networkName string) error {
 	// Next we build the docker configurations to get all of the configs ready to
 	// push
 
-	err = exportDockerConfigs(tree, networkName)
+	nodes, err := exportDockerConfigs(tree, networkName)
 	if err != nil {
 		return err
+	}
+
+	if startNodes {
+		for _, n := range nodes {
+			common.DebugMessage("Starting node " + n)
+			if err := pushDockerNode(networkName, n, imgName, imgIsRemote); err != nil {
+				return err
+			}
+		}
+
 	}
 
 	return nil
 }
 
-func exportDockerConfigs(tree *toml.Tree, networkName string) error {
+//TODO return a []string of node names. Those names are passed back and used to loop through and
+//push nodes.
+func exportDockerConfigs(tree *toml.Tree, networkName string) ([]string, error) {
+	var rtn []string
 
 	// Configure some paths
 	networkDir := filepath.Join(configuration.GivernyConfigDir, givernyNetworksDir, networkName)
 	dockerDir := filepath.Join(networkDir, givernyDockerDir)
 	err := files.CreateDirsIfNotExists([]string{dockerDir})
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	// Process the toml tree
 	nodesquery, err := query.CompileAndExecute("$.nodes", tree)
 	if err != nil {
 		common.ErrorMessage("Error loading nodes")
-		return err
+		return nil, err
 	}
 
 	for _, value := range nodesquery.Values() {
@@ -208,7 +227,7 @@ func exportDockerConfigs(tree *toml.Tree, networkName string) error {
 						filepath.Join(monetDir, monetconfig.KeyStoreDir),
 					})
 					if err != nil {
-						return err
+						return nil, err
 					}
 
 					copying := []copyRecord{
@@ -230,6 +249,21 @@ func exportDockerConfigs(tree *toml.Tree, networkName string) error {
 						files.CopyFileContents(f.from, f.to)
 					}
 
+					// Write a node description file containing all of the parameters needed to start a container
+					// Saves having to load and parse network.toml for every node
+					nodeConfigFile := filepath.Join(dockerDir, moniker+".toml")
+					nodeConfig := dockerNodeConfig{Moniker: moniker, NetAddr: strings.Split(netaddr, ":")[0]}
+
+					tomlBytes, err := toml.Marshal(nodeConfig)
+					if err != nil {
+						return nil, err
+					}
+
+					err = files.WriteToFile(nodeConfigFile, string(tomlBytes))
+					if err != nil {
+						return nil, err
+					}
+
 					// Debug messages to kill the not used warning
 					//TODO review and remove the items not used.
 					common.DebugMessage("Address   : ", addr)
@@ -238,75 +272,25 @@ func exportDockerConfigs(tree *toml.Tree, networkName string) error {
 					common.DebugMessage("Validator : ", strconv.FormatBool(validator))
 
 					// Need to edit monetd.toml and set datadir and listen appropriately
+
 					err = config.SetLocalParamsInToml("/.monet", filepath.Join(monetDir, monetconfig.MonetTomlFile), netaddr)
 					if err != nil {
-						return err
+						return nil, err
 					}
 
 					// Need to generate private key
 					err = config.GenerateBabblePrivateKey(monetDir, moniker)
 					if err != nil {
-						return err
+						return nil, err
 					}
 
 				}
+
+				rtn = append(rtn, moniker)
 
 			}
 		}
 	}
 
-	return nil
-}
-
-func startDocker() error {
-
-	/*
-	   #!/bin/bash
-
-	   set -eux
-
-	   N=${1:-4}
-	   FASTSYNC=${2:-false}
-	   MPWD=$(pwd)
-
-
-	   docker network create \
-	     --driver=bridge \
-	     --subnet=172.77.0.0/16 \
-	     --ip-range=172.77.0.0/16 \""
-	     --gateway=172.77.5.254 \
-	     babblenet
-
-	   for i in $(seq 1 $N)
-	   do
-	       docker run -d --name=client$i --net=babblenet --ip=172.77.10.$i -it mosaicnetworks/dummy:0.5.0 \
-	       --name="client $i" \
-	       --client-listen="172.77.10.$i:1339" \
-	       --proxy-connect="172.77.5.$i:1338" \
-	       --discard \
-	       --log="debug"
-	   done
-
-	   for i in $(seq 1 $N)
-	   do
-	       docker create --name=node$i --net=babblenet --ip=172.77.5.$i mosaicnetworks/babble:0.5.0 run \
-	       --heartbeat=100ms \
-	       --moniker="node$i" \
-	       --cache-size=50000 \
-	       --listen="172.77.5.$i:1337" \
-	       --proxy-listen="172.77.5.$i:1338" \
-	       --client-connect="172.77.10.$i:1339" \
-	       --service-listen="172.77.5.$i:80" \
-	       --sync-limit=500 \
-	       --fast-sync=$FASTSYNC \
-	       --store \
-	       --log="debug"
-
-	       docker cp $MPWD/conf/node$i node$i:/.babble
-	       docker start node$i
-	   done
-
-
-	*/
-	return nil
+	return rtn, nil
 }

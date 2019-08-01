@@ -28,3 +28,8 @@ type dockerConfig struct {
 	IPRange string `toml:"iprange"`
 	Gateway string `toml:"gateway"`
 }
+
+type dockerNodeConfig struct {
+	Moniker string `toml:"moniker"`
+	NetAddr string `toml:"netaddr"`
+}
