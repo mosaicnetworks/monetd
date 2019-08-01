@@ -39,6 +39,7 @@ func init() {
 	//Subcommands
 	NetworkCmd.AddCommand(
 		newBuildCmd(),
+		newDumpCmd(),
 		newExportCmd(),
 		newImportCmd(),
 		newNewCmd(),
