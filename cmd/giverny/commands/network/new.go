@@ -28,7 +28,7 @@ var (
 	initIP          string
 	initPeers       = 0
 	generatePassKey = false
-	savePassKey     = false
+	savePassKey     = false //TODO change this to a param not to save it
 	noBuild         = false
 )
 

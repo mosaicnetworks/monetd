@@ -172,6 +172,10 @@ func exportDockerConfigs(tree *toml.Tree, networkName string) ([]string, error) 
 		return nil, err
 	}
 
+	//TODO rewrite using the unmarshalling code in the add command.
+	//Need to abstract the node config creation into a single function
+	//So we can call it from the add command.
+
 	// Process the toml tree
 	nodesquery, err := query.CompileAndExecute("$.nodes", tree)
 	if err != nil {
