@@ -100,7 +100,7 @@ func networkNew(cmd *cobra.Command, args []string) error {
 		strconv.Itoa(initPeers) + " initial peers")
 
 	// Get Node list
-	nodeList, err := getNodesWithNames(namesFile, numberOfNodes, initPeers, initIP)
+	nodeList, lastIP, err := getNodesWithNames(namesFile, numberOfNodes, initPeers, initIP)
 	if err != nil {
 		return err
 	}
@@ -157,6 +157,7 @@ func networkNew(cmd *cobra.Command, args []string) error {
 			conf.Docker.Subnet = strings.Join(arrIP[:2], ".") + ".0.0/16"
 			conf.Docker.IPRange = conf.Docker.Subnet
 			conf.Docker.Gateway = strings.Join(arrIP[:3], ".") + ".254"
+			conf.Docker.LastIP = lastIP
 		}
 	}
 

@@ -13,7 +13,7 @@ import (
 
 var nodeNamePrefix = "node"
 
-func getNodesWithNames(srcFile string, numNodes int, numValidators int, initialIP string) ([]node, error) {
+func getNodesWithNames(srcFile string, numNodes int, numValidators int, initialIP string) ([]node, string, error) {
 	var rtn []node
 	lastDigit := 0
 	IPStem := ""
@@ -23,7 +23,7 @@ func getNodesWithNames(srcFile string, numNodes int, numValidators int, initialI
 		splitIP := strings.Split(initialIP, ".")
 
 		if len(splitIP) != 4 {
-			return rtn, errors.New("malformed initial IP: " + initialIP)
+			return rtn, "", errors.New("malformed initial IP: " + initialIP)
 		}
 
 		lastDigit, err = strconv.Atoi(splitIP[3])
@@ -47,7 +47,7 @@ func getNodesWithNames(srcFile string, numNodes int, numValidators int, initialI
 				NetAddr: netaddr, Validator: (numValidators < 1 || i < numValidators),
 				Tokens: defaultTokens, Address: "", PubKeyHex: ""})
 		}
-		return rtn, nil
+		return rtn, netaddr, nil
 	}
 
 	// Read file line by line.
@@ -56,7 +56,7 @@ func getNodesWithNames(srcFile string, numNodes int, numValidators int, initialI
 
 	if err != nil {
 		common.ErrorMessage("failed opening file: ", err)
-		return rtn, err
+		return rtn, netaddr, err
 	}
 
 	scanner := bufio.NewScanner(file)
@@ -106,7 +106,7 @@ func getNodesWithNames(srcFile string, numNodes int, numValidators int, initialI
 		}
 
 		if !common.CheckMoniker(moniker) {
-			return rtn, errors.New("node name " + moniker + " contains invalid characters")
+			return rtn, netaddr, errors.New("node name " + moniker + " contains invalid characters")
 		}
 
 		rtn = append(rtn, node{Moniker: moniker,
@@ -120,5 +120,5 @@ func getNodesWithNames(srcFile string, numNodes int, numValidators int, initialI
 	}
 
 	file.Close()
-	return rtn, nil
+	return rtn, netaddr, nil
 }
