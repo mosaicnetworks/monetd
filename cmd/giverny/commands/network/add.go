@@ -123,6 +123,7 @@ func addNodeToNetwork(networkName, moniker string) error {
 		files.WriteToFile(passFile, passphrase)
 	}
 
+	// Create a Key
 	var thisNodePassPhraseFile = filepath.Join(networkDir, givernyKeystoreDir, moniker+".txt")
 
 	if generatePassKey {
@@ -146,7 +147,6 @@ func addNodeToNetwork(networkName, moniker string) error {
 	}
 	common.InfoMessage("Generating Key for " + moniker)
 
-	//TODO add a save passphrase option.
 	key, err := crypto.NewKeyPair(networkDir, moniker, thisNodePassPhraseFile)
 	if err != nil {
 		return err
@@ -155,7 +155,6 @@ func addNodeToNetwork(networkName, moniker string) error {
 	newNodeConf.PubKeyHex = hex.EncodeToString(ecrypto.FromECDSAPub(&key.PrivateKey.PublicKey))
 
 	// Add node section
-
 	conf.Docker.LastIP = initIP
 
 	conf.Nodes = append(conf.Nodes, newNodeConf)
@@ -169,6 +168,16 @@ func addNodeToNetwork(networkName, moniker string) error {
 	if err != nil {
 		return err
 	}
+
+	dockerDir := filepath.Join(networkDir, givernyDockerDir)
+	if !files.CheckIfExists(dockerDir) {
+		common.DebugMessage("Other docker containers not yet created")
+		return nil
+	}
+
+	files.CreateDirsIfNotExists([]string{
+		dockerDir,
+	})
 
 	return nil
 }
