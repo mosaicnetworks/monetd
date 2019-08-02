@@ -28,7 +28,7 @@ var (
 	initIP          string
 	initPeers       = 0
 	generatePassKey = false
-	savePassKey     = false //TODO change this to a param not to save it
+	noSavePassKey   = false
 	noBuild         = false
 )
 
@@ -54,7 +54,7 @@ func addNewFlags(cmd *cobra.Command) {
 	cmd.Flags().IntVar(&initPeers, "initial-peers", initPeers, "number of initial peers")
 	cmd.Flags().StringVar(&initIP, "initial-ip", "", "initial IP address of range")
 	cmd.Flags().BoolVar(&generatePassKey, "generate-pass", generatePassKey, "generate pass phrases")
-	cmd.Flags().BoolVar(&savePassKey, "save-pass", savePassKey, "save pass phrase entered on command line")
+	cmd.Flags().BoolVar(&noSavePassKey, "no-save-pass", noSavePassKey, "don't save pass phrase entered on command line")
 	cmd.Flags().BoolVar(&noBuild, "no-build", noBuild, "disables the automatic build of a new network")
 
 	viper.BindPFlags(cmd.Flags())
@@ -89,7 +89,7 @@ func networkNew(cmd *cobra.Command, args []string) error {
 		keystoreDir,
 	})
 
-	if savePassKey && passFile == "" && !generatePassKey {
+	if !noSavePassKey && passFile == "" && !generatePassKey {
 		passphrase, _ := crypto.GetPassphrase("", true)
 		passFile = filepath.Join(networkDir, "pwd.txt")
 		files.WriteToFile(passFile, passphrase)
@@ -114,7 +114,7 @@ func networkNew(cmd *cobra.Command, args []string) error {
 			files.WriteToFile(thisNodePassPhraseFile, passphrase)
 			common.DebugMessage("Written " + thisNodePassPhraseFile)
 		} else {
-			if savePassKey {
+			if !noSavePassKey {
 				if passFile != "" {
 					files.CopyFileContents(passFile, thisNodePassPhraseFile)
 					common.DebugMessage("copied " + passFile + " to " + thisNodePassPhraseFile)

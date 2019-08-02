@@ -39,7 +39,7 @@ func addAddFlags(cmd *cobra.Command) {
 	cmd.Flags().StringVar(&passFile, "pass", "", "filename of a file containing a passphrase")
 	cmd.Flags().StringVar(&initIP, "initial-ip", "", "IP")
 	cmd.Flags().BoolVar(&generatePassKey, "generate-pass", generatePassKey, "generate pass phrases")
-	cmd.Flags().BoolVar(&savePassKey, "save-pass", savePassKey, "save pass phrase entered on command line")
+	cmd.Flags().BoolVar(&noSavePassKey, "no-save-pass", noSavePassKey, "don't save pass phrase entered on command line")
 	viper.BindPFlags(cmd.Flags())
 }
 
@@ -112,7 +112,7 @@ func addNodeToNetwork(networkName, moniker string) error {
 
 	// Prompt for passphrase if nothing suitable found.
 
-	if savePassKey && passFile == "" && !generatePassKey {
+	if !noSavePassKey && passFile == "" && !generatePassKey {
 		passphrase, _ := crypto.GetPassphrase("", true)
 		passFile = filepath.Join(networkDir, "pwd.txt")
 		files.WriteToFile(passFile, passphrase)
@@ -126,7 +126,7 @@ func addNodeToNetwork(networkName, moniker string) error {
 		files.WriteToFile(thisNodePassPhraseFile, passphrase)
 		common.DebugMessage("Written " + thisNodePassPhraseFile)
 	} else {
-		if savePassKey {
+		if !noSavePassKey {
 			if passFile != "" {
 				files.CopyFileContents(passFile, thisNodePassPhraseFile)
 				common.DebugMessage("copied " + passFile + " to " + thisNodePassPhraseFile)
