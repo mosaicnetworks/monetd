@@ -120,8 +120,7 @@ func networkNew(cmd *cobra.Command, args []string) error {
 					common.DebugMessage("copied " + passFile + " to " + thisNodePassPhraseFile)
 				} else {
 					passphrase, _ := crypto.GetPassphrase("", true)
-					//TODO file permissions on this
-					files.WriteToFile(thisNodePassPhraseFile, passphrase)
+					files.WriteToFilePrivate(thisNodePassPhraseFile, passphrase)
 				}
 			} else {
 				thisNodePassPhraseFile = passFile
@@ -174,13 +173,6 @@ func networkNew(cmd *cobra.Command, args []string) error {
 
 	monetconf.DumpConfigTOML(networkDir, mconfiguration.MonetTomlFile)
 
-	//TODO remove this loop, it is just debug verification code
-	/*	for j, n := range nodeList {
-			fmt.Println(strconv.Itoa(j) + " " + n.PubKeyHex)
-		}
-	*/
-
-	// exit if build is not required
 	if noBuild {
 		return nil
 	}

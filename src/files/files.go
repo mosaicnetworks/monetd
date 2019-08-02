@@ -11,8 +11,8 @@ import (
 	"path/filepath"
 	"strconv"
 
-	"github.com/mosaicnetworks/monetd/src/configuration"
 	"github.com/mosaicnetworks/monetd/src/common"
+	"github.com/mosaicnetworks/monetd/src/configuration"
 )
 
 //WriteToFile writes a string variable to a file.
@@ -29,6 +29,14 @@ func WriteToFile(filename string, data string) error {
 		return err
 	}
 	return file.Sync()
+}
+
+//WriteToFilePrivate writes a string variable to a file with 0600 permissions
+func WriteToFilePrivate(filename string, data string) error {
+
+	return ioutil.WriteFile(
+		filename,
+		[]byte(data), 0600)
 }
 
 //CreateDirsIfNotExists takes an array of strings contain filepaths and
