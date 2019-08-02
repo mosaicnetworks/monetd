@@ -3,15 +3,14 @@ package network
 import (
 	"errors"
 	"fmt"
+	"io/ioutil"
 	"path/filepath"
-	"reflect"
 	"strconv"
 	"strings"
 
 	"github.com/mosaicnetworks/monetd/src/common"
 	"github.com/mosaicnetworks/monetd/src/files"
 	"github.com/pelletier/go-toml"
-	"github.com/pelletier/go-toml/query"
 
 	"github.com/mosaicnetworks/monetd/cmd/giverny/configuration"
 
@@ -29,15 +28,7 @@ giverny network dump
 		RunE: networkDump,
 	}
 
-	addDumpFlags(cmd)
-
 	return cmd
-}
-
-func addDumpFlags(cmd *cobra.Command) {
-	//	cmd.Flags().StringVar(&addressParam, "address", addressParam, "IP/hostname of this node")
-	//	cmd.Flags().StringVar(&passwordFile, "passfile", "", "file containing the passphrase")
-	// viper.BindPFlags(cmd.Flags())
 }
 
 func networkDump(cmd *cobra.Command, args []string) error {
@@ -54,51 +45,28 @@ func networkDump(cmd *cobra.Command, args []string) error {
 	}
 
 	networkTomlFile := filepath.Join(configuration.GivernyConfigDir, givernyNetworksDir, networkName, networkTomlFileName)
-	// Load Toml file to a tree
-	tree, err := files.LoadToml(networkTomlFile)
+
+	var conf = Config{}
+
+	tomlbytes, err := ioutil.ReadFile(networkTomlFile)
 	if err != nil {
-		common.ErrorMessage("Cannot load network.toml file: ", networkTomlFile)
-		return err
+		return fmt.Errorf("Failed to read the toml file at '%s': %v", networkTomlFile, err)
 	}
 
-	nodesquery, err := query.CompileAndExecute("$.nodes", tree)
+	err = toml.Unmarshal(tomlbytes, &conf)
 	if err != nil {
-		common.ErrorMessage("Error loading nodes")
-		return err
+		return nil
 	}
 
 	var dumpOut []string
 
-	for _, value := range nodesquery.Values() {
-		if reflect.TypeOf(value).String() == "[]*toml.Tree" {
-			nodes := value.([]*toml.Tree)
-
-			for _, tr := range nodes { // loop around nodes
-				// Data wrangling
-				var addr, moniker, netaddr string
-				var validator bool
-
-				if tr.HasPath([]string{"moniker"}) {
-					moniker = tr.GetPath([]string{"moniker"}).(string)
-				}
-				if tr.HasPath([]string{"netaddr"}) {
-					netaddr = tr.GetPath([]string{"netaddr"}).(string)
-					if idx := strings.Index(netaddr, ":"); idx > -1 {
-						netaddr = netaddr[:idx]
-					}
-				}
-				if tr.HasPath([]string{"address"}) {
-					addr = tr.GetPath([]string{"address"}).(string)
-				}
-
-				if tr.HasPath([]string{"validator"}) {
-					validator = tr.GetPath([]string{"validator"}).(bool)
-				}
-
-				dumpOut = append(dumpOut, moniker+"|"+netaddr+"|"+addr+"|"+strconv.FormatBool(validator))
-
-			}
+	for _, n := range conf.Nodes {
+		netaddr := n.NetAddr
+		if idx := strings.Index(netaddr, ":"); idx > -1 {
+			netaddr = netaddr[:idx]
 		}
+
+		dumpOut = append(dumpOut, n.Moniker+"|"+netaddr+"|"+n.Address+"|"+strconv.FormatBool(n.Validator))
 
 	}
 

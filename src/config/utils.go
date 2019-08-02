@@ -54,17 +54,12 @@ func dumpPrivKey(configDir string, privKey *ecdsa.PrivateKey) error {
 
 	// The private key is writte with 600 permissions because Babble would
 	// complain otherwise
-	err := ioutil.WriteFile(
+	return ioutil.WriteFile(
 		filepath.Join(configDir,
 			configuration.BabbleDir,
 			configuration.DefaultPrivateKeyFile,
 		),
 		[]byte(keyString), 0600)
-	if err != nil {
-		return err
-	}
-
-	return nil
 }
 
 // dumpPeers takes PeerRecordList and dumps it into peers.json and

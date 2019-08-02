@@ -3,8 +3,9 @@ package network
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
+	"io/ioutil"
 	"path/filepath"
-	"reflect"
 	"strings"
 
 	"github.com/mosaicnetworks/monetd/src/config"
@@ -16,9 +17,7 @@ import (
 	"github.com/mosaicnetworks/monetd/src/files"
 	"github.com/mosaicnetworks/monetd/src/types"
 	"github.com/pelletier/go-toml"
-	"github.com/pelletier/go-toml/query"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
 func newBuildCmd() *cobra.Command {
@@ -32,15 +31,7 @@ giverny network build
 		RunE: networkBuild,
 	}
 
-	addBuildFlags(cmd)
-
 	return cmd
-}
-
-func addBuildFlags(cmd *cobra.Command) {
-	//	cmd.Flags().StringVar(&addressParam, "address", addressParam, "IP/hostname of this node")
-	//	cmd.Flags().StringVar(&passwordFile, "passfile", "", "file containing the passphrase")
-	viper.BindPFlags(cmd.Flags())
 }
 
 func networkBuild(cmd *cobra.Command, args []string) error {
@@ -65,15 +56,21 @@ func buildNetwork(networkName string) error {
 		return errors.New("cannot find the configuration file: " + networkTomlFile)
 	}
 
-	tree, err := files.LoadToml(networkTomlFile)
+	var conf = Config{}
+
+	tomlbytes, err := ioutil.ReadFile(networkTomlFile)
 	if err != nil {
-		common.ErrorMessage("Cannot load network.toml file: ", networkTomlFile)
-		return err
+		return fmt.Errorf("Failed to read the toml file at '%s': %v", networkTomlFile, err)
+	}
+
+	err = toml.Unmarshal(tomlbytes, &conf)
+	if err != nil {
+		return nil
 	}
 
 	common.DebugMessage("Building network " + networkName)
 
-	err = dumpPeersJSON(tree, thisNetworkDir)
+	err = dumpPeersJSON(&conf, thisNetworkDir)
 	if err != nil {
 		common.ErrorMessage("Error writing peers json file")
 		return err
@@ -82,74 +79,38 @@ func buildNetwork(networkName string) error {
 	return nil
 }
 
-func dumpPeersJSON(tree *toml.Tree, thisNetworkDir string) error {
+func dumpPeersJSON(conf *Config, thisNetworkDir string) error {
 
 	var peers types.PeerRecordList
-
-	if tree.HasPath([]string{"Name"}) {
-		netName := tree.GetPath([]string{"Name"}).(string)
-		common.DebugMessage("Network Name ", netName)
-	}
+	common.DebugMessage("Network Name ", conf.Network.Name)
 
 	common.DebugMessage("dumpPeersJSON")
 
-	nodesquery, err := query.CompileAndExecute("$.nodes", tree)
-	if err != nil {
-		common.ErrorMessage("Error loading nodes")
-		return err
-	}
-
 	var alloc = make(config.GenesisAlloc)
 
-	for _, value := range nodesquery.Values() {
+	for _, n := range conf.Nodes {
 
-		//		common.DebugMessage(reflect.TypeOf(value).String())
-		//		common.DebugMessage("Found a value: "+strconv.Itoa(i), value)
-
-		if reflect.TypeOf(value).String() == "[]*toml.Tree" {
-			nodes := value.([]*toml.Tree)
-
-			for _, tr := range nodes {
-				var addr, moniker, netaddr, pubkey, tokens string
-
-				if tr.HasPath([]string{"moniker"}) {
-					moniker = tr.GetPath([]string{"moniker"}).(string)
-				}
-				if tr.HasPath([]string{"netaddr"}) {
-					netaddr = tr.GetPath([]string{"netaddr"}).(string)
-					if !strings.Contains(netaddr, ":") {
-						netaddr += ":" + monetconfig.DefaultGossipPort
-					}
-				}
-				if tr.HasPath([]string{"pubkey"}) {
-					pubkey = tr.GetPath([]string{"pubkey"}).(string)
-				}
-				if tr.HasPath([]string{"tokens"}) {
-					tokens = tr.GetPath([]string{"tokens"}).(string)
-				}
-				if tr.HasPath([]string{"address"}) {
-					addr = tr.GetPath([]string{"address"}).(string)
-				}
-
-				rec := config.GenesisAllocRecord{Moniker: moniker, Balance: tokens}
-				alloc[addr] = &rec
-
-				if tr.HasPath([]string{"validator"}) && (!tr.GetPath([]string{"validator"}).(bool)) {
-					continue
-				}
-
-				peers = append(peers, &types.PeerRecord{Moniker: moniker,
-					NetAddr:   netaddr,
-					PubKeyHex: pubkey})
-
-				// If we reach this point this node is a validator
-				if err := createKeyFileIfNotExists(thisNetworkDir, moniker, addr, pubkey); err != nil {
-					return err
-				}
-
-			}
-
+		netaddr := n.NetAddr
+		if !strings.Contains(netaddr, ":") {
+			netaddr += ":" + monetconfig.DefaultGossipPort
 		}
+
+		rec := config.GenesisAllocRecord{Moniker: n.Moniker, Balance: n.Tokens}
+		alloc[n.Address] = &rec
+
+		if !n.Validator {
+			continue
+		}
+
+		peers = append(peers, &types.PeerRecord{Moniker: n.Moniker,
+			NetAddr:   netaddr,
+			PubKeyHex: n.PubKeyHex})
+
+		// If we reach this point this node is a validator
+		if err := createKeyFileIfNotExists(thisNetworkDir, n.Moniker, n.Address, n.PubKeyHex); err != nil {
+			return err
+		}
+
 	}
 
 	peersJSONOut, err := json.MarshalIndent(peers, "", "\t")

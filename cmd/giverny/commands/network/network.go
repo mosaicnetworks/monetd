@@ -6,7 +6,6 @@ import (
 	"github.com/mosaicnetworks/monetd/cmd/giverny/configuration"
 	"github.com/mosaicnetworks/monetd/src/files"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
 const (
@@ -19,7 +18,7 @@ const (
 )
 
 var (
-	numberOfNodes = 4
+	numberOfNodes = -1
 	networkName   = "network0"
 )
 
@@ -38,6 +37,7 @@ func init() {
 
 	//Subcommands
 	NetworkCmd.AddCommand(
+		newAddCmd(),
 		newBuildCmd(),
 		newDumpCmd(),
 		newExportCmd(),
@@ -50,12 +50,7 @@ func init() {
 		newLocationCmd(),
 	)
 
-	//Commonly used command line flags
-	//	NetworkCmd.PersistentFlags().StringVar(&passwordFile, "passfile", "", "the file that contains the passphrase for the keyfile")
-	//	NetworkCmd.PersistentFlags().BoolVar(&outputJSON, "json", false, "output JSON instead of human-readable format")
-	NetworkCmd.PersistentFlags().IntVarP(&numberOfNodes, "nodes", "n", numberOfNodes, "number of nodes in this configuration")
-
-	viper.BindPFlags(NetworkCmd.Flags())
+	//	viper.BindPFlags(NetworkCmd.Flags())
 
 	// make sure the giverny config folders exist.
 	createGivernyRootNetworkFolders()

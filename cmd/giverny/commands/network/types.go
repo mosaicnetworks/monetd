@@ -27,6 +27,7 @@ type dockerConfig struct {
 	Subnet  string `toml:"subnet"`
 	IPRange string `toml:"iprange"`
 	Gateway string `toml:"gateway"`
+	LastIP  string `toml:"lastip"`
 }
 
 type dockerNodeConfig struct {

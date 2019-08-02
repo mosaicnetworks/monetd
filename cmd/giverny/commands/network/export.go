@@ -9,7 +9,6 @@ import (
 	"github.com/mosaicnetworks/monetd/cmd/giverny/configuration"
 	"github.com/mosaicnetworks/monetd/src/files"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
 //set by command line flags
@@ -26,15 +25,7 @@ giverny network export
 		RunE: networkExport,
 	}
 
-	addExportFlags(cmd)
-
 	return cmd
-}
-
-func addExportFlags(cmd *cobra.Command) {
-	//	cmd.Flags().StringVar(&addressParam, "address", addressParam, "IP/hostname of this node")
-	//	cmd.Flags().BoolVar(&includePassPhrase, "include-pass", includePassPhrase, "include passphrase in export")
-	viper.BindPFlags(cmd.Flags())
 }
 
 func networkExport(cmd *cobra.Command, args []string) error {
