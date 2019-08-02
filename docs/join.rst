@@ -79,7 +79,7 @@ We do so with the monetcli ``poa nominate`` command. The syntax is:
 
 .. code:: bash
 
-    $ monetcli poa nominate -h <existing node> --from <your address> --moniker <your moniker> --pwd <passphrase file> <your address>
+    $ monetcli poa nominate -h <existing node> --from <moniker> --moniker <nominee moniker> --pwd <passphrase file> <nominee address>
 
 But we can also do it interactively. **On the existing instance (node0), run the
 following interactive monetcli session**:
@@ -103,17 +103,18 @@ following interactive monetcli session**:
     
 
     monetcli$ poa nominate
-    ? From:  a10aae5609643848ff1bceb76172652261db1d6c
+    ? From:  node0
     ? Passphrase:  [hidden]
-    ? Nominee:  0x5a735fC1235ce1E60eb5f9B9BCacb643a9Da27F4
+    ? Nominee:  0x960c13654c477ac1d2d7f8fc7ae84d93a2225257
     ? Moniker:  node1
-    You (0xa10aae5609643848ff1bceb76172652261db1d6c) nominated 'node1' (0x5a735fc1235ce1e60eb5f9b9bcacb643a9da27f4)
+
+    You (0xa10aae5609643848ff1bceb76172652261db1d6c) nominated 'node1' (0x960c13654c477ac1d2d7f8fc7ae84d93a2225257)
 
     monetcli$ poa nomineelist
     .------------------------------------------------------------------------------.
     | Moniker |                  Address                   | Up Votes | Down Votes |
     |---------|--------------------------------------------|----------|------------|
-    | Node1   | 0x5a735fc1235ce1e60eb5f9b9bcacb643a9da27f4 |        0 |          0 |
+    | Node1   | 0x960c13654c477ac1d2d7f8fc7ae84d93a2225257 |        0 |          0 |
     '------------------------------------------------------------------------------'
 
 Now that, we have applied to the whitelist (via node0), we need all the entities
@@ -130,11 +131,11 @@ whitelist, so let's cast a vote.
     '------------------------------------------------------'
 
     monetcli$ poa vote
-    ? From:  a10aae5609643848ff1bceb76172652261db1d6c
+    ? From:  node0
     ? Passphrase:  [hidden]
-    ? Nominee:  0x5a735fc1235ce1e60eb5f9b9bcacb643a9da27f4
+    ? Nominee:  0x960c13654c477ac1d2d7f8fc7ae84d93a2225257
     ? Verdict:  Yes
-    You (0xa10aae5609643848ff1bceb76172652261db1d6c) voted 'Yes' for '0x5a735fc1235ce1e60eb5f9b9bcacb643a9da27f4'. 
+    You (0xa10aae5609643848ff1bceb76172652261db1d6c) voted 'Yes' for '0x960c13654c477ac1d2d7f8fc7ae84d93a2225257'. 
     Election completed with the nominee being 'Accepted'.
 
     monet$ poa whitelist
@@ -142,7 +143,7 @@ whitelist, so let's cast a vote.
     | Moniker |                  Address                   |
     |---------|--------------------------------------------|
     | Node0   | 0xa10aae5609643848ff1bceb76172652261db1d6c |
-    | Node1   | 0x5a735fc1235ce1e60eb5f9b9bcacb643a9da27f4 |
+    | Node1   | 0x960c13654c477ac1d2d7f8fc7ae84d93a2225257 |
     '------------------------------------------------------'
 
 Finaly node1 made it into the whitelist.
@@ -150,9 +151,9 @@ Finaly node1 made it into the whitelist.
 Starting the Node
 -----------------
 
-To start node2, run the simple ``monetd run`` command. You should be able see
+To start node1, run the simple ``monetd run`` command. You should be able see
 the JoinRequest going through consensus, and being accepted by the PoA contract.
 
 .. code:: bash
 
-    $ monetd -d ~/.monet2 run
+    $ monetd run
