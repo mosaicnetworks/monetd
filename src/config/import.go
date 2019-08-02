@@ -152,6 +152,8 @@ func getListenForPeer(moniker string, peersfile string) (string, error) {
 }
 
 func SetLocalParamsInToml(datadir string, toml string, listen string) error {
+
+// For a simple change, tree is quicker and easier than unmarshalling the whole tree
 	tree, err := files.LoadToml(toml)
 	if err != nil {
 		return err
