@@ -19,11 +19,6 @@ import (
 	"github.com/spf13/viper"
 )
 
-// CLI Params
-// var initIP string
-// var generatePassKey = false
-// var savePassKey = true //TODO change this to a param not to save it
-
 func newAddCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "add [network_name] [node_name] [moniker]",

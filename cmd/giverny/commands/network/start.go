@@ -136,8 +136,6 @@ func startDockerNetwork(networkName string) error {
 	return nil
 }
 
-//TODO return a []string of node names. Those names are passed back and used to loop through and
-//push nodes.
 func exportDockerConfigs(conf *Config) error {
 	var netaddr string
 
