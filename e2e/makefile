@@ -4,7 +4,6 @@ install:
 	$(MAKE) -C crowd-funding install
 	./scripts/testdependencies.sh
 
-
 start:
 	./scripts/testdependencies.sh
 	./scripts/start.sh

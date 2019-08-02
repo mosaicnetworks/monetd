@@ -9,7 +9,7 @@ import (
 
 var (
 	defaultNodeAddr       = fmt.Sprintf("%s:%d", common.GetMyIP(), 1337)
-	defaultHeartbeat      = 500 * time.Millisecond
+	defaultHeartbeat      = 200 * time.Millisecond
 	defaultTCPTimeout     = 1000 * time.Millisecond
 	defaultCacheSize      = 50000
 	defaultSyncLimit      = 1000
