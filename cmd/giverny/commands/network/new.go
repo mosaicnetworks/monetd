@@ -56,6 +56,7 @@ func addNewFlags(cmd *cobra.Command) {
 	cmd.Flags().BoolVar(&generatePassKey, "generate-pass", generatePassKey, "generate pass phrases")
 	cmd.Flags().BoolVar(&noSavePassKey, "no-save-pass", noSavePassKey, "don't save pass phrase entered on command line")
 	cmd.Flags().BoolVar(&noBuild, "no-build", noBuild, "disables the automatic build of a new network")
+	cmd.Flags().IntVarP(&numberOfNodes, "nodes", "n", numberOfNodes, "number of nodes in this configuration")
 
 	viper.BindPFlags(cmd.Flags())
 }
@@ -67,6 +68,10 @@ func networkNew(cmd *cobra.Command, args []string) error {
 
 	if (passFile != "") && (generatePassKey) {
 		return errors.New("incompatible options --pass and --generate-pass")
+	}
+
+	if namesFile == "" && numberOfNodes < 1 {
+		return errors.New("incompatible options you must specify --nodes or --names")
 	}
 
 	if !common.CheckMoniker(networkName) {

@@ -8,6 +8,8 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/mosaicnetworks/evm-lite/src/currency"
+
 	"github.com/mosaicnetworks/monetd/src/common"
 )
 
@@ -84,20 +86,18 @@ func getNodesWithNames(srcFile string, numNodes int, numValidators int, initialI
 			moniker = arrLine[0]
 			common.DebugMessage("Setting moniker to " + moniker)
 			if len(arrLine) > 1 {
-				netaddr = arrLine[1]
-			}
-
-			if len(arrLine) > 2 {
-				moneysplit := strings.Split(arrLine[2], "E")
-				if len(moneysplit) == 1 {
-					tokens = arrLine[2]
-				} else {
-					format := "%0" + moneysplit[1] + "d"
-					tokens = moneysplit[0] + fmt.Sprintf(format, 0)
+				if strings.TrimSpace(arrLine[1]) != "" {
+					netaddr = arrLine[1]
 				}
 			}
 
-			if len(arrLine) > 3 {
+			if len(arrLine) > 2 {
+				if strings.TrimSpace(arrLine[2]) != "" {
+					tokens = currency.ExpandCurrencyString(arrLine[2])
+				}
+			}
+
+			if len(arrLine) > 3 && len(strings.TrimSpace(arrLine[3])) > 0 {
 				validator, _ = strconv.ParseBool(arrLine[3])
 			}
 
@@ -113,7 +113,7 @@ func getNodesWithNames(srcFile string, numNodes int, numValidators int, initialI
 			NetAddr: netaddr, Validator: validator,
 			Tokens: tokens, Address: netaddr, PubKeyHex: ""})
 
-		if i >= numNodes {
+		if i >= numNodes && numNodes > 0 {
 			break
 		}
 		i++
