@@ -35,6 +35,7 @@ func contractConfig(cmd *cobra.Command, args []string) error {
 	node := args[0]
 
 	tomlfile := filepath.Join(configuration.Global.DataDir, configuration.KeyStoreDir, node+".toml")
+	// For a simple change, tree is quicker and easier than unmarshalling the whole tree
 	tree, err := files.LoadToml(tomlfile)
 	if err != nil {
 		common.MessageWithType(common.MsgError, "Cannot read peer configuration: ", tomlfile)

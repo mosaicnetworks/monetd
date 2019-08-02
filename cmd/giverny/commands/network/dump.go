@@ -45,7 +45,6 @@ func networkDump(cmd *cobra.Command, args []string) error {
 	}
 
 	networkTomlFile := filepath.Join(configuration.GivernyConfigDir, givernyNetworksDir, networkName, networkTomlFileName)
-	// Load Toml file to a tree
 
 	var conf = Config{}
 
