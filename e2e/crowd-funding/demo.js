@@ -23,7 +23,7 @@ const log = (color, text) => {
 
 const online = true;
 
-const defaultTimeout = 5000;
+const defaultTimeout = 15000;
 
 const schema = {
 	properties: {
