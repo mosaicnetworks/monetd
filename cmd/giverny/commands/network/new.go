@@ -49,7 +49,6 @@ giverny network build
 }
 
 func addNewFlags(cmd *cobra.Command) {
-	//	cmd.Flags().StringVar(&addressParam, "address", addressParam, "IP/hostname of this node")
 	cmd.Flags().StringVar(&namesFile, "names", "", "filename of a file containing a list of node monikers")
 	cmd.Flags().StringVar(&passFile, "pass", "", "filename of a file containing a passphrase")
 	cmd.Flags().IntVar(&initPeers, "initial-peers", initPeers, "number of initial peers")

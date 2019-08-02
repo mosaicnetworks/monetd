@@ -14,7 +14,6 @@ import (
 	"github.com/mosaicnetworks/monetd/src/common"
 	"github.com/mosaicnetworks/monetd/src/files"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
 func newPushCmd() *cobra.Command {
@@ -28,20 +27,12 @@ giverny network push
 		RunE: networkPush,
 	}
 
-	addPushFlags(cmd)
-
 	return cmd
 }
 
 const imgName = "mosaicnetworks/monetd:latest"
 
 var imgIsRemote = false
-
-func addPushFlags(cmd *cobra.Command) {
-	//	cmd.Flags().StringVar(&addressParam, "address", addressParam, "IP/hostname of this node")
-	//	cmd.Flags().StringVar(&passwordFile, "passfile", "", "file containing the passphrase")
-	viper.BindPFlags(cmd.Flags())
-}
 
 func networkPush(cmd *cobra.Command, args []string) error {
 	networkName := args[0]

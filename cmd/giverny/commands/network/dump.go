@@ -29,15 +29,7 @@ giverny network dump
 		RunE: networkDump,
 	}
 
-	addDumpFlags(cmd)
-
 	return cmd
-}
-
-func addDumpFlags(cmd *cobra.Command) {
-	//	cmd.Flags().StringVar(&addressParam, "address", addressParam, "IP/hostname of this node")
-	//	cmd.Flags().StringVar(&passwordFile, "passfile", "", "file containing the passphrase")
-	// viper.BindPFlags(cmd.Flags())
 }
 
 func networkDump(cmd *cobra.Command, args []string) error {

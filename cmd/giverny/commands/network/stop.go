@@ -32,7 +32,6 @@ Stop a node and all the nodes within it.
 
 func addStopFlags(cmd *cobra.Command) {
 	cmd.Flags().BoolVar(&stopAndDelete, "remove", stopAndDelete, "stop and remove node")
-	//	cmd.Flags().StringVar(&passwordFile, "passfile", "", "file containing the passphrase")
 	viper.BindPFlags(cmd.Flags())
 }
 

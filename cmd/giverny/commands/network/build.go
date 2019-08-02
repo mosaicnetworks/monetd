@@ -18,7 +18,6 @@ import (
 	"github.com/pelletier/go-toml"
 	"github.com/pelletier/go-toml/query"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
 func newBuildCmd() *cobra.Command {
@@ -32,15 +31,7 @@ giverny network build
 		RunE: networkBuild,
 	}
 
-	addBuildFlags(cmd)
-
 	return cmd
-}
-
-func addBuildFlags(cmd *cobra.Command) {
-	//	cmd.Flags().StringVar(&addressParam, "address", addressParam, "IP/hostname of this node")
-	//	cmd.Flags().StringVar(&passwordFile, "passfile", "", "file containing the passphrase")
-	viper.BindPFlags(cmd.Flags())
 }
 
 func networkBuild(cmd *cobra.Command, args []string) error {

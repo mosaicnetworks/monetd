@@ -4,7 +4,6 @@ import (
 	"github.com/mosaicnetworks/monetd/src/common"
 	"github.com/mosaicnetworks/monetd/src/docker"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
 func newStatusCmd() *cobra.Command {
@@ -18,15 +17,7 @@ giverny network status
 		RunE: networkStatus,
 	}
 
-	addStatusFlags(cmd)
-
 	return cmd
-}
-
-func addStatusFlags(cmd *cobra.Command) {
-	//	cmd.Flags().StringVar(&addressParam, "address", addressParam, "IP/hostname of this node")
-	//	cmd.Flags().StringVar(&passwordFile, "passfile", "", "file containing the passphrase")
-	viper.BindPFlags(cmd.Flags())
 }
 
 func networkStatus(cmd *cobra.Command, args []string) error {
