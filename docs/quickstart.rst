@@ -101,17 +101,17 @@ Type ``info`` to check the status of the node:
     | undetermined_events    | 0          |
     '-------------------------------------'
 
-Type ``account list`` to get a list of accounts in the keystore, and the 
+Type ``accounts list`` to get a list of accounts in the keystore, and the 
 balance associated with them.
 
 .. code::
 
     monetcli$ accounts list
-    .-----------------------------------------------------------------------------.
-    |                  Address                   |        Balance         | Nonce |
-    |--------------------------------------------|------------------------|-------|
-    | 0xa10aae5609643848fF1Bceb76172652261dB1d6c | 1234567890000000000000 |     0 |
-    '-----------------------------------------------------------------------------'
+    .---------------------------------------------------------------------------------------.
+    | Moniker |                  Address                   |        Balance         | Nonce |
+    |---------|--------------------------------------------|------------------------|-------|
+    | node0   | 0xa10aae5609643848fF1Bceb76172652261dB1d6c | 1234567890000000000000 |     0 |
+    '---------------------------------------------------------------------------------------'
     
 So we have a prefunded account. The same account is used as a validator in
 Babble, and as a Tenom-holding account in the ledger. This is the same account, 
@@ -122,9 +122,11 @@ Now, let's create a new key using monetcli, and transfer some tokens to it.
 
 .. code:: bash
 
-    monetcli$ accounts create                                                                                                                                   
-    ? Passphrase:  [hidden]                                                                                                                                  
-    ? Re-enter passphrase:  [hidden]                                                                                                                         
+    monetcli$ accounts create
+    ? Moniker:  node1
+    ? Output Path:  /home/martin/.monet/keystore
+    ? Passphrase:  [hidden]
+    ? Re-enter passphrase:  [hidden]                                                                                                                    
     {"version":3,"id":"89970faf-8754-468e-903c-c9d3248a08cc","address":"960c13654c477ac1d2d7f8fc7ae84d93a2225257","crypto":{"ciphertext":"7aac819c1bed442d778
     97b690e5c2f14416589c7bdd6bdd2b5df5d03584ce0ec","cipherparams":{"iv":"3d15a67d76293c3b7123f2bde76ba120"},"cipher":"aes-128-ctr","kdf":"scrypt","kdfparams"
     :{"dklen":32,"salt":"730dd67f175a77c9833a230e334719292cbb735607795b1b84484e3d04783510","n":8192,"r":8,"p":1},"mac":"7535c31c277a698207d278cd1f1df90747463
@@ -136,31 +138,35 @@ keyfile in ~/.monet/keystore. Let's double check that the key was created:
 .. code:: bash
 
     monetcli$ accounts list
-   .-----------------------------------------------------------------------------.
-   |                  Address                   |        Balance         | Nonce |
-   |--------------------------------------------|------------------------|-------|
-   | 0x960c13654C477Ac1D2d7f8FC7Ae84D93A2225257 | 0                      |     0 |
-   | 0xa10aae5609643848fF1Bceb76172652261dB1d6c | 1234567890000000000000 |     0 |
-   '-----------------------------------------------------------------------------'
+    .---------------------------------------------------------------------------------------.
+    | Moniker |                  Address                   |        Balance         | Nonce |
+    |---------|--------------------------------------------|------------------------|-------|
+    | node0   | 0xa10aae5609643848fF1Bceb76172652261dB1d6c | 1234567890000000000000 |     0 |
+    | node1   | 0x960c13654c477ac1d2d7f8fc7ae84d93a2225257 | 0                      |     0 |
+    '---------------------------------------------------------------------------------------'
+
 
 Now, let's transfer 100 tokens to it.
 
 .. code:: bash
 
     monetcli$ transfer
-    ? From:  a10aae5609643848ff1bceb76172652261db1d6c
+    ? From:  node0 (1,234,567,890,000,000,000,000)
     ? Enter password:  [hidden]
-    ? To 0x960c13654C477Ac1D2d7f8FC7Ae84D93A2225257
+    ? To 0x960c13654c477ac1d2d7f8fc7ae84d93a2225257
     ? Value:  100
     ? Gas:  1000000
     ? Gas Price:  0
-    { from: 'a10aae5609643848ff1bceb76172652261db1d6c',
-      to: '960c13654c477ac1d2d7f8fc7ae84d93a2225257',
-      value: 100,
-      gas: 1000000,
-      gasPrice: 0 }
+    {
+      "from": "0xa10aae5609643848fF1Bceb76172652261dB1d6c",
+      "to": "0x960c13654c477ac1d2d7f8fc7ae84d93a2225257",
+      "value": 100,
+      "gas": 1000000,
+      "gasPrice": 0
+    }
     ? Submit transaction Yes
     Transaction submitted successfully.
+
 
 Finally, we can check the account balances again to verify the outcome of the
 transfer:
@@ -168,9 +174,9 @@ transfer:
 .. code:: bash
 
     monetcli$ accounts list
-    .-----------------------------------------------------------------------------.
-    |                  Address                   |        Balance         | Nonce |
-    |--------------------------------------------|------------------------|-------|
-    | 0x960c13654C477Ac1D2d7f8FC7Ae84D93A2225257 | 100                    |     0 |
-    | 0xa10aae5609643848fF1Bceb76172652261dB1d6c | 1234567889999999999900 |     1 |
-    '-----------------------------------------------------------------------------'
+    .---------------------------------------------------------------------------------------.
+    | Moniker |                  Address                   |        Balance         | Nonce |
+    |---------|--------------------------------------------|------------------------|-------|
+    | node0   | 0xa10aae5609643848fF1Bceb76172652261dB1d6c | 1234567889999999999900 |     1 |
+    | node1   | 0x960c13654c477ac1d2d7f8fc7ae84d93a2225257 | 100                    |     0 |
+    '---------------------------------------------------------------------------------------'
