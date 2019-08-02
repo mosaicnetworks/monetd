@@ -2,7 +2,8 @@
 
 set -eu
 
-NET=${1:-"net9"}
+NET=${1:-"crowdfundnet"}
+
 
 mydir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" > /dev/null && pwd )"
 

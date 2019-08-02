@@ -1,5 +1,5 @@
 #!/bin/bash
 
-NET=${1:-"net9"}
+NET=${1:-"crowdfundnet"}
 
 giverny network stop --remove $NET 

@@ -4,8 +4,13 @@ set -eu
 
 mydir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" > /dev/null && pwd )"
 
-NET=${1:-"net9"}
+NET=${1:-"crowdfundnet"}
 PORT=${2:-8080}
+OFFLINE=${3:-""}
+
+if [ "$OFFLINE" != "" ] ; then
+    OFFLINE="--offline true"
+fi
 
 SOL_FILE="$mydir/../smart-contracts/CrowdFunding.sol"
 KEY_DIR="$HOME/.giverny/networks/$NET/keystore/"
@@ -18,4 +23,5 @@ node crowd-funding/demo.js --ips=$ips \
     --port=$PORT \
     --contract=$SOL_FILE \
     --keystore=$KEY_DIR \
-    --pwd=$PWD_FILE
+    --pwd=$PWD_FILE  \
+    $OFFLINE

@@ -1,6 +1,6 @@
 #!/bin/bash
 set -eux
-NET=${1:-"net9"}
+NET=${1:-"crowdfundnet"}
 PORT=${2:-8080}
 
 watch -t -n 1 '

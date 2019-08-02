@@ -21,7 +21,7 @@ const log = (color, text) => {
 	console.log(color + text + '\x1b[0m');
 };
 
-const online = true;
+var online = true;
 
 const defaultTimeout = 15000;
 
@@ -32,6 +32,7 @@ const schema = {
 			ask: function() {
 				if (!online) {
 					console.log('Skipping prompt');
+					sleep(2);
 				}
 				return online;
 			}
@@ -99,6 +100,8 @@ var contractPath = '';
 
 const init = async () => {
 	console.group('Initialize Nodes: ');
+
+	if (argv.offline) { online = false}
 
 	const ips = argv.ips
 		.replace(/\s/g, '')
