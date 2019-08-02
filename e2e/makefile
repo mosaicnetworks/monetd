@@ -1,3 +1,6 @@
+install: 
+	$(MAKE) -C crowd-funding install
+
 start:
 	./scripts/start.sh
 
