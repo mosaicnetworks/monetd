@@ -78,6 +78,10 @@ func getNodesWithNames(srcFile string, numNodes int, numValidators int, initialI
 			continue
 		} // Ignore blank lines
 
+		if line[:1] == "#" {
+			continue
+		}
+
 		validator := (numValidators < 1 || i <= numValidators)
 		tokens := defaultTokens
 
