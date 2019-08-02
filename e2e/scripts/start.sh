@@ -8,7 +8,10 @@ mydir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" > /dev/null && pwd )"
 
 rm -rf $HOME/.giverny/networks/$NET
 
-giverny network new $NET --initial-ip 172.77.5.10 --names $mydir/../../sampledata/names.txt --nodes 4 --save-pass
+giverny network new $NET \
+    --initial-ip 172.77.5.10 \
+    --names $mydir/../networks/$NET.txt \
+    --pass $mydir/../networks/pwd.txt
 
 giverny network build $NET -v
 
