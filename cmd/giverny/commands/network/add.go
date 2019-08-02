@@ -169,9 +169,10 @@ func addNodeToNetwork(networkName, moniker string) error {
 		return nil
 	}
 
-	files.CreateDirsIfNotExists([]string{
-		dockerDir,
-	})
+	// Docker processing
+	if err := exportDockerNodeConfig(networkDir, dockerDir, &newNodeConf); err != nil {
+		return err
+	}
 
 	return nil
 }

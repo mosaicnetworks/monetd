@@ -137,7 +137,6 @@ func startDockerNetwork(networkName string) error {
 }
 
 func exportDockerConfigs(conf *Config) error {
-	var netaddr string
 
 	// Configure some paths
 	networkDir := filepath.Join(configuration.GivernyConfigDir, givernyNetworksDir, conf.Network.Name)
@@ -148,79 +147,86 @@ func exportDockerConfigs(conf *Config) error {
 	}
 
 	for _, n := range conf.Nodes { // loop around nodes
-		netaddr = n.NetAddr
-		if !strings.Contains(netaddr, ":") {
-			netaddr += ":" + monetconfig.DefaultGossipPort
+		if err := exportDockerNodeConfig(networkDir, dockerDir, &n); err != nil {
+			return err
 		}
-		// Build output files
+	}
 
-		if n.Moniker != "" { // Should not be blank here, but safety first
-			nodeDir := filepath.Join(dockerDir, n.Moniker)
-			// Docker container will always use .monet
-			monetDir := filepath.Join(nodeDir, monetconfig.MonetdTomlDirDot)
+	return nil
+}
 
-			common.DebugMessage("Creating config in " + nodeDir)
-			err := files.CreateDirsIfNotExists([]string{
-				nodeDir,
-				monetDir,
-				filepath.Join(monetDir, monetconfig.BabbleDir),
-				filepath.Join(monetDir, monetconfig.EthDir),
-				filepath.Join(monetDir, monetconfig.KeyStoreDir),
-			})
-			if err != nil {
-				return err
-			}
+func exportDockerNodeConfig(networkDir, dockerDir string, n *node) error {
 
-			copying := []copyRecord{
-				{from: filepath.Join(networkDir, monetconfig.GenesisJSON),
-					to: filepath.Join(monetDir, monetconfig.EthDir, monetconfig.GenesisJSON)},
-				{from: filepath.Join(networkDir, monetconfig.PeersJSON),
-					to: filepath.Join(monetDir, monetconfig.BabbleDir, monetconfig.PeersJSON)},
-				{from: filepath.Join(networkDir, monetconfig.PeersGenesisJSON),
-					to: filepath.Join(monetDir, monetconfig.BabbleDir, monetconfig.PeersGenesisJSON)},
-				{from: filepath.Join(networkDir, monetconfig.MonetTomlFile),
-					to: filepath.Join(monetDir, monetconfig.MonetTomlFile)},
-				{from: filepath.Join(networkDir, monetconfig.KeyStoreDir, n.Moniker+".json"),
-					to: filepath.Join(monetDir, monetconfig.KeyStoreDir, n.Moniker+".json")},
-				{from: filepath.Join(networkDir, monetconfig.KeyStoreDir, n.Moniker+".txt"),
-					to: filepath.Join(monetDir, monetconfig.KeyStoreDir, n.Moniker+".txt")},
-			}
+	netaddr := n.NetAddr
+	if !strings.Contains(netaddr, ":") {
+		netaddr += ":" + monetconfig.DefaultGossipPort
+	}
+	// Build output files
 
-			for _, f := range copying {
-				files.CopyFileContents(f.from, f.to)
-			}
+	if n.Moniker != "" { // Should not be blank here, but safety first
+		nodeDir := filepath.Join(dockerDir, n.Moniker)
+		// Docker container will always use .monet
+		monetDir := filepath.Join(nodeDir, monetconfig.MonetdTomlDirDot)
 
-			// Write a node description file containing all of the parameters needed to start a container
-			// Saves having to load and parse network.toml for every node
-			nodeConfigFile := filepath.Join(dockerDir, n.Moniker+".toml")
-			nodeConfig := dockerNodeConfig{Moniker: n.Moniker, NetAddr: strings.Split(netaddr, ":")[0]}
+		common.DebugMessage("Creating config in " + nodeDir)
+		err := files.CreateDirsIfNotExists([]string{
+			nodeDir,
+			monetDir,
+			filepath.Join(monetDir, monetconfig.BabbleDir),
+			filepath.Join(monetDir, monetconfig.EthDir),
+			filepath.Join(monetDir, monetconfig.KeyStoreDir),
+		})
+		if err != nil {
+			return err
+		}
 
-			tomlBytes, err := toml.Marshal(nodeConfig)
-			if err != nil {
-				return err
-			}
+		copying := []copyRecord{
+			{from: filepath.Join(networkDir, monetconfig.GenesisJSON),
+				to: filepath.Join(monetDir, monetconfig.EthDir, monetconfig.GenesisJSON)},
+			{from: filepath.Join(networkDir, monetconfig.PeersJSON),
+				to: filepath.Join(monetDir, monetconfig.BabbleDir, monetconfig.PeersJSON)},
+			{from: filepath.Join(networkDir, monetconfig.PeersGenesisJSON),
+				to: filepath.Join(monetDir, monetconfig.BabbleDir, monetconfig.PeersGenesisJSON)},
+			{from: filepath.Join(networkDir, monetconfig.MonetTomlFile),
+				to: filepath.Join(monetDir, monetconfig.MonetTomlFile)},
+			{from: filepath.Join(networkDir, monetconfig.KeyStoreDir, n.Moniker+".json"),
+				to: filepath.Join(monetDir, monetconfig.KeyStoreDir, n.Moniker+".json")},
+			{from: filepath.Join(networkDir, monetconfig.KeyStoreDir, n.Moniker+".txt"),
+				to: filepath.Join(monetDir, monetconfig.KeyStoreDir, n.Moniker+".txt")},
+		}
 
-			err = files.WriteToFile(nodeConfigFile, string(tomlBytes))
-			if err != nil {
-				return err
-			}
+		for _, f := range copying {
+			files.CopyFileContents(f.from, f.to)
+		}
 
-			// Need to edit monetd.toml and set datadir and listen appropriately
+		// Write a node description file containing all of the parameters needed to start a container
+		// Saves having to load and parse network.toml for every node
+		nodeConfigFile := filepath.Join(dockerDir, n.Moniker+".toml")
+		nodeConfig := dockerNodeConfig{Moniker: n.Moniker, NetAddr: strings.Split(netaddr, ":")[0]}
 
-			err = config.SetLocalParamsInToml("/.monet", filepath.Join(monetDir, monetconfig.MonetTomlFile), netaddr)
-			if err != nil {
-				return err
-			}
+		tomlBytes, err := toml.Marshal(nodeConfig)
+		if err != nil {
+			return err
+		}
 
-			// Need to generate private key
-			err = config.GenerateBabblePrivateKey(monetDir, n.Moniker)
-			if err != nil {
-				return err
-			}
+		err = files.WriteToFile(nodeConfigFile, string(tomlBytes))
+		if err != nil {
+			return err
+		}
 
+		// Need to edit monetd.toml and set datadir and listen appropriately
+
+		err = config.SetLocalParamsInToml("/.monet", filepath.Join(monetDir, monetconfig.MonetTomlFile), netaddr)
+		if err != nil {
+			return err
+		}
+
+		// Need to generate private key
+		err = config.GenerateBabblePrivateKey(monetDir, n.Moniker)
+		if err != nil {
+			return err
 		}
 
 	}
-
 	return nil
 }
