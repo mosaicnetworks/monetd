@@ -76,7 +76,7 @@ func addNodeToNetwork(networkName, moniker string) error {
 
 	tomlbytes, err := ioutil.ReadFile(networkTomlFile)
 	if err != nil {
-		return fmt.Errorf("Failed to read the keyfile at '%s': %v", networkTomlFile, err)
+		return fmt.Errorf("Failed to read the toml file at '%s': %v", networkTomlFile, err)
 	}
 
 	err = toml.Unmarshal(tomlbytes, &conf)
