@@ -21,6 +21,9 @@ const log = (color, text) => {
 	console.log(color + text + '\x1b[0m');
 };
 
+
+const finalDelta = [-500,+500,0,0];
+
 var online = true;
 
 const defaultTimeout = 15000;
@@ -94,6 +97,9 @@ const readPasswordFile = path => {
 // State functions
 const allAccounts = [];
 const allNodes = [];
+const allMonikers = [];
+const initBalance = [];
+const lastBalance = [];
 
 var crowdFunding = {};
 var contractPath = '';
@@ -161,6 +167,7 @@ const decryptAccounts = async ({ keystore, password }) => {
 
 				account.balance = base.balance;
 				account.nonce = base.nonce;
+				account.moniker = moniker;
 			}
 		} catch (e) {
 			// pass
@@ -177,20 +184,44 @@ const decryptAccounts = async ({ keystore, password }) => {
 
 			console.log('Decrypted: ', `${account.address} (${balance || 0})`);
 			allAccounts.push(account);
+			allMonikers.push(moniker);
+			initBalance.push(balance)
 		}
 	}
 
 	for (i = 0; i < allNodes.length; i++) {
 		allNodes[i].api.defaultFrom = allAccounts[i].address;
 		allNodes[i].account = allAccounts[i];
+		allNodes[i].name =allMonikers[i];
+
 	}
 
 	console.groupEnd();
 };
 
+
+const checkBalances = async () => {
+	console.group('Check Balances: ');
+	i = 0; 
+	let failed = false;
+	for (const node of allNodes) {		
+		let expected = initBalance[i] + finalDelta[i]
+		if (expected == lastBalance[i]) { console.log(node.name + " balance as expected.");}
+		else {
+			console.log("ERROR: "+ node.name + " expected " + expected + " got " + lastBalance[i]);
+			failed = true;
+		}
+		i++;
+	}	
+	console.groupEnd();
+	if (failed) {process.exit(1)} 
+};
+
+
 const displayAllBalances = async () => {
 	console.group('Current Account Balances');
 
+	let i = 0;
 	for (const node of allNodes) {
 		const baseAccount = await node.api.getAccount(node.account.address);
 		const account = {
@@ -206,7 +237,8 @@ const displayAllBalances = async () => {
 		}
 
 		account.balance = balance;
-
+		lastBalance[i] = balance;
+		i++;
 		console.log(`${node.name}: `, '\n', account, '\n');
 	}
 	console.groupEnd();
@@ -354,21 +386,21 @@ init()
 	.then(() =>
 		explain(
 			'Each node controls one account which allows it to send and receive Ether. \n' +
-				'The private keys reside locally and directly on the evm-light nodes. In a \n' +
+				'The private keys reside locally and directly on the evm-lite nodes. In a \n' +
 				'production setting, access to the nodes would be restricted to the people  \n' +
 				'allowed to sign messages with the private key. We also keep a local copy \n' +
 				'of all the private keys to demonstrate client-side signing.'
 		)
 	)
-	.then(() => step('STEP 2) Send 500 wei (10^-18 ether) from node1 to node2'))
+	.then(() => step('STEP 2) Send 500 tokens from Amelia to Becky'))
 	.then(() => {
 		space();
 		return transferRaw(allNodes[0], allNodes[1], 500);
 	})
 	.then(() =>
 		explain(
-			'We created an EVM transaction to send 500 wei from node1 to node2. The \n' +
-				"transaction was signed localy with node1 's private key and sent through node1. \n" +
+			'We created an EVM transaction to send 500 tokens from Amelia to Becky. The \n' +
+				"transaction was signed localy with Amelia's private key and sent through Amelia's node. \n" +
 				'The client-facing service running in EVM-Lite relayed the transaction to Babble \n' +
 				'for consensus ordering. Babble gossiped the raw transaction to the other Babble \n' +
 				'nodes which ran it through the consensus algorithm before committing it back to \n' +
@@ -382,11 +414,11 @@ init()
 		return displayAllBalances();
 	})
 	.then(() =>
-		explain('Notice how the balances of node1 and node2 have changed.')
+		explain('Notice how the balances of Amelia and Becky have changed.')
 	)
 	.then(() =>
 		step(
-			'STEP 4) Deploy a CrowdFunding SmartContract for 1000 wei from node 1'
+			'STEP 4) Deploy a CrowdFunding SmartContract for 1000 tokens from Amelia'
 		)
 	)
 	.then(() => {
@@ -407,7 +439,7 @@ init()
 				'the same code with the same data.'
 		)
 	)
-	.then(() => step('STEP 5) Contribute 499 wei from node 1'))
+	.then(() => step('STEP 5) Contribute 499 tokens from Amelia'))
 	.then(() => {
 		space();
 		return crowdFunding.contribute(499);
@@ -418,7 +450,7 @@ init()
 				"The 'value' field of the transaction is the amount that the caller is actually \n" +
 				'going to contribute. The operation would fail if the account did not have enough Ether. \n' +
 				'As an exercise you can check that the transaction was run through every Babble \n' +
-				"node and that node2's balance has changed."
+				"node and that Becky's balance has changed."
 		)
 	)
 	.then(() => step('STEP 6) Check goal reached'))
@@ -432,7 +464,7 @@ init()
 				'was met. Since only 499 of 1000 were received, the answer is no.'
 		)
 	)
-	.then(() => step('STEP 7) Contribute 501 wei from node 1 again'))
+	.then(() => step('STEP 7) Contribute 501 wei from Amelia again'))
 	.then(() => {
 		space();
 		return crowdFunding.contribute(501);
@@ -444,7 +476,7 @@ init()
 	})
 	.then(() =>
 		step(
-			'STEP 9) Before we `settle` lets check balances again to show that node 1 balance decreased by a total of 1000.'
+			'STEP 9) Before we `settle` lets check balances again to show that Amelia\'s balance decreased by a total of 1000.'
 		)
 	)
 	.then(() => {
@@ -461,12 +493,16 @@ init()
 	})
 	.then(() =>
 		explain(
-			'The funds were transferred from the SmartContract back to node1.'
+			'The funds were transferred from the SmartContract back to Amelia.'
 		)
 	)
 	.then(() => step('STEP 11) Check balances again'))
 	.then(() => {
 		space();
 		return displayAllBalances();
+	})	
+	.then(() => {
+		space();
+		return checkBalances();
 	})
 	.catch(err => console.log(err));
