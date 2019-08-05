@@ -1,0 +1,417 @@
+Generate -1 Nodes with 0 initial peers
+Generating Key for Amelia (true) 172.77.5.10
+Address: 0x9DA9367B7c9a55599c1b91c22102d7B084F7e03D
+Generating Key for Becky (true) 172.77.5.11
+Address: 0x85d0076c57B324ecbe5FdFA09Ac55e282862Fc16
+Generating Key for Chloe (true) 172.77.5.12
+Address: 0x726Fe018C9E1ffa09803E6A9bb909e12391cE852
+Generating Key for Danu (true) 172.77.5.13
+Address: 0x26ddD95BF6638e42e0330dA5285dCe3C4F307ee0
+Building network crowdfundnet
+Network Name  crowdfundnet
+dumpPeersJSON
+buildGenesisJSON
+Source Loaded
+Path         :  /snap/bin/solc
+Full Version : 
+ solc, the solidity compiler commandline interface
+Version: 0.5.10+commit.5a6ea5b1.Linux.g++
+
+Processing Contract:  <stdin>:POA_Genesis
+Written toml file:  /home/jon/.giverny/networks/crowdfundnet/compile.toml
+Characters written  20527
+POA Section Build
+Alloc Built
+Write Genesis.json
+Configuring Network  crowdfundnet
+Connecting to Docker Client
+Creating options
+Creating network
+ID: 0ba2ab6d14fab96aeb5da34715376f7140ad3156980681226b82f17cb35acc22
+Created Network 0ba2ab6d14fab96aeb5da34715376f7140ad3156980681226b82f17cb35acc22
+Created Directory:  /home/jon/.giverny/networks/crowdfundnet/docker
+Creating config in /home/jon/.giverny/networks/crowdfundnet/docker/Amelia
+Created Directory:  /home/jon/.giverny/networks/crowdfundnet/docker/Amelia
+Created Directory:  /home/jon/.giverny/networks/crowdfundnet/docker/Amelia/.monet
+Created Directory:  /home/jon/.giverny/networks/crowdfundnet/docker/Amelia/.monet/babble
+Created Directory:  /home/jon/.giverny/networks/crowdfundnet/docker/Amelia/.monet/eth
+Created Directory:  /home/jon/.giverny/networks/crowdfundnet/docker/Amelia/.monet/keystore
+Copying from /home/jon/.giverny/networks/crowdfundnet/genesis.json to /home/jon/.giverny/networks/crowdfundnet/docker/Amelia/.monet/eth/genesis.json
+Copying from /home/jon/.giverny/networks/crowdfundnet/peers.json to /home/jon/.giverny/networks/crowdfundnet/docker/Amelia/.monet/babble/peers.json
+Copying from /home/jon/.giverny/networks/crowdfundnet/peers.genesis.json to /home/jon/.giverny/networks/crowdfundnet/docker/Amelia/.monet/babble/peers.genesis.json
+Copying from /home/jon/.giverny/networks/crowdfundnet/monetd.toml to /home/jon/.giverny/networks/crowdfundnet/docker/Amelia/.monet/monetd.toml
+Copying from /home/jon/.giverny/networks/crowdfundnet/keystore/Amelia.json to /home/jon/.giverny/networks/crowdfundnet/docker/Amelia/.monet/keystore/Amelia.json
+Copying from /home/jon/.giverny/networks/crowdfundnet/keystore/Amelia.txt to /home/jon/.giverny/networks/crowdfundnet/docker/Amelia/.monet/keystore/Amelia.txt
+Written toml file:  /home/jon/.giverny/networks/crowdfundnet/docker/Amelia/.monet/monetd.toml
+Characters written  231
+Written Private Key for 0x9DA9367B7c9a55599c1b91c22102d7B084F7e03D
+Creating config in /home/jon/.giverny/networks/crowdfundnet/docker/Becky
+Created Directory:  /home/jon/.giverny/networks/crowdfundnet/docker/Becky
+Created Directory:  /home/jon/.giverny/networks/crowdfundnet/docker/Becky/.monet
+Created Directory:  /home/jon/.giverny/networks/crowdfundnet/docker/Becky/.monet/babble
+Created Directory:  /home/jon/.giverny/networks/crowdfundnet/docker/Becky/.monet/eth
+Created Directory:  /home/jon/.giverny/networks/crowdfundnet/docker/Becky/.monet/keystore
+Copying from /home/jon/.giverny/networks/crowdfundnet/genesis.json to /home/jon/.giverny/networks/crowdfundnet/docker/Becky/.monet/eth/genesis.json
+Copying from /home/jon/.giverny/networks/crowdfundnet/peers.json to /home/jon/.giverny/networks/crowdfundnet/docker/Becky/.monet/babble/peers.json
+Copying from /home/jon/.giverny/networks/crowdfundnet/peers.genesis.json to /home/jon/.giverny/networks/crowdfundnet/docker/Becky/.monet/babble/peers.genesis.json
+Copying from /home/jon/.giverny/networks/crowdfundnet/monetd.toml to /home/jon/.giverny/networks/crowdfundnet/docker/Becky/.monet/monetd.toml
+Copying from /home/jon/.giverny/networks/crowdfundnet/keystore/Becky.json to /home/jon/.giverny/networks/crowdfundnet/docker/Becky/.monet/keystore/Becky.json
+Copying from /home/jon/.giverny/networks/crowdfundnet/keystore/Becky.txt to /home/jon/.giverny/networks/crowdfundnet/docker/Becky/.monet/keystore/Becky.txt
+Written toml file:  /home/jon/.giverny/networks/crowdfundnet/docker/Becky/.monet/monetd.toml
+Characters written  231
+Written Private Key for 0x85d0076c57B324ecbe5FdFA09Ac55e282862Fc16
+Creating config in /home/jon/.giverny/networks/crowdfundnet/docker/Chloe
+Created Directory:  /home/jon/.giverny/networks/crowdfundnet/docker/Chloe
+Created Directory:  /home/jon/.giverny/networks/crowdfundnet/docker/Chloe/.monet
+Created Directory:  /home/jon/.giverny/networks/crowdfundnet/docker/Chloe/.monet/babble
+Created Directory:  /home/jon/.giverny/networks/crowdfundnet/docker/Chloe/.monet/eth
+Created Directory:  /home/jon/.giverny/networks/crowdfundnet/docker/Chloe/.monet/keystore
+Copying from /home/jon/.giverny/networks/crowdfundnet/genesis.json to /home/jon/.giverny/networks/crowdfundnet/docker/Chloe/.monet/eth/genesis.json
+Copying from /home/jon/.giverny/networks/crowdfundnet/peers.json to /home/jon/.giverny/networks/crowdfundnet/docker/Chloe/.monet/babble/peers.json
+Copying from /home/jon/.giverny/networks/crowdfundnet/peers.genesis.json to /home/jon/.giverny/networks/crowdfundnet/docker/Chloe/.monet/babble/peers.genesis.json
+Copying from /home/jon/.giverny/networks/crowdfundnet/monetd.toml to /home/jon/.giverny/networks/crowdfundnet/docker/Chloe/.monet/monetd.toml
+Copying from /home/jon/.giverny/networks/crowdfundnet/keystore/Chloe.json to /home/jon/.giverny/networks/crowdfundnet/docker/Chloe/.monet/keystore/Chloe.json
+Copying from /home/jon/.giverny/networks/crowdfundnet/keystore/Chloe.txt to /home/jon/.giverny/networks/crowdfundnet/docker/Chloe/.monet/keystore/Chloe.txt
+Written toml file:  /home/jon/.giverny/networks/crowdfundnet/docker/Chloe/.monet/monetd.toml
+Characters written  231
+Written Private Key for 0x726Fe018C9E1ffa09803E6A9bb909e12391cE852
+Creating config in /home/jon/.giverny/networks/crowdfundnet/docker/Danu
+Created Directory:  /home/jon/.giverny/networks/crowdfundnet/docker/Danu
+Created Directory:  /home/jon/.giverny/networks/crowdfundnet/docker/Danu/.monet
+Created Directory:  /home/jon/.giverny/networks/crowdfundnet/docker/Danu/.monet/babble
+Created Directory:  /home/jon/.giverny/networks/crowdfundnet/docker/Danu/.monet/eth
+Created Directory:  /home/jon/.giverny/networks/crowdfundnet/docker/Danu/.monet/keystore
+Copying from /home/jon/.giverny/networks/crowdfundnet/genesis.json to /home/jon/.giverny/networks/crowdfundnet/docker/Danu/.monet/eth/genesis.json
+Copying from /home/jon/.giverny/networks/crowdfundnet/peers.json to /home/jon/.giverny/networks/crowdfundnet/docker/Danu/.monet/babble/peers.json
+Copying from /home/jon/.giverny/networks/crowdfundnet/peers.genesis.json to /home/jon/.giverny/networks/crowdfundnet/docker/Danu/.monet/babble/peers.genesis.json
+Copying from /home/jon/.giverny/networks/crowdfundnet/monetd.toml to /home/jon/.giverny/networks/crowdfundnet/docker/Danu/.monet/monetd.toml
+Copying from /home/jon/.giverny/networks/crowdfundnet/keystore/Danu.json to /home/jon/.giverny/networks/crowdfundnet/docker/Danu/.monet/keystore/Danu.json
+Copying from /home/jon/.giverny/networks/crowdfundnet/keystore/Danu.txt to /home/jon/.giverny/networks/crowdfundnet/docker/Danu/.monet/keystore/Danu.txt
+Written toml file:  /home/jon/.giverny/networks/crowdfundnet/docker/Danu/.monet/monetd.toml
+Characters written  231
+Written Private Key for 0x26ddD95BF6638e42e0330dA5285dCe3C4F307ee0
+Initialize Nodes: 
+  Sorted IPs:  [ '172.77.5.10', '172.77.5.11', '172.77.5.12', '172.77.5.13' ]
+  Port:  8080
+  Keystore Path:  /home/jon/.giverny/networks/crowdfundnet/keystore/
+  Password Path:  /home/jon/go/src/github.com/mosaicnetworks/monetd/e2e/tests/crowdfundnet/../../networks/pwd.txt
+  Contract Path:  /home/jon/go/src/github.com/mosaicnetworks/monetd/e2e/tests/crowdfundnet/../../smart-contracts/CrowdFunding.sol
+Decrypt Accounts
+  Password:  test
+  Decrypted:  0x9DA9367B7c9a55599c1b91c22102d7B084F7e03D (1000000000)
+  Decrypted:  0x85d0076c57B324ecbe5FdFA09Ac55e282862Fc16 (1000000000)
+  Decrypted:  0x726Fe018C9E1ffa09803E6A9bb909e12391cE852 (1000000000)
+  Decrypted:  0x26ddD95BF6638e42e0330dA5285dCe3C4F307ee0 (1000000000)
+[37m
+STEP 1) Get Accounts[0m
+Skipping prompt
+
+
+Current Account Balances
+  amelia:  
+   { address: '0x9DA9367B7c9a55599c1b91c22102d7B084F7e03D',
+    balance: 1000000000,
+    nonce: 0,
+    bytecode: '' } 
+  
+  becky:  
+   { address: '0x85d0076c57B324ecbe5FdFA09Ac55e282862Fc16',
+    balance: 1000000000,
+    nonce: 0,
+    bytecode: '' } 
+  
+  chloe:  
+   { address: '0x726Fe018C9E1ffa09803E6A9bb909e12391cE852',
+    balance: 1000000000,
+    nonce: 0,
+    bytecode: '' } 
+  
+  danu:  
+   { address: '0x26ddD95BF6638e42e0330dA5285dCe3C4F307ee0',
+    balance: 1000000000,
+    nonce: 0,
+    bytecode: '' } 
+  
+[36m
+EXPLANATION:
+Each node controls one account which allows it to send and receive Ether. 
+The private keys reside locally and directly on the evm-lite nodes. In a 
+production setting, access to the nodes would be restricted to the people  
+allowed to sign messages with the private key. We also keep a local copy 
+of all the private keys to demonstrate client-side signing.[0m
+[37m
+STEP 2) Send 500 tokens from Amelia to Becky[0m
+Skipping prompt
+
+
+Locally Signed Transfer
+  Transaction:  Transaction {
+    constant: false,
+    parseLogs: undefined,
+    unpackfn: undefined,
+    from: '9da9367b7c9a55599c1b91c22102d7b084f7e03d',
+    to: '85d0076c57b324ecbe5fdfa09ac55e282862fc16',
+    value: 500,
+    data: '',
+    gas: 100000000,
+    gasPrice: 0,
+    nonce: undefined,
+    chainId: 1 } 
+  
+  Receipt:  { root:
+     '0xf2e1c1cb4ea9d67c9170358fe9e87c582c213b028abdc898714486cfc142752d',
+    transactionHash:
+     '0xcf49bb3d089df6f71011d186731c61492b55e55bec750998f20878397a13d10b',
+    from: '0x9da9367b7c9a55599c1b91c22102d7b084f7e03d',
+    to: '0x85d0076c57b324ecbe5fdfa09ac55e282862fc16',
+    gasUsed: 21000,
+    cumulativeGasUsed: 21000,
+    contractAddress: '0x0000000000000000000000000000000000000000',
+    logs: [],
+    logsBloom:
+     '0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
+    status: 0 }
+[36m
+EXPLANATION:
+We created an EVM transaction to send 500 tokens from Amelia to Becky. The 
+transaction was signed localy with Amelia's private key and sent through Amelia's node. 
+The client-facing service running in EVM-Lite relayed the transaction to Babble 
+for consensus ordering. Babble gossiped the raw transaction to the other Babble 
+nodes which ran it through the consensus algorithm before committing it back to 
+EVM-Lite as part of Block. So each node received and processed the transaction. 
+They each applied the same changes to their local copy of the ledger.
+[0m
+[37m
+STEP 3) Check balances again[0m
+Skipping prompt
+
+
+Current Account Balances
+  amelia:  
+   { address: '0x9DA9367B7c9a55599c1b91c22102d7B084F7e03D',
+    balance: 999999500,
+    nonce: 1,
+    bytecode: '' } 
+  
+  becky:  
+   { address: '0x85d0076c57B324ecbe5FdFA09Ac55e282862Fc16',
+    balance: 1000000500,
+    nonce: 0,
+    bytecode: '' } 
+  
+  chloe:  
+   { address: '0x726Fe018C9E1ffa09803E6A9bb909e12391cE852',
+    balance: 1000000000,
+    nonce: 0,
+    bytecode: '' } 
+  
+  danu:  
+   { address: '0x26ddD95BF6638e42e0330dA5285dCe3C4F307ee0',
+    balance: 1000000000,
+    nonce: 0,
+    bytecode: '' } 
+  
+[36m
+EXPLANATION:
+Notice how the balances of Amelia and Becky have changed.[0m
+[37m
+STEP 4) Deploy a CrowdFunding SmartContract for 1000 tokens from Amelia[0m
+Skipping prompt
+
+
+ABI:  [{"constant":true,"inputs":[],"name":"checkGoalReached","outputs":[{"name":"reached","type":"bool"},{"name":"beneficiary","type":"address"},{"name":"goal","type":"uint256"},{"name":"amount","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"settle","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[],"name":"contribute","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"inputs":[{"name":"goal","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":false,"name":"beneficiary","type":"address"},{"indexed":false,"name":"funder","type":"address"},{"indexed":false,"name":"amount","type":"uint256"}],"name":"NewContribution","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"ok","type":"bool"}],"name":"Settlement","type":"event"}] 
+
+Receipt: { root:
+   '0x23fd3d84b1a3469a6a259c4f1ef012fc9ec3071971bd42b3cba5ba5622ddc25b',
+  transactionHash:
+   '0xcf7ca3fcffe3d6e96765eb906173831738e4745ccc553699ad9955fb572013bd',
+  from: '0x9da9367b7c9a55599c1b91c22102d7b084f7e03d',
+  to: null,
+  gasUsed: 248062,
+  cumulativeGasUsed: 248062,
+  contractAddress: '0x38d0eafc32e437e2df649af0479e0b753106065b',
+  logs: [],
+  logsBloom:
+   '0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
+  status: 0 }
+[36m
+EXPLANATION:
+Here we compiled and deployed the CrowdFunding SmartContract. 
+The contract was written in the high-level Solidity language which compiles 
+down to EVM bytecode. To deploy the SmartContract we created an EVM transaction 
+with a 'data' field containing the bytecode. After going through consensus, the 
+transaction is applied on every node, so every participant will run a copy of 
+the same code with the same data.[0m
+[37m
+STEP 5) Contribute 499 tokens from Amelia[0m
+Skipping prompt
+
+
+Transaction:  Transaction {
+  constant: false,
+  parseLogs: [Function: bound ],
+  unpackfn: undefined,
+  from: '9da9367b7c9a55599c1b91c22102d7b084f7e03d',
+  to: '38d0eafc32e437e2df649af0479e0b753106065b',
+  value: 499,
+  data: 'd7bb99ba',
+  gas: 100000000,
+  gasPrice: 0,
+  nonce: undefined,
+  chainId: 1 } 
+
+NewContribution {
+  "beneficiary": "0x9da9367b7c9a55599c1b91c22102d7b084f7e03d",
+  "funder": "0x9da9367b7c9a55599c1b91c22102d7b084f7e03d",
+  "amount": "499"
+}
+[36m
+EXPLANATION:
+We created an EVM transaction to call the 'contribute' method of the SmartContract. 
+The 'value' field of the transaction is the amount that the caller is actually 
+going to contribute. The operation would fail if the account did not have enough Ether. 
+As an exercise you can check that the transaction was run through every Babble 
+node and that Becky's balance has changed.[0m
+[37m
+STEP 6) Check goal reached[0m
+Skipping prompt
+
+
+[34m{
+  "goalReached": false,
+  "beneficiary": "0x9da9367b7c9a55599c1b91c22102d7b084f7e03d",
+  "fundingTarget": "1,000",
+  "current": "499"
+}[0m
+[36m
+EXPLANATION:
+Here we called another method of the SmartContract to check if the funding goal 
+was met. Since only 499 of 1000 were received, the answer is no.[0m
+[37m
+STEP 7) Contribute 501 wei from Amelia again[0m
+Skipping prompt
+
+
+Transaction:  Transaction {
+  constant: false,
+  parseLogs: [Function: bound ],
+  unpackfn: undefined,
+  from: '9da9367b7c9a55599c1b91c22102d7b084f7e03d',
+  to: '38d0eafc32e437e2df649af0479e0b753106065b',
+  value: 501,
+  data: 'd7bb99ba',
+  gas: 100000000,
+  gasPrice: 0,
+  nonce: undefined,
+  chainId: 1 } 
+
+NewContribution {
+  "beneficiary": "0x9da9367b7c9a55599c1b91c22102d7b084f7e03d",
+  "funder": "0x9da9367b7c9a55599c1b91c22102d7b084f7e03d",
+  "amount": "501"
+}
+[37m
+STEP 8) Check goal reached[0m
+Skipping prompt
+
+
+[34m{
+  "goalReached": true,
+  "beneficiary": "0x9da9367b7c9a55599c1b91c22102d7b084f7e03d",
+  "fundingTarget": "1,000",
+  "current": "1,000"
+}[0m
+[37m
+STEP 9) Before we `settle` lets check balances again to show that Amelia's balance decreased by a total of 1000.[0m
+Skipping prompt
+
+
+Current Account Balances
+  amelia:  
+   { address: '0x9DA9367B7c9a55599c1b91c22102d7B084F7e03D',
+    balance: 999998500,
+    nonce: 4,
+    bytecode: '' } 
+  
+  becky:  
+   { address: '0x85d0076c57B324ecbe5FdFA09Ac55e282862Fc16',
+    balance: 1000000500,
+    nonce: 0,
+    bytecode: '' } 
+  
+  chloe:  
+   { address: '0x726Fe018C9E1ffa09803E6A9bb909e12391cE852',
+    balance: 1000000000,
+    nonce: 0,
+    bytecode: '' } 
+  
+  danu:  
+   { address: '0x26ddD95BF6638e42e0330dA5285dCe3C4F307ee0',
+    balance: 1000000000,
+    nonce: 0,
+    bytecode: '' } 
+  
+[36m
+EXPLANATION:
+Since the funding goal was reached we can now settle.[0m
+[37m
+STEP 10) Settle[0m
+Skipping prompt
+
+
+Transaction:  Transaction {
+  constant: false,
+  parseLogs: [Function: bound ],
+  unpackfn: undefined,
+  from: '9da9367b7c9a55599c1b91c22102d7b084f7e03d',
+  to: '38d0eafc32e437e2df649af0479e0b753106065b',
+  value: 0,
+  data: '11da60b4',
+  gas: 100000000,
+  gasPrice: 0,
+  nonce: undefined,
+  chainId: 1 } 
+
+Settlement {
+  "ok": true
+}
+[36m
+EXPLANATION:
+The funds were transferred from the SmartContract back to Amelia.[0m
+[37m
+STEP 11) Check balances again[0m
+Skipping prompt
+
+
+Current Account Balances
+  amelia:  
+   { address: '0x9DA9367B7c9a55599c1b91c22102d7B084F7e03D',
+    balance: 999999500,
+    nonce: 5,
+    bytecode: '' } 
+  
+  becky:  
+   { address: '0x85d0076c57B324ecbe5FdFA09Ac55e282862Fc16',
+    balance: 1000000500,
+    nonce: 0,
+    bytecode: '' } 
+  
+  chloe:  
+   { address: '0x726Fe018C9E1ffa09803E6A9bb909e12391cE852',
+    balance: 1000000000,
+    nonce: 0,
+    bytecode: '' } 
+  
+  danu:  
+   { address: '0x26ddD95BF6638e42e0330dA5285dCe3C4F307ee0',
+    balance: 1000000000,
+    nonce: 0,
+    bytecode: '' } 
+  
+
+
+Check Balances: 
+  amelia balance as expected.
+  becky balance as expected.
+  chloe balance as expected.
+  danu balance as expected.

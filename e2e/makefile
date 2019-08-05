@@ -1,4 +1,5 @@
 OFFLINE=""
+TEST=crowdfundnet
 
 install: 
 	$(MAKE) -C crowd-funding install
@@ -7,12 +8,22 @@ install:
 
 start:
 	./scripts/testdependencies.sh
-	./scripts/start.sh
+	./scripts/start.sh $(TEST) 172.77.5.10
 
 demo:
-	./scripts/crowd-funding-demo.sh crowdfundnet 8080 $(OFFLINE)
+	./scripts/crowd-funding-demo.sh $(TEST)
+
+run: 
+	./tests/$(TEST)/run-test.sh	
 
 stop:
-	./scripts/stop.sh
+	./scripts/stop.sh $(TEST)
 
-.PHONY: start demo stop
+
+tests: 
+	./scripts/runtests.sh
+
+test:
+	./scripts/runtests.sh $(TEST)		
+
+.PHONY: start demo stop run tests test

@@ -1,0 +1,41 @@
+Generate -1 Nodes with 0 initial peers
+Generating Key for Dummy (true) 172.77.5.10
+Address: 0x007AC49C701eFC8eC7CAD9116704De1d5a89839b
+Building network dummypass
+Network Name  dummypass
+dumpPeersJSON
+buildGenesisJSON
+Source Loaded
+Path         :  /snap/bin/solc
+Full Version : 
+ solc, the solidity compiler commandline interface
+Version: 0.5.10+commit.5a6ea5b1.Linux.g++
+
+Processing Contract:  <stdin>:POA_Genesis
+Written toml file:  /home/jon/.giverny/networks/dummypass/compile.toml
+Characters written  20057
+POA Section Build
+Alloc Built
+Write Genesis.json
+Configuring Network  dummypass
+Connecting to Docker Client
+Creating options
+Creating network
+ID: b1aa0387b0e773010eb5221125d44921f97717a207463aedb42a1a210b6a55d5
+Created Network b1aa0387b0e773010eb5221125d44921f97717a207463aedb42a1a210b6a55d5
+Created Directory:  /home/jon/.giverny/networks/dummypass/docker
+Creating config in /home/jon/.giverny/networks/dummypass/docker/Dummy
+Created Directory:  /home/jon/.giverny/networks/dummypass/docker/Dummy
+Created Directory:  /home/jon/.giverny/networks/dummypass/docker/Dummy/.monet
+Created Directory:  /home/jon/.giverny/networks/dummypass/docker/Dummy/.monet/babble
+Created Directory:  /home/jon/.giverny/networks/dummypass/docker/Dummy/.monet/eth
+Created Directory:  /home/jon/.giverny/networks/dummypass/docker/Dummy/.monet/keystore
+Copying from /home/jon/.giverny/networks/dummypass/genesis.json to /home/jon/.giverny/networks/dummypass/docker/Dummy/.monet/eth/genesis.json
+Copying from /home/jon/.giverny/networks/dummypass/peers.json to /home/jon/.giverny/networks/dummypass/docker/Dummy/.monet/babble/peers.json
+Copying from /home/jon/.giverny/networks/dummypass/peers.genesis.json to /home/jon/.giverny/networks/dummypass/docker/Dummy/.monet/babble/peers.genesis.json
+Copying from /home/jon/.giverny/networks/dummypass/monetd.toml to /home/jon/.giverny/networks/dummypass/docker/Dummy/.monet/monetd.toml
+Copying from /home/jon/.giverny/networks/dummypass/keystore/Dummy.json to /home/jon/.giverny/networks/dummypass/docker/Dummy/.monet/keystore/Dummy.json
+Copying from /home/jon/.giverny/networks/dummypass/keystore/Dummy.txt to /home/jon/.giverny/networks/dummypass/docker/Dummy/.monet/keystore/Dummy.txt
+Written toml file:  /home/jon/.giverny/networks/dummypass/docker/Dummy/.monet/monetd.toml
+Characters written  231
+Written Private Key for 0x007AC49C701eFC8eC7CAD9116704De1d5a89839b
