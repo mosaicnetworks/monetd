@@ -61,7 +61,7 @@ type Test struct {
 	cache   int
 
 	state  *state.State
-	logger *logrus.Logger
+	logger *logrus.Entry
 }
 
 /*
@@ -70,7 +70,7 @@ Address: 0x89acCD6b63d6eE73550eca0Cba16C2027c13FDa6
 */
 const authPubkey = "0x04a9570b06f6e815d5b1e74eb30e7a7487d6589d9095884daf62d9b04f6542de39bdbb68b7cc41957ad15d699c98baf7fa18b12e638aa33e215d70c9aafd6c6c1d"
 
-func NewTest(dataDir string, logger *logrus.Logger, t *testing.T) *Test {
+func NewTest(dataDir string, logger *logrus.Entry, t *testing.T) *Test {
 	dbFile := filepath.Join(dataDir, "chaindata")
 	genesisFile := filepath.Join(dataDir, "genesis.json")
 	cache := 128
@@ -94,7 +94,7 @@ func TestMixedContract(t *testing.T) {
 	os.RemoveAll("test_data/eth/chaindata")
 	defer os.RemoveAll("test_data/eth/chaindata")
 
-	testLogger := bcommon.NewTestLogger(t)
+	testLogger := bcommon.NewTestEntry(t)
 
 	test := NewTest("test_data/eth", testLogger, t)
 	//defer test.state.db.Close()

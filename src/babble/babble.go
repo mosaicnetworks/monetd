@@ -4,6 +4,7 @@ package babble
 
 import (
 	"github.com/mosaicnetworks/babble/src/babble"
+	babble_config "github.com/mosaicnetworks/babble/src/config"
 	"github.com/mosaicnetworks/evm-lite/src/service"
 	"github.com/mosaicnetworks/evm-lite/src/state"
 	"github.com/sirupsen/logrus"
@@ -12,15 +13,15 @@ import (
 // InmemBabble implementes EVM-Lite's Consensus interface.
 // It uses an inmemory Babble node.
 type InmemBabble struct {
-	config     *babble.BabbleConfig
+	config     *babble_config.Config
 	babble     *babble.Babble
 	ethService *service.Service
 	ethState   *state.State
-	logger     *logrus.Logger
+	logger     *logrus.Entry
 }
 
 // NewInmemBabble instantiates a new InmemBabble consensus system
-func NewInmemBabble(config *babble.BabbleConfig, logger *logrus.Logger) *InmemBabble {
+func NewInmemBabble(config *babble_config.Config, logger *logrus.Entry) *InmemBabble {
 	return &InmemBabble{
 		config: config,
 		logger: logger,
@@ -33,8 +34,6 @@ IMPLEMENT CONSENSUS INTERFACE
 
 // Init instantiates a Babble inmemory node
 func (ib *InmemBabble) Init(state *state.State, service *service.Service) error {
-	ib.logger.Debug("INIT")
-
 	ib.ethState = state
 	ib.ethService = service
 

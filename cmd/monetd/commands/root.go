@@ -13,8 +13,6 @@ import (
 	"github.com/spf13/viper"
 )
 
-var _logger = common.DefaultLogger()
-
 /*******************************************************************************
 RootCmd
 *******************************************************************************/
@@ -41,7 +39,9 @@ See the documentation at https://monetd.readthedocs.io/ for further information.
 			return err
 		}
 
-		_logger.Level = common.LogLevel(configuration.Global.LogLevel)
+		if configuration.Global.Verbose {
+			common.VerboseLogging = true
+		}
 
 		return nil
 	},
@@ -57,8 +57,7 @@ func init() {
 
 	// set global flags
 	RootCmd.PersistentFlags().StringP("datadir", "d", configuration.Global.DataDir, "Top-level directory for configuration and data")
-	RootCmd.PersistentFlags().String("log", configuration.Global.LogLevel, "trace, debug, info, warn, error, fatal, panic")
-	RootCmd.PersistentFlags().BoolVarP(&common.VerboseLogging, "verbose", "v", false, "verbose messages")
+	RootCmd.PersistentFlags().BoolP("verbose", "v", configuration.Global.Verbose, "Verbose output")
 
 	// do not print usage when error occurs
 	RootCmd.SilenceUsage = true
@@ -68,7 +67,7 @@ func init() {
 HELPERS
 *******************************************************************************/
 
-// read config into Viper
+// Read config into Viper. CLI flags have precedence over the toml file.
 func readConfig(cmd *cobra.Command) error {
 
 	// Register flags with viper
@@ -76,19 +75,12 @@ func readConfig(cmd *cobra.Command) error {
 		return err
 	}
 
-	// Reset config because evm-lite's SetDataDir only updates values if they
-	// are currently equal to the defaults (~/.evm-lite/*). Before this call,
-	// they should be set to monetd defaults (.monet/*).
-	configuration.Global = configuration.DefaultConfig()
-
 	// first unmarshal to read from cli flags
 	if err := viper.Unmarshal(configuration.Global); err != nil {
 		return err
 	}
 
 	// Read from configuration file if there is one.
-	// ATTENTION: CLI flags will always have precedence of these values.
-
 	viper.SetConfigName("monetd")                     // name of config file (without extension)
 	viper.AddConfigPath(configuration.Global.DataDir) // search root directory
 
@@ -96,7 +88,7 @@ func readConfig(cmd *cobra.Command) error {
 	if err := viper.ReadInConfig(); err == nil {
 		common.DebugMessage(fmt.Sprintf("Using config file: %s", viper.ConfigFileUsed()))
 	} else if _, ok := err.(viper.ConfigFileNotFoundError); ok {
-		// fmt.Printf("No config file monetd.toml found in %s\n", _config.DataDir)
+		common.DebugMessage(fmt.Sprintf("No config file monetd.toml found in %s\n", configuration.Global.DataDir))
 	} else {
 		return err
 	}

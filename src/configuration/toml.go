@@ -8,7 +8,7 @@ import (
 
 const configTOML = `
 datadir = "{{.DataDir}}"
-log = "{{.LogLevel}}"
+verbose = "{{.Verbose}}"
 api-listen = "{{.APIAddr}}"
 
 [babble]
