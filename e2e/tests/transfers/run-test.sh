@@ -49,3 +49,6 @@ fi
 $mydir/../../scripts/testlastblock.sh $( giverny network dump $NET | awk -F "|" '{print $2}')
 
 # Test Balances
+
+
+ node $mydir/index.js --datadir="$CONFIG_DIR" --nodeno=-1  --transcount=$TRANSCOUNT
