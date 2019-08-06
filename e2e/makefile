@@ -4,6 +4,9 @@ TEST=crowdfundnet
 
 install: 
 	$(MAKE) -C crowd-funding install
+	$(MAKE) -C jointest install
+	$(MAKE) -C transfers install
+
 	./scripts/testdependencies.sh
 
 start:
@@ -26,4 +29,4 @@ tests:
 test:
 	./scripts/runtests.sh $(TEST) $(NOSTOP)		
 
-.PHONY: start demo stop run tests test
+.PHONY: start demo stop run tests test install
