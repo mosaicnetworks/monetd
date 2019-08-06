@@ -17,3 +17,5 @@ import:
 - package: github.com/docker/docker
   repo: https://github.com/docker/engine.git
   version: 19.03
+- package: github.com/x-cray/logrus-prefixed-formatter
+  version: v0.5.2
