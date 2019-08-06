@@ -16,12 +16,8 @@ func newInspectCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "inspect [moniker]",
 		Short: "inspect a keyfile",
-		Long: `
-The inspect subcommand interrogates an encrypted keyfile and returns the 
-public key and address. If you specify the --private parameter, it also 
-returns the associated private key.`,
-		Args: cobra.ExactArgs(1),
-		RunE: inspect,
+		Args:  cobra.ExactArgs(1),
+		RunE:  inspect,
 	}
 
 	addInspectFlags(cmd)

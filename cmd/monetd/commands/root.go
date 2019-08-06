@@ -56,8 +56,8 @@ func init() {
 	)
 
 	// set global flags
-	RootCmd.PersistentFlags().StringP("datadir", "d", configuration.Global.DataDir, "Top-level directory for configuration and data")
-	RootCmd.PersistentFlags().BoolP("verbose", "v", configuration.Global.Verbose, "Verbose output")
+	RootCmd.PersistentFlags().StringP("datadir", "d", configuration.Global.DataDir, "top-level directory for configuration and data")
+	RootCmd.PersistentFlags().BoolP("verbose", "v", configuration.Global.Verbose, "verbose output")
 
 	// do not print usage when error occurs
 	RootCmd.SilenceUsage = true

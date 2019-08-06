@@ -15,13 +15,7 @@ func newListCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "list",
 		Short: "list keyfiles",
-		Long: `
-The list command supplies a list of moniker for the keys in the keystore 
-subfolder of the configuration folder. 
-
-The monikers are in safe format where any character not matching [0-9A-Za-z]
-is converted to an underscore. `,
-		RunE: list,
+		RunE:  list,
 	}
 
 	return cmd

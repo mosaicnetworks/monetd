@@ -16,12 +16,8 @@ func newUpdateCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "update [moniker]",
 		Short: "change the passphrase on a keyfile",
-		Long: `
-The update subcommand allows you to change the passphrase for an encrypted
-key file. Unless you specifgy passfiles on the command line you are prompted 
-for the old passphrase, then you need to enter, and confirm, the new passphrase.`,
-		Args: cobra.ExactArgs(1),
-		RunE: update,
+		Args:  cobra.ExactArgs(1),
+		RunE:  update,
 	}
 
 	addUpdateFlags(cmd)
@@ -30,7 +26,7 @@ for the old passphrase, then you need to enter, and confirm, the new passphrase.
 }
 
 func addUpdateFlags(cmd *cobra.Command) {
-	cmd.Flags().StringVar(&newPasswordFile, "new-passfile", "", "the file containing the new passphrase for the keyfile")
+	cmd.Flags().StringVar(&newPasswordFile, "new-passfile", "", "the file containing the new passphrase")
 	viper.BindPFlags(cmd.Flags())
 }
 
