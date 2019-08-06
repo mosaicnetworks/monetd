@@ -28,9 +28,9 @@ testmonetd:
 	@echo "\nMonet Tests\n\n" ; glide novendor | xargs go test | sed -e 's?github.com/mosaicnetworks/?.../?g'
 
 testevml:
-	@echo "\nEVM-Lite Tests\n\n" ; cd vendor/github.com/mosaicnetworks/evm-lite ; go test ./src/...| sed -e 's?github.com/mosaicnetworks/monetd/vendor/github.com/mosaicnetworks/?.../vendor/.../?g'
+	@echo "\nEVM-Lite Tests\n\n" ; cd vendor/github.com/mosaicnetworks/evm-lite ; go test ./src/... -count=1 -tags=unit | sed -e 's?github.com/mosaicnetworks/monetd/vendor/github.com/mosaicnetworks/?.../vendor/.../?g'
 
 testbabble:
-	@echo "\nBabble Tests\n\n" ; cd vendor/github.com/mosaicnetworks/babble ;   go test ./src/... -count=1 -tags=unit  | sed -e 's?github.com/mosaicnetworks/monetd/vendor/github.com/mosaicnetworks/?.../vendor/.../?g'
+	@echo "\nBabble Tests\n\n" ; cd vendor/github.com/mosaicnetworks/babble ;   go test ./src/... -count=1 -tags=unit | sed -e 's?github.com/mosaicnetworks/monetd/vendor/github.com/mosaicnetworks/?.../vendor/.../?g'
 
 .PHONY: all vendor install installd installcli installgiv test update docker testmonetd testevml testbabble
