@@ -22,13 +22,13 @@ type InmemProxy struct {
 func NewInmemProxy(state *state.State,
 	service *service.Service,
 	submitCh chan []byte,
-	logger *logrus.Logger) *InmemProxy {
+	logger *logrus.Entry) *InmemProxy {
 
 	return &InmemProxy{
 		service:  service,
 		state:    state,
 		submitCh: submitCh,
-		logger:   logger.WithField("module", "babble/proxy"),
+		logger:   logger,
 	}
 }
 
@@ -96,10 +96,10 @@ func (p *InmemProxy) processInternalTransactions(internalTransactions []hashgrap
 				receipts = append(receipts, tx.AsRefused())
 			} else {
 				if ok {
-					p.logger.Debug("Accepted peer")
+					p.logger.WithField("addr", addr.String()).Info("Accepted peer")
 					receipts = append(receipts, tx.AsAccepted())
 				} else {
-					p.logger.Error("Rejected peer")
+					p.logger.WithField("addr", addr.String()).Info("Rejected peer")
 					receipts = append(receipts, tx.AsRefused())
 				}
 			}

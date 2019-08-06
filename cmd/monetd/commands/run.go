@@ -5,6 +5,7 @@ import (
 
 	"github.com/mosaicnetworks/evm-lite/src/engine"
 	"github.com/mosaicnetworks/monetd/src/babble"
+	"github.com/mosaicnetworks/monetd/src/common"
 	"github.com/mosaicnetworks/monetd/src/configuration"
 	"github.com/spf13/cobra"
 )
@@ -36,10 +37,9 @@ command displays the expected output:
 monetd config location `,
 
 		PreRunE: func(cmd *cobra.Command, args []string) (err error) {
-			_logger.WithField("Base", fmt.Sprintf("%+v", configuration.Global.BaseConfig)).Debug("Config Base")
-			_logger.WithField("Babble", fmt.Sprintf("%+v", configuration.Global.Babble)).Debug("Config Babble")
-			_logger.WithField("Eth", fmt.Sprintf("%+v", configuration.Global.Eth)).Debug("Config Eth")
-
+			common.DebugMessage(fmt.Sprintf("Base Config: %+v", configuration.Global.BaseConfig))
+			common.DebugMessage(fmt.Sprintf("Babble Config: %+v", configuration.Global.Babble))
+			common.DebugMessage(fmt.Sprintf("Eth Config: %+v", configuration.Global.Eth))
 			return nil
 		},
 
@@ -75,8 +75,11 @@ READ CONFIG AND RUN
 // Run the EVM-Lite / Babble engine
 func runMonet(cmd *cobra.Command, args []string) error {
 
-	babble := babble.NewInmemBabble(configuration.Global.ToBabbleConfig(), _logger)
-	engine, err := engine.NewEngine(*configuration.Global.ToEVMLConfig(), babble, _logger)
+	babble := babble.NewInmemBabble(
+		configuration.Global.ToBabbleConfig(),
+		configuration.Global.Logger("babble-proxy"))
+
+	engine, err := engine.NewEngine(*configuration.Global.ToEVMLConfig(), babble)
 	if err != nil {
 		return fmt.Errorf("Error building Engine: %s", err)
 	}
