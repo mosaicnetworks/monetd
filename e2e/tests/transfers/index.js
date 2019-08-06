@@ -188,7 +188,7 @@ const transfers = async (nodeno) => {
     for(let i = 0; i < trans.length; i++){
 
 
-        if (i>=transcount) {break;} 
+        if (i>=numTrans) {break;} 
 
         let payee=trans[i][0];
         let amt=trans[i][1];
