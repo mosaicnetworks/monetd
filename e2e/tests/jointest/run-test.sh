@@ -52,4 +52,4 @@ if [ "$exitcode" != "0" ] ; then
    exit $exitcode
 fi
 
-$mydir/testlastblock.sh $( giverny network dump $NET | awk -F "|" '{print $2}')
+$mydir/../../scripts/testlastblock.sh $( giverny network dump $NET | awk -F "|" '{print $2}')

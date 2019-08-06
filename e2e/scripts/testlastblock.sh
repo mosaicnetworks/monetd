@@ -11,7 +11,7 @@ do
    url="http://$n:8080/info"
    bi=$(curl -s $url  | sed "s/},/\n/g" | sed 's/.*"last_block_index":"\([^"]*\)".*/\1/'  )
 
- //  echo "$n: $bi"
+ #  echo "$n: $bi"
 
    if [ "$lastbi" != "" ] && [ "$lastbi" != "$bi" ] ; then
         echo "last block index mismatch. $bi & $lastbi "
