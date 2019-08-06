@@ -1,0 +1,7 @@
+test.out
+node_modules
+package-lock.json
+yarn.lock
+pwd.txt
+*.out
+.prettierrc

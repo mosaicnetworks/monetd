@@ -1,7 +1,7 @@
 # This file contains a list of names used as monikers for the 
 # nodes of this network. 
 # see [monetd]/sampledata/withnodes.txt for a more complex example 
-Amelia,,1G,true
-Becky,,1G,true
-Chloe,,1G,true
-Danu,,1G,true
+node0,,1G,true
+node1,,1G,true
+node2,,1G,true
+node3,,1G,false

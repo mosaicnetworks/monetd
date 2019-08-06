@@ -30,8 +30,8 @@ Keys are associated with monikers and encrypted in password-protected files in
 [datadir]/keystore/[moniker].json. Keyfiles contain JSON encoded objects, which
 Ethereum users will recognise as the de-facto Ethereum keyfile format. Indeed,
 Monet and the underlying consensus algorithm, Babble, use the same type of keys
-as Ethereum. The same key can be used to run a validator node, or to control an
-account in Monet with a token balance.
+as Ethereum. A key can be used to run a validator node, or to control an account
+with a token balance.
 `,
 	TraverseChildren: true,
 }
