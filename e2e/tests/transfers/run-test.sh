@@ -6,6 +6,7 @@ mydir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" > /dev/null && pwd )"
 
 NET=${1:-"transfers"}
 PORT=${2:-8080}
+TRANSCOUNT=${3:-5}
 
 
 CONFIG_DIR="$HOME/.giverny/networks/$NET/"
@@ -13,16 +14,16 @@ KEY_DIR="$HOME/.giverny/networks/$NET/keystore/"
 PWD_FILE="$mydir/../../networks/pwd.txt"
 
 
-(node $mydir/index.js --datadir="$CONFIG_DIR" --nodeno=3) &
+(node $mydir/index.js --datadir="$CONFIG_DIR" --nodeno=3 --transcount=$TRANSCOUNT ) &
 PIDS="$!"
 
-( node $mydir/index.js --datadir="$CONFIG_DIR" --nodeno=2) &
+( node $mydir/index.js --datadir="$CONFIG_DIR" --nodeno=2 --transcount=$TRANSCOUNT ) &
 PIDS="$PIDS $!"
 
-( node $mydir/index.js --datadir="$CONFIG_DIR" --nodeno=1 ) &
+( node $mydir/index.js --datadir="$CONFIG_DIR" --nodeno=1 --transcount=$TRANSCOUNT  ) &
 PIDS="$PIDS $!"
 
-( node $mydir/index.js --datadir="$CONFIG_DIR" --nodeno=0 ) &
+( node $mydir/index.js --datadir="$CONFIG_DIR" --nodeno=0  --transcount=$TRANSCOUNT ) &
 PIDS="$PIDS $!"
 
 

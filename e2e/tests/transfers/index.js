@@ -120,6 +120,9 @@ const transfers = async (nodeno) => {
     // initialize classes
     const datadirPath = argv.datadir;
 
+
+    const numTrans = argv.transcount;
+
 //    console.log(datadirPath);
 
     const datadir = new DataDirectory(datadirPath);
@@ -184,6 +187,9 @@ const transfers = async (nodeno) => {
 
     for(let i = 0; i < trans.length; i++){
 
+
+        if (i>=transcount) {break;} 
+
         let payee=trans[i][0];
         let amt=trans[i][1];
         let payeenode;
@@ -205,8 +211,6 @@ const transfers = async (nodeno) => {
         process.stdout.write(".");
 
         let slp = await sleep(100);
-   
-        if (i>100) {break;} 
    
      }
      
