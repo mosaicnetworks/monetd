@@ -1,4 +1,5 @@
 OFFLINE=""
+NOSTOP=""
 TEST=crowdfundnet
 
 install: 
@@ -24,6 +25,6 @@ tests:
 	./scripts/runtests.sh
 
 test:
-	./scripts/runtests.sh $(TEST)		
+	./scripts/runtests.sh $(TEST) $(NOSTOP)		
 
 .PHONY: start demo stop run tests test

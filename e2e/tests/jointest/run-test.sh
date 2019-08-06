@@ -13,8 +13,7 @@ KEY_DIR="$HOME/.giverny/networks/$NET/keystore/"
 PWD_FILE="$mydir/../../networks/pwd.txt"
 
 
-set -x
-node $mydir/index.js --datadir="$CONFIG_DIR"
+node $mydir/index.js --datadir="$CONFIG_DIR" --action="join"
 ret=$?
 
 
@@ -31,7 +30,7 @@ exitcode=0
 for n in $( giverny network dump $NET | awk -F "|" '{print $2}')  
 do
    url="http://$n:8080/info"
-   thisinfo=$(curl -s $url  | json_pp | grep  \"last_block_index\" )
+   thisinfo=$(curl -s $url  | json_pp | grep  \"last_block_index\" | sed -e 's/,//g;s/[\t ]//g' )
 
    if [ "$lastip" = "" ] ; then 
       lastip=$n
@@ -49,4 +48,8 @@ do
    lastinfo="$thisinfo"   
 done
 
-exit $exitcode
+if [ "$exitcode" != "0" ] ; then
+   exit $exitcode
+fi
+
+$mydir/testlastblock $( giverny network dump $NET | awk -F "|" '{print $2}')

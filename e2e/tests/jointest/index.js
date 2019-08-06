@@ -134,7 +134,7 @@ const getAccount = async (address, password, datadir) => {
 
 
 
-const run = async () => {
+const join = async () => {
 
     // initialize classes
     const datadirPath = argv.datadir;
@@ -324,6 +324,42 @@ const run = async () => {
 };
 
 
-run()
-  .then(console.log)
-  .catch(console.log);
+const posttests = async () => {
+
+    // initialize classes
+    const datadirPath = argv.datadir;
+
+    console.log(datadirPath);
+
+    const datadir = new DataDirectory(datadirPath);
+    const keystore = new Keystore(path.join(datadirPath, "keystore"));
+
+    console.log(keystore);
+
+
+    datadir.setKeystore(keystore);
+
+
+// unlock all of the accounts
+    console.log("Decrypting All Accounts")
+    const account0 = await getAccount("node0", password, datadir);
+    const account1 = await getAccount("node1", password, datadir);
+    const account2 = await getAccount("node2", password, datadir);
+    const account3 = await getAccount("node3", password, datadir);
+
+
+  return "done"
+}; 
+
+
+
+if (argv.action == "join") {
+    join()
+    .then(console.log)
+    .catch(console.log);
+} else {
+    posttests()
+    .then(console.log)
+    .catch(console.log);
+}
+

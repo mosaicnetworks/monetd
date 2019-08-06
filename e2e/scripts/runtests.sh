@@ -1,6 +1,7 @@
 #!/bin/bash
 
 TEST=${1:-""}
+NOSTOP=${2:-""}
 
 NODUMMY="true"
 
@@ -50,6 +51,11 @@ do
     set -e
 
     echo "."
+   
+    if [ "$NOSTOP" = "nostop" ] ; then
+        continue
+    fi
+       
     $mydir/stop.sh $testname 2>&1 >> $output
 
 done 
