@@ -5,7 +5,7 @@ Getting Started
 
 In this document we explain how to run a single node and how to use monetcli to
 interact with it. In another section, we will explain how to join an existing
-network. For details about any command, please refer to the 
+network. For details about any command, please refer to the
 :ref:`specification<monetd_commands_rst>`.
 
 Creating A Single Node Network
@@ -23,38 +23,38 @@ The ``keys new`` command will prompt us for a password, and generate a new
 encrypted keyfile in the default keystore ``~/.monet/keystore``. We identified
 our key with the ``node0`` moniker.
 
-The ``config build`` command takes our key, and generates a minimal network 
-configuration with a single validator node, and a prefunded account. Again, the 
+The ``config build`` command takes our key, and generates a minimal network
+configuration with a single validator node, and a prefunded account. Again, the
 configuration is written to ``~/.monet``.
 
-Finally, the ``run`` command starts a monetd node, which will default to using 
+Finally, the ``run`` command starts a monetd node, which will default to using
 the configuration files in ``~/.monet``.
 
 Using monetcli
 --------------
 
-Let's use monetcli to query the newly created node. First of all, install 
+Let's use monetcli to query the newly created node. First of all, install
 monetcli with ``npm install -g monetcli``.
 
-While monetd is still running, open another terminal and start monetcli in 
+While monetd is still running, open another terminal and start monetcli in
 interactive mode:
 
 .. code:: bash
 
     $monetcli i
-     __  __                          _        ____   _       ___ 
+
     |  \/  |   ___    _ __     ___  | |_     / ___| | |     |_ _|
-    | |\/| |  / _ \  | '_ \   / _ \ | __|   | |     | |      | | 
-    | |  | | | (_) | | | | | |  __/ | |_    | |___  | |___   | | 
+    | |\/| |  / _ \  | '_ \   / _ \ | __|   | |     | |      | |
+    | |  | | | (_) | | | | | |  __/ | |_    | |___  | |___   | |
     |_|  |_|  \___/  |_| |_|  \___|  \__|    \____| |_____| |___|
-                                                                 
+
     Mode:        Interactive
     Data Dir:    /home/user/.monet
     Config File: /home/user/.monet/monetcli.toml
     Keystore:    /home/user/.monet/keystore
-   
+
      Commands:
-   
+
        help [command...]                    Provides help for a given command.
        exit                                 Exits application.
        accounts create [options]            Creates an encrypted keypair locally
@@ -101,7 +101,7 @@ Type ``info`` to check the status of the node:
     | undetermined_events    | 0          |
     '-------------------------------------'
 
-Type ``accounts list`` to get a list of accounts in the keystore, and the 
+Type ``accounts list`` to get a list of accounts in the keystore, and the
 balance associated with them.
 
 .. code::
@@ -112,9 +112,9 @@ balance associated with them.
     |---------|--------------------------------------------|------------------------|-------|
     | node0   | 0xa10aae5609643848fF1Bceb76172652261dB1d6c | 1234567890000000000000 |     0 |
     '---------------------------------------------------------------------------------------'
-    
+
 So we have a prefunded account. The same account is used as a validator in
-Babble, and as a Tenom-holding account in the ledger. This is the same account, 
+Babble, and as a Tenom-holding account in the ledger. This is the same account,
 node0, that we created in the previous steps, with the encrypted private key
 residing in ~/.monet/keystore.
 
@@ -124,13 +124,13 @@ Now, let's create a new key using monetcli, and transfer some tokens to it.
 
     monetcli$ accounts create
     ? Moniker:  node1
-    ? Output Path:  /home/martin/.monet/keystore
+    ? Output Path:  /home/user/.monet/keystore
     ? Passphrase:  [hidden]
-    ? Re-enter passphrase:  [hidden]                                                                                                                    
+    ? Re-enter passphrase:  [hidden]
     {"version":3,"id":"89970faf-8754-468e-903c-c9d3248a08cc","address":"960c13654c477ac1d2d7f8fc7ae84d93a2225257","crypto":{"ciphertext":"7aac819c1bed442d778
     97b690e5c2f14416589c7bdd6bdd2b5df5d03584ce0ec","cipherparams":{"iv":"3d15a67d76293c3b7123f2bde76ba120"},"cipher":"aes-128-ctr","kdf":"scrypt","kdfparams"
     :{"dklen":32,"salt":"730dd67f175a77c9833a230e334719292cbb735607795b1b84484e3d04783510","n":8192,"r":8,"p":1},"mac":"7535c31c277a698207d278cd1f1df90747463
-    e390b822cfef7d2faf8f1fa1809"}} 
+    e390b822cfef7d2faf8f1fa1809"}}
 
 Like ``monetd keys new`` this command created a new key and wrote the encrypted
 keyfile in ~/.monet/keystore. Let's double check that the key was created:

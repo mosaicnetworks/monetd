@@ -91,8 +91,6 @@ To export the configuration of all nodes in a network, type this:
     $ giverny network export test9
 
 
-
-
 Take a look in ``~/.giverny/exports``. [#]_ There should be numerous files
 named ``test9_[node].zip``. These can be applied to monetd directly on the same
 instance by:
@@ -102,8 +100,8 @@ instance by:
 
     $ giverny network import test9 Danu --from-exports
 
-Alternatively you can use slack to send that zip file and then load it ---
-without changing the name of the file:
+Alternatively you can use a secondary channel such as slack or e-mail to send
+that zip file and then load it --- without changing the name of the file:
 
 .. code:: bash
 

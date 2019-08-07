@@ -19,8 +19,8 @@ The current subcommands are:
 Global Flag
 ***********
 
-The ``--verbose`` flag, or ``-v`` for short, turns on extended messages for each
-``giverny`` command. 
+The ``--verbose`` flag, or ``-v`` for short, turns on extended messages for
+each ``giverny`` command.
 
 
 ****
@@ -66,11 +66,11 @@ addtional flags as follows:
 .. code:: bash
 
     Global Flags:
-    -g, --giverny-data-dir string   Top-level giverny directory for configuration and data (default "/home/jon/.giverny")
+    -g, --giverny-data-dir string   Top-level giverny directory for configuration and data (default "/home/user/.giverny")
         --json                      output JSON instead of human-readable format
-    -m, --monet-data-dir string     Top-level monetd directory for configuration and data (default "/home/jon/.monet")
+    -m, --monet-data-dir string     Top-level monetd directory for configuration and data (default "/home/user/.monet")
         --passfile string           the file that contains the passphrase for the keyfile
- 
+
 
 Import
 ======
@@ -92,9 +92,9 @@ setting a passphrase.
     -h, --help   help for import
 
     Global Flags:
-    -g, --giverny-data-dir string   Top-level giverny directory for configuration and data (default "/home/jon/.giverny")
+    -g, --giverny-data-dir string   Top-level giverny directory for configuration and data (default "/home/user/.giverny")
         --json                      output JSON instead of human-readable format
-    -m, --monet-data-dir string     Top-level monetd directory for configuration and data (default "/home/jon/.monet")
+    -m, --monet-data-dir string     Top-level monetd directory for configuration and data (default "/home/user/.monet")
         --passfile string           the file that contains the passphrase for the keyfile
 
 ******

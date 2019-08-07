@@ -5,8 +5,8 @@ Monetd API
 
 Monetd exposes an HTTP API at the address specified by the ``--api-listen``
 flag. This document contains the API specification with some basic examples
-using curl. For API clients (javascrip libraries, CLI, and GUI), please refer to 
-`EVM-Lite CLI <https://github.com/mosaicnetworks/evm-lite-cli>`__
+using curl. For API clients (javascrip libraries, CLI, and GUI), please refer
+to `EVM-Lite CLI <https://github.com/mosaicnetworks/evm-lite-cli>`__
 
 Get Account
 -----------
@@ -18,7 +18,7 @@ Retrieve information about any account.
   GET /account/{address}
   returns: JsonAccount
 
-.. code::
+.. code:: go
 
     type JsonAccount struct {
       Address string   `json:"address"`
@@ -51,7 +51,7 @@ state, and the data does NOT need to be signed.
   data: JSON SendTxArgs
   returns: JSON JsonCallRes
 
-.. code:: 
+.. code:: go
 
     type SendTxArgs struct {
         From     common.Address  `json:"from"`
@@ -62,19 +62,19 @@ state, and the data does NOT need to be signed.
         Data     string          `json:"data"`
         Nonce    *uint64         `json:"nonce"`
     }
-    
+
     type JsonCallRes struct {
         Data string `json:"data"`
     }
 
 Example:
 
-.. code:: 
+.. code::
 
-    curl http://localhost:8080/call \ 
+    curl http://localhost:8080/call \
     -d '{"constant":true,"to":"0xabbaabbaabbaabbaabbaabbaabbaabbaabbaabba","value":0,"data":"0x8f82b8c4","gas":1000000,"gasPrice":0,"chainId":1}' \
-    -H "Content-Type: application/json" \ 
-    -X POST -s | jq 
+    -H "Content-Type: application/json" \
+    -X POST -s | jq
     {
       "data": "0x0000000000000000000000000000000000000000000000000000000000000001"
     }
@@ -94,7 +94,7 @@ fetching the transaction's receipt.
   data: STRING Hex representation of the raw transaction bytes
   returns: JSON JsonTxRes
 
-.. code:: 
+.. code:: go
 
     type JsonTxRes struct {
         TxHash string `json:"txHash"`
@@ -102,7 +102,7 @@ fetching the transaction's receipt.
 
 Example:
 
-.. code:: 
+.. code:: bash
 
     host:~$ curl -X POST http://localhost:8080/rawtx -d '0xf8600180830f424094a10aae5609643848ff1bceb76172652261db1d6c648026a03c14b99e14420e34c15885ff3afc1043aa6e4e13e2be4691d74a772cde44819ba0652b202ab93908544ea4d7d89567fa462fa719f381e54aa6781ba96c2e9e0e90' -s | json_pp
     {
@@ -113,16 +113,16 @@ Get Receipt
 -----------
 
 Get a transaction receipt. When a transaction is applied to the EVM, a receipt
-is saved to record if/how the transaction affected the state. This contains such
-information as the address of a newly created contract, how much gas was use,
-and the EVM Logs produced by the execution of the transaction.
+is saved to record if/how the transaction affected the state. This contains
+such information as the address of a newly created contract, how much gas was
+use, and the EVM Logs produced by the execution of the transaction.
 
 .. code::
 
   GET /tx/{tx_hash}
   returns: JSON JsonReceipt
 
-.. code::
+.. code:: go
 
     type JsonReceipt struct {
         Root              common.Hash     `json:"root"`
@@ -139,7 +139,7 @@ and the EVM Logs produced by the execution of the transaction.
 
 Example:
 
-.. code::
+.. code:: bash
 
     host:~$ curl http://localhost:8080/tx/0x96764078446cfbaec6265f173fb5a2411b7c272052640bca622252494a74dbb4 -s | jq
     {
@@ -167,7 +167,7 @@ Get information about Babble.
 
 Example:
 
-.. code::
+.. code:: bash
 
     host:-$ curl http://localhost:8080/info | jq
     {
@@ -197,7 +197,7 @@ Get details of the PoA smart-contract.
   GET /poa
   returns: JsonContract
 
-.. code::
+.. code:: go
 
     type JsonContract struct {
         Address common.Address `json:"address"`
@@ -206,7 +206,7 @@ Get details of the PoA smart-contract.
 
 Example (trunctated output):
 
-.. code::
+.. code:: bash
 
     host:-$ curl http://localhost:8080/poa | jq
     {

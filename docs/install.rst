@@ -40,11 +40,11 @@ Building From Source
 Dependencies
 ------------
 
-The key components of the Monet Hub are written in 
-`Golang <https://golang.org/>`__. Hence, the first step is to install **Go 
+The key components of the Monet Hub are written in
+`Golang <https://golang.org/>`__. Hence, the first step is to install **Go
 version 1.9 or above**, which is both the programming language and a CLI tool
 for managing Go code. Go is very opinionated and requires `defining a
-workspace <https://golang.org/doc/code.html#Workspaces>`__ where all Go code 
+workspace <https://golang.org/doc/code.html#Workspaces>`__ where all Go code
 resides. The simplest test of a Go installation is:
 
 .. code:: bash
@@ -61,12 +61,12 @@ dependencies.
 Solidity Compiler
 ~~~~~~~~~~~~~~~~~
 
-The Monet Hub uses Proof of Authority (PoA) to manage the validator set. This is 
-implemented using a smart-contract written in
+The Monet Hub uses Proof of Authority (PoA) to manage the validator set.
+This is implemented using a smart-contract written in
 `Solidity <https://solidity.readthedocs.io/en/develop/introduction-to-smart-contracts.html>`__,
-with the corresponding EVM bytecode set in the genesis file. For every newly 
-defined network, the smart-contract needs to be recompiled because it embeds the
-initial whitelist. Hence, the Solidity compiler (solc) is a requirement to
+with the corresponding EVM bytecode set in the genesis file. For every newly
+defined network, the smart-contract needs to be recompiled because it embeds
+the initial whitelist. Hence, the Solidity compiler (solc) is a requirement to
 define a new network and produce the appropriate genesis file.
 
 Please refer to the `solidity compiler installation
@@ -78,7 +78,7 @@ install via** ``npm install solc``.
 Other requirements
 ~~~~~~~~~~~~~~~~~~
 
-Bash scripts used in this project assume the use of GNU versions of coreutils. 
+Bash scripts used in this project assume the use of GNU versions of coreutils.
 Please ensure you have GNU versions of these programs installed:-
 
 example for macOS:
@@ -91,16 +91,16 @@ example for macOS:
 Installation
 ------------
 
-Clone the `repository <https://github.com/mosaicnetworks/monetd>`__ in the 
+Clone the `repository <https://github.com/mosaicnetworks/monetd>`__ in the
 appropriate GOPATH subdirectory:
 
 .. code:: bash
 
     $ mkdir -p $GOPATH/src/github.com/mosaicnetworks/
     $ cd $GOPATH/src/github.com/mosaicnetworks
-    [...]/mosaicnetworks$ git clone https://github.com/mosaicnetworks/monetd.git  
+    [...]/mosaicnetworks$ git clone https://github.com/mosaicnetworks/monetd.git
 
-Run the following command to download all dependencies and put them in the 
+Run the following command to download all dependencies and put them in the
 **vendor** folder.
 
 .. code:: bash
@@ -117,7 +117,8 @@ Then build and install:
 Tests
 -----
 
-``Monetd`` has both unit tests and end to end tests included in the distribution. 
+``Monetd`` has both unit tests and end to end tests included in the
+distribution.
 
 Unit Tests
 ~~~~~~~~~~
@@ -191,8 +192,8 @@ Monetd comes with extensive units tests, both for ``monetd`` itself and for the
 End to End Tests
 ~~~~~~~~~~~~~~~~
 
-The end to end tests are hosted in the ``e2e`` subfolder of the monetd 
-repository. 
+The end to end tests are hosted in the ``e2e`` subfolder of the monetd
+repository.
 
 To run all of the tests:
 
@@ -202,6 +203,6 @@ To run all of the tests:
     [...]monetd/e2e$ make tests
 
 
-The end to end tests require docker to be installed, npm and node, and we 
-would recommend installing monetcli too. The tests will take several minutes to 
-run. 
+The end to end tests require docker to be installed, npm and node, and we
+would recommend installing monetcli too. The tests will take several minutes to
+run.
