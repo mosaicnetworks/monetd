@@ -3,9 +3,9 @@
 Getting Started
 ===============
 
-In this document we explain how to run a single node and how to use monetcli to
-interact with it. In another section, we will explain how to join an existing
-network. For details about any command, please refer to the
+In this document we explain how to run a single node and how to use
+``monetcli`` to interact with it. In another section, we will explain how to
+join an existing network. For details about any command, please refer to the
 :ref:`specification<monetd_commands_rst>`.
 
 Creating A Single Node Network
@@ -25,19 +25,19 @@ our key with the ``node0`` moniker.
 
 The ``config build`` command takes our key, and generates a minimal network
 configuration with a single validator node, and a prefunded account. Again, the
-configuration is written to ``~/.monet``.
+configuration is written to ``~/.monet``. [1]_
 
 Finally, the ``run`` command starts a monetd node, which will default to using
-the configuration files in ``~/.monet``.
+the configuration files in ``~/.monet``. [1]_
 
 Using monetcli
 --------------
 
-Let's use monetcli to query the newly created node. First of all, install
-monetcli with ``npm install -g monetcli``.
+Let's use ``monetcli`` to query the newly created node. First of all, install
+``monetcli`` with ``npm install -g monetcli``.
 
-While monetd is still running, open another terminal and start monetcli in
-interactive mode:
+While ``monetd`` is still running, open another terminal and start ``monetcli``
+in interactive mode:
 
 .. code:: bash
 
@@ -116,9 +116,9 @@ balance associated with them.
 So we have a prefunded account. The same account is used as a validator in
 Babble, and as a Tenom-holding account in the ledger. This is the same account,
 node0, that we created in the previous steps, with the encrypted private key
-residing in ~/.monet/keystore.
+residing in ``~/.monet/keystore``.
 
-Now, let's create a new key using monetcli, and transfer some tokens to it.
+Now, let's create a new key using ``monetcli``, and transfer some tokens to it.
 
 .. code:: bash
 
@@ -180,3 +180,8 @@ transfer:
     | node0   | 0xa10aae5609643848fF1Bceb76172652261dB1d6c | 1234567889999999999900 |     1 |
     | node1   | 0x960c13654c477ac1d2d7f8fc7ae84d93a2225257 | 100                    |     0 |
     '---------------------------------------------------------------------------------------'
+
+
+.. [1] This location is for Linux instances. Mac and Windows uses a different
+       path. The path for your instance can be ascertain with this command:
+       ``monetd config location``

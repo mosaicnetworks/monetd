@@ -6,7 +6,8 @@ Joining a Network
 This section describes how to join an existing network that is already running,
 such as the one created in :ref:`quickstart_rst`.
 
-Here's a summary of the steps required to join an existing monetd network:
+Here's a summary of the steps required to join an existing network built with
+the Monet Toolchain:
 
 .. code::
 
@@ -42,8 +43,8 @@ We need to generate a new key-pair for our account:
 Pull the Configuration From an Existing Node
 ---------------------------------------------
 
-We now pull the monetd configuration files from an existing peer. The syntax
-for this command is:
+We now pull the ``monetd`` configuration files from an existing peer. The
+syntax for this command is:
 
 .. code:: bash
 
@@ -56,8 +57,8 @@ specify a port, the default API port (8080) is assumed.
 We also need to specify the IP address of our own node. For a live network that
 would clearly be a public IP address, but for an exploratory testnet, we would
 recommend using an internal IP address. On Linux ``ifconfig`` will give you IP
-address information. This can be set by using the --address  flag. If not
-specified monetd will pick the first non-loopback address.
+address information. This can be set by using the --address flag. If not
+specified ``monetd`` will pick the first non-loopback address.
 
 The ``--key`` parameter specifies the keyfile to use by moniker.
 
@@ -71,18 +72,18 @@ with the endpoint of the existing peer.
 Apply to Join the Network
 -------------------------
 
-If we tried to run monetd at this stage, it would not be allowed to join the
-other node because it isn't whitelisted yet. So we need to apply to the
+If we tried to run ``monetd`` at this stage, it would not be allowed to join
+the other node because it isn't whitelisted yet. So we need to apply to the
 whitelist first.
 
-We do so with the monetcli ``poa nominate`` command. The syntax is:
+We do so with the ``monetcli poa nominate`` command. The syntax is:
 
 .. code:: bash
 
     $ monetcli poa nominate -h <existing node> --from <moniker> --moniker <nominee moniker> --pwd <passphrase file> <nominee address>
 
 But we can also do it interactively. **On the existing instance (node0), run
-the following interactive monetcli session**:
+the following interactive ``monetcli`` session**:
 
 .. code:: bash
 

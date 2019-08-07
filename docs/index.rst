@@ -1,15 +1,12 @@
 .. _index:
 
-Welcome to the monetd documentation!
-====================================
-
 .. image:: assets/monet_logo.png
    :height: 600px
    :width: 600px
    :align: center
 
-Monetd
-------
+The Monet Toolchain
+-------------------
 
 .. toctree::
    :maxdepth: 3

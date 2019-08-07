@@ -1,9 +1,9 @@
 .. _monet_api_rst:
 
-Monetd API
+monetd API
 ==========
 
-Monetd exposes an HTTP API at the address specified by the ``--api-listen``
+``monetd`` exposes an HTTP API at the address specified by the ``--api-listen``
 flag. This document contains the API specification with some basic examples
 using curl. For API clients (javascript libraries, CLI, and GUI), please refer
 to `Monet CLI <https://github.com/mosaicnetworks/monetcli>`__

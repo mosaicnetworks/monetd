@@ -173,8 +173,9 @@ Conclusion
 The MONET Hub is a pivotal utility that facilitates the creation of mobile
 ad-hoc blockchains, and the emergence of a new breed of decentralised
 applications. To maximise the performance, security, and flexibility of this
-system, we have opted to build the Monet Toolchain, a smart-contract platform based on the Ethereum
-Virtual Machine and a state-of-the-art BFT consensus algorithm, Babble. To
-govern the validator-set involved in the consensus algorithm, we have chosen to
-implement a Proof of Authority system, with the idea of extending to Proof of
-Stake when more evidence of its efficacy becomes available.
+system, we have opted to build the Monet Toolchain, a smart-contract platform
+based on the Ethereum Virtual Machine and a state-of-the-art BFT consensus
+algorithm, Babble. To govern the validator-set involved in the consensus
+algorithm, we have chosen to implement a Proof of Authority system, with the
+idea of extending to Proof of Stake when more evidence of its efficacy becomes
+available.

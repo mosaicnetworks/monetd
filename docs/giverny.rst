@@ -45,7 +45,7 @@ commit hash.
 .. code:: bash
 
     $ giverny version
-    Monet Version: 0.2.1-develop-ceb36cba
+    Monetd Version: 0.2.1-develop-ceb36cba
         EVM-Lite Version: 0.2.1
         Babble Version: 0.5.0
         Geth Version: 1.8.27
@@ -76,8 +76,8 @@ Import
 ======
 
 The import sub-command is used to import a pre-existing private key into the
-monet keystore, creating the associated ``toml`` file, assigning a moniker and
-setting a passphrase.
+``monetd`` keystore, creating the associated ``toml`` file, assigning a moniker
+and setting a passphrase.
 
 .. code:: bash
 
@@ -106,7 +106,7 @@ co-ordinate configurations between multiple nodes prior to the initial node of a
 network.
 
 The server listens on port 8088. It writes logs to
-``.monet/giverny/server.log``.
+``~/.monet/giverny/server.log``. [1]_
 
 For instructions on how to use, see the recipes for setting up networks.
 
@@ -147,7 +147,7 @@ Status
 ======
 
 Reports on the status of the server. It both checks for the PID file in
-``.monet/giverny/server.pid`` and checks the the server is responding on
+``~/.monet/giverny/server.pid`` [1]_ and checks the the server is responding on
 localhost:8088.
 
 .. code:: bash
@@ -199,7 +199,7 @@ Example with a network specified:
     Peers JSON              : /home/user/.giverny/networks/node7/peers.json
     Genesis JSON            : /home/user/.giverny/networks/node7/genesis.json
     Monetd TOML             : /home/user/.giverny/networks/node7/monetd.toml
-    Monetd TOML             : /home/user/.giverny/networks/node7/network.toml
+    Network TOML            : /home/user/.giverny/networks/node7/network.toml
 
 
 
@@ -350,8 +350,8 @@ If the node names are omitted, all of the nodes for that network are exported.
 Import
 ======
 
-Import takes a configuration previously exports it and configures monetd to use
-the new configuration. You will always need to specify a network name and a
+Import takes a configuration previously exports it and configures ``monetd`` to
+use the new configuration. You will always need to specify a network name and a
 node name for the import. The source for the import can be configured thus:
 
 - ``--from-exports`` --- from the exports subfolder in the giverny
@@ -366,3 +366,6 @@ node name for the import. The source for the import can be configured thus:
 
 
 
+.. [1] This location is for Linux instances. Mac and Windows uses a different
+       path. The path for your instance can be ascertain with this command:
+       ``giverny network location``

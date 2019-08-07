@@ -25,7 +25,7 @@ docker:
 test: testmonetd testevml testbabble
 
 testmonetd:
-	@echo "\nMonet Tests\n\n" ; glide novendor | xargs go test | sed -e 's?github.com/mosaicnetworks/?.../?g'
+	@echo "\nMonetd Tests\n\n" ; glide novendor | xargs go test | sed -e 's?github.com/mosaicnetworks/?.../?g'
 
 testevml:
 	@echo "\nEVM-Lite Tests\n\n" ; cd vendor/github.com/mosaicnetworks/evm-lite ; go test ./src/... -count=1 -tags=unit | sed -e 's?github.com/mosaicnetworks/monetd/vendor/github.com/mosaicnetworks/?.../vendor/.../?g'

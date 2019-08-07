@@ -1,27 +1,27 @@
 .. _install_rst:
 
-Installing Monetd
+Installing monetd
 =================
 
 Versioning
 ++++++++++
 
-Monetd versions follow `semantic versioning <https://semver.org>`__. As we are
-still in the 0.x range, different versions might contain undocumented and/or
-breaking changes. At this stage, the prefered way of installing monetd is
-building from source, or using our public Docker images.
+``monetd`` versions follow `semantic versioning <https://semver.org>`__. As we
+are still in the 0.x range, different versions might contain undocumented
+and/or breaking changes. At this stage, the prefered way of installing
+``monetd`` is building from source, or using our public Docker images.
 
 Docker
 ++++++
 
-Docker images of monetd are available from the ``mosaicnetworks`` organisation.
-Use the ``latest`` tag for the latest released version. The advantage of using
-Docker containers is that they come packaged with all the necessary binary
-files, including solc, and contain an isolated running environment where monetd
-is sure to run.
+Docker images of ``monetd`` are available from the ``mosaicnetworks``
+organisation. Use the ``latest`` tag for the latest released version. The
+advantage of using Docker containers is that they come packaged with all the
+necessary binary files, including solc, and contain an isolated running
+environment where ``monetd`` is sure to run.
 
 **Example**: Mount a configuration directory, and run a node from inside a
-monetd container.
+``monetd`` container.
 
 .. code::
 
@@ -30,8 +30,8 @@ monetd container.
 Downloads
 +++++++++
 
-Binary packages of monetd are available at
-`<https://github.com/mosaicnetworks/monetd/releases>`__.
+Binary packages of ``monetd`` are available from
+`github <https://github.com/mosaicnetworks/monetd/releases>`__.
 
 
 Building From Source
@@ -40,18 +40,18 @@ Building From Source
 Dependencies
 ------------
 
-The key components of the Monet Hub are written in
-`Golang <https://golang.org/>`__. Hence, the first step is to install **Go
-version 1.9 or above**, which is both the programming language and a CLI tool
-for managing Go code. Go is very opinionated and requires `defining a
-workspace <https://golang.org/doc/code.html#Workspaces>`__ where all Go code
+The key components of the Monet Toolchain, which powers the MONET Hub, are
+written in `Golang <https://golang.org/>`__. Hence, the first step is to
+install **Go version 1.9 or above**, which is both the programming language and
+a CLI tool for managing Go code. Go is very opinionated and requires `defining
+a workspace <https://golang.org/doc/code.html#Workspaces>`__ where all Go code
 resides. The simplest test of a Go installation is:
 
 .. code:: bash
 
     $ go version
 
-Monetd uses `Glide <http://github.com/Masterminds/glide>`__ to manage
+``monetd`` uses `Glide <http://github.com/Masterminds/glide>`__ to manage
 dependencies.
 
 .. code::
@@ -61,7 +61,7 @@ dependencies.
 Solidity Compiler
 ~~~~~~~~~~~~~~~~~
 
-The Monet Hub uses Proof of Authority (PoA) to manage the validator set.
+The Monet Toolchain uses Proof of Authority (PoA) to manage the validator set.
 This is implemented using a smart-contract written in
 `Solidity <https://solidity.readthedocs.io/en/develop/introduction-to-smart-contracts.html>`__,
 with the corresponding EVM bytecode set in the genesis file. For every newly
@@ -117,20 +117,20 @@ Then build and install:
 Tests
 -----
 
-``Monetd`` has both unit tests and end to end tests included in the
+``monetd`` has both unit tests and end to end tests included in the
 distribution.
 
 Unit Tests
 ~~~~~~~~~~
 
-Monetd comes with extensive units tests, both for ``monetd`` itself and for the
-``evm-lite`` and ``babble`` components. The tests can be launched thus:
+``monetd`` comes with extensive units tests, both for ``monetd`` itself and for
+the ``evm-lite`` and ``babble`` components. The tests can be launched thus:
 
 .. code:: bash
 
     [...]/monetd$ make test
 
-    Monet Tests
+    Monetd Tests
 
 
     ?       .../monetd/cmd/giverny  [no test files]
@@ -203,6 +203,6 @@ To run all of the tests:
     [...]monetd/e2e$ make tests
 
 
-The end to end tests require docker to be installed, npm and node, and we
-would recommend installing monetcli too. The tests will take several minutes to
-run.
+The end to end tests require docker to be installed, npm and node, and we would
+recommend installing `monetcli <https://github.com/mosaicnetworks/monetcli>`__
+too. The tests will take several minutes to run.

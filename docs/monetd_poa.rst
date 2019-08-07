@@ -4,8 +4,8 @@ POA Smart Contract
 ==================
 
 This document describes the requirements for a smart-contract to implement POA
-in a Monet hub. The default contract supplied with ``monetd`` already meets
-these requirements.
+in a Monet Toolchain hub. The default contract supplied with ``monetd`` already
+meets these requirements.
 
 Solidity
 --------
@@ -24,14 +24,14 @@ Constructor
 ~~~~~~~~~~~
 
 The contract is embedded in the genesis block. This means that there is no
-conventional constructor. It is possible to add a hook to payable function calls
-to set an initial state if it has not already been initialised.
+conventional constructor. It is possible to add a hook to payable function
+calls to set an initial state if it has not already been initialised.
 
 Modifier
 ~~~~~~~~
 
-``checkAuthorisedModifier`` is used to restrict access to payable functions. The
-internals of that function could be ameneded to your new scheme.
+``checkAuthorisedModifier`` is used to restrict access to payable functions.
+The internals of that function could be ameneded to your new scheme.
 
 CheckAuthorised
 ~~~~~~~~~~~~~~~
