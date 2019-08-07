@@ -24,3 +24,13 @@ function generatedocinsert() {
 generatedocinsert monetd_version.txt "monetd version"
 generatedocinsert monetd_help.txt "monetd help"
 generatedocinsert monetd_keys_help.txt "monetd keys help"
+generatedocinsert monetd_help_keys_new.txt "monetd help keys new"
+generatedocinsert monetd_help_keys_display.txt "monetd help keys display"
+generatedocinsert monetd_help_keys_update.txt "monetd help keys update"
+generatedocinsert monetd_help_keys_list.txt "monetd help keys list"
+generatedocinsert monetd_help_config_contract.txt "monetd help config contract"
+
+
+
+
+

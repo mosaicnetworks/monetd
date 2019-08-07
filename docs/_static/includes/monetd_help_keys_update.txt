@@ -1,0 +1,15 @@
+[..monetd] $ monetd help keys update
+change the passphrase on a keyfile
+
+Usage:
+  monetd keys update [moniker] [flags]
+
+Flags:
+  -h, --help                  help for update
+      --new-passfile string   the file containing the new passphrase
+
+Global Flags:
+  -d, --datadir string    top-level directory for configuration and data (default "/home/jon/.monet")
+      --json              output JSON instead of human-readable format
+      --passfile string   file containing the passphrase
+  -v, --verbose           verbose output

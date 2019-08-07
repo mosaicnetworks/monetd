@@ -99,54 +99,15 @@ encrypt the keyfile. It writes the encrypted keyfile to the ``monetd keystore``
 area by default. The moniker must be unique within your keystore. If you
 attempt to create a duplicate, the command will abort with an error.
 
-.. code:: bash
+.. include:: _static/includes/monetd_help_keys_new.txt
+    :code: bash
 
-    $ monetd keys new -h
-
-    Generate a new key identified by [moniker].
-
-    The keyfile will be written to [datadir]/keystore/[moniker].json. If the
-    --passfile flag is not specified, the user will be prompted to enter the
-    passphrase manually.
-
-    Usage:
-      monetd keys new [moniker] [flags]
-
-    Flags:
-      -h, --help   help for new
-
-    Global Flags:
-      -d, --datadir string    top-level directory for configuration and data (default "/home/martin/.monet")
-          --json              output JSON instead of human-readable format
-          --passfile string   file containing the passphrase
-      -v, --verbose           verbose output
 
 Inspect
 ~~~~~~~
 
-.. code:: bash
-
-    $ monetd keys display -h
-
-    Display the contents of a keyfile.
-
-    The output contains the corresponding address and public key. If --private is
-    specified, the keyfile will be decrypted with the passphrase and the raw private
-    key will also be returned. If --passfile is not specified, the user will be
-    prompted to enter the passphrase manually.
-
-    Usage:
-      monetd keys inspect [moniker] [flags]
-
-    Flags:
-      -h, --help      help for inspect
-          --private   include the private key in the output
-
-    Global Flags:
-      -d, --datadir string    top-level directory for configuration and data (default "/home/martin/.monet")
-          --json              output JSON instead of human-readable format
-          --passfile string   file containing the passphrase
-      -v, --verbose           verbose output
+.. include:: _static/includes/monetd_help_keys_display.txt
+    :code: bash
 
 
 A sample session showing the command usage with and without the ``--private``
@@ -178,29 +139,9 @@ You can suppress the prompts by specifying the ``--passfile`` parameter to
 supply the current passphrase and ``--new-passphrase`` to supply the new
 passphrase.
 
-.. code:: bash
 
-    $ monetd keys update -h
-
-    Change the passphrase on a keyfile.
-
-    If --passfile is not specified, the user will be prompted to enter the current
-    passphrase manually. Likewise, if --new-passfile is not specified, the user will
-    be prompted to input and confirm the new password.
-
-    Usage:
-      monetd keys update [moniker] [flags]
-
-    Flags:
-      -h, --help                  help for update
-          --new-passfile string   the file containing the new passphrase
-
-    Global Flags:
-      -d, --datadir string    top-level directory for configuration and data (default "/home/martin/.monet")
-          --json              output JSON instead of human-readable format
-          --passfile string   file containing the passphrase
-      -v, --verbose           verbose output
-
+.. include:: _static/includes/monetd_help_keys_update.txt
+    :code: bash
 
 An example session updating the passphrase for a key:
 
@@ -219,23 +160,8 @@ The ``list`` subcommand outputs a list of monikers corresponding to the keyfiles
 in the keystore. These are the valid monikers that can be specified to other
 ``monetd`` commands.
 
-.. code:: bash
-
-    $ monetd keys list -h
-
-    List keyfiles in [datadir]/keystore.
-
-    Usage:
-      monetd keys list [flags]
-
-    Flags:
-      -h, --help   help for list
-
-    Global Flags:
-      -d, --datadir string    top-level directory for configuration and data (default "/home/martin/.monet")
-          --json              output JSON instead of human-readable format
-          --passfile string   file containing the passphrase
-      -v, --verbose           verbose output
+.. include:: _static/includes/monetd_help_keys_list.txt
+    :code: bash
 
 
 An example session:
@@ -301,6 +227,13 @@ The ``contract`` subcommand generates the Solidity source for a POA smart
 contract with the supplied node as the sole entry on the initial whitelist.
 This command is not used in the standard workflow, but is provided as a
 convenient mechanism to retrieve the solidity source.
+
+
+
+.. include:: _static/includes/monetd_help_config_contract.txt
+    :code: bash
+
+
 
 .. code:: bash
 

@@ -1,0 +1,18 @@
+[..monetd] $ monetd help keys new
+
+Generate a new cryptographic key-pair identified by [moniker].
+
+If the --passfile flag is not specified, the user will be prompted to enter the
+passphrase manually.
+
+Usage:
+  monetd keys new [moniker] [flags]
+
+Flags:
+  -h, --help   help for new
+
+Global Flags:
+  -d, --datadir string    top-level directory for configuration and data (default "/home/jon/.monet")
+      --json              output JSON instead of human-readable format
+      --passfile string   file containing the passphrase
+  -v, --verbose           verbose output
