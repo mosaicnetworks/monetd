@@ -35,13 +35,32 @@
    :align: center
 
 The Monet Toolchain
--------------------
+===================
 
-As defined in the `MONET whitepaper <http://bit.ly/monet-whitepaper>`_, the Hub
-is a blockchain that supports other Mobile ad-hoc blockchains with services
-like peer-discovery, Inter-Blockchain Communication, and the Tenom token. It is
-a smart-contract platform based on the Ethereum Virtual Machine and a BFT
-Consensus algorithm. It leverages
-`evm-lite <https://github.com/mosaicnetworks/evm-lite>`_ and
-`Babble <https://github.com/mosaicnetworks/babble>`_.
+The Monet Toolchain provides software to run and interact with a distributed
+smart-contract platform based on `EVM-Lite
+<https://github.com/mosaicnetworks/evm-lite>`_ and `Babble consensus
+<https://github.com/mosaicnetworks/babble>`_.
+
+It underpins the `MONET Hub <https://monet.network/faq.html>`_, which an
+important port of the `MONET project <https://monet.network/about.html>`_, but
+is licensed under the `MIT license
+<https://en.wikipedia.org/wiki/MIT_License>`_ and available for use in other
+projects. You can read more about MONET in the `whitepaper
+<http://bit.ly/monet-whitepaper>`_.
+
+Documentation
+-------------
+
+Full documentation is availble on `ReadTheDocs
+<https://monetd.readthedocs.io/en/latest/>`_.
+
+
+Quick Start
+-----------
+
+For the impatient, we recommend you start here:
+
+- `Installation Documents <https://monetd.readthedocs.io/en/latest/install.html>`_
+- `Quick Start <https://monetd.readthedocs.io/en/latest/quickstart.html>`_
 
