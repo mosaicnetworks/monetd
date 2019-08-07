@@ -15,6 +15,14 @@ The current subcommands are:
 - **network** --- configure and build monet networks
 
 
+***********
+Global Flag
+***********
+
+The ``--verbose`` flag, or ``-v`` for short, turns on extended messages for each
+``giverny`` command. 
+
+
 ****
 Help
 ****
@@ -49,6 +57,21 @@ Keys
 
 The keys sub-command offers tools to manage keys.
 
+Keys Flags
+==========
+
+In addition to the ``--verbose`` flag, the ``keys`` subcommand defines
+addtional flags as follows:
+
+.. code:: bash
+
+    Global Flags:
+    -g, --giverny-data-dir string   Top-level giverny directory for configuration and data (default "/home/jon/.giverny")
+        --json                      output JSON instead of human-readable format
+    -m, --monet-data-dir string     Top-level monetd directory for configuration and data (default "/home/jon/.monet")
+        --passfile string           the file that contains the passphrase for the keyfile
+ 
+
 Import
 ======
 
@@ -69,9 +92,10 @@ setting a passphrase.
     -h, --help   help for import
 
     Global Flags:
-    -d, --datadir string    Top-level directory for configuration and data (default "/home/user/.monet")
-        --passfile string   the file that contains the passphrase for the keyfile
-
+    -g, --giverny-data-dir string   Top-level giverny directory for configuration and data (default "/home/jon/.giverny")
+        --json                      output JSON instead of human-readable format
+    -m, --monet-data-dir string     Top-level monetd directory for configuration and data (default "/home/jon/.monet")
+        --passfile string           the file that contains the passphrase for the keyfile
 
 ******
 Server
