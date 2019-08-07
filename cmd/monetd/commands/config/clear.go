@@ -13,8 +13,7 @@ func newClearCmd() *cobra.Command {
 		Use:   "clear",
 		Short: "backup and clear configuration folder",
 		Long: `
-The clear subcommand creates a backup of the current configuration folder 
-([datadir]) before deleting it.
+Backup and delete the current configuration folder ([datadir]).
 `,
 		RunE: clearConfig,
 	}

@@ -15,6 +15,7 @@ func newListCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "list",
 		Short: "list keyfiles",
+		Long:  "List keyfiles in [datadir]/keystore.",
 		RunE:  list,
 	}
 

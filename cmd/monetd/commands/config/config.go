@@ -20,11 +20,12 @@ var (
 // ConfigCmd implements the config CLI subcommand
 var ConfigCmd = &cobra.Command{
 	Use:   "config",
-	Short: "manage monetd configuration",
+	Short: "manage configuration",
 	Long: `
-The monetd server reads configuration from --datadir.
+Manage monetd configuration.
 
-There are two ways of initialising the configuration:
+The monetd server reads configuration from --datadir. There are two ways of 
+initialising the configuration:
 
 * config build - creates the configuration for a single-node network, based on 
                  one of the keys in [datadir]/keystore. This is a quick and easy 
@@ -34,7 +35,7 @@ There are two ways of initialising the configuration:
                  join an existing network.
 
 For more complex scenarios, please refer to 'giverny', which is a specialised 
-monet configuration tool. 
+Monet configuration tool. 
 `,
 	TraverseChildren: true,
 }

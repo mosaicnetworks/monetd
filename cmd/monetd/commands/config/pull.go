@@ -3,9 +3,9 @@ package config
 import (
 	"fmt"
 
-	"github.com/mosaicnetworks/monetd/src/configuration"
 	"github.com/mosaicnetworks/monetd/src/common"
 	pconfig "github.com/mosaicnetworks/monetd/src/config"
+	"github.com/mosaicnetworks/monetd/src/configuration"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -15,17 +15,19 @@ func newPullCmd() *cobra.Command {
 		Use:   "pull [host:port]",
 		Short: "pull the configuration files from a node",
 		Long: `
-The pull subcommand is used to join an existing Monet network. It takes the
-address (host:port) of a running node, and downloads the following set of files 
-into the configuration directory [datadir]:
+The pull subcommand is used to join an existing network. It takes the address
+(host:port) of a running node, and downloads the following set of files into the
+configuration directory [datadir]:
 
 - babble/peers.json         : The current validator-set 
 - babble/peers.genesis.json : The initial validator-set
 - eth/genesis.json          : The genesis file
 
-Additionally, this command configures the validator-key and the network address
-of the new node. The --key and --passfile options refer to the validator-key, 
-while --address sets the network address of monetd.
+Additionally, this command configures the key and network address of the new
+node. The --key flag identifies a keyfile by moniker, which is expected to be in 
+the keystore. If --passfile is not specified, the user will be prompted to enter
+the passphrase manually. If the --address flag is omitted, the first 
+non-loopback address is used.
 `,
 		Example: `  monetd config pull "192.168.5.1:8080"`,
 		Args:    cobra.ExactArgs(1),

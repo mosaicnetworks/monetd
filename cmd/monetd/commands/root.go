@@ -20,11 +20,13 @@ RootCmd
 //RootCmd is the root command for monetd
 var RootCmd = &cobra.Command{
 	Use:   "monetd",
-	Short: "MONET-Daemon",
-	Long: `MONET-Daemon
+	Short: "monet daemon",
+	Long: `
+Monetd is the daemon component of the Monet Toolchain; a distributed
+smart-contract platform based on the Ethereum Virtual Machine and Babble 
+consensus.  
 	
-Monetd provides the core commands needed to configure and run a Monet
-node. The minimal quickstart configuration is:
+The minimal quickstart configuration is:
 
 	$ monetd config clear
 	$ monetd keys new node0

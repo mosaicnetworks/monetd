@@ -19,11 +19,8 @@ func newLocationCmd() *cobra.Command {
 		Use:   "location",
 		Short: "show the location of the configuration files",
 		Long: `
-The location subcommand shows the location of the monetd configuration files. It 
-respects any --datadir parameter. 
-
-If you specify --expanded then a list of configuration folders and directories
-is output.`,
+Show the location of the monetd configuration files. If --expanded is specified,
+a detailed list of configuration files and directories is returned.`,
 		RunE: locationConfig,
 	}
 

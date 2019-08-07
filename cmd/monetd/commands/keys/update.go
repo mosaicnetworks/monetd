@@ -16,8 +16,15 @@ func newUpdateCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "update [moniker]",
 		Short: "change the passphrase on a keyfile",
-		Args:  cobra.ExactArgs(1),
-		RunE:  update,
+		Long: `
+Change the passphrase on a keyfile.
+
+If --passfile is not specified, the user will be prompted to enter the current 
+passphrase manually. Likewise, if --new-passfile is not specified, the user will
+be prompted to input and confirm the new password.
+		`,
+		Args: cobra.ExactArgs(1),
+		RunE: update,
 	}
 
 	addUpdateFlags(cmd)

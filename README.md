@@ -5,7 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 
-![Monet Logo](docs/assets/monet_logo.png)
+![Monet Logo](docs/_static/monet_logo.png)
 
 ## Overview
 

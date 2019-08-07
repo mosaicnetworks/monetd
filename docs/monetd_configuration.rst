@@ -29,9 +29,9 @@ The directory must respect the following stucture:
 
 
 You would not normally need to access these configuration files directly. The
-``monetd config`` tool provides a CLI interfaces to set up a Monet Toolchain
-network. The command ``monetd config location --expanded`` provides further
-details of the filepaths used for your instance.
+``monetd config`` tool provides a CLI interfaces to set up a network. The
+command ``monetd config location --expanded`` provides further details of the
+filepaths used for your instance.
 
 Eth
 ---
@@ -79,29 +79,28 @@ environment.
 
 ::
 
-  Flags:
-        --api-listen string           IP:PORT of Monet HTTP API service (default ":8080")
-        --babble.bootstrap            Bootstrap Babble from database
-        --babble.cache-size int       Number of items in LRU caches (default 50000)
-        --babble.heartbeat duration   Heartbeat time milliseconds (time between gossips) (default 500ms)
+    Flags:
+        --api-listen string           IP:PORT of HTTP API service (default ":8080")
+        --babble.bootstrap            bootstrap Babble from database
+        --babble.cache-size int       number of items in LRU caches (default 50000)
+        --babble.heartbeat duration   heartbeat timer milliseconds (time between gossips) (default 200ms)
         --babble.listen string        IP:PORT of Babble node (default "192.168.1.3:1337")
-        --babble.max-pool int         Max number of pool connections (default 2)
-        --babble.sync-limit int       Max number of Events per sync (default 1000)
+        --babble.max-pool int         max number of pool connections (default 2)
+        --babble.sync-limit int       max number of Events per sync (default 1000)
         --babble.timeout duration     TCP timeout milliseconds (default 1s)
-        --eth.cache int               Megabytes of memory allocated to internal caching (min 16MB / database forced) (default 128)
-    -h, --help                        help for run
+        --eth.cache int               megabytes of memory allocated to internal caching (min 16MB / database forced) (default 128)
+      -h, --help                      help for run
 
-  Global Flags:
-    -d, --datadir string   Top-level directory for configuration and data (default "/home/user/.monet")
-        --log string       trace, debug, info, warn, error, fatal, panic (default "debug")
-    -v, --verbose          verbose messages
+    Global Flags:
+      -d, --datadir string   top-level directory for configuration and data (default "/home/martin/.monet")
+      -v, --verbose          verbose output
 
 Example of a monet.toml file:
 
 ::
 
   datadir = "/home/user/.monet"
-  log = "debug"
+  verbose = "false"
   api-listen = ":8080"
 
   [babble]

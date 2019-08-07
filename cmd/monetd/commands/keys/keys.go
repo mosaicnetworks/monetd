@@ -14,7 +14,7 @@ var (
 // KeysCmd is an Ethereum key manager
 var KeysCmd = &cobra.Command{
 	Use:   "keys",
-	Short: "monet key manager",
+	Short: "manage keys",
 	Long: `
 Manage keys in the [datadir]/keystore folder.
 
