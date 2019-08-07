@@ -7,39 +7,8 @@ Monetd Reference
 has context sensitive help accessed either by running ``monetd help`` or by
 adding a ``-h`` parameter to the relevant command.
 
-.. code:: bash
-
-    $ monetd help
-
-    Monetd is the daemon component of the Monet Toolchain; a distributed
-    smart-contract platform based on the Ethereum Virtual Machine and Babble
-    consensus.
-
-    The minimal quickstart configuration is:
-
-            $ monetd config clear
-            $ monetd keys new node0
-            $ monetd config build node0
-            $ monetd run
-
-    See the documentation at https://monetd.readthedocs.io/ for further information.
-
-    Usage:
-      monetd [command]
-
-    Available Commands:
-      config      manage configuration
-      help        Help about any command
-      keys        manage keys
-      run         run a node
-      version     show version info
-
-    Flags:
-      -d, --datadir string   top-level directory for configuration and data (default "/home/martin/.monet")
-      -h, --help             help for monetd
-      -v, --verbose          verbose output
-
-    Use "monetd [command] --help" for more information about a command.
+.. include:: _static/includes/monetd_help.txt
+    :code: bash
 
 
 There are 5 subcommands. ``help`` is described above. The other 4 commands are
@@ -72,13 +41,9 @@ The ``version`` subcommand outputs the version number for ``monetd``,
 If you compile your own tools, the suffices are the GIT branch and the GIT
 commit hash.
 
-.. code:: bash
 
-    $ monetd version
-    Monetd Version: 0.2.1-develop-ceb36cba
-        EVM-Lite Version: 0.2.1
-        Babble Version: 0.5.0
-        Geth Version: 1.8.27
+.. include:: _static/includes/monetd_version.txt
+    :code: bash
 
 
 Keys
@@ -102,44 +67,12 @@ instance with this command:
 
 The help for the keys command is:
 
-.. code:: bash
 
-    Manage keys in the [datadir]/keystore folder.
+.. include:: _static/includes/monetd_keys_help.txt
+    :code: bash
 
-    Note that other Monet tools, like monetcli and monet-wallet, use the same
-    default [datadir]/keystore.
 
-    +------------------------------------------------------------------------------+
-    | Please take all the necessary precautions to secure these files and remember |
-    | the passwords, as it will be impossible to recover the keys without them.    |
-    +------------------------------------------------------------------------------+
 
-    Keys are associated with monikers and encrypted in password-protected files in
-    [datadir]/keystore/[moniker].json. Keyfiles contain JSON encoded objects, which
-    Ethereum users will recognise as the de-facto Ethereum keyfile format. Indeed,
-    Monet and the underlying consensus algorithm, Babble, use the same type of keys
-    as Ethereum. A key can be used to run a validator node, or to control an account
-    with a token balance.
-
-    Usage:
-      monetd keys [command]
-
-    Available Commands:
-      inspect     inspect a keyfile
-      list        list keyfiles
-      new         create a new keyfile
-      update      change the passphrase on a keyfile
-
-    Flags:
-      -h, --help              help for keys
-          --json              output JSON instead of human-readable format
-          --passfile string   file containing the passphrase
-
-    Global Flags:
-      -d, --datadir string   top-level directory for configuration and data (default "/home/martin/.monet")
-      -v, --verbose          verbose output
-
-    Use "monetd keys [command] --help" for more information about a command.
 
 Parameters
 ~~~~~~~~~~
