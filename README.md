@@ -9,25 +9,31 @@
 ## Overview
 
 Monetd is the daemon component of the **Monet Toolchain**; a distributed
-smart-contract platform based on the Ethereum Virtual Machine (EVM) and Babble 
-consensus. It leverages [evm-lite](https://github.com/mosaicnetworks/evm-lite) 
-and [Babble](https://github.com/mosaicnetworks/babble).
-
-The **Monet Toolchain** underpins the MONET Hub which, as described in the 
-[MONET whitepaper](http://bit.ly/monet-whitepaper), is a blockchain that
-supports other Mobile ad-hoc blockchains with services like peer-discovery,
-Inter-Blockchain Communication, and the Tenom token. 
-
-More information about MONET can be found on the [website](https://monet.network/about.html).
+smart-contract platform based on 
+[EVM-Lite](https://github.com/mosaicnetworks/evm-lite) and
+[Babble](https://github.com/mosaicnetworks/babble) consensus. It is licensed 
+under the [MIT license](https://en.wikipedia.org/wiki/MIT_License) and available
+for use in other projects.
 
 This repository contains the code for `monetd` and `giverny`:
 
-- `monetd` is the server process, and CLI, that validators are expected to run.
-- `giverny` is the advanced CLI for advanced test net creation and management.
+- `monetd` is the server process that validators are expected to run.
+- `giverny` is the CLI for advanced testnet creation and management.
 
-## Documentation
+Documentation
+-------------
 
-* [design](https://monetd.readthedocs.io/en/latest/design.html)
-* [installation](https://monetd.readthedocs.io/en/latest/install.html)
-* [monetd](https://monetd.readthedocs.io/en/latest/monetd.html)
-* [clients](https://monetd.readthedocs.io/en/latest/clients.html)
+Full documentation is availble on
+[ReadTheDocs](https://monetd.readthedocs.io/en/latest/).
+
+Quick Start
+-----------
+
+For the impatient, we recommend you start here:
+
+-   [Installation
+    Documents](https://monetd.readthedocs.io/en/latest/install.html)
+-   [Quick
+    Start](https://monetd.readthedocs.io/en/latest/quickstart.html)
+
+
