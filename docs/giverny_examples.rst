@@ -45,7 +45,11 @@ commands can be prefixed to all the commands below:
 The command above rebuilds the ``giverny`` app and removes the network
 ``test9``allow the ``new`` commands to be run repeatedly. If you do not remove
 the previous network ``test9`` before running ``giverny network new`` then the
-command aborts.
+command aborts. The ``make installgiv`` is only required if you are making code
+changes.
+
+Adding ``-v`` or ``--verbose`` to each of these commands gives addition
+information and progress messages in the command output.
 
 New
 ===
@@ -69,34 +73,35 @@ The withnodes.txt file is interesting as it shows the expanded syntax:
 
 .. code:: text
 
-    Jon,192.168.1.18,1E18,true
-    Martin,192.168.1.3,1E15,true
-    Kevin,192.168.1.16,1E12,false
+    Jon,192.168.1.18,1T,true
+    Martin,192.168.1.3,1G,true
+    Kevin,192.168.1.16,1M,false
 
 
 
 Export Network
 ==============
 
-To export all nodes in a network, type this:
+The export command writes the configuration of one or more nodes to a zip file.
+
+To export the configuration of all nodes in a network, type this:
 
 .. code:: bash
 
     $ giverny network export test9
 
 
+Take a look in ``~/.giverny/exports``. [#]_ There should be numerous files
+named ``test9_[node].zip``. These can be applied to ``monetd`` directly on the
+same instance by:
 
-
-Take a look in ``~/.giverny/exports``. There should be numerous files named
-``test9_[node].zip``. These can be applied to monetd directly on the same
-instance by:
 
 .. code:: bash
 
     $ giverny network import test9 Danu --from-exports
 
-Alternatively you can use slack to send that zip file and then load it ---
-without changing the name of the file:
+Alternatively you can use a secondary channel such as slack or e-mail to send
+that zip file and then load it --- without changing the name of the file:
 
 .. code:: bash
 
@@ -110,3 +115,8 @@ Or you can use giverny server and pull it directly. Assuming that you have run
 
     $ giverny network import test9 Danu --server 192.168.1.4
 
+
+
+.. [#] This location is for Linux instances. Mac and Windows uses a different
+       path. The path for your instance can be ascertain with this command:
+       ``giverny network location``

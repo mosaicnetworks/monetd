@@ -1,12 +1,12 @@
 .. _monetd_configuration_rst:
 
-Monetd Configuration
-====================
+Monet Toolchain Configuration
+=============================
 
 All the configuration required to run a node is stored under a directory with a
 very specific structure. By default, ``monetd`` will look for this directory in
-``$HOME/.monet`` (on Linux), but it is possible to override this with the
-``--datadir`` flag. 
+``$HOME/.monet`` [1]_ (on Linux), but it is possible to override this with the
+``--datadir`` flag.
 
 The directory must respect the following stucture:
 
@@ -29,20 +29,20 @@ The directory must respect the following stucture:
 
 
 You would not normally need to access these configuration files directly. The
-``monetd config`` tool provides a CLI interfaces to set up a Monet network. The
-command ``monetd config location --expanded`` provides further details of the
-filepaths used for your instance. 
+``monetd config`` tool provides a CLI interfaces to set up a Monet Toolchain
+network. The command ``monetd config location --expanded`` provides further
+details of the filepaths used for your instance.
 
 Eth
---- 
+---
 
 The eth/genesis.json file defines prefunded accounts in the state, as well as
 the POA smart-contract. This file is useful to predefine a set of accounts that
 own all the initial tokens at the inception of the network. In addition, the
-``poa`` section contains information about the POA smart-contract. 
+``poa`` section contains information about the POA smart-contract.
 
-Example genesis.json defining one prefunded account (the ABI and bytecode of the
-smart-contract have been truncated):
+Example genesis.json defining one prefunded account (the ABI and bytecode of
+the smart-contract have been truncated):
 
 .. code:: json
 
@@ -72,9 +72,9 @@ Babble
 Run Options
 -----------
 
-Options pertaining to the operation of the node are read from the 
-[datadir]/monetd.toml file, or overwritten by the following flags. It is 
-envisaged that you would not need to use these flags in a production 
+Options pertaining to the operation of the node are read from the
+[datadir]/monetd.toml file, or overwritten by the following flags. It is
+envisaged that you would not need to use these flags in a production
 environment.
 
 ::
@@ -103,7 +103,7 @@ Example of a monet.toml file:
   datadir = "/home/user/.monet"
   log = "debug"
   api-listen = ":8080"
-  
+
   [babble]
     listen = "192.168.1.3:1337"
     heartbeat = "500ms"
@@ -112,6 +112,11 @@ Example of a monet.toml file:
     sync-limit = 1000
     max-pool = 2
     bootstrap = false
-  
+
   [eth]
     cache = 128
+
+
+.. [1] This location is for Linux instances. Mac and Windows uses a different
+       path. The path for your instance can be ascertain with this command:
+       ``monetd config location``

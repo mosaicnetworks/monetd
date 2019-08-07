@@ -41,7 +41,7 @@ func init() {
 
 //FullVersion outputs version information for Monet, EVM-Lite, Babble and Geth
 func FullVersion() string {
-	return fmt.Sprintln("Monet Version: "+Version) +
+	return fmt.Sprintln("Monetd Version: "+Version) +
 		fmt.Sprintln("     EVM-Lite Version: "+evm.Version) +
 		fmt.Sprintln("     Babble Version: "+_babble.Version) +
 		fmt.Sprintln("     Geth Version: "+geth.Version)

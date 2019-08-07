@@ -6,7 +6,7 @@ mydir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" > /dev/null && pwd )"
 
 NET=${1:-"transfers"}
 PORT=${2:-8080}
-TRANSCOUNT=${3:-5}
+TRANSCOUNT=${3:-25}
 
 
 CONFIG_DIR="$HOME/.giverny/networks/$NET/"

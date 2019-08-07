@@ -3,9 +3,9 @@ NOSTOP=""
 TEST=crowdfundnet
 
 install: 
-	$(MAKE) -C crowd-funding install
-	$(MAKE) -C jointest install
-	$(MAKE) -C transfers install
+	-$(MAKE) -C crowd-funding install
+	-$(MAKE) -C jointest install
+	-$(MAKE) -C transfers install
 
 	./scripts/testdependencies.sh
 

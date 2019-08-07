@@ -3,22 +3,22 @@
 Monetd API
 ==========
 
-Monetd exposes an HTTP API at the address specified by the ``--api-listen``
+``monetd`` exposes an HTTP API at the address specified by the ``--api-listen``
 flag. This document contains the API specification with some basic examples
-using curl. For API clients (javascrip libraries, CLI, and GUI), please refer to 
-`EVM-Lite CLI <https://github.com/mosaicnetworks/evm-lite-cli>`__
+using curl. For API clients (javascript libraries, CLI, and GUI), please refer
+to `Monet CLI <https://github.com/mosaicnetworks/monetcli>`__
 
 Get Account
 -----------
 
 Retrieve information about any account.
 
-.. code::
+.. code:: http
 
   GET /account/{address}
   returns: JsonAccount
 
-.. code::
+.. code:: go
 
     type JsonAccount struct {
       Address string   `json:"address"`
@@ -29,7 +29,7 @@ Retrieve information about any account.
 
 Example:
 
-.. code::
+.. code:: bash
 
     host:~$ curl http://localhost:8080/account/0xa10aae5609643848fF1Bceb76172652261dB1d6c -s | jq
     {
@@ -45,13 +45,13 @@ Call
 Call a smart-contract READONLY function. These calls will NOT modify the EVM
 state, and the data does NOT need to be signed.
 
-.. code::
+.. code:: http
 
   POST /call
   data: JSON SendTxArgs
   returns: JSON JsonCallRes
 
-.. code:: 
+.. code:: go
 
     type SendTxArgs struct {
         From     common.Address  `json:"from"`
@@ -62,19 +62,19 @@ state, and the data does NOT need to be signed.
         Data     string          `json:"data"`
         Nonce    *uint64         `json:"nonce"`
     }
-    
+
     type JsonCallRes struct {
         Data string `json:"data"`
     }
 
 Example:
 
-.. code:: 
+.. code:: bash
 
-    curl http://localhost:8080/call \ 
+    curl http://localhost:8080/call \
     -d '{"constant":true,"to":"0xabbaabbaabbaabbaabbaabbaabbaabbaabbaabba","value":0,"data":"0x8f82b8c4","gas":1000000,"gasPrice":0,"chainId":1}' \
-    -H "Content-Type: application/json" \ 
-    -X POST -s | jq 
+    -H "Content-Type: application/json" \
+    -X POST -s | jq
     {
       "data": "0x0000000000000000000000000000000000000000000000000000000000000001"
     }
@@ -88,13 +88,13 @@ Hex string, are passed to this method to be forwarded to the EVM. This is an
 ASYNCHRONOUS operation and the effect on the State should be verified by
 fetching the transaction's receipt.
 
-.. code::
+.. code:: http
 
   POST /rawtx
   data: STRING Hex representation of the raw transaction bytes
   returns: JSON JsonTxRes
 
-.. code:: 
+.. code:: go
 
     type JsonTxRes struct {
         TxHash string `json:"txHash"`
@@ -102,7 +102,7 @@ fetching the transaction's receipt.
 
 Example:
 
-.. code:: 
+.. code:: bash
 
     host:~$ curl -X POST http://localhost:8080/rawtx -d '0xf8600180830f424094a10aae5609643848ff1bceb76172652261db1d6c648026a03c14b99e14420e34c15885ff3afc1043aa6e4e13e2be4691d74a772cde44819ba0652b202ab93908544ea4d7d89567fa462fa719f381e54aa6781ba96c2e9e0e90' -s | json_pp
     {
@@ -113,16 +113,16 @@ Get Receipt
 -----------
 
 Get a transaction receipt. When a transaction is applied to the EVM, a receipt
-is saved to record if/how the transaction affected the state. This contains such
-information as the address of a newly created contract, how much gas was use,
-and the EVM Logs produced by the execution of the transaction.
+is saved to record if/how the transaction affected the state. This contains
+such information as the address of a newly created contract, how much gas was
+use, and the EVM Logs produced by the execution of the transaction.
 
-.. code::
+.. code:: http
 
   GET /tx/{tx_hash}
   returns: JSON JsonReceipt
 
-.. code::
+.. code:: go
 
     type JsonReceipt struct {
         Root              common.Hash     `json:"root"`
@@ -139,7 +139,7 @@ and the EVM Logs produced by the execution of the transaction.
 
 Example:
 
-.. code::
+.. code:: bash
 
     host:~$ curl http://localhost:8080/tx/0x96764078446cfbaec6265f173fb5a2411b7c272052640bca622252494a74dbb4 -s | jq
     {
@@ -158,16 +158,16 @@ Example:
 Info
 ----
 
-Get information about Babble.
+Get information about a Babble instance.
 
-.. code::
+.. code:: http
 
   GET /info
   returns: JSON map
 
 Example:
 
-.. code::
+.. code:: bash
 
     host:-$ curl http://localhost:8080/info | jq
     {
@@ -192,12 +192,12 @@ POA
 
 Get details of the PoA smart-contract.
 
-.. code::
+.. code:: http
 
   GET /poa
   returns: JsonContract
 
-.. code::
+.. code:: go
 
     type JsonContract struct {
         Address common.Address `json:"address"`
@@ -206,7 +206,7 @@ Get details of the PoA smart-contract.
 
 Example (trunctated output):
 
-.. code::
+.. code:: bash
 
     host:-$ curl http://localhost:8080/poa | jq
     {
@@ -218,27 +218,28 @@ Example (trunctated output):
 Genesis.json
 ------------
 
-This endpoint returns the content of the genesis.json file.
+This endpoint returns the content of the genesis.json file in JSON format.
+This allows new nodes to pull the genesis file from an existing peer.
 
-.. code::
+.. code:: http
 
   GET /genesis
   returns: JSON Genesis
 
-.. code::
+.. code:: go
 
     type Genesis struct {
         Alloc AccountMap
         Poa   PoaMap
     }
-    
+
     type AccountMap map[string]struct {
         Code        string
         Storage     map[string]string
         Balance     string
         Authorising bool
     }
-    
+
     type PoaMap struct {
         Address string
         Balance string
@@ -248,7 +249,7 @@ This endpoint returns the content of the genesis.json file.
 
 Example (truncated output):
 
-.. code::
+.. code:: bash
 
   host:-$ curl://http://locahost:8080/genesis | jq
   {
@@ -273,12 +274,12 @@ Block
 
 Get a Babble Block by index.
 
-.. code::
+.. code:: http
 
   GET /block/{index}
   returns: JSON Block
 
-.. code::
+.. code:: go
 
     type Block struct {
         Body       BlockBody
@@ -298,7 +299,7 @@ Get a Babble Block by index.
 
 Example:
 
-.. code::
+.. code:: bash
 
     host:-$ curl http://locahost:8080/block/0 | jq
     {
@@ -324,12 +325,12 @@ Current Peers
 
 Get Babble's current peer-set.
 
-.. code::
+.. code:: http
 
     Get /peers
     returns: []Peer
 
-.. code::
+.. code:: go
 
     type Peer struct {
         NetAddr   string
@@ -339,7 +340,7 @@ Get Babble's current peer-set.
 
 Example:
 
-.. code::
+.. code:: bash
 
     $host:-$ curl http://localhost:8080/peers | jq
     [
@@ -355,7 +356,7 @@ Genesis Peers
 
 Get Babble's initial validator-set.
 
-.. code::
+.. code:: http
 
     GET /genesispeers
     returns: []Peer
