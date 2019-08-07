@@ -381,10 +381,10 @@ inadvertent deletion of keys.
 Contract
 ~~~~~~~~
 
-The ``contract`` subcommand generates the Solidity source for a POA smart contract
-with the supplied node as the sole entry on the initial whitelist. This command
-is not used in the standard workflow, but is provided as a convenient mechanism
-to retrieve the solidity source.
+The ``contract`` subcommand generates the Solidity source for a POA smart
+contract with the supplied node as the sole entry on the initial whitelist.
+This command is not used in the standard workflow, but is provided as a
+convenient mechanism to retrieve the solidity source.S
 
 .. code:: bash
 

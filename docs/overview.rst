@@ -59,9 +59,9 @@ Accounts are objects in the EVM State. They come in two types: Externally owned
 accounts, and Contract accounts. Externally owned accounts have a balance, and
 Contract accounts have a balance and storage. The EVM State is the state of all
 accounts which is updated with every transaction. The underlying consensus
-engine ensures that every participant in a Monet Toolchain network processes the same
-transactions in the same order, thereby arriving at the same State. The use of
-Contract accounts with the EVM makes it possible to deploy and use
+engine ensures that every participant in a Monet Toolchain network processes
+the same transactions in the same order, thereby arriving at the same State.
+The use of Contract accounts with the EVM makes it possible to deploy and use
 *SmartContracts* which we will explore in another document.
 
 What is an account file?
