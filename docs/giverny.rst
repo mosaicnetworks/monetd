@@ -12,7 +12,7 @@ The current subcommands are:
 - **version** --- outputs version information
 - **keys** --- key management tools
 - **server** --- configuration server management
-- **network** --- configure and build monet networks
+- **network** --- configure and build networks
 
 
 ***********

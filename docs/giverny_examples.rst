@@ -92,8 +92,8 @@ To export the configuration of all nodes in a network, type this:
 
 
 Take a look in ``~/.giverny/exports``. [#]_ There should be numerous files
-named ``test9_[node].zip``. These can be applied to monetd directly on the same
-instance by:
+named ``test9_[node].zip``. These can be applied to ``monetd`` directly on the
+same instance by:
 
 
 .. code:: bash

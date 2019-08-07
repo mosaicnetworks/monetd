@@ -355,13 +355,14 @@ The two most common scenarios are:
 - config build - config build creates the configuration for a single-node
                  network, based on one of the keys in [datadir]/keystore.
                  This is a quick and easy way to get started with monetd.
+                 See :ref:`quickstart_rst`.
 
 - config pull - config pull is used to join an existing network. It fetches the
-                configuration from one of the existing nodes.
+                configuration from one of the existing nodes. See
+                :ref:`join_rst`.
 
-Both of these scenarios are described in :ref:`basic_examples_rst`. For more
-complex scenarios, please refer to :ref:`giverny_rst`, which is a specialised
-monet configuration tool.
+For more complex scenarios, please refer to :ref:`giverny_rst`, which is a
+specialised monet configuration tool.
 
 Clear
 ~~~~~

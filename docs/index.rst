@@ -1,7 +1,7 @@
 .. _index:
 
-Welcome to the Monet Hub documentation!
-=======================================
+Welcome to the monetd documentation!
+====================================
 
 .. image:: assets/monet_logo.png
    :height: 600px

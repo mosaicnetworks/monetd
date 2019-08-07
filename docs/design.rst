@@ -63,10 +63,9 @@ Spectrum of possible Implementations
 ------------------------------------
 
 From a simple web-service hosted on a privately-owned server, to a public
-global blockchain like Ethereum,
-there are many potential ways to implement this
-service. However, given our requirements, a simple server scores pretty low in
-all categories (except perhaps speed and flexibility), and global public
+global blockchain like Ethereum, there are many potential ways to implement
+this service. However, given our requirements, a simple server scores pretty
+low in all categories (except perhaps speed and flexibility), and global public
 blockchains are too slow, too hard to update, and usually provide only
 probabilistic finality, which is not acceptable.
 
@@ -91,12 +90,16 @@ MONET Hub falls in the same category, and requires a permissioned BFT system.
 Ethereum with Babble Consensus
 ------------------------------
 
-To build monetd, the software powering nodes on the MONET Hub, We used our own
-BFT consensus algorithm, `Babble <https://github.com/mosaicnetworks/babble>`__,
-because it is fast, leaderless, and offers finality. For the application state
-and smart-contract platform, we use the Ethereum Virtual Mahcine (EVM) via
-`EVM-Lite <https://github.com/mosaicnetworks/evm-lite>`__, which is a stripped
-down version of `Go-Ethereum <https://github.com/ethereum/go-ethereum>`__.
+We have developed the Monet Toolchain, a complete set of software tools for
+setting up and using the MONET Hub. This includes ``monetd``, the software
+daemon that powers nodes on the MONET Hub.
+
+To build ``monetd``, we used our own BFT consensus algorithm, `Babble
+<https://github.com/mosaicnetworks/babble>`__, because it is fast, leaderless,
+and offers finality. For the application state and smart-contract platform, we
+use the Ethereum Virtual Mahcine (EVM) via `EVM-Lite
+<https://github.com/mosaicnetworks/evm-lite>`__, which is a stripped down
+version of `Go-Ethereum <https://github.com/ethereum/go-ethereum>`__.
 
 The EVM is a security-oriented virtual machine specifically designed to run
 untrusted code on a network of computers. Every transaction applied to the EVM
@@ -170,8 +173,8 @@ Conclusion
 The MONET Hub is a pivotal utility that facilitates the creation of mobile
 ad-hoc blockchains, and the emergence of a new breed of decentralised
 applications. To maximise the performance, security, and flexibility of this
-system, we have opted to build a smart-contract platform based on the Ethereum
-Virtual Machine, and a state-of-the-art BFT consensus algorithm, Babble. To
+system, we have opted to build the Monet Toolchain, a smart-contract platform based on the Ethereum
+Virtual Machine and a state-of-the-art BFT consensus algorithm, Babble. To
 govern the validator-set involved in the consensus algorithm, we have chosen to
 implement a Proof of Authority system, with the idea of extending to Proof of
 Stake when more evidence of its efficacy becomes available.
