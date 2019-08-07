@@ -18,23 +18,17 @@ RunCmd
 func newRunCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "run",
-		Short: "run a MONET node",
+		Short: "run a node",
 		Long: `
-Run a MONET node.
-	
-Start a daemon which acts as a full node on a MONET network. All data and 
-configuration are stored under a directory [datadir] controlled by the 
---datadir flag ($HOME/.monet by default on UNIX systems). 
+Run a node.
 
-[datadir] must contain a set of files defining the network that this node is 
-attempting to join or create. Please refer to monetd config for tools to manage 
-this configuration. 
-
-Further options pertaining to the operation of the node are read from the 
-[datadir]/monetd.toml file, or overwritten by the following flags. The following 
-command displays the expected output:
-
-monetd config location `,
+Use the --datadir flag (-d) to set the node's data directory ($HOME/.monet by 
+default on Linux). It should contain a set of files defining the network that
+this node is attempting to join or create. Please refer to the 'monetd config'
+command to manage this configuration. Further options pertaining to the
+operation of monetd can be specified in a monetd.toml file, within the data
+directory, or overwritten by the following flags:
+`,
 
 		PreRunE: func(cmd *cobra.Command, args []string) (err error) {
 			common.DebugMessage(fmt.Sprintf("Base Config: %+v", configuration.Global.BaseConfig))
@@ -53,19 +47,19 @@ monetd config location `,
 
 func bindFlags(cmd *cobra.Command) {
 	// EVM-Lite and Babble share the same API address
-	cmd.Flags().String("api-listen", configuration.Global.APIAddr, "IP:PORT of Monet HTTP API service")
+	cmd.Flags().String("api-listen", configuration.Global.APIAddr, "IP:PORT of HTTP API service")
 
 	// Babble config
 	cmd.Flags().String("babble.listen", configuration.Global.Babble.BindAddr, "IP:PORT of Babble node")
-	cmd.Flags().Duration("babble.heartbeat", configuration.Global.Babble.Heartbeat, "Heartbeat time milliseconds (time between gossips)")
+	cmd.Flags().Duration("babble.heartbeat", configuration.Global.Babble.Heartbeat, "heartbeat timer milliseconds (time between gossips)")
 	cmd.Flags().Duration("babble.timeout", configuration.Global.Babble.TCPTimeout, "TCP timeout milliseconds")
-	cmd.Flags().Int("babble.cache-size", configuration.Global.Babble.CacheSize, "Number of items in LRU caches")
-	cmd.Flags().Int("babble.sync-limit", configuration.Global.Babble.SyncLimit, "Max number of Events per sync")
-	cmd.Flags().Int("babble.max-pool", configuration.Global.Babble.MaxPool, "Max number of pool connections")
-	cmd.Flags().Bool("babble.bootstrap", configuration.Global.Babble.Bootstrap, "Bootstrap Babble from database")
+	cmd.Flags().Int("babble.cache-size", configuration.Global.Babble.CacheSize, "number of items in LRU caches")
+	cmd.Flags().Int("babble.sync-limit", configuration.Global.Babble.SyncLimit, "max number of Events per sync")
+	cmd.Flags().Int("babble.max-pool", configuration.Global.Babble.MaxPool, "max number of pool connections")
+	cmd.Flags().Bool("babble.bootstrap", configuration.Global.Babble.Bootstrap, "bootstrap Babble from database")
 
 	// Eth config
-	cmd.Flags().Int("eth.cache", configuration.Global.Eth.Cache, "Megabytes of memory allocated to internal caching (min 16MB / database forced)")
+	cmd.Flags().Int("eth.cache", configuration.Global.Eth.Cache, "megabytes of memory allocated to internal caching (min 16MB / database forced)")
 }
 
 /*******************************************************************************

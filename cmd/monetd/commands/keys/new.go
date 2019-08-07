@@ -14,9 +14,10 @@ func newNewCmd() *cobra.Command {
 		Use:   "new [moniker]",
 		Short: "create a new keyfile",
 		Long: `
-Generate a new cryptographic key-pair identified by [moniker].
+Generate a new key identified by [moniker].
 
-If the --passfile flag is not specified, the user will be prompted to enter the
+The keyfile will be written to [datadir]/keystore/[moniker].json. If the
+--passfile flag is not specified, the user will be prompted to enter the 
 passphrase manually.
 `,
 		Args: cobra.ExactArgs(1),

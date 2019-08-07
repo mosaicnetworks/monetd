@@ -17,11 +17,11 @@ import (
 func newContractCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "contract [moniker]",
-		Short: "displays poa contract",
+		Short: "display poa contract",
 		Long: `
-monetd config contract
+Display the PoA smart contract.
 
-Outputs the standard monetd contract, configured with [moniker] as the initial
+Outputs the standard monetd contract, configured with [moniker] in the initial
 whitelist.
 `,
 		Args: cobra.ExactArgs(1),

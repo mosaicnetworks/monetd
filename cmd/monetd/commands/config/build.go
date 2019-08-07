@@ -8,8 +8,8 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	"github.com/mosaicnetworks/monetd/src/configuration"
 	pconfig "github.com/mosaicnetworks/monetd/src/config"
+	"github.com/mosaicnetworks/monetd/src/configuration"
 )
 
 // newBuildCmd initialises a bare-bones configuration for monetd
@@ -18,14 +18,13 @@ func newBuildCmd() *cobra.Command {
 		Use:   "build [moniker]",
 		Short: "create the configuration for a single-node network",
 		Long: `
-The build subcommand initialises the bare-bones configuration to get started 
-with monetd. It uses one of the accounts from the keystore to define a network 
-consisting of a unique node, which is automatically added to the PoA whitelist.
-Additionally, all the accounts in [datadir]/keystore are credited with a large
-amount of tokens in the genesis file. This command is mostly used for testing.
+Create the configuration for a single-node network.
 
-If the --address flag is omitted, the first non-loopback address for this 
-instance is used.
+Use the keystore account identified by [moniker] to define a network with a
+single node. All the accounts in [datadir]/keystore are also credited with a
+large number of tokens in the genesis file. This command is mostly used for
+testing. If the --address flag is omitted, the first non-loopback address is 
+used.
 `,
 		Args: cobra.ExactArgs(1),
 		RunE: buildConfig,
