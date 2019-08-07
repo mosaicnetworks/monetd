@@ -3,42 +3,42 @@
 Monetd Reference
 ================
 
-``monetd`` provides the core commands needed to configure and run a node. It has
-context sensitive help accessed either by running ``monetd help`` or by adding a
-``-h`` parameter to the relevant command.
+``monetd`` provides the core commands needed to configure and run a node. It
+has context sensitive help accessed either by running ``monetd help`` or by
+adding a ``-h`` parameter to the relevant command.
 
 .. code:: bash
 
     $ monetd help
-    
+
     Monetd is the daemon component of the Monet Toolchain; a distributed
-    smart-contract platform based on the Ethereum Virtual Machine and Babble 
-    consensus.  
-    
+    smart-contract platform based on the Ethereum Virtual Machine and Babble
+    consensus.
+
     The minimal quickstart configuration is:
-    
+
             $ monetd config clear
             $ monetd keys new node0
             $ monetd config build node0
             $ monetd run
-    
+
     See the documentation at https://monetd.readthedocs.io/ for further information.
-    
+
     Usage:
       monetd [command]
-    
+
     Available Commands:
       config      manage configuration
       help        Help about any command
       keys        manage keys
       run         run a node
       version     show version info
-    
+
     Flags:
       -d, --datadir string   top-level directory for configuration and data (default "/home/martin/.monet")
       -h, --help             help for monetd
       -v, --verbose          verbose output
-    
+
     Use "monetd [command] --help" for more information about a command.
 
 
@@ -94,7 +94,7 @@ subcommands, each described in a seperate section below:
 
 The ``keys`` subcommand writes and reads keys from the ``keystore`` sub-folder
 in the ``monetd`` configuration folder. You can see the location for your
-instance with this command: 
+instance with this command:
 
 .. code:: bash
 
@@ -105,40 +105,40 @@ The help for the keys command is:
 .. code:: bash
 
     Manage keys in the [datadir]/keystore folder.
-    
-    Note that other Monet tools, like monetcli and monet-wallet, use the same 
+
+    Note that other Monet tools, like monetcli and monet-wallet, use the same
     default [datadir]/keystore.
-    
-    +------------------------------------------------------------------------------+ 
-    | Please take all the necessary precautions to secure these files and remember | 
+
+    +------------------------------------------------------------------------------+
+    | Please take all the necessary precautions to secure these files and remember |
     | the passwords, as it will be impossible to recover the keys without them.    |
     +------------------------------------------------------------------------------+
-    
+
     Keys are associated with monikers and encrypted in password-protected files in
     [datadir]/keystore/[moniker].json. Keyfiles contain JSON encoded objects, which
     Ethereum users will recognise as the de-facto Ethereum keyfile format. Indeed,
     Monet and the underlying consensus algorithm, Babble, use the same type of keys
     as Ethereum. A key can be used to run a validator node, or to control an account
     with a token balance.
-    
+
     Usage:
       monetd keys [command]
-    
+
     Available Commands:
       inspect     inspect a keyfile
       list        list keyfiles
       new         create a new keyfile
       update      change the passphrase on a keyfile
-    
+
     Flags:
       -h, --help              help for keys
           --json              output JSON instead of human-readable format
           --passfile string   file containing the passphrase
-    
+
     Global Flags:
       -d, --datadir string   top-level directory for configuration and data (default "/home/martin/.monet")
       -v, --verbose          verbose output
-    
+
     Use "monetd keys [command] --help" for more information about a command.
 
 Parameters
@@ -169,16 +169,16 @@ attempt to create a duplicate, the command will abort with an error.
 .. code:: bash
 
     $ monetd keys new -h
-  
+
     Generate a new key identified by [moniker].
-    
+
     The keyfile will be written to [datadir]/keystore/[moniker].json. If the
-    --passfile flag is not specified, the user will be prompted to enter the 
+    --passfile flag is not specified, the user will be prompted to enter the
     passphrase manually.
-    
+
     Usage:
       monetd keys new [moniker] [flags]
-    
+
     Flags:
       -h, --help   help for new
 
@@ -196,19 +196,19 @@ Inspect
     $ monetd keys display -h
 
     Display the contents of a keyfile.
-    
+
     The output contains the corresponding address and public key. If --private is
     specified, the keyfile will be decrypted with the passphrase and the raw private
     key will also be returned. If --passfile is not specified, the user will be
     prompted to enter the passphrase manually.
-    
+
     Usage:
       monetd keys inspect [moniker] [flags]
-    
+
     Flags:
       -h, --help      help for inspect
           --private   include the private key in the output
-    
+
     Global Flags:
       -d, --datadir string    top-level directory for configuration and data (default "/home/martin/.monet")
           --json              output JSON instead of human-readable format
@@ -250,18 +250,18 @@ passphrase.
     $ monetd keys update -h
 
     Change the passphrase on a keyfile.
-    
-    If --passfile is not specified, the user will be prompted to enter the current 
+
+    If --passfile is not specified, the user will be prompted to enter the current
     passphrase manually. Likewise, if --new-passfile is not specified, the user will
     be prompted to input and confirm the new password.
-    
+
     Usage:
       monetd keys update [moniker] [flags]
-    
+
     Flags:
       -h, --help                  help for update
           --new-passfile string   the file containing the new passphrase
-    
+
     Global Flags:
       -d, --datadir string    top-level directory for configuration and data (default "/home/martin/.monet")
           --json              output JSON instead of human-readable format
@@ -282,8 +282,8 @@ An example session updating the passphrase for a key:
 List
 ~~~~
 
-The ``list`` subcommand outputs a list of monikers corresponding to the keyfiles 
-in the keystore. These are the valid monikers that can be specified to other 
+The ``list`` subcommand outputs a list of monikers corresponding to the keyfiles
+in the keystore. These are the valid monikers that can be specified to other
 ``monetd`` commands.
 
 .. code:: bash
@@ -291,19 +291,19 @@ in the keystore. These are the valid monikers that can be specified to other
     $ monetd keys list -h
 
     List keyfiles in [datadir]/keystore.
-    
+
     Usage:
       monetd keys list [flags]
-    
+
     Flags:
       -h, --help   help for list
-    
+
     Global Flags:
       -d, --datadir string    top-level directory for configuration and data (default "/home/martin/.monet")
           --json              output JSON instead of human-readable format
           --passfile string   file containing the passphrase
       -v, --verbose           verbose output
-    
+
 
 An example session:
 
@@ -319,8 +319,8 @@ Config
 ------
 
 The ``config`` subcommand initialises the configuration for a ``monetd`` node.
-The folder can be overridden by the ``--datadir`` parameter. The configuration 
-commands create all the files necessary for a node to join an existing network 
+The folder can be overridden by the ``--datadir`` parameter. The configuration
+commands create all the files necessary for a node to join an existing network
 or to create a new one.
 
 There are 5 subcommands each described in a separate section below:
@@ -407,14 +407,14 @@ output.
 
     Show the location of the monetd configuration files. If --expanded is specified,
     a detailed list of configuration files and directories is returned.
-    
+
     Usage:
       monetd config location [flags]
-    
+
     Flags:
       -x, --expanded   show expanded information
       -h, --help       help for location
-    
+
     Global Flags:
       -d, --datadir string   top-level directory for configuration and data (default "/home/martin/.monet")
       -v, --verbose          verbose output
@@ -456,16 +456,16 @@ instance is used.
     $ monetd help config build
 
     Create the configuration for a single-node network.
-    
+
     Use the keystore account identified by [moniker] to define a network with a
     single node. All the accounts in [datadir]/keystore are also credited with a
     large number of tokens in the genesis file. This command is mostly used for
-    testing. If the --address flag is omitted, the first non-loopback address is 
+    testing. If the --address flag is omitted, the first non-loopback address is
     used.
-    
+
     Usage:
       monetd config build [moniker] [flags]
-    
+
     Flags:
           --address string    IP/hostname of this node (default "192.168.1.3")
       -h, --help              help for build
@@ -494,29 +494,29 @@ used.
     The pull subcommand is used to join an existing network. It takes the address
     (host:port) of a running node, and downloads the following set of files into the
     configuration directory [datadir]:
-    
-    - babble/peers.json         : The current validator-set 
+
+    - babble/peers.json         : The current validator-set
     - babble/peers.genesis.json : The initial validator-set
     - eth/genesis.json          : The genesis file
-    
+
     Additionally, this command configures the key and network address of the new
-    node. The --key flag identifies a keyfile by moniker, which is expected to be in 
+    node. The --key flag identifies a keyfile by moniker, which is expected to be in
     the keystore. If --passfile is not specified, the user will be prompted to enter
-    the passphrase manually. If the --address flag is omitted, the first 
+    the passphrase manually. If the --address flag is omitted, the first
     non-loopback address is used.
-    
+
     Usage:
       monetd config pull [host:port] [flags]
-    
+
     Examples:
       monetd config pull "192.168.5.1:8080"
-    
+
     Flags:
           --address string    IP/hostname of this node (default "192.168.1.3")
       -h, --help              help for pull
           --key string        moniker of the key to use for this node (default "node0")
           --passfile string   file containing the passphrase
-    
+
 
 Run
 ---
@@ -531,16 +531,16 @@ not used. The equivalent changes can be made in the configuration files.
 
     Run a node.
 
-    Use the --datadir flag (-d) to set the node's data directory ($HOME/.monet by 
+    Use the --datadir flag (-d) to set the node's data directory ($HOME/.monet by
     default on Linux). It should contain a set of files defining the network that
     this node is attempting to join or create. Please refer to the 'monetd config'
     command to manage this configuration. Further options pertaining to the
     operation of monetd can be specified in a monetd.toml file, within the data
     directory, or overwritten by the following flags:
-    
+
     Usage:
       monetd run [flags]
-    
+
     Flags:
           --api-listen string           IP:PORT of HTTP API service (default ":8080")
           --babble.bootstrap            bootstrap Babble from database
@@ -552,7 +552,7 @@ not used. The equivalent changes can be made in the configuration files.
           --babble.timeout duration     TCP timeout milliseconds (default 1s)
           --eth.cache int               megabytes of memory allocated to internal caching (min 16MB / database forced) (default 128)
       -h, --help                        help for run
-      
+
     Global Flags:
       -d, --datadir string   top-level directory for configuration and data (default "/home/martin/.monet")
       -v, --verbose          verbose output

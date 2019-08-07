@@ -39,21 +39,21 @@ The Monet Toolchain
 
 The Monet Toolchain provides software to run and interact with a distributed
 smart-contract platform based on `EVM-Lite
-<https://github.com/mosaicnetworks/evm-lite>`_ and `Babble consensus
-<https://github.com/mosaicnetworks/babble>`_.
+<https://github.com/mosaicnetworks/evm-lite>`__ and `Babble consensus
+<https://github.com/mosaicnetworks/babble>`__.
 
-It underpins the `MONET Hub <https://monet.network/faq.html>`_, which an
-important port of the `MONET project <https://monet.network/about.html>`_, but
+It underpins the `MONET Hub <https://monet.network/faq.html>`__, which an
+important port of the `MONET project <https://monet.network/about.html>`__, but
 is licensed under the `MIT license
-<https://en.wikipedia.org/wiki/MIT_License>`_ and available for use in other
+<https://en.wikipedia.org/wiki/MIT_License>`__ and available for use in other
 projects. You can read more about MONET in the `whitepaper
-<http://bit.ly/monet-whitepaper>`_.
+<http://bit.ly/monet-whitepaper>`__.
 
 Documentation
 -------------
 
 Full documentation is availble on `ReadTheDocs
-<https://monetd.readthedocs.io/en/latest/>`_.
+<https://monetd.readthedocs.io/en/latest/>`__.
 
 
 Quick Start
@@ -61,6 +61,6 @@ Quick Start
 
 For the impatient, we recommend you start here:
 
-- `Installation Documents <https://monetd.readthedocs.io/en/latest/install.html>`_
-- `Quick Start <https://monetd.readthedocs.io/en/latest/quickstart.html>`_
+- `Installation Documents <https://monetd.readthedocs.io/en/latest/install.html>`__
+- `Quick Start <https://monetd.readthedocs.io/en/latest/quickstart.html>`__
 

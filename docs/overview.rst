@@ -20,9 +20,11 @@ Additionaly, the **giverny** program facilitates the creation of local Monet
 Toolchain networks for testing purposes. We don't expect most people to use
 **giverny** as it is mostly a development tool.
 
-**monetd** and **giverny** are written in Go, and reside in the same git
-repository because they share significant source code. Please follow the
-:ref:`installation instructions<install_rst>` to get started.
+**monetd** and **giverny** are written in `Go <https://golang.org/>`__, and
+reside in the same `github repository
+<https://github.com/mosaicnetworks/monetd/>`__ because they share significant
+source code. Please follow the :ref:`installation instructions<install_rst>` to
+get started.
 
 Monetcli
 ~~~~~~~~
@@ -30,8 +32,8 @@ Monetcli
 **monetcli** is the client-side program that interacts with a running Monet
 Toolchain node, and enables users to make transfers, query accounts, deploy and
 call smart-contracts, or participate in the PoA governance mechanism.
-``monetcli`` is a `Node.js <https://nodejs.org/>`__ project. It can be installed easily with ``npm
-install -g monetcli``.
+``monetcli`` is a `Node.js <https://nodejs.org/>`__ project. It can be
+installed easily with ``npm install -g monetcli``.
 
 Accounts
 --------
