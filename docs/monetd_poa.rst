@@ -36,7 +36,7 @@ internals of that function could be ameneded to your new scheme.
 CheckAuthorised
 ~~~~~~~~~~~~~~~
 
-Babble calls the following function to verify whether a peer making a join 
+Babble calls the following function to verify whether a peer making a join
 request is authorised. Any replacement smart-contract will need to implement
 this function.
 
@@ -154,35 +154,35 @@ A sample generated block is included below.
 
 .. code:: c
 
-    //GENERATED GENESIS BEGIN 
-      
+    //GENERATED GENESIS BEGIN
+
         address constant initWhitelist0 = 0xDc3062F7E88C456c2aD6EeaAc2D6Da4034F6CD7C;
         bytes32 constant initWhitelistMoniker0 = "node0";
         address constant initWhitelist1 = 0xdB77c5DBb8c39a82F131252853000E8691a772E1;
         bytes32 constant initWhitelistMoniker1 = "node1";
         address constant initWhitelist2 = 0xe9fa241921dF673E932B173C1a41bc532Db4C330;
-        bytes32 constant initWhitelistMoniker2 = "node2"; 
-     
-     
-        function processGenesisWhitelist() private 
-        { 
+        bytes32 constant initWhitelistMoniker2 = "node2";
+
+
+        function processGenesisWhitelist() private
+        {
          addToWhitelist(initWhitelist0, initWhitelistMoniker0);
          addToWhitelist(initWhitelist1, initWhitelistMoniker1);
-         addToWhitelist(initWhitelist2, initWhitelistMoniker2); 
-        } 
-     
-     
-        function isGenesisWhitelisted(address _address) pure private returns (bool) 
-        { 
-            return (  ( initWhitelist0 == _address ) || ( initWhitelist1 == _address ) || ( initWhitelist2 == _address ) ); 
-        } 
-     
-     //GENERATED GENESIS END 
+         addToWhitelist(initWhitelist2, initWhitelistMoniker2);
+        }
+
+
+        function isGenesisWhitelisted(address _address) pure private returns (bool)
+        {
+            return (  ( initWhitelist0 == _address ) || ( initWhitelist1 == _address ) || ( initWhitelist2 == _address ) );
+        }
+
+     //GENERATED GENESIS END
 
 The following functions must be defined in the generated block as they are
 referenced in the non-generated code.
 
 .. code:: c
 
-    function processGenesisWhitelist() private 
-    function isGenesisWhitelisted(address _address) pure private returns (bool) 
+    function processGenesisWhitelist() private
+    function isGenesisWhitelisted(address _address) pure private returns (bool)

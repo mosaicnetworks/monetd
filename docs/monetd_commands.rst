@@ -6,13 +6,13 @@ Monetd Reference
 Monetd provides the core commands needed to configure and run a Monet
 node. Monetd has context sensitive help accessed either by
 running ``monetd help`` or by adding a ``-h`` parameter to the relevant
-command. 
+command.
 
 .. code:: bash
 
     $ monetd help
     MONET-Daemon
-        
+
     Monetd provides the core commands needed to configure and run a Monet
     node. The minimal quickstart configuration is:
 
@@ -57,22 +57,24 @@ Global Parameters
 
 Global Parameters are available for all subcommands.
 
-- **-d, --datadir string** --- overrides the default location of the configuration file
+- **-d, --datadir string** --- overrides the default location of the
+  configuration file
 - **-h, --help** --- help command as discussed above
-- **--log string** --- Set to one of trace, debug, info, warn, error, fatal, panic. Selects
-  the logging level for daemon subcommands such as ``run``, the higher the level, the less events will be logged. 
-- **-v, --verbose** --- turns on verbose messages for the non-daemon commands. 
+- **--log string** --- Set to one of trace, debug, info, warn, error, fatal,
+  panic. Selects the logging level for daemon subcommands such as ``run``,
+  the higher the level, the less events will be logged.
+- **-v, --verbose** --- turns on verbose messages for the non-daemon commands.
   Defaults to false.
 
 
 Version
 -------
 
-The version command outputs the version number for ``monetd``, ``EVM-Lite``, 
-``Babble`` and ``Geth``. 
+The version command outputs the version number for ``monetd``, ``EVM-Lite``,
+``Babble`` and ``Geth``.
 
 If you compile your own tools, the suffices are the GIT branch and the GIT
-commit hash. 
+commit hash.
 
 .. code:: bash
 
@@ -94,9 +96,9 @@ described in a seperate section below:
 - **new** --- create a new keyfile
 - **update** --- change the passphrase on a keyfile
 
-The keys subcommand writes and reads keys from the ``keystore`` sub-folder in the
-monet configuration folder. You can see the location for your instance with this
-command:
+The keys subcommand writes and reads keys from the ``keystore`` sub-folder in
+the monet configuration folder. You can see the location for your instance with
+this command:
 
 .. code:: bash
 
@@ -110,27 +112,29 @@ The help for the keys command is:
 
     This command manages keys in the [datadir]/keystore folder.
 
-    Each key is associated with a moniker and encrypted in a password protected 
-    file. The moniker is a friendly name preventing users from having to type or 
-    copy/paste long character strings in the terminal. The password-protected file 
-    contains a JSON formatted string, which Ethereum users will recognise as the 
-    de-facto Ethereum keyfile format. Indeed, Monet and the underlying consensus 
-    algorithm, Babble, use the same type of keys as Ethereum. The same key can be 
-    used to run a validator node, or to control an account in Monet with a Tenom 
-    balance.
+    Each key is associated with a moniker and encrypted in a password protected
+    file. The moniker is a friendly name preventing users from having to type
+    or copy/paste long character strings in the terminal. The
+    password-protected file contains a JSON formatted string, which Ethereum
+    users will recognise as the de-facto Ethereum keyfile format. Indeed, Monet
+    and the underlying consensus algorithm, Babble, use the same type of keys
+    as Ethereum. The same key can be used to run a validator node, or to
+    control an account in Monet with a Tenom balance.
 
-    To use a key as part of a validator node running monetd, it will have to be 
-    decrypted with the password and copied over to [datadir]/babble/priv_key. The 
-    command  'monetd config build' does this automatically, but it can also be done 
-    manually with the help of the 'monetd keys inspect --private' command. 
+    To use a key as part of a validator node running monetd, it will have to be
+    decrypted with the password and copied over to [datadir]/babble/priv_key.
+    The command 'monetd config build' does this automatically, but it can also
+    be done manually with the help of the 'monetd keys inspect --private'
+    command.
 
-    Note that other Monet tools, like monetcli and monet-wallet, use the same 
+    Note that other Monet tools, like monetcli and monet-wallet, use the same
     default [datadir]/keystore.
 
-    +------------------------------------------------------------------------------+ 
-    | Please take all the necessary precautions to secure these files and remember | 
-    | the password, as it will be impossible to recover the key without them.      |
-    +------------------------------------------------------------------------------+
+    +---------------------------------------------------------------------+
+    | Please take all the necessary precautions to secure these files and |
+    | remember the password, as it will be impossible to recover the key  |
+    | without them.                                                       |
+    +---------------------------------------------------------------------+
 
     Usage:
     monetd keys [command]
@@ -156,10 +160,10 @@ The help for the keys command is:
 Parameters
 ~~~~~~~~~~
 
-All of the keys subcommands support the ``--passfile`` flag. This allows you to 
+All of the keys subcommands support the ``--passfile`` flag. This allows you to
 pass the path to a plain text file containing the passphrase for your key. This
 removes the interactive prompt to enter the passphrase that is the default
-mechanism. 
+mechanism.
 
 
 Monikers
@@ -174,60 +178,61 @@ New
 
 The ``new`` subcommand generates a new key pair and associates it with the
 specified moniker. You will be prompted for a passphrase which is used to
-encrypt the keyfile. It writes the encrypted keyfile to the Monetd keystore area
-by default. The moniker must be unique within your keystore. If you attempt to
-create a duplicate, the command will abort with an error. 
+encrypt the keyfile. It writes the encrypted keyfile to the Monetd keystore
+area by default. The moniker must be unique within your keystore. If you
+attempt to create a duplicate, the command will abort with an error.
 
 .. code:: bash
 
     $ monetd keys new -h
 
-    This command generates a new cryptographic key-pair, and encrypted json file in
-    [datadir]/keystore/[moniker].json : The encrypted keyfile
-    
-    [moniker] is a friendly name, which can be reused in other commands to refer to 
-    the key without having to type or copy a long string of characters.
-    
-    If the --passfile flag is not specified, the user will be prompted to enter the
-    passphrase manually. Otherwise, it will be read from the file pointed to by
-    --passfile.
-    
+    This command generates a new cryptographic key-pair, and encrypted json
+    file in [datadir]/keystore/[moniker].json : The encrypted keyfile
+
+    [moniker] is a friendly name, which can be reused in other commands to
+    refer to the key without having to type or copy a long string of
+    characters.
+
+    If the --passfile flag is not specified, the user will be prompted to enter
+    the passphrase manually. Otherwise, it will be read from the file pointed
+    to by --passfile.
+
     Usage:
       monetd keys new [moniker] [flags]
-    
+
     Flags:
       -h, --help   help for new
-    
+
     Global Flags:
       -d, --datadir string    Top-level directory for configuration and data (default "/home/user/.monet")
           --json              output JSON instead of human-readable format
           --log string        trace, debug, info, warn, error, fatal, panic (default "debug")
           --passfile string   file containing the passphrase
       -v, --verbose           verbose messages
-    
-The moniker supplied in the command above must be in the list of moniker 
+
+The moniker supplied in the command above must be in the list of moniker
 produced by ``monetd keys list``.
 
 .. code:: bash
 
-    $ monetd keys new node0 
-    Passphrase: 
-    Repeat passphrase: 
+    $ monetd keys new node0
+    Passphrase:
+    Repeat passphrase:
     Address: 0x14f066E56969F10a9fc95065eA8E3Bd36cf51d13
 
 Inspect
 ~~~~~~~
 
-The ``inspect`` subcommand interrogates an encrypted keyfile and returns the 
-public key and address. If you specify the ``--private parameter``, it also 
+The ``inspect`` subcommand interrogates an encrypted keyfile and returns the
+public key and address. If you specify the ``--private parameter``, it also
 returns the associated private key.
 
 .. code:: bash
 
     $ monetd keys inspect -h
 
-    The inspect subcommand interrogates an encrypted keyfile and returns the 
-    public key and address. If you specify the --private parameter, it also 
+    The inspect subcommand interrogates an encrypted keyfile and returns the
+    public key and address. If you specify the --private parameter, it also
     returns the associated private key.
 
     Usage:
@@ -238,21 +243,21 @@ returns the associated private key.
         --private   include the private key in the output
 
 
-A sample session showing the command usage with and without the ``--private`` 
+A sample session showing the command usage with and without the ``--private``
 parameter.
 
 .. code:: bash
 
     $ monetd keys inspect node0 --private
-    Passphrase: 
+    Passphrase:
     Address:        0x02f6f3D24E447218d396C14F3B47f9Ea369DADf9
     Public key:     0481d3528eec6138f8428932e4fe99571a4f77bd79ae13219540b0a929014cb490a4e5ced2f9e651b531522c2567b6dc5de75d485193615e768b8aa1190603d2c2
     Private key:    bc553aaa7e55c5d0f58f6897ba9bffdb88233c420da622d363f2fe4bd6d78df1
- 
+
 .. code:: bash
-  
-    $ monetd keys inspect node0 
-    Passphrase: 
+
+    $ monetd keys inspect node0
+    Passphrase:
     Address:        0x02f6f3D24E447218d396C14F3B47f9Ea369DADf9
     Public key:     0481d3528eec6138f8428932e4fe99571a4f77bd79ae13219540b0a929014cb490a4e5ced2f9e651b531522c2567b6dc5de75d485193615e768b8aa1190603d2c2
 
@@ -260,10 +265,10 @@ Update
 ~~~~~~
 
 The ``update`` subcommand allows you to change the passphrase for an encrypted
-key file. You are prompted for the old passphrase, then you need to enter, and 
+key file. You are prompted for the old passphrase, then you need to enter, and
 confirm, the new passphrase.
 
-You can suppress the prompts by specifying the ``--passfile`` parameter to 
+You can suppress the prompts by specifying the ``--passfile`` parameter to
 supply the current passphrase and ``--new-passphrase`` to supply the new
 passphrase.
 
@@ -272,7 +277,7 @@ passphrase.
     $ monetd keys update -h
 
     The update subcommand allows you to change the passphrase for an encrypted
-    key file. Unless you specifgy passfiles on the command line you are prompted 
+    key file. Unless you specifgy passfiles on the command line you are prompted
     for the old passphrase, then you need to enter, and confirm, the new passphrase.
 
     Usage:
@@ -292,11 +297,11 @@ An example session updating the passphrase for a key:
 
 .. code:: bash
 
-    $ monetd keys update node0 
-    Passphrase: 
+    $ monetd keys update node0
+    Passphrase:
     Please provide a new passphrase
-    Passphrase: 
-    Repeat passphrase: 
+    Passphrase:
+    Repeat passphrase:
 
 List
 ~~~~
@@ -309,8 +314,8 @@ subcommands.
 
     $ monetd keys list -h
 
-    The list command supplies a list of moniker for the keys in the keystore 
-    subfolder of the configuration folder. 
+    The list command supplies a list of moniker for the keys in the keystore
+    subfolder of the configuration folder.
 
     The monikers are in safe format where any character not matching [0-9A-Za-z]
     is converted to an underscore.
@@ -329,12 +334,12 @@ An example session:
     node2
 
 
-Config 
+Config
 ------
 
-The config subcommand initialises the configuration for a monetd node. The 
+The config subcommand initialises the configuration for a monetd node. The
 folder can be overridden by the ``--datadir`` parameter. The configuration
-commands create all the files necessary for a node to join an existing network 
+commands create all the files necessary for a node to join an existing network
 or to create a new one.
 
 There are 5 subcommands each described in a separate section below:
@@ -347,11 +352,11 @@ There are 5 subcommands each described in a separate section below:
 
 The two most common scenarios are:
 
-- config build - config build creates the configuration for a single-node 
-                 network, based on one of the keys in [datadir]/keystore. 
-                 This is a quick and easy way to get started with monetd. 
+- config build - config build creates the configuration for a single-node
+                 network, based on one of the keys in [datadir]/keystore.
+                 This is a quick and easy way to get started with monetd.
 
-- config pull - config pull is used to join an existing network. It fetches the 
+- config pull - config pull is used to join an existing network. It fetches the
                 configuration from one of the existing nodes.
 
 Both of these scenarios are described in :ref:`basic_examples_rst`. For more
@@ -361,12 +366,12 @@ monet configuration tool.
 Clear
 ~~~~~
 
-Clear is a command which safely clears any previous Monet configuration. It 
-renames the previous configuration with a ``.~n~`` suffix, where n is the lowest
-integer where the resultant filename does not already exist. 
+Clear is a command which safely clears any previous Monet configuration. It
+renames the previous configuration with a ``.~n~`` suffix, where n is the
+lowest integer where the resultant filename does not already exist.
 
-The configurations are renamed and not deleted to avoid the potential for 
-inadvertent deletion of keys. 
+The configurations are renamed and not deleted to avoid the potential for
+inadvertent deletion of keys.
 
 .. code:: bash
 
@@ -377,10 +382,10 @@ inadvertent deletion of keys.
 Contract
 ~~~~~~~~
 
-The contract command generates the Solidity source for a POA smart contract with
-the supplied node as the sole entry on the initial whitelist. This  command is
-not used in the standard workflow, but is provided as a convenient mechanism to
-retrieve the solidity source. 
+The contract command generates the Solidity source for a POA smart contract
+with the supplied node as the sole entry on the initial whitelist. This command
+is not used in the standard workflow, but is provided as a convenient mechanism
+to retrieve the solidity source.
 
 .. code:: bash
 
@@ -396,7 +401,7 @@ retrieve the solidity source.
 
 
 A sample session is as follows. The contract is written to stdout, so you will
-probably wish to redirect it to a file or a pager. 
+probably wish to redirect it to a file or a pager.
 
 .. code:: bash
 
@@ -410,16 +415,16 @@ probably wish to redirect it to a file or a pager.
 Location
 ~~~~~~~~
 
-The location subcommand displays the path to the configuration folder. With the 
-``--expanded`` parameter, a list of directories and configuration files are 
-output.  
+The location subcommand displays the path to the configuration folder. With the
+``--expanded`` parameter, a list of directories and configuration files are
+output.
 
 .. code:: bash
 
-    $ monetd help config location 
+    $ monetd help config location
 
-    The location subcommand shows the location of the monetd configuration files. It 
-    respects any --datadir parameter. 
+    The location subcommand shows the location of the monetd configuration files. It
+    respects any --datadir parameter.
 
     If you specify --expanded then a list of configuration folders and directories
     is output.
@@ -433,7 +438,7 @@ output.
 
 .. code:: bash
 
-        $ monetd config location 
+        $ monetd config location
         /home/user/.monet
 
 .. code:: bash
@@ -453,27 +458,27 @@ output.
 Build
 ~~~~~
 
-The build subcommand initialises the bare-bones configuration to get started 
-with monetd. It uses one of the accounts from the keystore to define a network 
+The build subcommand initialises the bare-bones configuration to get started
+with monetd. It uses one of the accounts from the keystore to define a network
 consisting of a unique node, which is automatically added to the PoA whitelist.
 Additionally, all the accounts in [datadir]/keystore are credited with a large
 amount of tokens in the genesis file. This command is mostly used for testing.
 
-If the --address flag is omitted, the first non-loopback address for this 
+If the --address flag is omitted, the first non-loopback address for this
 instance is used.
 
 
 .. code:: bash
 
-    $ monetd help config build 
+    $ monetd help config build
 
-    The build subcommand initialises the bare-bones configuration to get started 
-    with monetd. It uses one of the accounts from the keystore to define a network 
+    The build subcommand initialises the bare-bones configuration to get started
+    with monetd. It uses one of the accounts from the keystore to define a network
     consisting of a unique node, which is automatically added to the PoA whitelist.
     Additionally, all the accounts in [datadir]/keystore are credited with a large
     amount of tokens in the genesis file. This command is mostly used for testing.
 
-    If the --address flag is omitted, the first non-loopback address for this 
+    If the --address flag is omitted, the first non-loopback address for this
     instance is used.
 
     Usage:
@@ -492,13 +497,13 @@ The pull subcommand is used to join an existing Monet network. It takes the
 address of a running peer, and downloads the following set of files into the
 configuration directory [datadir]:
 
-- babble/peers.json         : The current validator-set 
+- babble/peers.json         : The current validator-set
 - babble/peers.genesis.json : The initial validator-set
 - eth/genesis.json          : The genesis file
 
-It also builds all of the required configuration files for a monetd node. If 
+It also builds all of the required configuration files for a monetd node. If
 the peer specified does not specify a port, the default gossip port (1337) is
-used. 
+used.
 
 .. code:: bash
 
@@ -508,7 +513,7 @@ used.
     address of a running node, and downloads the following set of files into the
     configuration directory [datadir]:
 
-    - babble/peers.json         : The current validator-set 
+    - babble/peers.json         : The current validator-set
     - babble/peers.genesis.json : The initial validator-set
     - eth/genesis.json          : The genesis file
 
@@ -526,7 +531,7 @@ Run
 
 The ``run`` subcommands starts the monet node running. Whilst there are legacy
 parameters ``--babble.*`` and ``--eth.*``, we strongly recommend that they are
-not used. The equivalent changes can be made in the configuration files. 
+not used. The equivalent changes can be made in the configuration files.
 
 .. code:: bash
 
@@ -534,23 +539,23 @@ not used. The equivalent changes can be made in the configuration files.
 
     Run a MONET node.
 
-    Start a daemon which acts as a full node on a MONET network. All data and 
-    configuration are stored under a directory [datadir] controlled by the 
-    --datadir flag ($HOME/.monet by default on UNIX systems). 
-    
-    [datadir] must contain a set of files defining the network that this node is 
-    attempting to join or create. Please refer to monetd config for tools to manage 
-    this configuration. 
-    
-    Further options pertaining to the operation of the node are read from the 
-    [datadir]/monetd.toml file, or overwritten by the following flags. The following 
+    Start a daemon which acts as a full node on a MONET network. All data and
+    configuration are stored under a directory [datadir] controlled by the
+    --datadir flag ($HOME/.monet by default on UNIX systems).
+
+    [datadir] must contain a set of files defining the network that this node is
+    attempting to join or create. Please refer to monetd config for tools to manage
+    this configuration.
+
+    Further options pertaining to the operation of the node are read from the
+    [datadir]/monetd.toml file, or overwritten by the following flags. The following
     command displays the expected output:
-    
+
     monetd config location
-    
+
     Usage:
       monetd run [flags]
-    
+
     Flags:
           --api-listen string           IP:PORT of Monet HTTP API service (default ":8080")
           --babble.bootstrap            Bootstrap Babble from database
@@ -562,8 +567,8 @@ not used. The equivalent changes can be made in the configuration files.
           --babble.timeout duration     TCP timeout milliseconds (default 1s)
           --eth.cache int               Megabytes of memory allocated to internal caching (min 16MB / database forced) (default 128)
       -h, --help                        help for run
-    
+
     Global Flags:
       -d, --datadir string   Top-level directory for configuration and data (default "/home/user/.monet")
           --log string       trace, debug, info, warn, error, fatal, panic (default "debug")
-      -v, --verbose          verbose messages 
+      -v, --verbose          verbose messages
