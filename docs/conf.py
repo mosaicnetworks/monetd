@@ -100,8 +100,9 @@ html_theme_options = {
     'fixed_sidebar': 'false',
     'logo_name': 'true',
     'logo_text_align': 'center',
-    'page_width': '98%',
     'show_powered_by': 'false',
+    'sidebar_width': '400px', 
+    'page_width': '98%'
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,

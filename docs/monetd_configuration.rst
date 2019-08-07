@@ -1,7 +1,7 @@
 .. _monetd_configuration_rst:
 
-Monet Toolchain Configuration
-=============================
+Monetd Configuration
+====================
 
 All the configuration required to run a node is stored under a directory with a
 very specific structure. By default, ``monetd`` will look for this directory in
@@ -36,13 +36,13 @@ details of the filepaths used for your instance.
 Eth
 ---
 
-The eth/genesis.json file defines prefunded accounts in the state, as well as
-the POA smart-contract. This file is useful to predefine a set of accounts that
-own all the initial tokens at the inception of the network. In addition, the
-``poa`` section contains information about the POA smart-contract.
+The ``eth/genesis.json`` file defines prefunded accounts in the state, as well
+as the POA smart-contract. This file is useful to predefine a set of accounts
+that own all the initial tokens at the inception of the network. In addition,
+the ``poa`` section contains information about the POA smart-contract.
 
-Example genesis.json defining one prefunded account (the ABI and bytecode of
-the smart-contract have been truncated):
+Example ``genesis.json`` defining one prefunded account (the ABI and bytecode
+of the smart-contract have been truncated):
 
 .. code:: json
 
