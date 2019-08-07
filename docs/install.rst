@@ -30,7 +30,7 @@ environment where ``monetd`` is sure to run.
 Downloads
 +++++++++
 
-Binary packages of ``monetd`` are available from
+Binary packages of ``monetd`` will be available from
 `github <https://github.com/mosaicnetworks/monetd/releases>`__.
 
 

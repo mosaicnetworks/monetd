@@ -2,18 +2,15 @@
 
 # Monetd
 
-[![Documentation Status](https://readthedocs.org/projects/monetd/badge/?version=latest)](https://monetd.readthedocs.io/en/latest/?badge=latest)
-[![Go Report](https://goreportcard.com/badge/github.com/mosaicnetworks/monetd)](https://goreportcard.com/report/github.com/mosaicnetworks/monetd)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
-## Overview
-
 Monetd is the daemon component of the **Monet Toolchain**; a distributed
 smart-contract platform based on 
 [EVM-Lite](https://github.com/mosaicnetworks/evm-lite) and
-[Babble](https://github.com/mosaicnetworks/babble) consensus. It is licensed 
-under the [MIT license](https://en.wikipedia.org/wiki/MIT_License) and available
-for use in other projects.
+[Babble](https://github.com/mosaicnetworks/babble).
+
+The **Monet Toolchain** underpins the
+[MONET Hub](https://monet.network/faq.html), but it is also available for use in 
+other projects. You can read more about MONET in the 
+[whitepaper](http://bit.ly/monet-whitepaper).
 
 This repository contains the code for `monetd` and `giverny`:
 
@@ -36,4 +33,7 @@ For the impatient, we recommend you start here:
 -   [Quick
     Start](https://monetd.readthedocs.io/en/latest/quickstart.html)
 
+License
+-------
 
+Monetd is released under the MIT license. See [LICENSE](LICENSE).
