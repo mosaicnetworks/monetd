@@ -4,13 +4,6 @@
 [![Go Report](https://goreportcard.com/badge/github.com/mosaicnetworks/monetd)](https://goreportcard.com/report/github.com/mosaicnetworks/monetd)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-----
-
-## This repo is currently in the process of being published
-## It may be unstable during this process
-
-----
-----
 
 ![Monet Logo](docs/assets/monet_logo.png)
 
