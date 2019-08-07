@@ -1,7 +1,7 @@
 .. _giverny_rst:
 
 #################
-giverny Reference
+Giverny Reference
 #################
 
 ``giverny`` is the advanced configuration tool for the Monet Toolchain.
@@ -24,7 +24,7 @@ each ``giverny`` command.
 
 
 ****
-help
+Help
 ****
 
 ``giverny`` has context sensitive help accessed either by
@@ -33,7 +33,7 @@ command.
 
 
 *******
-version
+Version
 *******
 
 The ``version`` subcommand outputs the version number for ``monetd``,
@@ -52,12 +52,12 @@ commit hash.
 
 
 ****
-keys
+Keys
 ****
 
 The ``keys`` subcommand offers tools to manage keys.
 
-keys Flags
+Keys Flags
 ==========
 
 In addition to the ``--verbose`` flag, the ``keys`` subcommand defines
@@ -72,7 +72,7 @@ addtional flags as follows:
         --passfile string           the file that contains the passphrase for the keyfile
 
 
-import
+Import
 ======
 
 The ``import`` subcommand is used to import a pre-existing private key into the
@@ -98,7 +98,7 @@ and setting a passphrase.
         --passfile string           the file that contains the passphrase for the keyfile
 
 ******
-server
+Server
 ******
 
 The ``server`` subcommand is used for adminstering a REST server used to
@@ -110,7 +110,7 @@ The server listens on port 8088. It writes logs to
 
 For usage examples, see the recipes for setting up networks.
 
-start
+Start
 =====
 
 
@@ -129,7 +129,7 @@ To start the server in the background:
 
 
 
-stop
+Stop
 ====
 
 To stop a server running in the background:
@@ -139,7 +139,7 @@ To stop a server running in the background:
     $ giverny server stop
 
 
-status
+Status
 ======
 
 Reports on the status of the server. It both checks for the PID file in
@@ -152,7 +152,7 @@ on localhost:8088.
 
 
 *******
-network
+Network
 *******
 
 The ``network`` command is used to build complex monet networks. The ``new``
@@ -168,7 +168,7 @@ docker or actual node so it can be used by ``monetd``. ``start``, ``stop`` and
 The *network name* and *node names* must contain only standard letters
 (i.e. no accented versions), digits (0--9) or underscores (_).
 
-location
+Location
 ========
 
 The ``giverny network location`` subcommand takes a single optional parameter
@@ -199,7 +199,7 @@ Example with a network specified:
 
 
 
-new
+New
 ===
 
 The ``new`` subcommand creates a new test network configuration. It also
@@ -284,7 +284,7 @@ The typical use case scenarios for these flags would be:
   node, which is saved in the config folder
 
 
-build
+Build
 -----
 
 By default ``giverny network new`` will run ``giverny network build``
@@ -302,7 +302,7 @@ An example of the new subcommand:
 
 
 
-build
+Build
 =====
 
 The ``giverny network build`` subcommand takes a configuration created by the
@@ -333,7 +333,7 @@ A "built" network will have a file structure like this:
     ├── network.toml
     └── peers.json
 
-export
+Export
 ======
 
 The ``export`` subcommand takes a configuration that has been generated and
@@ -343,7 +343,7 @@ parameter, and optionally one or more node names. If the node names are
 omitted, all of the nodes for that network are exported.
 
 
-import
+Import
 ======
 
 The ``import`` subcommand takes a configuration previously exported by the

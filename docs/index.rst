@@ -1,10 +1,5 @@
 .. _index:
 
-.. image:: assets/monet_logo.png
-   :height: 600px
-   :width: 600px
-   :align: center
-
 The Monet Toolchain
 -------------------
 
@@ -17,10 +12,10 @@ The Monet Toolchain
    quickstart.rst
    join.rst
    monetd_configuration.rst
-   monetd_commands.rst
    monetd_api.rst
    monetd_poa.rst
-   giverny.rst
    giverny_examples.rst
+   monetd_commands.rst
+   giverny.rst
 
 .. The above list will need cleaning up.

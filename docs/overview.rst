@@ -11,7 +11,7 @@ complete reference of commands and API functions.
 Tools
 -----
 
-monetd
+Monetd
 ~~~~~~
 
 **monetd** is the server process that connects to other nodes, participates in
@@ -24,7 +24,7 @@ Toolchain networks for testing purposes. We don't expect most people to use
 repository because they share significant source code. Please follow the
 :ref:`installation instructions<install_rst>` to get started.
 
-monetcli
+Monetcli
 ~~~~~~~~
 
 **monetcli** is the client-side program that interacts with a running Monet

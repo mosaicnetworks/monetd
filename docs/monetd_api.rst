@@ -1,6 +1,6 @@
 .. _monet_api_rst:
 
-monetd API
+Monetd API
 ==========
 
 ``monetd`` exposes an HTTP API at the address specified by the ``--api-listen``
