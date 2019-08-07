@@ -1,21 +1,22 @@
-# Monet Hub
+<img width="75px" height="75px" align="right" alt="Monet Logo" src="docs/_static/monet_logo.png" title="Monetd"/>
+
+# Monetd
 
 [![Documentation Status](https://readthedocs.org/projects/monetd/badge/?version=latest)](https://monetd.readthedocs.io/en/latest/?badge=latest)
 [![Go Report](https://goreportcard.com/badge/github.com/mosaicnetworks/monetd)](https://goreportcard.com/report/github.com/mosaicnetworks/monetd)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-
-![Monet Logo](docs/_static/monet_logo.png)
-
 ## Overview
 
-As defined in the [MONET whitepaper](http://bit.ly/monet-whitepaper), the Hub is 
-a blockchain that supports other Mobile ad-hoc blockchains with services like 
-peer-discovery, Inter-Blockchain Communication, and the Tenom token. It is a 
-smart-contract platform based on the Ethereum Virtual Machine and a BFT 
-Consensus algorithm. It leverages 
-[evm-lite](https://github.com/mosaicnetworks/evm-lite) and 
-[Babble](https://github.com/mosaicnetworks/babble).
+Monetd is the daemon component of the **Monet Toolchain**; a distributed
+smart-contract platform based on the Ethereum Virtual Machine (EVM) and Babble 
+consensus. It leverages [evm-lite](https://github.com/mosaicnetworks/evm-lite) 
+and [Babble](https://github.com/mosaicnetworks/babble).
+
+The **Monet Toolchain** underpins the MONET Hub which, as described in the 
+[MONET whitepaper](http://bit.ly/monet-whitepaper), is a blockchain that
+supports other Mobile ad-hoc blockchains with services like peer-discovery,
+Inter-Blockchain Communication, and the Tenom token. 
 
 More information about MONET can be found on the [website](https://monet.network/about.html).
 
