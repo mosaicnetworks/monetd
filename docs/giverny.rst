@@ -1,10 +1,10 @@
 .. _giverny_rst:
 
-#######
-Giverny
-#######
+#################
+giverny Reference
+#################
 
-``giverny`` is the advanced configuration tool.
+``giverny`` is the advanced configuration tool for the Monet Toolchain.
 
 The current subcommands are:
 
@@ -24,7 +24,7 @@ each ``giverny`` command.
 
 
 ****
-Help
+help
 ****
 
 ``giverny`` has context sensitive help accessed either by
@@ -33,11 +33,11 @@ command.
 
 
 *******
-Version
+version
 *******
 
-The version command outputs the version number for ``monetd``, ``EVM-Lite``,
-``Babble`` and ``Geth``.
+The ``version`` subcommand outputs the version number for ``monetd``,
+``EVM-Lite``, ``Babble`` and ``Geth``.
 
 If you compile your own tools, the suffices are the GIT branch and the GIT
 commit hash.
@@ -52,12 +52,12 @@ commit hash.
 
 
 ****
-Keys
+keys
 ****
 
-The keys sub-command offers tools to manage keys.
+The ``keys`` subcommand offers tools to manage keys.
 
-Keys Flags
+keys Flags
 ==========
 
 In addition to the ``--verbose`` flag, the ``keys`` subcommand defines
@@ -72,10 +72,10 @@ addtional flags as follows:
         --passfile string           the file that contains the passphrase for the keyfile
 
 
-Import
+import
 ======
 
-The import sub-command is used to import a pre-existing private key into the
+The ``import`` subcommand is used to import a pre-existing private key into the
 ``monetd`` keystore, creating the associated ``toml`` file, assigning a moniker
 and setting a passphrase.
 
@@ -98,19 +98,19 @@ and setting a passphrase.
         --passfile string           the file that contains the passphrase for the keyfile
 
 ******
-Server
+server
 ******
 
-The ``server`` sub-command is used for admninstering a REST server used to
+The ``server`` subcommand is used for adminstering a REST server used to
 co-ordinate configurations between multiple nodes prior to the initial node of a
 network.
 
 The server listens on port 8088. It writes logs to
-``~/.monet/giverny/server.log``. [1]_
+``~/.giverny/server/server.pid``. [1]_
 
-For instructions on how to use, see the recipes for setting up networks.
+For usage examples, see the recipes for setting up networks.
 
-Start
+start
 =====
 
 
@@ -118,10 +118,7 @@ To start the server in the foreground:
 
 .. code:: bash
 
-    $ giverny server start --background
-
-
-
+    $ giverny server start
 
 
 To start the server in the background:
@@ -132,8 +129,7 @@ To start the server in the background:
 
 
 
-
-Stop
+stop
 ====
 
 To stop a server running in the background:
@@ -143,12 +139,12 @@ To stop a server running in the background:
     $ giverny server stop
 
 
-Status
+status
 ======
 
 Reports on the status of the server. It both checks for the PID file in
-``~/.monet/giverny/server.pid`` [1]_ and checks the the server is responding on
-localhost:8088.
+``~/.giverny/server/server.pid`` [1]_ and checks the the server is responding
+on localhost:8088.
 
 .. code:: bash
 
@@ -156,7 +152,7 @@ localhost:8088.
 
 
 *******
-Network
+network
 *******
 
 The ``network`` command is used to build complex monet networks. The ``new``
@@ -172,7 +168,7 @@ docker or actual node so it can be used by ``monetd``. ``start``, ``stop`` and
 The *network name* and *node names* must contain only standard letters
 (i.e. no accented versions), digits (0--9) or underscores (_).
 
-Location
+location
 ========
 
 The ``giverny network location`` subcommand takes a single optional parameter
@@ -203,10 +199,10 @@ Example with a network specified:
 
 
 
-New
+new
 ===
 
-The ``new`` sub-command creates a new test network configuration. It also
+The ``new`` subcommand creates a new test network configuration. It also
 
 Syntax
 ------
@@ -288,7 +284,7 @@ The typical use case scenarios for these flags would be:
   node, which is saved in the config folder
 
 
-Build
+build
 -----
 
 By default ``giverny network new`` will run ``giverny network build``
@@ -306,10 +302,10 @@ An example of the new subcommand:
 
 
 
-Build
+build
 =====
 
-The ``giverny network build`` command take a configuration created by the
+The ``giverny network build`` subcommand takes a configuration created by the
 ``new`` subcommand and builds ``peers.json`` and ``genesis.json`` files.
 
 ``build`` can be run repeatably safely. It is envisaged that users will edit
@@ -337,22 +333,23 @@ A "built" network will have a file structure like this:
     ├── network.toml
     └── peers.json
 
-Export
+export
 ======
 
-Export takes a configuration that has been generated and exports it to the
-exports subfolder of the giverny configuration folders as a zip file.
-The ``network export`` command
-has a mandatory network name parameter, and optionally one or more node names.
-If the node names are omitted, all of the nodes for that network are exported.
+The ``export`` subcommand takes a configuration that has been generated and
+exports it to the exports subfolder of the giverny configuration folders as a
+zip file. The ``network export`` command has a mandatory network name
+parameter, and optionally one or more node names. If the node names are
+omitted, all of the nodes for that network are exported.
 
 
-Import
+import
 ======
 
-Import takes a configuration previously exports it and configures ``monetd`` to
-use the new configuration. You will always need to specify a network name and a
-node name for the import. The source for the import can be configured thus:
+The ``import`` subcommand takes a configuration previously exported by the
+``export`` and configures ``monetd`` to use the new configuration. You will
+always need to specify a network name and a node name for the import. The
+source for the import can be configured thus:
 
 - ``--from-exports`` --- from the exports subfolder in the giverny
   configuration folders. This is the default output location for the ``export``

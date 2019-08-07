@@ -70,8 +70,8 @@ Global Parameters are available for all subcommands.
 version
 -------
 
-The ``version`` sub-command outputs the version number for ``monetd``, ``EVM-Lite``,
-``Babble`` and ``Geth``.
+The ``version`` subcommand outputs the version number for ``monetd``,
+``EVM-Lite``, ``Babble`` and ``Geth``.
 
 If you compile your own tools, the suffices are the GIT branch and the GIT
 commit hash.
