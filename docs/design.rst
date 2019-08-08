@@ -12,7 +12,8 @@ outline its principal requirements. We then visit the spectrum of potential
 implementations before explaining our choice of a permissioned Byzantine Fault
 Tolerant (**BFT**) consensus algorithm coupled to the Ethereum Virtual Machine
 (**EVM**). Lastly we weigh up the pros and cons of Proof of Stake (**PoS**),
-and explain our decision to implement PoA for the time being.
+and explain our decision to implement Proof of Authoriry (**PoA**) for the time
+being.
 
 MONET and the MONET Hub
 -----------------------
@@ -21,9 +22,9 @@ MONET’s mission is to boost the adoption of peer-to-peer architectures by
 enabling mobile devices to connect directly to one another in dynamic ad-hoc
 networks. We believe that a new generation of applications will emerge from
 this technology. The real force behind MONET, which makes it original and
-disruptive, is the concept of Mobile Ad-Hoc Blockchains, and the open-source
-software which implements it; particularly Babble, the powerful consensus
-algorithm which is suitable for mobile deployments due to its speed,
+disruptive, is the concept of **Mobile Ad-Hoc Blockchains**, and the
+open-source software which implements it; particularly Babble, the powerful
+consensus algorithm which is suitable for mobile deployments due to its speed,
 bandwidth efficiency, and leaderlessness.
 
 We anticipate that many MONET applications will require a common set of
@@ -144,14 +145,13 @@ it is relatively open; anyone can participate without asking for permission,
 as long as they put up a stake.
 
 In Proof of Authority (PoA), the stake is tied to reputational risk. It relies
-on the natural aversion of most humans to tarnish their own reputation.
-The list of allowed validators is governed by a whitelist. The whitelist is
-amended through a voting process among existing whitelisted entities. This
-scheme is less anonymous or open than PoS but has deep roots. The trust of a
-PoA system rests on the initial group of participants because any amendment
-to the list has to gather consensus from them;
-so the trust (or distrust) is carried over as the
-validator-set evolves. In a system like Babble, the most serious offence
+on the natural aversion of most humans to tarnish their own reputation. The
+list of allowed validators is governed by a whitelist. The whitelist is amended
+through a voting process among existing whitelisted entities. This scheme is
+less anonymous or open than PoS but has deep roots. The trust of a PoA system
+rests on the initial group of participants because any amendment to the list
+has to gather consensus from them; so the trust (or distrust) is carried over
+as the validator-set evolves. In a system like Babble, the most serious offence
 consists in signing two different blocks at the same height. Evidence of this
 can be packaged into an irrefutable proof, and used to punish the guilty
 participants.
