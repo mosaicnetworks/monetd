@@ -3,3 +3,5 @@ build
 glide.lock
 vendor
 *debug.test*
+node_modules/
+

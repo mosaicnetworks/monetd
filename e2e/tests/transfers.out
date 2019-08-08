@@ -1,0 +1,214 @@
+Generate -1 Nodes with 0 initial peers
+Generating Key for node0 (true) 172.77.5.10
+Address: 0x7f758F892e25A96bAB94085ED8Da4890BFb7ad06
+Generating Key for node1 (true) 172.77.5.11
+Address: 0xCC60aD2dd1e5Ef2D5fAECeC7afF4ACe859f2cE36
+Generating Key for node2 (true) 172.77.5.12
+Address: 0xB73a1612f6241727725072282b14284AcB6f597b
+Generating Key for node3 (true) 172.77.5.13
+Address: 0x66b12e216dF9C9B5330711A6D86d6a77D2caaF3c
+Building network transfers
+Network Name  transfers
+dumpPeersJSON
+buildGenesisJSON
+Source Loaded
+Path         :  /snap/bin/solc
+Full Version : 
+ solc, the solidity compiler commandline interface
+Version: 0.5.10+commit.5a6ea5b1.Linux.g++
+
+Processing Contract:  <stdin>:POA_Genesis
+Written toml file:  /home/jon/.giverny/networks/transfers/compile.toml
+Characters written  20527
+POA Section Build
+Alloc Built
+Write Genesis.json
+Configuring Network  transfers
+Connecting to Docker Client
+Creating options
+Creating network
+ID: 66834725a109b471d7fe2d2fc6fb4fff389e96a217bf02951869dc4a28428139
+Created Network 66834725a109b471d7fe2d2fc6fb4fff389e96a217bf02951869dc4a28428139
+Created Directory:  /home/jon/.giverny/networks/transfers/docker
+Creating config in /home/jon/.giverny/networks/transfers/docker/node0
+Created Directory:  /home/jon/.giverny/networks/transfers/docker/node0
+Created Directory:  /home/jon/.giverny/networks/transfers/docker/node0/.monet
+Created Directory:  /home/jon/.giverny/networks/transfers/docker/node0/.monet/babble
+Created Directory:  /home/jon/.giverny/networks/transfers/docker/node0/.monet/eth
+Created Directory:  /home/jon/.giverny/networks/transfers/docker/node0/.monet/keystore
+Copying from /home/jon/.giverny/networks/transfers/genesis.json to /home/jon/.giverny/networks/transfers/docker/node0/.monet/eth/genesis.json
+Copying from /home/jon/.giverny/networks/transfers/peers.json to /home/jon/.giverny/networks/transfers/docker/node0/.monet/babble/peers.json
+Copying from /home/jon/.giverny/networks/transfers/peers.genesis.json to /home/jon/.giverny/networks/transfers/docker/node0/.monet/babble/peers.genesis.json
+Copying from /home/jon/.giverny/networks/transfers/monetd.toml to /home/jon/.giverny/networks/transfers/docker/node0/.monet/monetd.toml
+Copying from /home/jon/.giverny/networks/transfers/keystore/node0.json to /home/jon/.giverny/networks/transfers/docker/node0/.monet/keystore/node0.json
+Copying from /home/jon/.giverny/networks/transfers/keystore/node0.txt to /home/jon/.giverny/networks/transfers/docker/node0/.monet/keystore/node0.txt
+Written toml file:  /home/jon/.giverny/networks/transfers/docker/node0/.monet/monetd.toml
+Characters written  231
+Written Private Key for 0x7f758F892e25A96bAB94085ED8Da4890BFb7ad06
+Creating config in /home/jon/.giverny/networks/transfers/docker/node1
+Created Directory:  /home/jon/.giverny/networks/transfers/docker/node1
+Created Directory:  /home/jon/.giverny/networks/transfers/docker/node1/.monet
+Created Directory:  /home/jon/.giverny/networks/transfers/docker/node1/.monet/babble
+Created Directory:  /home/jon/.giverny/networks/transfers/docker/node1/.monet/eth
+Created Directory:  /home/jon/.giverny/networks/transfers/docker/node1/.monet/keystore
+Copying from /home/jon/.giverny/networks/transfers/genesis.json to /home/jon/.giverny/networks/transfers/docker/node1/.monet/eth/genesis.json
+Copying from /home/jon/.giverny/networks/transfers/peers.json to /home/jon/.giverny/networks/transfers/docker/node1/.monet/babble/peers.json
+Copying from /home/jon/.giverny/networks/transfers/peers.genesis.json to /home/jon/.giverny/networks/transfers/docker/node1/.monet/babble/peers.genesis.json
+Copying from /home/jon/.giverny/networks/transfers/monetd.toml to /home/jon/.giverny/networks/transfers/docker/node1/.monet/monetd.toml
+Copying from /home/jon/.giverny/networks/transfers/keystore/node1.json to /home/jon/.giverny/networks/transfers/docker/node1/.monet/keystore/node1.json
+Copying from /home/jon/.giverny/networks/transfers/keystore/node1.txt to /home/jon/.giverny/networks/transfers/docker/node1/.monet/keystore/node1.txt
+Written toml file:  /home/jon/.giverny/networks/transfers/docker/node1/.monet/monetd.toml
+Characters written  231
+Written Private Key for 0xCC60aD2dd1e5Ef2D5fAECeC7afF4ACe859f2cE36
+Creating config in /home/jon/.giverny/networks/transfers/docker/node2
+Created Directory:  /home/jon/.giverny/networks/transfers/docker/node2
+Created Directory:  /home/jon/.giverny/networks/transfers/docker/node2/.monet
+Created Directory:  /home/jon/.giverny/networks/transfers/docker/node2/.monet/babble
+Created Directory:  /home/jon/.giverny/networks/transfers/docker/node2/.monet/eth
+Created Directory:  /home/jon/.giverny/networks/transfers/docker/node2/.monet/keystore
+Copying from /home/jon/.giverny/networks/transfers/genesis.json to /home/jon/.giverny/networks/transfers/docker/node2/.monet/eth/genesis.json
+Copying from /home/jon/.giverny/networks/transfers/peers.json to /home/jon/.giverny/networks/transfers/docker/node2/.monet/babble/peers.json
+Copying from /home/jon/.giverny/networks/transfers/peers.genesis.json to /home/jon/.giverny/networks/transfers/docker/node2/.monet/babble/peers.genesis.json
+Copying from /home/jon/.giverny/networks/transfers/monetd.toml to /home/jon/.giverny/networks/transfers/docker/node2/.monet/monetd.toml
+Copying from /home/jon/.giverny/networks/transfers/keystore/node2.json to /home/jon/.giverny/networks/transfers/docker/node2/.monet/keystore/node2.json
+Copying from /home/jon/.giverny/networks/transfers/keystore/node2.txt to /home/jon/.giverny/networks/transfers/docker/node2/.monet/keystore/node2.txt
+Written toml file:  /home/jon/.giverny/networks/transfers/docker/node2/.monet/monetd.toml
+Characters written  231
+Written Private Key for 0xB73a1612f6241727725072282b14284AcB6f597b
+Creating config in /home/jon/.giverny/networks/transfers/docker/node3
+Created Directory:  /home/jon/.giverny/networks/transfers/docker/node3
+Created Directory:  /home/jon/.giverny/networks/transfers/docker/node3/.monet
+Created Directory:  /home/jon/.giverny/networks/transfers/docker/node3/.monet/babble
+Created Directory:  /home/jon/.giverny/networks/transfers/docker/node3/.monet/eth
+Created Directory:  /home/jon/.giverny/networks/transfers/docker/node3/.monet/keystore
+Copying from /home/jon/.giverny/networks/transfers/genesis.json to /home/jon/.giverny/networks/transfers/docker/node3/.monet/eth/genesis.json
+Copying from /home/jon/.giverny/networks/transfers/peers.json to /home/jon/.giverny/networks/transfers/docker/node3/.monet/babble/peers.json
+Copying from /home/jon/.giverny/networks/transfers/peers.genesis.json to /home/jon/.giverny/networks/transfers/docker/node3/.monet/babble/peers.genesis.json
+Copying from /home/jon/.giverny/networks/transfers/monetd.toml to /home/jon/.giverny/networks/transfers/docker/node3/.monet/monetd.toml
+Copying from /home/jon/.giverny/networks/transfers/keystore/node3.json to /home/jon/.giverny/networks/transfers/docker/node3/.monet/keystore/node3.json
+Copying from /home/jon/.giverny/networks/transfers/keystore/node3.txt to /home/jon/.giverny/networks/transfers/docker/node3/.monet/keystore/node3.txt
+Written toml file:  /home/jon/.giverny/networks/transfers/docker/node3/.monet/monetd.toml
+Characters written  231
+Written Private Key for 0x66b12e216dF9C9B5330711A6D86d6a77D2caaF3c
+Pushing network transfers node node0
+Container IP is 172.77.5.10
+Connecting to Docker Client
+ 
+Creating Container 
+Created Container a501fa2c5f4a964c3fa816e35682ea8af3d1ae891f4f6158e38e6b504985b35e
+Copying Config to Container 
+Connecting Container to Network
+Starting Container 
+Container Started
+Pushing network transfers node node1
+Container IP is 172.77.5.11
+Connecting to Docker Client
+ 
+Creating Container 
+Created Container d649eadacf985ce6cd0f2b642665b76ac453e6beb5ea7f3a12121f523c7c1818
+Copying Config to Container 
+Connecting Container to Network
+Starting Container 
+Container Started
+Pushing network transfers node node2
+Container IP is 172.77.5.12
+Connecting to Docker Client
+ 
+Creating Container 
+Created Container e92b1dd4527f3a37d99fa3ad0ded6ce35e00daf3ed1d0f4bf5947a7f913913e8
+Copying Config to Container 
+Connecting Container to Network
+Starting Container 
+Container Started
+Pushing network transfers node node3
+Container IP is 172.77.5.13
+Connecting to Docker Client
+ 
+Creating Container 
+Created Container f40df278df15c4f5a7ec5ef232aa85f821744b31a9b3b9f59d6cb2180850ae80
+Copying Config to Container 
+Connecting Container to Network
+Starting Container 
+Container Started
+Node number 3
+Node number 1
+Decrypting All Accounts
+Decrypting All Accounts
+Node number 2
+Decrypting All Accounts
+Node number 0
+Decrypting All Accounts
+Node:  
+ { address: '0x66b12e216dF9C9B5330711A6D86d6a77D2caaF3c',
+  balance: 1000000000,
+  nonce: 0,
+  bytecode: '' } 
+
+Nonce is : 0
+Node:  
+ { address: '0xCC60aD2dd1e5Ef2D5fAECeC7afF4ACe859f2cE36',
+  balance: 1000000000,
+  nonce: 0,
+  bytecode: '' } 
+
+Nonce is : 0
+Node:  
+ { address: '0xB73a1612f6241727725072282b14284AcB6f597b',
+  balance: 1000000000,
+  nonce: 0,
+  bytecode: '' } 
+
+Nonce is : 0
+Node:  
+ { address: '0x7f758F892e25A96bAB94085ED8Da4890BFb7ad06',
+  balance: 1000000000,
+  nonce: 0,
+  bytecode: '' } 
+
+Nonce is : 0
+.........................................{ name: 'SyntaxError',
+  message: 'Unexpected \'l\'',
+  at: 1,
+  text: 'leveldb: not found\n' }
+..........................................complete
+done
+23229 0
+..complete
+done
+23230 0
+23231 0
+complete
+done
+23232 0
+0
+PASSED
+Node number -1
+Decrypting All Accounts
+node0:  
+ { address: '0x7f758F892e25A96bAB94085ED8Da4890BFb7ad06',
+  balance: 999993250,
+  nonce: 25,
+  bytecode: '' } 
+
+node1:  
+ { address: '0xCC60aD2dd1e5Ef2D5fAECeC7afF4ACe859f2cE36',
+  balance: 1000032130,
+  nonce: 11,
+  bytecode: '' } 
+
+node2:  
+ { address: '0xB73a1612f6241727725072282b14284AcB6f597b',
+  balance: 999989740,
+  nonce: 25,
+  bytecode: '' } 
+
+node3:  
+ { address: '0x66b12e216dF9C9B5330711A6D86d6a77D2caaF3c',
+  balance: 999984880,
+  nonce: 25,
+  bytecode: '' } 
+
+[FAIL] Node 0 expected 540 got diff0
+[FAIL] Node 1 expected 5670 got diff1
+[FAIL] Node 2 expected -810 got diff2
+[FAIL] Node 3 expected -5400 got diff3
