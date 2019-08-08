@@ -1,0 +1,237 @@
+Generate -1 Nodes with 0 initial peers
+Generating Key for node0 (true) 172.77.5.10
+Address: 0x2734DEfD14Ebf4445059F2874ffa81F2284B7846
+Generating Key for node1 (true) 172.77.5.11
+Address: 0x4eb3212a0aD4600a55d74B34cfBD81E3336bDC7b
+Generating Key for node2 (true) 172.77.5.12
+Address: 0x730fD3B4C593552b2c3Cb4B85D85d662B08098F6
+Generating Key for node3 (false) 172.77.5.13
+Address: 0x0AAdb1ddE48fa68B9515d0Cc550b32d2E841FB74
+Building network jointest
+Network Name  jointest
+dumpPeersJSON
+buildGenesisJSON
+Source Loaded
+Path         :  /snap/bin/solc
+Full Version : 
+ solc, the solidity compiler commandline interface
+Version: 0.5.10+commit.5a6ea5b1.Linux.g++
+
+Processing Contract:  <stdin>:POA_Genesis
+Written toml file:  /home/jon/.giverny/networks/jointest/compile.toml
+Characters written  20373
+POA Section Build
+Alloc Built
+Write Genesis.json
+Configuring Network  jointest
+Connecting to Docker Client
+Creating options
+Creating network
+ID: 8bd0866fab3e74adeb7dd3dae24caa670989bad2fbfae8019d744f7b0373d100
+Created Network 8bd0866fab3e74adeb7dd3dae24caa670989bad2fbfae8019d744f7b0373d100
+Created Directory:  /home/jon/.giverny/networks/jointest/docker
+Creating config in /home/jon/.giverny/networks/jointest/docker/node0
+Created Directory:  /home/jon/.giverny/networks/jointest/docker/node0
+Created Directory:  /home/jon/.giverny/networks/jointest/docker/node0/.monet
+Created Directory:  /home/jon/.giverny/networks/jointest/docker/node0/.monet/babble
+Created Directory:  /home/jon/.giverny/networks/jointest/docker/node0/.monet/eth
+Created Directory:  /home/jon/.giverny/networks/jointest/docker/node0/.monet/keystore
+Copying from /home/jon/.giverny/networks/jointest/genesis.json to /home/jon/.giverny/networks/jointest/docker/node0/.monet/eth/genesis.json
+Copying from /home/jon/.giverny/networks/jointest/peers.json to /home/jon/.giverny/networks/jointest/docker/node0/.monet/babble/peers.json
+Copying from /home/jon/.giverny/networks/jointest/peers.genesis.json to /home/jon/.giverny/networks/jointest/docker/node0/.monet/babble/peers.genesis.json
+Copying from /home/jon/.giverny/networks/jointest/monetd.toml to /home/jon/.giverny/networks/jointest/docker/node0/.monet/monetd.toml
+Copying from /home/jon/.giverny/networks/jointest/keystore/node0.json to /home/jon/.giverny/networks/jointest/docker/node0/.monet/keystore/node0.json
+Copying from /home/jon/.giverny/networks/jointest/keystore/node0.txt to /home/jon/.giverny/networks/jointest/docker/node0/.monet/keystore/node0.txt
+Written toml file:  /home/jon/.giverny/networks/jointest/docker/node0/.monet/monetd.toml
+Characters written  231
+Written Private Key for 0x2734DEfD14Ebf4445059F2874ffa81F2284B7846
+Creating config in /home/jon/.giverny/networks/jointest/docker/node1
+Created Directory:  /home/jon/.giverny/networks/jointest/docker/node1
+Created Directory:  /home/jon/.giverny/networks/jointest/docker/node1/.monet
+Created Directory:  /home/jon/.giverny/networks/jointest/docker/node1/.monet/babble
+Created Directory:  /home/jon/.giverny/networks/jointest/docker/node1/.monet/eth
+Created Directory:  /home/jon/.giverny/networks/jointest/docker/node1/.monet/keystore
+Copying from /home/jon/.giverny/networks/jointest/genesis.json to /home/jon/.giverny/networks/jointest/docker/node1/.monet/eth/genesis.json
+Copying from /home/jon/.giverny/networks/jointest/peers.json to /home/jon/.giverny/networks/jointest/docker/node1/.monet/babble/peers.json
+Copying from /home/jon/.giverny/networks/jointest/peers.genesis.json to /home/jon/.giverny/networks/jointest/docker/node1/.monet/babble/peers.genesis.json
+Copying from /home/jon/.giverny/networks/jointest/monetd.toml to /home/jon/.giverny/networks/jointest/docker/node1/.monet/monetd.toml
+Copying from /home/jon/.giverny/networks/jointest/keystore/node1.json to /home/jon/.giverny/networks/jointest/docker/node1/.monet/keystore/node1.json
+Copying from /home/jon/.giverny/networks/jointest/keystore/node1.txt to /home/jon/.giverny/networks/jointest/docker/node1/.monet/keystore/node1.txt
+Written toml file:  /home/jon/.giverny/networks/jointest/docker/node1/.monet/monetd.toml
+Characters written  231
+Written Private Key for 0x4eb3212a0aD4600a55d74B34cfBD81E3336bDC7b
+Creating config in /home/jon/.giverny/networks/jointest/docker/node2
+Created Directory:  /home/jon/.giverny/networks/jointest/docker/node2
+Created Directory:  /home/jon/.giverny/networks/jointest/docker/node2/.monet
+Created Directory:  /home/jon/.giverny/networks/jointest/docker/node2/.monet/babble
+Created Directory:  /home/jon/.giverny/networks/jointest/docker/node2/.monet/eth
+Created Directory:  /home/jon/.giverny/networks/jointest/docker/node2/.monet/keystore
+Copying from /home/jon/.giverny/networks/jointest/genesis.json to /home/jon/.giverny/networks/jointest/docker/node2/.monet/eth/genesis.json
+Copying from /home/jon/.giverny/networks/jointest/peers.json to /home/jon/.giverny/networks/jointest/docker/node2/.monet/babble/peers.json
+Copying from /home/jon/.giverny/networks/jointest/peers.genesis.json to /home/jon/.giverny/networks/jointest/docker/node2/.monet/babble/peers.genesis.json
+Copying from /home/jon/.giverny/networks/jointest/monetd.toml to /home/jon/.giverny/networks/jointest/docker/node2/.monet/monetd.toml
+Copying from /home/jon/.giverny/networks/jointest/keystore/node2.json to /home/jon/.giverny/networks/jointest/docker/node2/.monet/keystore/node2.json
+Copying from /home/jon/.giverny/networks/jointest/keystore/node2.txt to /home/jon/.giverny/networks/jointest/docker/node2/.monet/keystore/node2.txt
+Written toml file:  /home/jon/.giverny/networks/jointest/docker/node2/.monet/monetd.toml
+Characters written  231
+Written Private Key for 0x730fD3B4C593552b2c3Cb4B85D85d662B08098F6
+Creating config in /home/jon/.giverny/networks/jointest/docker/node3
+Created Directory:  /home/jon/.giverny/networks/jointest/docker/node3
+Created Directory:  /home/jon/.giverny/networks/jointest/docker/node3/.monet
+Created Directory:  /home/jon/.giverny/networks/jointest/docker/node3/.monet/babble
+Created Directory:  /home/jon/.giverny/networks/jointest/docker/node3/.monet/eth
+Created Directory:  /home/jon/.giverny/networks/jointest/docker/node3/.monet/keystore
+Copying from /home/jon/.giverny/networks/jointest/genesis.json to /home/jon/.giverny/networks/jointest/docker/node3/.monet/eth/genesis.json
+Copying from /home/jon/.giverny/networks/jointest/peers.json to /home/jon/.giverny/networks/jointest/docker/node3/.monet/babble/peers.json
+Copying from /home/jon/.giverny/networks/jointest/peers.genesis.json to /home/jon/.giverny/networks/jointest/docker/node3/.monet/babble/peers.genesis.json
+Copying from /home/jon/.giverny/networks/jointest/monetd.toml to /home/jon/.giverny/networks/jointest/docker/node3/.monet/monetd.toml
+Copying from /home/jon/.giverny/networks/jointest/keystore/node3.json to /home/jon/.giverny/networks/jointest/docker/node3/.monet/keystore/node3.json
+Copying from /home/jon/.giverny/networks/jointest/keystore/node3.txt to /home/jon/.giverny/networks/jointest/docker/node3/.monet/keystore/node3.txt
+Written toml file:  /home/jon/.giverny/networks/jointest/docker/node3/.monet/monetd.toml
+Characters written  231
+Written Private Key for 0x0AAdb1ddE48fa68B9515d0Cc550b32d2E841FB74
+Pushing network jointest node node0
+Container IP is 172.77.5.10
+Connecting to Docker Client
+ 
+Creating Container 
+Created Container bb48ecd3dc29b07eb42d2d3fb7dabcb65957320bdecb1b2cc714e7aa229dfa88
+Copying Config to Container 
+Connecting Container to Network
+Starting Container 
+Container Started
+Pushing network jointest node node1
+Container IP is 172.77.5.11
+Connecting to Docker Client
+ 
+Creating Container 
+Created Container 6ffb207681e4590564841119d359ea9fb91bd21e3bfe97a1b2d5583276dac6ef
+Copying Config to Container 
+Connecting Container to Network
+Starting Container 
+Container Started
+Pushing network jointest node node2
+Container IP is 172.77.5.12
+Connecting to Docker Client
+ 
+Creating Container 
+Created Container cabe1f9bd24e5825e8c385815107ec9d0794b4a951791596b1eb346b85e4acbd
+Copying Config to Container 
+Connecting Container to Network
+Starting Container 
+Container Started
+/home/jon/.giverny/networks/jointest/
+Keystore { path: '/home/jon/.giverny/networks/jointest/keystore' }
+Decrypting All Accounts
+Getting POA Contract ABI
+Running POA init
+Checking Whitelist Status
+Checking Whitelist count
+Checking Nominee count
+Node3 self nominates
+Checking Nominee count
+Checking node3 Whitelist
+Node 0 votes for node 3
+{ root:
+   '0x24134cdd96e1095f8ce8ea3abd6da7fa366bb9ae74ab67dff7c504d996f5da7d',
+  transactionHash:
+   '0xab6dc3f63fb2c5eca54338c50b2f3a486efaeab64c20beef076e94379de91d5d',
+  from: '0x2734defd14ebf4445059f2874ffa81f2284b7846',
+  to: '0xabbaabbaabbaabbaabbaabbaabbaabbaabbaabba',
+  gasUsed: 111783,
+  cumulativeGasUsed: 111783,
+  contractAddress: '0x0000000000000000000000000000000000000000',
+  logs:
+   [ { address: '0xabbaabbaabbaabbaabbaabbaabbaabbaabbaabba',
+       blockNumber: 0,
+       transactionHash:
+        '0xab6dc3f63fb2c5eca54338c50b2f3a486efaeab64c20beef076e94379de91d5d',
+       transactionIndex: 0,
+       blockHash:
+        '0x72fccf5e13462ceb3ab61e1fa89fcd3808d796cf099db0f591c7850182e70459',
+       logIndex: 0,
+       removed: false,
+       event: 'NomineeVoteCast',
+       args: [Object] } ],
+  logsBloom:
+   '0x00000000000000000000000000000000000000000000000008400000000000000000000000000000000000000000000000000000000000000000000000040800000001000000000000000000000000000000000000040000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000800000000000000000000000000000000000000040000000000000000000000000000000000000000000000000000000000000000000000008000000010000002000000000000000002000000000008000000000040000000000000000000000000000000000000000000000000000000000000000000',
+  status: 0 }
+Checking Nominee count
+Checking node3 Whitelist
+Node 1 votes for node 3
+{ root:
+   '0x1b97e31b8af09bc99ec50d02813d32dadebb5711a290d78a00f56f135d4e93fd',
+  transactionHash:
+   '0x9c662cc753da5356169b3ec416ee6a69b4912f670a2ed8dd3602fc9d4b764e4b',
+  from: '0x4eb3212a0ad4600a55d74b34cfbd81e3336bdc7b',
+  to: '0xabbaabbaabbaabbaabbaabbaabbaabbaabbaabba',
+  gasUsed: 82057,
+  cumulativeGasUsed: 82057,
+  contractAddress: '0x0000000000000000000000000000000000000000',
+  logs:
+   [ { address: '0xabbaabbaabbaabbaabbaabbaabbaabbaabbaabba',
+       blockNumber: 0,
+       transactionHash:
+        '0x9c662cc753da5356169b3ec416ee6a69b4912f670a2ed8dd3602fc9d4b764e4b',
+       transactionIndex: 0,
+       blockHash:
+        '0x674db3d04f224d189fa8220b12b7f8a0f5d58d280b815dce5e357736e96949e3',
+       logIndex: 0,
+       removed: false,
+       event: 'NomineeVoteCast',
+       args: [Object] } ],
+  logsBloom:
+   '0x00000000000000000000000000000000000008000000000008400000000000000000000000000000000000000000000000000000000000000000000000040800000001000000000000000000000000000000400000040000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000800000000000000000000000000001000000000040000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002000000000008000000000040000000000000000000000000000000000000000000000000000000000000000000',
+  status: 0 }
+Checking Nominee count
+Checking node3 Whitelist
+Node 2 votes for node 3
+{ root:
+   '0xf111b33dae53a111796e653e0d6ca2e605ea8d1544b0e594f0f5e55126dc3bf2',
+  transactionHash:
+   '0x1f19cc8d939f71b257a89203a047295872f0dce2b2826174d9cdd7ad1e2fea82',
+  from: '0x730fd3b4c593552b2c3cb4b85d85d662b08098f6',
+  to: '0xabbaabbaabbaabbaabbaabbaabbaabbaabbaabba',
+  gasUsed: 105471,
+  cumulativeGasUsed: 105471,
+  contractAddress: '0x0000000000000000000000000000000000000000',
+  logs:
+   [ { address: '0xabbaabbaabbaabbaabbaabbaabbaabbaabbaabba',
+       blockNumber: 0,
+       transactionHash:
+        '0x1f19cc8d939f71b257a89203a047295872f0dce2b2826174d9cdd7ad1e2fea82',
+       transactionIndex: 0,
+       blockHash:
+        '0x6fcc5541e8ee6631e5fec2969157b069605f68b1750112d9e8ba2c328f65db21',
+       logIndex: 0,
+       removed: false,
+       event: 'NomineeVoteCast',
+       args: [Object] },
+     { address: '0xabbaabbaabbaabbaabbaabbaabbaabbaabbaabba',
+       blockNumber: 0,
+       transactionHash:
+        '0x1f19cc8d939f71b257a89203a047295872f0dce2b2826174d9cdd7ad1e2fea82',
+       transactionIndex: 0,
+       blockHash:
+        '0x6fcc5541e8ee6631e5fec2969157b069605f68b1750112d9e8ba2c328f65db21',
+       logIndex: 1,
+       removed: false,
+       event: 'NomineeDecision',
+       args: [Object] } ],
+  logsBloom:
+   '0x0000000000000000000000000000000000000000000000000a401000000000000000000000000000000000000000000000000000000000000000000000040800000001000000000800000000000000000000000000040000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000080800000000000000000000000000000000000000040000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000002000000010008000000000040000000000000000000000000000000000000000000000000000000000000000000',
+  status: 0 }
+Checking Whitelist Status
+Checking Whitelist count
+Checking Nominee count
+done
+Pushing network jointest node node3
+Container IP is 172.77.5.13
+Connecting to Docker Client
+ 
+Creating Container 
+Created Container 1df5eecc5e1ec3b808c2115272ade95c83973137bf7a592b5c6eea60608684af
+Copying Config to Container 
+Connecting Container to Network
+Starting Container 
+Container Started
