@@ -42,13 +42,8 @@ The ``version`` subcommand outputs the version number for ``monetd``,
 If you compile your own tools, the suffices are the GIT branch and the GIT
 commit hash.
 
-.. code:: bash
-
-    $ giverny version
-    Monetd Version: 0.2.1-develop-ceb36cba
-        EVM-Lite Version: 0.2.1
-        Babble Version: 0.5.0
-        Geth Version: 1.8.27
+.. include:: _static/includes/giverny_version.txt
+    :code: bash
 
 
 ****
@@ -63,13 +58,9 @@ Keys Flags
 In addition to the ``--verbose`` flag, the ``keys`` subcommand defines
 addtional flags as follows:
 
-.. code:: bash
+.. include:: _static/includes/giverny_keys_flags.txt
+    :code: bash
 
-    Global Flags:
-    -g, --giverny-data-dir string   Top-level giverny directory for configuration and data (default "/home/user/.giverny")
-        --json                      output JSON instead of human-readable format
-    -m, --monet-data-dir string     Top-level monetd directory for configuration and data (default "/home/user/.monet")
-        --passfile string           the file that contains the passphrase for the keyfile
 
 
 Import
@@ -79,31 +70,18 @@ The ``import`` subcommand is used to import a pre-existing private key into the
 ``monetd`` keystore, creating the associated ``toml`` file, assigning a moniker
 and setting a passphrase.
 
-.. code:: bash
 
-    $ giverny help keys import
+.. include:: _static/includes/giverny_help_keys_import.txt
+    :code: bash
 
-    Import keys to [moniker] from private key file [keyfile].
-
-    Usage:
-    giverny keys import [moniker] [keyfile] [flags]
-
-    Flags:
-    -h, --help   help for import
-
-    Global Flags:
-    -g, --giverny-data-dir string   Top-level giverny directory for configuration and data (default "/home/user/.giverny")
-        --json                      output JSON instead of human-readable format
-    -m, --monet-data-dir string     Top-level monetd directory for configuration and data (default "/home/user/.monet")
-        --passfile string           the file that contains the passphrase for the keyfile
 
 ******
 Server
 ******
 
 The ``server`` subcommand is used for adminstering a REST server used to
-co-ordinate configurations between multiple nodes prior to the initial node of a
-network.
+co-ordinate configurations between multiple nodes prior to the initial node of
+a network.
 
 The server listens on port 8088. It writes logs to
 ``~/.giverny/server/server.pid``. [1]_
@@ -126,8 +104,6 @@ To start the server in the background:
 .. code:: bash
 
     $ giverny server start --background
-
-
 
 Stop
 ====
@@ -207,31 +183,9 @@ The ``new`` subcommand creates a new test network configuration. It also
 Syntax
 ------
 
-.. code:: bash
-
-    $ giverny network new -h
-    Created Directory:  /home/user/.giverny/server
-
-    giverny network build
-
-    Usage:
-    giverny network new [network_name] [flags]
-
-    Flags:
-        --generate-pass       generate pass phrases
-    -h, --help                help for new
-        --initial-ip string   initial IP address of range
-        --initial-peers int   number of initial peers
-        --names string        filename of a file containing a list of node monikers
-        --pass string         filename of a file containing a passphrase
-        --save-pass           save pass phrase entered on command line
-
-    Global Flags:
-    -g, --giverny-data-dir string   Top-level giverny directory for configuration and data (default "/home/user/.giverny")
-    -m, --monet-data-dir string     Top-level monetd directory for configuration and data (default "/home/user/.monet")
-    -n, --nodes int                 number of nodes in this configuration (default 4)
-    -v, --verbose                   verbose messages
-
+.. include:: _static/includes/giverny_help_network_new.txt
+    :code: bash
+    
 Nodes
 -----
 

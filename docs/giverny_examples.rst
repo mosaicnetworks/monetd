@@ -6,31 +6,8 @@ Giverny Examples
 
 For reference, the options for ``giverny network new``:
 
-.. code:: bash
-
-    $ giverny network new -h
-
-    giverny network build
-
-    Usage:
-    giverny network new [network_name] [flags]
-
-    Flags:
-        --generate-pass       generate pass phrases
-    -h, --help                help for new
-        --initial-ip string   initial IP address of range
-        --initial-peers int   number of initial peers
-        --names string        filename of a file containing a list of node monikers
-        --no-build            disables the automatic build of a new network
-        --pass string         filename of a file containing a passphrase
-        --save-pass           save pass phrase entered on command line
-
-    Global Flags:
-    -g, --giverny-data-dir string   Top-level giverny directory for configuration and data (default "~/.giverny")
-    -m, --monet-data-dir string     Top-level monetd directory for configuration and data (default "~/.monet")
-    -n, --nodes int                 number of nodes in this configuration (default 4)
-    -v, --verbose                   verbose messages
-
+.. include:: _static/includes/giverny_help_network_new.txt
+    :code: bash
 
 
 *************************
