@@ -5,7 +5,7 @@ set -eu
 
 mydir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" > /dev/null && pwd )"
 
-outdir="$mydir/../docs/_static/includes/"
+outdir="$mydir/../_static/includes/"
 
 
 # $1 is output file name without a path
