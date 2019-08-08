@@ -43,6 +43,6 @@ generatedocinsert giverny_help_keys_import.txt "giverny help keys import"
 
 # Special cases
 
-giverny help keys | grep -A10 "Global Flags:" > $outdir"giverney_keys_flags.txt"
+giverny help keys | grep -A10 "Global Flags:" > $outdir"giverny_keys_flags.txt"
 
 
