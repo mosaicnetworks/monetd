@@ -1,7 +1,19 @@
-## Version 0.0.1 (TBD)   
+## v0.2.0 (August 8, 2019)
+
+Refactor with new version of EVM-Lite.
+
+IMPROVEMENTS:
+
+* monetd: Easier configuration
+* giverny: Deploy local docker networks
+* tests: End to end tests
+* docs: More accurate, more comprehensive documentation. 
+
+## v0.1.0 (July 16, 2019)
 
 Tightly integrated packaging of validator node software for Monet Hub.
 
-FEATURES:  
+FEATURES:
+
 - monetd: Server process run by validators.
 - giverny: Tool to build and deploy local testnets with docker.
