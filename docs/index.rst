@@ -18,6 +18,7 @@
    monetd_configuration.rst
    monetd_commands.rst
    giverny.rst
+   licence.rst
 
 .. The above list will need cleaning up.
 
