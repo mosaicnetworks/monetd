@@ -17,14 +17,13 @@ This repository contains the code for `monetd` and `giverny`:
 - `monetd` is the server process that validators are expected to run.
 - `giverny` is the CLI for advanced testnet creation and management.
 
-Documentation
--------------
+## Documentation
+
 
 Full documentation is availble on
 [ReadTheDocs](https://monetd.readthedocs.io/en/latest/).
 
-Quick Start
------------
+## Quick Start
 
 For the impatient, we recommend you start here:
 
@@ -33,7 +32,6 @@ For the impatient, we recommend you start here:
 -   [Quick
     Start](https://monetd.readthedocs.io/en/latest/quickstart.html)
 
-License
--------
+## License
 
 Monetd is released under the MIT license. See [LICENSE](LICENSE).
