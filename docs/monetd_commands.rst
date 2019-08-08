@@ -235,19 +235,6 @@ convenient mechanism to retrieve the solidity source.
 
 
 
-.. code:: bash
-
-    $ monetd help config contract
-
-    monetd config contract
-
-    Outputs the standard monetd contract, configured with [moniker] as the initial
-    whitelist.
-
-    Usage:
-    monetd config contract [moniker] [flags]
-
-
 A sample session is as follows. The contract is written to stdout, so you will
 probably wish to redirect it to a file or a pager.
 
@@ -267,23 +254,8 @@ The ``location`` subcommand displays the path to the configuration folder. With
 the ``--expanded`` parameter, a list of directories and configuration files are
 output.
 
-.. code:: bash
-
-    $ monetd help config location
-
-    Show the location of the monetd configuration files. If --expanded is specified,
-    a detailed list of configuration files and directories is returned.
-
-    Usage:
-      monetd config location [flags]
-
-    Flags:
-      -x, --expanded   show expanded information
-      -h, --help       help for location
-
-    Global Flags:
-      -d, --datadir string   top-level directory for configuration and data (default "/home/martin/.monet")
-      -v, --verbose          verbose output
+.. include:: _static/includes/monetd_help_config_location.txt
+    :code: bash
 
 .. code:: bash
 
@@ -317,25 +289,8 @@ If the ``--address`` flag is omitted, the first non-loopback address for this
 instance is used.
 
 
-.. code:: bash
-
-    $ monetd help config build
-
-    Create the configuration for a single-node network.
-
-    Use the keystore account identified by [moniker] to define a network with a
-    single node. All the accounts in [datadir]/keystore are also credited with a
-    large number of tokens in the genesis file. This command is mostly used for
-    testing. If the --address flag is omitted, the first non-loopback address is
-    used.
-
-    Usage:
-      monetd config build [moniker] [flags]
-
-    Flags:
-          --address string    IP/hostname of this node (default "192.168.1.3")
-      -h, --help              help for build
-          --passfile string   file containing the passphrase
+.. include:: _static/includes/monetd_help_config_build.txt
+    :code: bash
 
 
 Pull
@@ -353,35 +308,11 @@ It also builds all the other configuration files required to run a monetd node.
 If the peer specified does not include a port, the default gossip port (1337) is
 used.
 
-.. code:: bash
 
-    $ monetd help config pull
 
-    The pull subcommand is used to join an existing network. It takes the address
-    (host:port) of a running node, and downloads the following set of files into the
-    configuration directory [datadir]:
+.. include:: _static/includes/monetd_help_config_pull.txt
+    :code: bash
 
-    - babble/peers.json         : The current validator-set
-    - babble/peers.genesis.json : The initial validator-set
-    - eth/genesis.json          : The genesis file
-
-    Additionally, this command configures the key and network address of the new
-    node. The --key flag identifies a keyfile by moniker, which is expected to be in
-    the keystore. If --passfile is not specified, the user will be prompted to enter
-    the passphrase manually. If the --address flag is omitted, the first
-    non-loopback address is used.
-
-    Usage:
-      monetd config pull [host:port] [flags]
-
-    Examples:
-      monetd config pull "192.168.5.1:8080"
-
-    Flags:
-          --address string    IP/hostname of this node (default "192.168.1.3")
-      -h, --help              help for pull
-          --key string        moniker of the key to use for this node (default "node0")
-          --passfile string   file containing the passphrase
 
 
 Run
@@ -391,34 +322,6 @@ The ``run`` subcommands starts the monetd node running. Whilst there are legacy
 parameters ``--babble.*`` and ``--eth.*``, we strongly recommend that they are
 not used. The equivalent changes can be made in the configuration files.
 
-.. code:: bash
 
-    $ monetd help run
-
-    Run a node.
-
-    Use the --datadir flag (-d) to set the node's data directory ($HOME/.monet by
-    default on Linux). It should contain a set of files defining the network that
-    this node is attempting to join or create. Please refer to the 'monetd config'
-    command to manage this configuration. Further options pertaining to the
-    operation of monetd can be specified in a monetd.toml file, within the data
-    directory, or overwritten by the following flags:
-
-    Usage:
-      monetd run [flags]
-
-    Flags:
-          --api-listen string           IP:PORT of HTTP API service (default ":8080")
-          --babble.bootstrap            bootstrap Babble from database
-          --babble.cache-size int       number of items in LRU caches (default 50000)
-          --babble.heartbeat duration   heartbeat timer milliseconds (time between gossips) (default 200ms)
-          --babble.listen string        IP:PORT of Babble node (default "192.168.1.3:1337")
-          --babble.max-pool int         max number of pool connections (default 2)
-          --babble.sync-limit int       max number of Events per sync (default 1000)
-          --babble.timeout duration     TCP timeout milliseconds (default 1s)
-          --eth.cache int               megabytes of memory allocated to internal caching (min 16MB / database forced) (default 128)
-      -h, --help                        help for run
-
-    Global Flags:
-      -d, --datadir string   top-level directory for configuration and data (default "/home/martin/.monet")
-      -v, --verbose          verbose output
+.. include:: _static/includes/monetd_help_run.txt
+    :code: bash

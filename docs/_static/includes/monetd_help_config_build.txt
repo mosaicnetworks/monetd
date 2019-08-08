@@ -1,0 +1,22 @@
+[..monetd] $ monetd help config build
+
+The build subcommand initialises the bare-bones configuration to get started 
+with monetd. It uses one of the accounts from the keystore to define a network 
+consisting of a unique node, which is automatically added to the PoA whitelist.
+Additionally, all the accounts in [datadir]/keystore are credited with a large
+amount of tokens in the genesis file. This command is mostly used for testing.
+
+If the --address flag is omitted, the first non-loopback address for this 
+instance is used.
+
+Usage:
+  monetd config build [moniker] [flags]
+
+Flags:
+      --address string    IP/hostname of this node (default "172.17.0.1")
+  -h, --help              help for build
+      --passfile string   file containing the passphrase
+
+Global Flags:
+  -d, --datadir string   top-level directory for configuration and data (default "/home/jon/.monet")
+  -v, --verbose          verbose output
