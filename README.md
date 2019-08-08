@@ -1,19 +1,21 @@
-The Monet Toolchain
-===================
+<img width="75px" height="75px" align="right" alt="Monet Logo" src="docs/_static/monet_logo.png" title="Monetd"/>
 
-![image](docs/_static/monet_logo.png)
+# Monetd
 
-The Monet Toolchain provides software to run and interact with a
-distributed smart-contract platform based on
-[EVM-Lite](https://github.com/mosaicnetworks/evm-lite) and [Babble
-consensus](https://github.com/mosaicnetworks/babble).
+Monetd is the daemon component of the **Monet Toolchain**; a distributed
+smart-contract platform based on 
+[EVM-Lite](https://github.com/mosaicnetworks/evm-lite) and
+[Babble](https://github.com/mosaicnetworks/babble).
 
-It underpins the [MONET Hub](https://monet.network/faq.html), which an
-important port of the [MONET project](https://monet.network/about.html),
-but is licensed under the [MIT
-license](https://en.wikipedia.org/wiki/MIT_License) and available for
-use in other projects. You can read more about MONET in the
+The **Monet Toolchain** underpins the
+[MONET Hub](https://monet.network/faq.html), but it is also available for use in 
+other projects. You can read more about MONET in the 
 [whitepaper](http://bit.ly/monet-whitepaper).
+
+This repository contains the code for `monetd` and `giverny`:
+
+- `monetd` is the server process that validators are expected to run.
+- `giverny` is the CLI for advanced testnet creation and management.
 
 Documentation
 -------------
@@ -31,3 +33,7 @@ For the impatient, we recommend you start here:
 -   [Quick
     Start](https://monetd.readthedocs.io/en/latest/quickstart.html)
 
+License
+-------
+
+Monetd is released under the MIT license. See [LICENSE](LICENSE).
