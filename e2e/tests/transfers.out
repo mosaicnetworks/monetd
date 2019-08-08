@@ -1,12 +1,12 @@
 Generate -1 Nodes with 0 initial peers
 Generating Key for node0 (true) 172.77.5.10
-Address: 0x7f758F892e25A96bAB94085ED8Da4890BFb7ad06
+Address: 0xc47ed819aF6eC4C8488a4E0DE9f96147BF8bFbA5
 Generating Key for node1 (true) 172.77.5.11
-Address: 0xCC60aD2dd1e5Ef2D5fAECeC7afF4ACe859f2cE36
+Address: 0x48861b8770057b6B03174aEd318b0633066CdDDa
 Generating Key for node2 (true) 172.77.5.12
-Address: 0xB73a1612f6241727725072282b14284AcB6f597b
+Address: 0x9c69525Ebf84aF0caCAD7d03dbe0e7cA76eE37e0
 Generating Key for node3 (true) 172.77.5.13
-Address: 0x66b12e216dF9C9B5330711A6D86d6a77D2caaF3c
+Address: 0x5a30968816Eb105c845Ca55d436CC2D5D45e623C
 Building network transfers
 Network Name  transfers
 dumpPeersJSON
@@ -27,8 +27,8 @@ Configuring Network  transfers
 Connecting to Docker Client
 Creating options
 Creating network
-ID: 66834725a109b471d7fe2d2fc6fb4fff389e96a217bf02951869dc4a28428139
-Created Network 66834725a109b471d7fe2d2fc6fb4fff389e96a217bf02951869dc4a28428139
+ID: 9d73e11a60565234f2e1b4acc67b50c6d702901d31df975c0e6097f1070063ba
+Created Network 9d73e11a60565234f2e1b4acc67b50c6d702901d31df975c0e6097f1070063ba
 Created Directory:  /home/jon/.giverny/networks/transfers/docker
 Creating config in /home/jon/.giverny/networks/transfers/docker/node0
 Created Directory:  /home/jon/.giverny/networks/transfers/docker/node0
@@ -43,8 +43,8 @@ Copying from /home/jon/.giverny/networks/transfers/monetd.toml to /home/jon/.giv
 Copying from /home/jon/.giverny/networks/transfers/keystore/node0.json to /home/jon/.giverny/networks/transfers/docker/node0/.monet/keystore/node0.json
 Copying from /home/jon/.giverny/networks/transfers/keystore/node0.txt to /home/jon/.giverny/networks/transfers/docker/node0/.monet/keystore/node0.txt
 Written toml file:  /home/jon/.giverny/networks/transfers/docker/node0/.monet/monetd.toml
-Characters written  231
-Written Private Key for 0x7f758F892e25A96bAB94085ED8Da4890BFb7ad06
+Characters written  235
+Written Private Key for 0xc47ed819aF6eC4C8488a4E0DE9f96147BF8bFbA5
 Creating config in /home/jon/.giverny/networks/transfers/docker/node1
 Created Directory:  /home/jon/.giverny/networks/transfers/docker/node1
 Created Directory:  /home/jon/.giverny/networks/transfers/docker/node1/.monet
@@ -58,8 +58,8 @@ Copying from /home/jon/.giverny/networks/transfers/monetd.toml to /home/jon/.giv
 Copying from /home/jon/.giverny/networks/transfers/keystore/node1.json to /home/jon/.giverny/networks/transfers/docker/node1/.monet/keystore/node1.json
 Copying from /home/jon/.giverny/networks/transfers/keystore/node1.txt to /home/jon/.giverny/networks/transfers/docker/node1/.monet/keystore/node1.txt
 Written toml file:  /home/jon/.giverny/networks/transfers/docker/node1/.monet/monetd.toml
-Characters written  231
-Written Private Key for 0xCC60aD2dd1e5Ef2D5fAECeC7afF4ACe859f2cE36
+Characters written  235
+Written Private Key for 0x48861b8770057b6B03174aEd318b0633066CdDDa
 Creating config in /home/jon/.giverny/networks/transfers/docker/node2
 Created Directory:  /home/jon/.giverny/networks/transfers/docker/node2
 Created Directory:  /home/jon/.giverny/networks/transfers/docker/node2/.monet
@@ -73,8 +73,8 @@ Copying from /home/jon/.giverny/networks/transfers/monetd.toml to /home/jon/.giv
 Copying from /home/jon/.giverny/networks/transfers/keystore/node2.json to /home/jon/.giverny/networks/transfers/docker/node2/.monet/keystore/node2.json
 Copying from /home/jon/.giverny/networks/transfers/keystore/node2.txt to /home/jon/.giverny/networks/transfers/docker/node2/.monet/keystore/node2.txt
 Written toml file:  /home/jon/.giverny/networks/transfers/docker/node2/.monet/monetd.toml
-Characters written  231
-Written Private Key for 0xB73a1612f6241727725072282b14284AcB6f597b
+Characters written  235
+Written Private Key for 0x9c69525Ebf84aF0caCAD7d03dbe0e7cA76eE37e0
 Creating config in /home/jon/.giverny/networks/transfers/docker/node3
 Created Directory:  /home/jon/.giverny/networks/transfers/docker/node3
 Created Directory:  /home/jon/.giverny/networks/transfers/docker/node3/.monet
@@ -88,14 +88,14 @@ Copying from /home/jon/.giverny/networks/transfers/monetd.toml to /home/jon/.giv
 Copying from /home/jon/.giverny/networks/transfers/keystore/node3.json to /home/jon/.giverny/networks/transfers/docker/node3/.monet/keystore/node3.json
 Copying from /home/jon/.giverny/networks/transfers/keystore/node3.txt to /home/jon/.giverny/networks/transfers/docker/node3/.monet/keystore/node3.txt
 Written toml file:  /home/jon/.giverny/networks/transfers/docker/node3/.monet/monetd.toml
-Characters written  231
-Written Private Key for 0x66b12e216dF9C9B5330711A6D86d6a77D2caaF3c
+Characters written  235
+Written Private Key for 0x5a30968816Eb105c845Ca55d436CC2D5D45e623C
 Pushing network transfers node node0
 Container IP is 172.77.5.10
 Connecting to Docker Client
  
 Creating Container 
-Created Container a501fa2c5f4a964c3fa816e35682ea8af3d1ae891f4f6158e38e6b504985b35e
+Created Container e71f2d72d0f8bd3c6d8678a7d547913b2e41aca12c92feee83bca494b4d04e37
 Copying Config to Container 
 Connecting Container to Network
 Starting Container 
@@ -105,7 +105,7 @@ Container IP is 172.77.5.11
 Connecting to Docker Client
  
 Creating Container 
-Created Container d649eadacf985ce6cd0f2b642665b76ac453e6beb5ea7f3a12121f523c7c1818
+Created Container 01e2d17b058accd2f6157c05619ea67c9fc065cfa4aa7d94e59d3f6b2d0a184c
 Copying Config to Container 
 Connecting Container to Network
 Starting Container 
@@ -115,7 +115,7 @@ Container IP is 172.77.5.12
 Connecting to Docker Client
  
 Creating Container 
-Created Container e92b1dd4527f3a37d99fa3ad0ded6ce35e00daf3ed1d0f4bf5947a7f913913e8
+Created Container 025d376a710c33f1ba72a5042d6fe001df9deeee2ff2b1231247b6af2c3ed362
 Copying Config to Container 
 Connecting Container to Network
 Starting Container 
@@ -125,90 +125,85 @@ Container IP is 172.77.5.13
 Connecting to Docker Client
  
 Creating Container 
-Created Container f40df278df15c4f5a7ec5ef232aa85f821744b31a9b3b9f59d6cb2180850ae80
+Created Container 2203af1bb44ec411f84bdaf51b40dfe95c475ccde81a5c8ca6f5eb3e50026d8e
 Copying Config to Container 
 Connecting Container to Network
 Starting Container 
 Container Started
 Node number 3
 Node number 1
-Decrypting All Accounts
-Decrypting All Accounts
 Node number 2
-Decrypting All Accounts
 Node number 0
 Decrypting All Accounts
+Decrypting All Accounts
+Decrypting All Accounts
+Decrypting All Accounts
 Node:  
- { address: '0x66b12e216dF9C9B5330711A6D86d6a77D2caaF3c',
+ { address: '0x5a30968816Eb105c845Ca55d436CC2D5D45e623C',
   balance: 1000000000,
   nonce: 0,
   bytecode: '' } 
 
 Nonce is : 0
 Node:  
- { address: '0xCC60aD2dd1e5Ef2D5fAECeC7afF4ACe859f2cE36',
+ { address: '0x9c69525Ebf84aF0caCAD7d03dbe0e7cA76eE37e0',
   balance: 1000000000,
   nonce: 0,
   bytecode: '' } 
 
 Nonce is : 0
 Node:  
- { address: '0xB73a1612f6241727725072282b14284AcB6f597b',
+ { address: '0x48861b8770057b6B03174aEd318b0633066CdDDa',
   balance: 1000000000,
   nonce: 0,
   bytecode: '' } 
 
 Nonce is : 0
 Node:  
- { address: '0x7f758F892e25A96bAB94085ED8Da4890BFb7ad06',
+ { address: '0xc47ed819aF6eC4C8488a4E0DE9f96147BF8bFbA5',
   balance: 1000000000,
   nonce: 0,
   bytecode: '' } 
 
 Nonce is : 0
-.........................................{ name: 'SyntaxError',
-  message: 'Unexpected \'l\'',
-  at: 1,
-  text: 'leveldb: not found\n' }
-..........................................complete
+...................................................................................................complete
 done
-23229 0
-..complete
+4503 0
+.complete
 done
-23230 0
-23231 0
 complete
 done
-23232 0
+4504 0
+4505 0
+complete
+done
+4506 0
 0
 PASSED
 Node number -1
 Decrypting All Accounts
 node0:  
- { address: '0x7f758F892e25A96bAB94085ED8Da4890BFb7ad06',
-  balance: 999993250,
+ { address: '0xc47ed819aF6eC4C8488a4E0DE9f96147BF8bFbA5',
+  balance: 1000000540,
   nonce: 25,
   bytecode: '' } 
 
 node1:  
- { address: '0xCC60aD2dd1e5Ef2D5fAECeC7afF4ACe859f2cE36',
-  balance: 1000032130,
-  nonce: 11,
+ { address: '0x48861b8770057b6B03174aEd318b0633066CdDDa',
+  balance: 1000005670,
+  nonce: 25,
   bytecode: '' } 
 
 node2:  
- { address: '0xB73a1612f6241727725072282b14284AcB6f597b',
-  balance: 999989740,
+ { address: '0x9c69525Ebf84aF0caCAD7d03dbe0e7cA76eE37e0',
+  balance: 999999190,
   nonce: 25,
   bytecode: '' } 
 
 node3:  
- { address: '0x66b12e216dF9C9B5330711A6D86d6a77D2caaF3c',
-  balance: 999984880,
+ { address: '0x5a30968816Eb105c845Ca55d436CC2D5D45e623C',
+  balance: 999994600,
   nonce: 25,
   bytecode: '' } 
 
-[FAIL] Node 0 expected 540 got diff0
-[FAIL] Node 1 expected 5670 got diff1
-[FAIL] Node 2 expected -810 got diff2
-[FAIL] Node 3 expected -5400 got diff3
+done

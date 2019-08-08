@@ -1,0 +1,16 @@
+[..monetd] $ giverny help keys import
+
+Import keys to [moniker] from private key file [keyfile].
+
+Usage:
+  giverny keys import [moniker] [keyfile] [flags]
+
+Flags:
+  -h, --help   help for import
+
+Global Flags:
+  -g, --giverny-data-dir string   Top-level giverny directory for configuration and data (default "/home/jon/.giverny")
+      --json                      output JSON instead of human-readable format
+  -m, --monet-data-dir string     Top-level monetd directory for configuration and data (default "/home/jon/.monet")
+      --passfile string           the file that contains the passphrase for the keyfile
+  -v, --verbose                   verbose messages

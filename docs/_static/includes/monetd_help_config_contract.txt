@@ -1,0 +1,16 @@
+[..monetd] $ monetd help config contract
+
+monetd config contract
+
+Outputs the standard monetd contract, configured with [moniker] as the initial
+whitelist.
+
+Usage:
+  monetd config contract [moniker] [flags]
+
+Flags:
+  -h, --help   help for contract
+
+Global Flags:
+  -d, --datadir string   top-level directory for configuration and data (default "/home/jon/.monet")
+  -v, --verbose          verbose output

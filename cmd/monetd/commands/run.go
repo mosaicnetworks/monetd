@@ -3,8 +3,10 @@ package commands
 import (
 	"fmt"
 
-	"github.com/mosaicnetworks/evm-lite/src/consensus/babble"
 	"github.com/mosaicnetworks/evm-lite/src/engine"
+	"github.com/mosaicnetworks/monetd/src/babble"
+	"github.com/mosaicnetworks/monetd/src/common"
+	"github.com/mosaicnetworks/monetd/src/configuration"
 	"github.com/spf13/cobra"
 )
 
@@ -12,33 +14,30 @@ import (
 RunCmd
 *******************************************************************************/
 
-//NewRunCmd returns the command that starts the daemon
-func NewRunCmd() *cobra.Command {
+//newRunCmd returns the command that starts the daemon
+func newRunCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "run",
-		Short: "run a MONET node",
-		Long: `Run a MONET node.
-	
-Start a daemon which acts as a full node on a MONET network. All data and 
-configuration are stored under a directory [datadir] controlled by the 
---datadir flag ($HOME/.monet by default on UNIX systems). 
+		Short: "run a node",
+		Long: `
+Run a node.
 
-[datadir] must contain a set of files defining the network that this node is 
-attempting to join or create. Please refer to monetcli for a tool to manage 
-this configuration. 
-
-Further options pertaining to the operation of the node are read from the 
-[datadir]/monetd.toml file, or overwritten by the following flags.`,
+Use the --datadir flag (-d) to set the node's data directory ($HOME/.monet by 
+default on Linux). It should contain a set of files defining the network that
+this node is attempting to join or create. Please refer to the 'monetd config'
+command to manage this configuration. Further options pertaining to the
+operation of monetd can be specified in a monetd.toml file, within the data
+directory, or overwritten by the following flags:
+`,
 
 		PreRunE: func(cmd *cobra.Command, args []string) (err error) {
-			logger.WithField("Base", fmt.Sprintf("%+v", config.BaseConfig)).Debug("Config Base")
-			logger.WithField("Babble", fmt.Sprintf("%+v", config.Babble)).Debug("Config Babble")
-			logger.WithField("Eth", fmt.Sprintf("%+v", config.Eth)).Debug("Config Eth")
-
+			common.DebugMessage(fmt.Sprintf("Base Config: %+v", configuration.Global.BaseConfig))
+			common.DebugMessage(fmt.Sprintf("Babble Config: %+v", configuration.Global.Babble))
+			common.DebugMessage(fmt.Sprintf("Eth Config: %+v", configuration.Global.Eth))
 			return nil
 		},
 
-		RunE: runBabble,
+		RunE: runMonet,
 	}
 
 	bindFlags(cmd)
@@ -47,19 +46,20 @@ Further options pertaining to the operation of the node are read from the
 }
 
 func bindFlags(cmd *cobra.Command) {
+	// EVM-Lite and Babble share the same API address
+	cmd.Flags().String("api-listen", configuration.Global.APIAddr, "IP:PORT of HTTP API service")
+
 	// Babble config
-	cmd.Flags().String("babble.listen", config.Babble.BindAddr, "IP:PORT of Babble node")
-	cmd.Flags().String("babble.service-listen", config.Babble.ServiceAddr, "IP:PORT of Babble HTTP API service")
-	cmd.Flags().Duration("babble.heartbeat", config.Babble.Heartbeat, "Heartbeat time milliseconds (time between gossips)")
-	cmd.Flags().Duration("babble.timeout", config.Babble.TCPTimeout, "TCP timeout milliseconds")
-	cmd.Flags().Int("babble.cache-size", config.Babble.CacheSize, "Number of items in LRU caches")
-	cmd.Flags().Int("babble.sync-limit", config.Babble.SyncLimit, "Max number of Events per sync")
-	cmd.Flags().Int("babble.max-pool", config.Babble.MaxPool, "Max number of pool connections")
-	cmd.Flags().Bool("babble.bootstrap", config.Babble.Bootstrap, "Bootstrap Babble from database")
+	cmd.Flags().String("babble.listen", configuration.Global.Babble.BindAddr, "IP:PORT of Babble node")
+	cmd.Flags().Duration("babble.heartbeat", configuration.Global.Babble.Heartbeat, "heartbeat timer milliseconds (time between gossips)")
+	cmd.Flags().Duration("babble.timeout", configuration.Global.Babble.TCPTimeout, "TCP timeout milliseconds")
+	cmd.Flags().Int("babble.cache-size", configuration.Global.Babble.CacheSize, "number of items in LRU caches")
+	cmd.Flags().Int("babble.sync-limit", configuration.Global.Babble.SyncLimit, "max number of Events per sync")
+	cmd.Flags().Int("babble.max-pool", configuration.Global.Babble.MaxPool, "max number of pool connections")
+	cmd.Flags().Bool("babble.bootstrap", configuration.Global.Babble.Bootstrap, "bootstrap Babble from database")
 
 	// Eth config
-	cmd.Flags().String("eth.listen", config.Eth.EthAPIAddr, "IP:PORT of Monet HTTP API service")
-	cmd.Flags().Int("eth.cache", config.Eth.Cache, "Megabytes of memory allocated to internal caching (min 16MB / database forced)")
+	cmd.Flags().Int("eth.cache", configuration.Global.Eth.Cache, "megabytes of memory allocated to internal caching (min 16MB / database forced)")
 }
 
 /*******************************************************************************
@@ -67,10 +67,13 @@ READ CONFIG AND RUN
 *******************************************************************************/
 
 // Run the EVM-Lite / Babble engine
-func runBabble(cmd *cobra.Command, args []string) error {
+func runMonet(cmd *cobra.Command, args []string) error {
 
-	babble := babble.NewInmemBabble(config.Babble, logger)
-	engine, err := engine.NewEngine(*config, babble, logger)
+	babble := babble.NewInmemBabble(
+		configuration.Global.ToBabbleConfig(),
+		configuration.Global.Logger("babble-proxy"))
+
+	engine, err := engine.NewEngine(*configuration.Global.ToEVMLConfig(), babble)
 	if err != nil {
 		return fmt.Errorf("Error building Engine: %s", err)
 	}

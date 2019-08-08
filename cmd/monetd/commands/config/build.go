@@ -1,0 +1,55 @@
+package config
+
+import (
+	"fmt"
+
+	"github.com/mosaicnetworks/monetd/src/common"
+
+	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
+
+	pconfig "github.com/mosaicnetworks/monetd/src/config"
+	"github.com/mosaicnetworks/monetd/src/configuration"
+)
+
+// newBuildCmd initialises a bare-bones configuration for monetd
+func newBuildCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "build [moniker]",
+		Short: "create the configuration for a single-node network",
+		Long: `
+Create the configuration for a single-node network.
+
+Use the keystore account identified by [moniker] to define a network with a
+single node. All the accounts in [datadir]/keystore are also credited with a
+large number of tokens in the genesis file. This command is mostly used for
+testing. If the --address flag is omitted, the first non-loopback address is 
+used.
+`,
+		Args: cobra.ExactArgs(1),
+		RunE: buildConfig,
+	}
+
+	addBuildFlags(cmd)
+
+	return cmd
+}
+
+func addBuildFlags(cmd *cobra.Command) {
+	cmd.Flags().StringVar(&addressParam, "address", addressParam, "IP/hostname of this node")
+	cmd.Flags().StringVar(&passwordFile, "passfile", "", "file containing the passphrase")
+	viper.BindPFlags(cmd.Flags())
+}
+
+func buildConfig(cmd *cobra.Command, args []string) error {
+	moniker := args[0]
+
+	common.InfoMessage(fmt.Sprintf("Builing configuration for key %s on %s", moniker, addressParam))
+
+	err := pconfig.BuildConfig(configuration.Global.DataDir, moniker, addressParam, passwordFile)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
+	return nil
+}

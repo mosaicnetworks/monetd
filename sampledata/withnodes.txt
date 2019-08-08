@@ -1,0 +1,20 @@
+# This is an examples of the extended "giverny network new --names" syntax.
+# 
+# Comments are lines that start with a # and are ignore
+
+# Blanks lines are also ignored
+# Fields are separated by commas
+# Any field apart from moniker can be blank, and a default value will be used. 
+# 
+# Field 1: Moniker. Only letters A-Z, a-z numbers 0-9 and underscore _ are valid. NO SPACES.
+# Field 2: IP address
+# Field 3: Tokens. Units are K,M,G,T,P,E,Z or Y where K is 1,000, M is 1,000,000
+#                       G is 1,000,000,000, T is 1,000,000,000,000 etc
+# Field 4: Is initial validator - can be set to true or false
+
+# Moniker,NetAddr,Balance,Validator
+
+Jon,192.168.1.18,1Z,false
+Martin,192.168.1.3,1E,true
+Kevin,192.168.1.15,1P,true
+Danu,192.168.1.11,1T,false

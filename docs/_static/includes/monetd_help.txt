@@ -1,0 +1,29 @@
+[..monetd] $ monetd help
+MONET-Daemon
+	
+Monetd provides the core commands needed to configure and run a Monet
+node. The minimal quickstart configuration is:
+
+	$ monetd config clear
+	$ monetd keys new node0
+	$ monetd config build node0
+	$ monetd run
+
+See the documentation at https://monetd.readthedocs.io/ for further information.
+
+Usage:
+  monetd [command]
+
+Available Commands:
+  config      manage monetd configuration
+  help        Help about any command
+  keys        monet key manager
+  run         run a MONET node
+  version     show version info
+
+Flags:
+  -d, --datadir string   top-level directory for configuration and data (default "/home/jon/.monet")
+  -h, --help             help for monetd
+  -v, --verbose          verbose output
+
+Use "monetd [command] --help" for more information about a command.

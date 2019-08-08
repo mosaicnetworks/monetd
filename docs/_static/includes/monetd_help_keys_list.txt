@@ -1,0 +1,14 @@
+[..monetd] $ monetd help keys list
+list keyfiles
+
+Usage:
+  monetd keys list [flags]
+
+Flags:
+  -h, --help   help for list
+
+Global Flags:
+  -d, --datadir string    top-level directory for configuration and data (default "/home/jon/.monet")
+      --json              output JSON instead of human-readable format
+      --passfile string   file containing the passphrase
+  -v, --verbose           verbose output

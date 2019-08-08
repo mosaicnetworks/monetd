@@ -1,3 +1,4 @@
+//Package version provides version information for the application
 package version
 
 import (
@@ -12,14 +13,14 @@ import (
 const Maj = "0"
 
 //Min is Minor Version Number
-const Min = "1"
+const Min = "2"
 
 //Fix is the Patch Version
-const Fix = "0"
+const Fix = "1"
 
 var (
 	//Version is the full version string
-	Version = "0.1.0"
+	Version = "0.2.1"
 
 	// GitCommit is set with --ldflags "-X main.gitCommit=$(git rev-parse HEAD)"
 	GitCommit string
@@ -38,9 +39,9 @@ func init() {
 	}
 }
 
-//FullVersion outputs version information
+//FullVersion outputs version information for Monet, EVM-Lite, Babble and Geth
 func FullVersion() string {
-	return fmt.Sprintln("Monet Version: "+Version) +
+	return fmt.Sprintln("Monetd Version: "+Version) +
 		fmt.Sprintln("     EVM-Lite Version: "+evm.Version) +
 		fmt.Sprintln("     Babble Version: "+_babble.Version) +
 		fmt.Sprintln("     Geth Version: "+geth.Version)

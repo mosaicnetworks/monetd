@@ -1,0 +1,18 @@
+[..monetd] $ monetd help config location
+
+The location subcommand shows the location of the monetd configuration files. It 
+respects any --datadir parameter. 
+
+If you specify --expanded then a list of configuration folders and directories
+is output.
+
+Usage:
+  monetd config location [flags]
+
+Flags:
+  -x, --expanded   show expanded information
+  -h, --help       help for location
+
+Global Flags:
+  -d, --datadir string   top-level directory for configuration and data (default "/home/jon/.monet")
+  -v, --verbose          verbose output

@@ -2,6 +2,6 @@
 build
 glide.lock
 vendor
-*debug.test*
 docker/
 node_modules/
+*debug.test*

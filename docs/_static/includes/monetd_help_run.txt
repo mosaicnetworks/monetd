@@ -1,0 +1,36 @@
+[..monetd] $ monetd help run
+
+Run a MONET node.
+	
+Start a daemon which acts as a full node on a MONET network. All data and 
+configuration are stored under a directory [datadir] controlled by the 
+--datadir flag ($HOME/.monet by default on UNIX systems). 
+
+[datadir] must contain a set of files defining the network that this node is 
+attempting to join or create. Please refer to monetd config for tools to manage 
+this configuration. 
+
+Further options pertaining to the operation of the node are read from the 
+[datadir]/monetd.toml file, or overwritten by the following flags. The following 
+command displays the expected output:
+
+monetd config location
+
+Usage:
+  monetd run [flags]
+
+Flags:
+      --api-listen string           IP:PORT of Monet HTTP API service (default ":8080")
+      --babble.bootstrap            Bootstrap Babble from database
+      --babble.cache-size int       Number of items in LRU caches (default 50000)
+      --babble.heartbeat duration   Heartbeat time milliseconds (time between gossips) (default 200ms)
+      --babble.listen string        IP:PORT of Babble node (default "172.17.0.1:1337")
+      --babble.max-pool int         Max number of pool connections (default 2)
+      --babble.sync-limit int       Max number of Events per sync (default 1000)
+      --babble.timeout duration     TCP timeout milliseconds (default 1s)
+      --eth.cache int               Megabytes of memory allocated to internal caching (min 16MB / database forced) (default 128)
+  -h, --help                        help for run
+
+Global Flags:
+  -d, --datadir string   top-level directory for configuration and data (default "/home/jon/.monet")
+  -v, --verbose          verbose output
