@@ -156,9 +156,9 @@ An example session updating the passphrase for a key:
 List
 ~~~~
 
-The ``list`` subcommand outputs a list of monikers corresponding to the keyfiles
-in the keystore. These are the valid monikers that can be specified to other
-``monetd`` commands.
+The ``list`` subcommand outputs a list of monikers corresponding to the
+keyfiles in the keystore. These are the valid monikers that can be specified to
+other ``monetd`` commands.
 
 .. include:: _static/includes/monetd_help_keys_list.txt
     :code: bash
@@ -305,8 +305,8 @@ configuration directory [datadir]:
 - eth/genesis.json          : The genesis file
 
 It also builds all the other configuration files required to run a monetd node.
-If the peer specified does not include a port, the default gossip port (1337) is
-used.
+If the peer specified does not include a port, the default gossip port (1337)
+is used.
 
 
 

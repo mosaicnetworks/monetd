@@ -185,7 +185,7 @@ Syntax
 
 .. include:: _static/includes/giverny_help_network_new.txt
     :code: bash
-    
+
 Nodes
 -----
 
@@ -197,10 +197,10 @@ initial peer set.
 IP Addresses
 ------------
 
-An initial IP address is supplied using the ``--initial-ip`` parameter.
-It is assumed the IP address range will be assigned by simply incrementing the
-last octet of the IP address for each node. N.B. the first node will be assigned
-the actual IP supplied by the ``initial-ip`` parameter.
+An initial IP address is supplied using the ``--initial-ip`` parameter. It is
+assumed the IP address range will be assigned by simply incrementing the last
+octet of the IP address for each node. N.B. the first node will be assigned the
+actual IP supplied by the ``initial-ip`` parameter.
 
 
 Node Names
