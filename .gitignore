@@ -4,4 +4,4 @@ glide.lock
 vendor
 *debug.test*
 node_modules/
-
+npm_modules
