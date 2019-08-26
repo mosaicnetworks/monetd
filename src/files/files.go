@@ -112,6 +112,12 @@ func CopyFileContents(src, dst string) (err error) {
 //where the folder does not already exist.
 //n is capped at 100 - which would require the user to manually tidy the parent folder.
 func SafeRenameDir(origDir string) error {
+
+	// XXX no renaming to do if the original file/folder doesnt exist
+	if !CheckIfExists(origDir) {
+		return nil
+	}
+
 	const maxloops = 100
 
 	for i := 1; i < 100; i++ {
