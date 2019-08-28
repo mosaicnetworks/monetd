@@ -1,6 +1,6 @@
 // evm-lite-js imports
-const { EVMLC, Account, Contract } = require('evm-lite-core');
-const { Keystore } = require('evm-lite-keystore');
+const { default:Node, Account, Contract } = require('evm-lite-core');
+const { default:Keystore } = require('evm-lite-keystore');
 
 const util = require('util');
 const path = require('path');
@@ -81,10 +81,10 @@ const sleep = function(time) {
 const DEFAULT_GAS = 100000000;
 const DEFAULT_GASPRICE = 0;
 
-function Node(name, host, port) {
+function DemoNode(name, host, port) {
 	this.name = name;
 
-	this.api = new EVMLC(host, port);
+	this.api = new Node(host, port);
 
 	this.account = {};
 }
@@ -129,7 +129,7 @@ const init = async () => {
 	console.log('Contract Path: ', contractPath);
 
 	for (i = 0; i < ips.length; i++) {
-		node = new Node(util.format('node%d', i + 1), ips[i], port);
+		node = new DemoNode(util.format('node%d', i + 1), ips[i], port);
 		allNodes.push(node);
 	}
 
@@ -247,21 +247,15 @@ const displayAllBalances = async () => {
 const transferRaw = async (from, to, value) => {
 	console.group('Locally Signed Transfer');
 
-	const transaction = Account.prepareTransfer(
-		from.account.address,
+	const transactionReceipt = await from.api.transfer(
+		from.account,
 		to.account.address,
 		value,
 		DEFAULT_GAS,
 		DEFAULT_GASPRICE
 	);
 
-	console.log('Transaction: ', transaction, '\n');
-
-	const receipt = await from.api.sendTransaction(transaction, 
-		from.account,
-	 	defaultTimeout);
-	
-	console.log('Receipt: ', receipt);
+	console.log('Transaction Receipt: ', transactionReceipt, '\n');
 
 	console.groupEnd();
 };
@@ -292,10 +286,9 @@ class CrowdFunding {
 			DEFAULT_GASPRICE
 		);
 
-		const receipt = await this.node.api.sendTransaction(
+		const receipt = await this.node.api.sendTx(
 			tx,
 			this.node.account,
-			defaultTimeout,
 		);
 		console.log('Receipt:', receipt);
 
@@ -314,10 +307,9 @@ class CrowdFunding {
 
 		console.log('Transaction: ', tx, '\n');
 
-		const receipt = await this.node.api.sendTransaction(
+		const receipt = await this.node.api.sendTx(
 			tx,
 			this.node.account,
-			defaultTimeout,
 		);
 
 		for (const log of receipt.logs) {
@@ -336,7 +328,7 @@ class CrowdFunding {
 			gasPrice: DEFAULT_GASPRICE
 		});
 
-		const response = await this.node.api.callTransaction(tx);
+		const response = await this.node.api.callTx(tx);
 
 		const parsedResponse = {
 			goalReached: response[0],
@@ -359,10 +351,9 @@ class CrowdFunding {
 
 		console.log('Transaction: ', tx, '\n');
 
-		const receipt = await this.node.api.sendTransaction(
+		const receipt = await this.node.api.sendTx(
 			tx,
 			this.node.account,
-			defaultTimeout,
 		);
 
 		for (const log of receipt.logs) {

@@ -4,7 +4,7 @@ const argv = require('minimist')(process.argv.slice(2));
 
 
 // import required objects
-const { EVMLC, Contract, Account } = require("evm-lite-core");
+const { default:Node, Contract, Account } = require("evm-lite-core");
 
 // account address
 const password = "test";
@@ -23,24 +23,24 @@ const sleep = (milliseconds) => {
   }
 
 
-function Node(name, host, port) {
+function DemoNode(name, host, port) {
 	this.name = name;
 
-	this.api = new EVMLC(host, port);
+	this.api = new Node(host, port);
 
 	this.account = {};
 }
 
 
-const node0 = new Node("node0", serverAddress, serverPort);
-const node1 = new Node("node1", serverAddress1, serverPort);
-const node2 = new Node("node2", serverAddress2, serverPort);
-const node3 = new Node("node3", serverAddress3, serverPort);
+const node0 = new DemoNode("node0", serverAddress, serverPort);
+const node1 = new DemoNode("node1", serverAddress1, serverPort);
+const node2 = new DemoNode("node2", serverAddress2, serverPort);
+const node3 = new DemoNode("node3", serverAddress3, serverPort);
 
 
 // import keystore and datadirectory objects
-const { Keystore } = require("evm-lite-keystore");
-const { DataDirectory } = require("evm-lite-datadir");
+const { default:Keystore } = require("evm-lite-keystore");
+const { default:DataDirectory } = require("evm-lite-datadir");
 
 
 
@@ -84,9 +84,8 @@ const getAccount = async (address, password, datadir) => {
 const checkFinalBalances = async () => {
     const datadirPath = argv.datadir;
     const numTrans = argv.transcount;
-    const datadir = new DataDirectory(datadirPath);
     const keystore = new Keystore(path.join(datadirPath, "keystore"));
-    datadir.setKeystore(keystore);
+    const datadir = new DataDirectory(datadirPath, "monetcli", keystore);
     console.log("Decrypting All Accounts")
     const account0 = await getAccount("node0", password, datadir);
     const account1 = await getAccount("node1", password, datadir);
@@ -159,24 +158,15 @@ const getNonce = async (node, address) => {
 const transferRaw = async (node, from, to, value, nonce) => {
 //	console.group('Locally Signed Transfer');
 
-	const transaction = Account.prepareTransfer(
-		from.address,
+	const receipt = await node.api.transfer(
+		from,
 		to.address,
 		value,
 		defaultGas,
 		defaultGasPrice
 	);
 
-    transaction.nonce = nonce;
-//	console.log('Transaction: ', transaction, '\n');
-
-	const receipt = await node.api.sendTransaction(transaction, 
-		from,
-	 	defaultTimeout);
-	
-//	console.log('Receipt: ', receipt);
-
-//	console.groupEnd();
+	console.log('Receipt: ', receipt);
 };
 
 
@@ -192,14 +182,9 @@ const transfers = async (nodeno) => {
 
 //    console.log(datadirPath);
 
-    const datadir = new DataDirectory(datadirPath);
-    const keystore = new Keystore(path.join(datadirPath, "keystore"));
-
-//    console.log(keystore);
-
-
-    datadir.setKeystore(keystore);
-
+    const keystore = new Keystore(path.join(datadirPath, "keystore"));    
+    const datadir = new DataDirectory(datadirPath, "monetcli", keystore);
+    
 
 // unlock all of the accounts
     console.log("Decrypting All Accounts")

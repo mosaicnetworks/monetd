@@ -4,7 +4,7 @@ const argv = require('minimist')(process.argv.slice(2));
 
 
 // import required objects
-const { EVMLC, Contract } = require("evm-lite-core");
+const { default:Node, Contract } = require("evm-lite-core");
 
 // account address
 const password = "test";
@@ -17,15 +17,15 @@ const serverAddress3 = "172.77.5.13"
 
 const serverPort = "8080"
 
-const node = new EVMLC(serverAddress, serverPort);
-const node2 = new EVMLC(serverAddress1, serverPort);
-const node3 = new EVMLC(serverAddress2, serverPort);
-const node4 = new EVMLC(serverAddress3, serverPort);
+const node = new  Node(serverAddress, serverPort);
+const node2 = new Node(serverAddress1, serverPort);
+const node3 = new Node(serverAddress2, serverPort);
+const node4 = new Node(serverAddress3, serverPort);
 
 
 // import keystore and datadirectory objects
-const { Keystore } = require("evm-lite-keystore");
-const { DataDirectory } = require("evm-lite-datadir");
+const { default:Keystore } = require("evm-lite-keystore");
+const { default:DataDirectory } = require("evm-lite-datadir");
 
 
 
@@ -45,7 +45,7 @@ const checkWhitelist= async(contract, account, address) => {
         value : 0,
     },address);
 
-    const checkReceipt = await node.callTransaction(checkTrans, account)
+    const checkReceipt = await node.callTx(checkTrans, account)
  //   console.log(checkReceipt)
 
     return checkReceipt;
@@ -61,7 +61,7 @@ const getWhiteListCount = async(contract, account) => {
         value : 0,
     });
 
-    const checkReceipt = await node.callTransaction(checkTrans, account)
+    const checkReceipt = await node.callTx(checkTrans, account)
  //   console.log(checkReceipt)
 
     return checkReceipt.toNumber();
@@ -77,7 +77,7 @@ const getNomineeCount = async(contract, account) => {
         value : 0,
     });
 
-    const checkReceipt = await node.callTransaction(checkTrans, account)
+    const checkReceipt = await node.callTx(checkTrans, account)
  //   console.log(checkReceipt)
 
     return checkReceipt.toNumber();
@@ -95,7 +95,7 @@ const selfnominate = async(contract, account) => {
         value : 0,
     }, account.address, account.name);
 
-    const checkReceipt = await node.sendTransaction(checkTrans, account)
+    const checkReceipt = await node.sendTx(checkTrans, account)
  //   console.log(checkReceipt)
 
     return checkReceipt;
@@ -114,7 +114,7 @@ const castvote = async(contract, account, address, vote) => {
         value : 0,
     }, address, vote);
 
-    const checkReceipt = await node.sendTransaction(checkTrans, account)
+    const checkReceipt = await node.sendTx(checkTrans, account)
  //   console.log(checkReceipt)
 
     return checkReceipt;
@@ -141,14 +141,10 @@ const join = async () => {
 
     console.log(datadirPath);
 
-    const datadir = new DataDirectory(datadirPath);
     const keystore = new Keystore(path.join(datadirPath, "keystore"));
-
+    const datadir = new DataDirectory(datadirPath, "monetcli", keystore);
+   
     console.log(keystore);
-
-
-    datadir.setKeystore(keystore);
-
 
 // unlock all of the accounts
     console.log("Decrypting All Accounts")
@@ -175,7 +171,7 @@ const join = async () => {
         value : 0,
     })
 
-    const initReceipt = await node.sendTransaction(initTrans, account0);
+    const initReceipt = await node.sendTx(initTrans, account0);
   
  //   TODO uncomment this line   
  //   console.log(initReceipt);
@@ -331,14 +327,10 @@ const posttests = async () => {
 
     console.log(datadirPath);
 
-    const datadir = new DataDirectory(datadirPath);
     const keystore = new Keystore(path.join(datadirPath, "keystore"));
-
+    const datadir = new DataDirectory(datadirPath, "monetcli", keystore);
+    
     console.log(keystore);
-
-
-    datadir.setKeystore(keystore);
-
 
 // unlock all of the accounts
     console.log("Decrypting All Accounts")
