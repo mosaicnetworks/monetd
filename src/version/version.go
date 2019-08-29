@@ -9,18 +9,9 @@ import (
 	evm "github.com/mosaicnetworks/evm-lite/src/version"
 )
 
-//Maj is Major Version Number
-const Maj = "0"
-
-//Min is Minor Version Number
-const Min = "2"
-
-//Fix is the Patch Version
-const Fix = "0"
-
 var (
 	//Version is the full version string
-	Version = "0.2.0"
+	Version = "0.2.1"
 
 	// GitCommit is set with --ldflags "-X main.gitCommit=$(git rev-parse HEAD)"
 	GitCommit string
