@@ -1,6 +1,6 @@
 // evm-lite-js imports
-const { default:Node, Account, Contract } = require('evm-lite-core');
-const { default:Keystore } = require('evm-lite-keystore');
+const { default: Node, Account, Contract } = require('evm-lite-core');
+const { default: Keystore } = require('evm-lite-keystore');
 
 const util = require('util');
 const path = require('path');
@@ -21,8 +21,7 @@ const log = (color, text) => {
 	console.log(color + text + '\x1b[0m');
 };
 
-
-const finalDelta = [-500,+500,0,0];
+const finalDelta = [-500, +500, 0, 0];
 
 var online = true;
 
@@ -107,7 +106,9 @@ var contractPath = '';
 const init = async () => {
 	console.group('Initialize Nodes: ');
 
-	if (argv.offline) { online = false}
+	if (argv.offline) {
+		online = false;
+	}
 
 	const ips = argv.ips
 		.replace(/\s/g, '')
@@ -147,8 +148,7 @@ const decryptAccounts = async ({ keystore, password }) => {
 
 	const keyfiles = await keystore.list();
 
-    for (var moniker of Object.keys(keyfiles)) {
-
+	for (var moniker of Object.keys(keyfiles)) {
 		keyfile = keyfiles[moniker];
 
 		let account;
@@ -185,38 +185,45 @@ const decryptAccounts = async ({ keystore, password }) => {
 			console.log('Decrypted: ', `${account.address} (${balance || 0})`);
 			allAccounts.push(account);
 			allMonikers.push(moniker);
-			initBalance.push(balance)
+			initBalance.push(balance);
 		}
 	}
 
 	for (i = 0; i < allNodes.length; i++) {
 		allNodes[i].api.defaultFrom = allAccounts[i].address;
 		allNodes[i].account = allAccounts[i];
-		allNodes[i].name =allMonikers[i];
-
+		allNodes[i].name = allMonikers[i];
 	}
 
 	console.groupEnd();
 };
 
-
 const checkBalances = async () => {
 	console.group('Check Balances: ');
-	i = 0; 
+	i = 0;
 	let failed = false;
-	for (const node of allNodes) {		
-		let expected = initBalance[i] + finalDelta[i]
-		if (expected == lastBalance[i]) { console.log(node.name + " balance as expected.");}
-		else {
-			console.log("ERROR: "+ node.name + " expected " + expected + " got " + lastBalance[i]);
+	for (const node of allNodes) {
+		let expected = initBalance[i] + finalDelta[i];
+		if (expected == lastBalance[i]) {
+			console.log(node.name + ' balance as expected.');
+		} else {
+			console.log(
+				'ERROR: ' +
+					node.name +
+					' expected ' +
+					expected +
+					' got ' +
+					lastBalance[i]
+			);
 			failed = true;
 		}
 		i++;
-	}	
+	}
 	console.groupEnd();
-	if (failed) {process.exit(1)} 
+	if (failed) {
+		process.exit(1);
+	}
 };
-
 
 const displayAllBalances = async () => {
 	console.group('Current Account Balances');
@@ -279,17 +286,14 @@ class CrowdFunding {
 	}
 
 	async deploy(value) {
-		const tx = this.contract.deployTransaction(
+		const tx = this.contract.deployTx(
 			[value],
 			this.node.account.address,
 			DEFAULT_GAS,
 			DEFAULT_GASPRICE
 		);
 
-		const receipt = await this.node.api.sendTx(
-			tx,
-			this.node.account,
-		);
+		const receipt = await this.node.api.sendTx(tx, this.node.account);
 		console.log('Receipt:', receipt);
 
 		this.contract.setAddressAndAddFunctions(receipt.contractAddress);
@@ -307,10 +311,7 @@ class CrowdFunding {
 
 		console.log('Transaction: ', tx, '\n');
 
-		const receipt = await this.node.api.sendTx(
-			tx,
-			this.node.account,
-		);
+		const receipt = await this.node.api.sendTx(tx, this.node.account);
 
 		for (const log of receipt.logs) {
 			console.log(
@@ -351,10 +352,7 @@ class CrowdFunding {
 
 		console.log('Transaction: ', tx, '\n');
 
-		const receipt = await this.node.api.sendTx(
-			tx,
-			this.node.account,
-		);
+		const receipt = await this.node.api.sendTx(tx, this.node.account);
 
 		for (const log of receipt.logs) {
 			console.log(
@@ -467,7 +465,7 @@ init()
 	})
 	.then(() =>
 		step(
-			'STEP 9) Before we `settle` lets check balances again to show that Amelia\'s balance decreased by a total of 1000.'
+			"STEP 9) Before we `settle` lets check balances again to show that Amelia's balance decreased by a total of 1000."
 		)
 	)
 	.then(() => {
@@ -491,7 +489,7 @@ init()
 	.then(() => {
 		space();
 		return displayAllBalances();
-	})	
+	})
 	.then(() => {
 		space();
 		return checkBalances();
