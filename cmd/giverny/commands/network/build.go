@@ -98,7 +98,7 @@ func dumpPeersJSON(conf *Config, thisNetworkDir string) error {
 		rec := config.GenesisAllocRecord{Moniker: n.Moniker, Balance: n.Tokens}
 		alloc[n.Address] = &rec
 
-		if !n.Validator {
+		if !n.Validator || n.NonNode {
 			continue
 		}
 
