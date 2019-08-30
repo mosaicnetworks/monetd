@@ -4,6 +4,7 @@ import (
 	"github.com/mosaicnetworks/monetd/cmd/giverny/commands/keys"
 	"github.com/mosaicnetworks/monetd/cmd/giverny/commands/network"
 	"github.com/mosaicnetworks/monetd/cmd/giverny/commands/server"
+	"github.com/mosaicnetworks/monetd/cmd/giverny/commands/transactions"
 	"github.com/mosaicnetworks/monetd/cmd/giverny/configuration"
 	"github.com/mosaicnetworks/monetd/src/common"
 	monetconfig "github.com/mosaicnetworks/monetd/src/configuration"
@@ -30,6 +31,7 @@ func init() {
 		server.ServerCmd,
 
 		network.NetworkCmd,
+		transactions.TransCmd,
 		//		config.ConfigCmd,
 		VersionCmd,
 		//		network.WizardCmd,

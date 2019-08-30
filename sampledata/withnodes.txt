@@ -16,6 +16,8 @@
 # N.B. if the number of node is limited by a command line parameter, all
 # processing stops after the node limit is reached. Put non nodes first in the list
 
+# By convention Faucet is used as a source of funds for test nets. 
+
 # Moniker,NetAddr,Balance,Validator,NonNode
 
 Jon,192.168.1.18,1Z,false,false
@@ -32,4 +34,4 @@ Acc7,,7P,false,false
 Acc8,,8P,false,false
 Acc9,,9P,false,false
 Acc10,,10P,false,false
-Fawcet,,1Y,false,false
+Faucet,,1Y,false,false
