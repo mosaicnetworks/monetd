@@ -52,8 +52,11 @@ func (p *InmemProxy) CommitBlock(block hashgraph.Block) (proxy.CommitResponse, e
 	blockHashBytes, err := block.Hash()
 	blockHash := ethCommon.BytesToHash(blockHashBytes)
 
+	//XXX get coinbase
+	coinbase := ethCommon.Address{}
+
 	for i, tx := range block.Transactions() {
-		if err := p.state.ApplyTransaction(tx, i, blockHash); err != nil {
+		if err := p.state.ApplyTransaction(tx, i, blockHash, coinbase); err != nil {
 			return proxy.CommitResponse{}, err
 		}
 	}
