@@ -1,3 +1,14 @@
+
+## v0.2.1 (August 29, 2019)
+
+Update glide dependencies with latest versions of Babble and EVM-Lite.
+
+IMPROVEMENTS:
+
+* evm-lite~service: /tx endpoint returns receipt directly.
+* evm-lite~service: enable CORS
+* babble~service: enable CORS
+
 ## v0.2.0 (August 8, 2019)
 
 Refactor with new version of EVM-Lite.
