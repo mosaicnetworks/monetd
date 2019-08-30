@@ -105,14 +105,12 @@ func generateTransactions(cmd *cobra.Command, args []string) error {
 		}
 	}
 
-	var nodes []string
+	var nodes []node
 	var accounts []account
 	var debits []int64
 	var credits []int64
 	var faucetAccount *account
 	var trans []transaction
-	var fulltrans []fulltransaction
-	var faucettrans []fulltransaction
 	var deltas []delta
 	var nodeTrans []nodeTransactions
 
@@ -153,7 +151,9 @@ func generateTransactions(cmd *cobra.Command, args []string) error {
 			if !strings.Contains(netaddr, ":") && len(netaddr) > 0 {
 				netaddr += monetconfig.DefaultAPIAddr
 			}
-			nodes = append(nodes, netaddr)
+			nodes = append(nodes, node{
+				NetAddr: netaddr,
+				Moniker: moniker})
 			common.DebugMessage("node ", moniker)
 		}
 
@@ -182,6 +182,9 @@ func generateTransactions(cmd *cobra.Command, args []string) error {
 		})
 	}
 
+	fulltrans := nodeTransactions{Address: "", Moniker: ""}
+	faucettrans := nodeTransactions{Address: faucetAccount.Address, Moniker: faucetAccount.Moniker}
+
 	for i := 0; i < totalTransactions; i++ {
 		var fromacct, toacct int
 
@@ -203,29 +206,35 @@ func generateTransactions(cmd *cobra.Command, args []string) error {
 			Amount: amt,
 		})
 
+		nodeno := rand.Intn(nodecnt)
+
 		newtrans := fulltransaction{
-			Node:   nodes[rand.Intn(nodecnt)],
-			From:   accounts[fromacct].Address,
-			To:     accounts[toacct].Address,
-			Amount: amt,
+			Node:     nodes[nodeno].NetAddr,
+			NodeName: nodes[nodeno].Moniker,
+			From:     accounts[fromacct].Address,
+			To:       accounts[toacct].Address,
+			Amount:   amt,
 		}
 
-		fulltrans = append(fulltrans, newtrans)
+		fulltrans.Transactions = append(fulltrans.Transactions, newtrans)
 		nodeTrans[fromacct].Transactions = append(nodeTrans[fromacct].Transactions, newtrans)
 
 		//		common.DebugMessage(strconv.Itoa(i) + ": " + strconv.Itoa(fromacct) + ", " + strconv.Itoa(toacct) + ", " + strconv.FormatInt(amt, 10))
 	}
 
 	for i := 0; i < accountcnt; i++ {
+		nodeno := rand.Intn(nodecnt)
 
-		faucettrans = append(faucettrans, fulltransaction{
-			From:   faucetAccount.Address,
-			To:     accounts[i].Address,
-			Amount: debits[i] + int64(surplusCredit),
-			Node:   nodes[rand.Intn(nodecnt)],
+		faucettrans.Transactions = append(faucettrans.Transactions, fulltransaction{
+			From:     faucetAccount.Address,
+			To:       accounts[i].Address,
+			Amount:   debits[i] + int64(surplusCredit),
+			Node:     nodes[nodeno].NetAddr,
+			NodeName: nodes[nodeno].Moniker,
 		})
 
 		deltas = append(deltas, delta{
+			Moniker:      accounts[i].Moniker,
 			Address:      accounts[i].Address,
 			TransCredit:  credits[i],
 			TransDebit:   debits[i],

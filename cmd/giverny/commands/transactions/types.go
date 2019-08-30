@@ -23,19 +23,26 @@ type transaction struct {
 }
 
 type fulltransaction struct {
-	Node   string
-	From   string
-	To     string
-	Amount int64
+	Node     string
+	NodeName string
+	From     string
+	To       string
+	Amount   int64
 }
 
 type delta struct {
+	Moniker      string
 	Address      string
 	TransCredit  int64
 	TransDebit   int64
 	TransNet     int64
 	FaucetCredit int64
 	TotalNet     int64
+}
+
+type node struct {
+	Moniker string
+	NetAddr string
 }
 
 type nodeTransactions struct {
