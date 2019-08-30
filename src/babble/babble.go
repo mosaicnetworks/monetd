@@ -37,9 +37,15 @@ func (ib *InmemBabble) Init(state *state.State, service *service.Service) error 
 	ib.ethState = state
 	ib.ethService = service
 
-	ib.config.Proxy = NewInmemProxy(state, service, service.GetSubmitCh(), ib.logger)
-
 	babble := babble.NewBabble(ib.config)
+
+	inmemProxy := NewInmemProxy(state,
+		service,
+		babble,
+		service.GetSubmitCh(),
+		ib.logger)
+
+	ib.config.Proxy = inmemProxy
 
 	err := babble.Init()
 	if err != nil {

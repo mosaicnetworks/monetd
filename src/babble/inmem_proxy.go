@@ -3,6 +3,7 @@ package babble
 import (
 	ethCommon "github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/crypto"
+	"github.com/mosaicnetworks/babble/src/babble"
 	"github.com/mosaicnetworks/babble/src/hashgraph"
 	"github.com/mosaicnetworks/babble/src/proxy"
 	"github.com/mosaicnetworks/evm-lite/src/service"
@@ -14,6 +15,7 @@ import (
 type InmemProxy struct {
 	service  *service.Service
 	state    *state.State
+	babble   *babble.Babble
 	submitCh chan []byte
 	logger   *logrus.Entry
 }
@@ -21,12 +23,14 @@ type InmemProxy struct {
 // NewInmemProxy initializes and return a new InmemProxy
 func NewInmemProxy(state *state.State,
 	service *service.Service,
+	babble *babble.Babble,
 	submitCh chan []byte,
 	logger *logrus.Entry) *InmemProxy {
 
 	return &InmemProxy{
 		service:  service,
 		state:    state,
+		babble:   babble,
 		submitCh: submitCh,
 		logger:   logger,
 	}
@@ -47,16 +51,39 @@ func (p *InmemProxy) SubmitCh() chan []byte {
 // to check if joining peers are authorised to become validators in Babble. It
 // returns the resulting state-hash and internal transaction receips.
 func (p *InmemProxy) CommitBlock(block hashgraph.Block) (proxy.CommitResponse, error) {
-	p.logger.Debug("CommitBlock")
+
+	// XXX get coinbase
+
+	coinbaseAddress := ethCommon.Address{}
+
+	if p.babble != nil {
+		babbleValidators, err := p.babble.Node.GetValidators(block.RoundReceived())
+		if err != nil {
+			return proxy.CommitResponse{}, err
+		}
+
+		coinbaseValidator := babbleValidators[block.Index()%len(babbleValidators)]
+
+		coinbasePubKey, err := crypto.UnmarshalPubkey(coinbaseValidator.PubKeyBytes())
+		if err != nil {
+			p.logger.Warningf("couldn't unmarshal pubkey bytes: %v", err)
+		}
+
+		coinbaseAddress = crypto.PubkeyToAddress(*coinbasePubKey)
+	}
+
+	p.logger.WithFields(logrus.Fields{
+		"coinbase": coinbaseAddress.String(),
+		"block":    block.Index(),
+	}).Info("Commit")
+
+	// END XXX
 
 	blockHashBytes, err := block.Hash()
 	blockHash := ethCommon.BytesToHash(blockHashBytes)
 
-	//XXX get coinbase
-	coinbase := ethCommon.Address{}
-
 	for i, tx := range block.Transactions() {
-		if err := p.state.ApplyTransaction(tx, i, blockHash, coinbase); err != nil {
+		if err := p.state.ApplyTransaction(tx, i, blockHash, coinbaseAddress); err != nil {
 			return proxy.CommitResponse{}, err
 		}
 	}
