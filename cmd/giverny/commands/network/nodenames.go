@@ -71,6 +71,8 @@ func getNodesWithNames(srcFile string, numNodes int, numValidators int, initialI
 
 		if IPStem != "" {
 			netaddr = IPStem + strconv.Itoa(lastDigit+i-1)
+		} else {
+			netaddr = ""
 		}
 
 		line := strings.TrimSpace(scanner.Text())
