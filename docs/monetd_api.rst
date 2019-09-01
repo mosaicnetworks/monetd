@@ -84,15 +84,15 @@ Submit Transaction
 
 Send a SIGNED, NON-READONLY transaction. The client is left to compose a
 transaction, sign it and RLP encode it. The resulting bytes, represented as a
-Hex string, are passed to this method to be forwarded to the EVM. This is an
-ASYNCHRONOUS operation and the effect on the State should be verified by
-fetching the transaction's receipt.
+Hex string, are passed to this method to be forwarded to the EVM. This is a
+SYNCHRONOUS operation; it waits for the transaction to go through consensus and
+returns the transaction receipt.
 
 .. code:: http
 
   POST /rawtx
   data: STRING Hex representation of the raw transaction bytes
-  returns: JSON JsonTxRes
+  returns: JSON JsonReceipt
 
 .. code:: go
 
@@ -100,6 +100,21 @@ fetching the transaction's receipt.
         TxHash string `json:"txHash"`
     }
 
+.. code:: go
+
+    type JsonReceipt struct {
+        Root              common.Hash     `json:"root"`
+        TransactionHash   common.Hash     `json:"transactionHash"`
+        From              common.Address  `json:"from"`
+        To                *common.Address `json:"to"`
+        GasUsed           uint64          `json:"gasUsed"`
+        CumulativeGasUsed uint64          `json:"cumulativeGasUsed"`
+        ContractAddress   common.Address  `json:"contractAddress"`
+        Logs              []*ethTypes.Log `json:"logs"`
+        LogsBloom         ethTypes.Bloom  `json:"logsBloom"`
+        Status            uint64          `json:"status"`
+    }
+    
 Example:
 
 .. code:: bash
@@ -121,21 +136,6 @@ use, and the EVM Logs produced by the execution of the transaction.
 
   GET /tx/{tx_hash}
   returns: JSON JsonReceipt
-
-.. code:: go
-
-    type JsonReceipt struct {
-        Root              common.Hash     `json:"root"`
-        TransactionHash   common.Hash     `json:"transactionHash"`
-        From              common.Address  `json:"from"`
-        To                *common.Address `json:"to"`
-        GasUsed           uint64          `json:"gasUsed"`
-        CumulativeGasUsed uint64          `json:"cumulativeGasUsed"`
-        ContractAddress   common.Address  `json:"contractAddress"`
-        Logs              []*ethTypes.Log `json:"logs"`
-        LogsBloom         ethTypes.Bloom  `json:"logsBloom"`
-        Status            uint64          `json:"status"`
-    }
 
 Example:
 

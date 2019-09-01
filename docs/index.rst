@@ -11,6 +11,7 @@
    install.rst
    quickstart.rst
    join.rst
+   fees.rst
    monetd_api.rst
    monetd_poa.rst
    giverny_examples.rst
