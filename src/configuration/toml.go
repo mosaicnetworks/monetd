@@ -21,6 +21,7 @@ api-listen = "{{.APIAddr}}"
 
 [eth]
   cache = {{.Eth.Cache}}
+  min-gas-price = {{.Eth.MinGasPrice}}
 `
 
 // GlobalTOML converts the global Config object into a TOML string
