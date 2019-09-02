@@ -3,12 +3,12 @@
 Transaction Fees
 ================
 
-Every operation that modifies the state (transfer, smart-contract creations,
+Every operation that modifies the state (transfer, smart-contract creation,
 smart-contract call, etc.) carries a cost. Within the EVM, this cost is 
 denominated in gas. For example, a simple transfer costs 21000 gas. When users 
 create and submit transactions, they can set the maximum amount of gas they want
-to spend, and how much om (10^-18 Tenom) they are willing to pay per unit of gas 
-consumed. Therefore, if their transaction is applied, it will cost them a 
+to spend, and how much ``om`` (10^-18 Tenom) they are willing to pay per unit of
+gas consumed. Therefore, if their transaction is applied, it will cost them a 
 transaction fee of gas-price * gas-consumed, which is capped by gas-price * 
 gas-max.
 
@@ -20,7 +20,7 @@ Distribution Among Validators
 
 Every transaction applied to the EVM is associated with a coinbase address 
 (possibly empty), which receives the transaction fee. In monetd, we have 
-implemented a system to fairly and securily distribute fees among validators.
+implemented a system that fairly and securily distributes fees among validators.
 
 Upon committing a Babble block, we fetch the corresponding validator-set from
 Babble. Then we use the block hash to obtain a pseudo-random number which we 
@@ -33,8 +33,8 @@ Minimum Gas Price
 -----------------
 
 Validators running a monetd node can set a minimum gas price, via the 
-eth.min-gas-price configuration flag, to refuse broadcasting transactions with
-lower gas-prices. Note that this filtering is done at the service layer, so it
-will not have any effect on transactions broadcasted by other nodes. To send a 
-transaction via a node, the transaction creator must set the gas price to a 
-value greater or equal to that node's minimum gas price.
+``eth.min-gas-price`` configuration flag, to refuse broadcasting transactions 
+with lower gas-prices. To send a transaction via a node, the transaction creator 
+must set the gas price to a value greater or equal to that node's minimum gas
+price. Note that this filtering is done at the service layer, so it will not
+prevent other nodes from including cheaper transactions. 
