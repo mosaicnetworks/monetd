@@ -9,8 +9,8 @@ denominated in gas. For example, a simple transfer costs 21000 gas. When users
 create and submit transactions, they can set the maximum amount of gas they want
 to spend, and how much ``om`` (10^-18 Tenom) they are willing to pay per unit of
 gas consumed. Therefore, if their transaction is applied, it will cost them a 
-transaction fee of gas-price * gas-consumed, which is capped by gas-price * 
-gas-max.
+transaction fee of ``gas-price * gas-consumed``, which is capped by ``gas-price 
+* gas-max``.
 
 Transaction fees serve a dual purpose: to incentivise validators, and to prevent
 denial of service attacks.
