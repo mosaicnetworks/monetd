@@ -20,6 +20,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
+const bool full
+
 func newBuildCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "build [network_name]",
@@ -31,7 +33,14 @@ giverny network build
 		RunE: networkBuild,
 	}
 
+	viper.addBuildFlags(cmd)
+
 	return cmd
+}
+
+func addBuildFlags(cmd *cobra.Command) {
+	cmd.Flags().BoolVar(&full, "full", false, "process keys")
+	viper.BindPFlags(cmd.Flags())
 }
 
 func networkBuild(cmd *cobra.Command, args []string) error {
@@ -107,10 +116,11 @@ func dumpPeersJSON(conf *Config, thisNetworkDir string) error {
 			PubKeyHex: n.PubKeyHex})
 
 		// If we reach this point this node is a validator
-		if err := createKeyFileIfNotExists(thisNetworkDir, n.Moniker, n.Address, n.PubKeyHex); err != nil {
-			return err
+		if full {
+			if err := createKeyFileIfNotExists(thisNetworkDir, n.Moniker, n.Address, n.PubKeyHex); err != nil {
+				return err
+			}
 		}
-
 	}
 
 	peersJSONOut, err := json.MarshalIndent(peers, "", "\t")
