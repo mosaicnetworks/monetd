@@ -125,9 +125,11 @@ func startDockerNetwork(networkName string) error {
 
 	if startNodes {
 		for _, n := range conf.Nodes {
-			common.DebugMessage("Starting node " + n.Moniker)
-			if err := pushDockerNode(networkName, n.Moniker, networkID, imgName, imgIsRemote); err != nil {
-				return err
+			if !n.NonNode {
+				common.DebugMessage("Starting node " + n.Moniker)
+				if err := pushDockerNode(networkName, n.Moniker, networkID, imgName, imgIsRemote); err != nil {
+					return err
+				}
 			}
 		}
 
@@ -147,8 +149,10 @@ func exportDockerConfigs(conf *Config) error {
 	}
 
 	for _, n := range conf.Nodes { // loop around nodes
-		if err := exportDockerNodeConfig(networkDir, dockerDir, &n); err != nil {
-			return err
+		if !n.NonNode {
+			if err := exportDockerNodeConfig(networkDir, dockerDir, &n); err != nil {
+				return err
+			}
 		}
 	}
 

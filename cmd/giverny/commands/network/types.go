@@ -8,6 +8,7 @@ type node struct {
 	Tokens    string `toml:"tokens"`
 	PubKeyHex string `toml:"pubkey"`
 	Address   string `toml:"address"`
+	NonNode   bool   `toml:"nonnode"`
 }
 
 //Config defines the nodes.toml file structure

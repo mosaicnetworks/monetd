@@ -11,10 +11,27 @@
 # Field 3: Tokens. Units are K,M,G,T,P,E,Z or Y where K is 1,000, M is 1,000,000
 #                       G is 1,000,000,000, T is 1,000,000,000,000 etc
 # Field 4: Is initial validator - can be set to true or false
+# Field 5: Is non node - set to true if this is a pure token allocation, not a node configuration
 
-# Moniker,NetAddr,Balance,Validator
+# N.B. if the number of node is limited by a command line parameter, all
+# processing stops after the node limit is reached. Put non nodes first in the list
 
-Jon,192.168.1.18,1Z,false
-Martin,192.168.1.3,1E,true
-Kevin,192.168.1.15,1P,true
-Danu,192.168.1.11,1T,false
+# By convention Faucet is used as a source of funds for test nets. 
+
+# Moniker,NetAddr,Balance,Validator,NonNode
+
+Jon,192.168.1.18,1Z,false,false
+Martin,192.168.1.3,1E,true,false
+Kevin,192.168.1.15,1P,true,false
+Danu,192.168.1.11,1T,false,false
+Acc1,,1P,false,false
+Acc2,,2P,false,false
+Acc3,,3P,false,false
+Acc4,,4P,false,false
+Acc5,,5P,false,false
+Acc6,,6P,false,false
+Acc7,,7P,false,false
+Acc8,,8P,false,false
+Acc9,,9P,false,false
+Acc10,,10P,false,false
+Faucet,,1Y,false,false

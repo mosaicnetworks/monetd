@@ -66,7 +66,7 @@ func networkDump(cmd *cobra.Command, args []string) error {
 			netaddr = netaddr[:idx]
 		}
 
-		dumpOut = append(dumpOut, n.Moniker+"|"+netaddr+"|"+n.Address+"|"+strconv.FormatBool(n.Validator))
+		dumpOut = append(dumpOut, n.Moniker+"|"+netaddr+"|"+n.Address+"|"+strconv.FormatBool(n.Validator)+"|"+strconv.FormatBool(n.NonNode))
 
 	}
 

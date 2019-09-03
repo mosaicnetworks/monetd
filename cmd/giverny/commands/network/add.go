@@ -108,6 +108,7 @@ func addNodeToNetwork(networkName, moniker string) error {
 		NetAddr:   initIP,
 		Validator: false,
 		Tokens:    "0",
+		NonNode:   false,
 	}
 
 	// Prompt for passphrase if nothing suitable found.
