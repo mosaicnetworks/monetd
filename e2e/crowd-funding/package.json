@@ -7,11 +7,11 @@
 		"demo": "node demo --ips 127.0.0.1,127.0.0.1 --port 8080 --keystore /Users/danu/.evmlc/keystore --pwd ./pwd.txt --contract ../smart-contracts/CrowdFunding.sol"
 	},
 	"dependencies": {
-		"evm-lite-client": "^1.0.0-alpha.21-dev.1",
-		"evm-lite-consensus": "^1.0.0-alpha.21-dev.1",
-		"evm-lite-core": "^1.0.0-alpha.21-dev.1",
-		"evm-lite-datadir": "^1.0.0-alpha.21-dev.1",
-		"evm-lite-keystore": "^1.0.0-alpha.21-dev.1",
+		"evm-lite-client": "^1.0.0",
+		"evm-lite-consensus": "^1.0.0",
+		"evm-lite-core": "^1.0.0",
+		"evm-lite-datadir": "^1.0.0",
+		"evm-lite-keystore": "^1.0.0",
 		"json-bigint": "^0.3.0",
 		"minimist": "^1.2.0",
 		"prompt": "^1.0.0",

@@ -60,6 +60,7 @@ func bindFlags(cmd *cobra.Command) {
 
 	// Eth config
 	cmd.Flags().Int("eth.cache", configuration.Global.Eth.Cache, "megabytes of memory allocated to internal caching (min 16MB / database forced)")
+	cmd.Flags().String("eth.min-gas-price", configuration.Global.Eth.MinGasPrice, "minimum gasprice of transactions submitted through this node (ex 1K, 1M, 1G, etc.)")
 }
 
 /*******************************************************************************

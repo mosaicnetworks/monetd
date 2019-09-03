@@ -89,6 +89,7 @@ environment.
         --babble.sync-limit int       max number of Events per sync (default 1000)
         --babble.timeout duration     TCP timeout milliseconds (default 1s)
         --eth.cache int               megabytes of memory allocated to internal caching (min 16MB / database forced) (default 128)
+        --eth.min-gas-price string    minimum gasprice of transactions submitted through this node (ex 1K, 1M, 1G, etc.) (default "0")
       -h, --help                      help for run
 
     Global Flags:

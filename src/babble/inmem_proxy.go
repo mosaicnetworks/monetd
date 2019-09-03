@@ -3,6 +3,8 @@ package babble
 import (
 	ethCommon "github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/crypto"
+	"github.com/mosaicnetworks/babble/src/babble"
+	"github.com/mosaicnetworks/babble/src/crypto/keys"
 	"github.com/mosaicnetworks/babble/src/hashgraph"
 	"github.com/mosaicnetworks/babble/src/proxy"
 	"github.com/mosaicnetworks/evm-lite/src/service"
@@ -14,6 +16,7 @@ import (
 type InmemProxy struct {
 	service  *service.Service
 	state    *state.State
+	babble   *babble.Babble
 	submitCh chan []byte
 	logger   *logrus.Entry
 }
@@ -21,12 +24,14 @@ type InmemProxy struct {
 // NewInmemProxy initializes and return a new InmemProxy
 func NewInmemProxy(state *state.State,
 	service *service.Service,
+	babble *babble.Babble,
 	submitCh chan []byte,
 	logger *logrus.Entry) *InmemProxy {
 
 	return &InmemProxy{
 		service:  service,
 		state:    state,
+		babble:   babble,
 		submitCh: submitCh,
 		logger:   logger,
 	}
@@ -42,18 +47,29 @@ func (p *InmemProxy) SubmitCh() chan []byte {
 	return p.submitCh
 }
 
-// CommitBlock applies the block's transactions to the state and commits. It
-// also checks the block's internal transactions against the POA smart-contract
-// to check if joining peers are authorised to become validators in Babble. It
-// returns the resulting state-hash and internal transaction receips.
+// CommitBlock applies the block's transactions to the state and commits. All
+// transaction fees are sent to the coinbase address, which is computed from the
+// block and the current validator-set. It also checks the block's internal
+// transactions against the POA smart-contract to verify if joining peers are
+// authorised to become validators in Babble. It returns the resulting
+// state-hash and internal transaction receips.
 func (p *InmemProxy) CommitBlock(block hashgraph.Block) (proxy.CommitResponse, error) {
-	p.logger.Debug("CommitBlock")
+
+	coinbaseAddress, err := p.getCoinbase(block)
+	if err != nil {
+		return proxy.CommitResponse{}, err
+	}
+
+	p.logger.WithFields(logrus.Fields{
+		"coinbase": coinbaseAddress.String(),
+		"block":    block.Index(),
+	}).Info("Commit")
 
 	blockHashBytes, err := block.Hash()
 	blockHash := ethCommon.BytesToHash(blockHashBytes)
 
 	for i, tx := range block.Transactions() {
-		if err := p.state.ApplyTransaction(tx, i, blockHash); err != nil {
+		if err := p.state.ApplyTransaction(tx, i, blockHash, coinbaseAddress); err != nil {
 			return proxy.CommitResponse{}, err
 		}
 	}
@@ -71,6 +87,36 @@ func (p *InmemProxy) CommitBlock(block hashgraph.Block) (proxy.CommitResponse, e
 	}
 
 	return res, nil
+}
+
+// getCoinbase returns the coinbase address which will receive all the
+// transaction fees from the block. It is meant to be a safe and fair selection
+// process from the current Babble validator-set. We use the block hash, which
+// is pseudo-random, but equal for all validators, to select a validator from
+// the current validator-set.
+func (p *InmemProxy) getCoinbase(block hashgraph.Block) (ethCommon.Address, error) {
+	coinbaseAddress := ethCommon.Address{}
+
+	if p.babble != nil {
+		babbleValidators, err := p.babble.Node.GetValidators(block.RoundReceived())
+		if err != nil {
+			return coinbaseAddress, err
+		}
+
+		blockHash, _ := block.Hash()
+		blockRand := keys.Hash32(blockHash)
+
+		coinbaseValidator := babbleValidators[blockRand%uint32(len(babbleValidators))]
+
+		coinbasePubKey, err := crypto.UnmarshalPubkey(coinbaseValidator.PubKeyBytes())
+		if err != nil {
+			return coinbaseAddress, err
+		}
+
+		coinbaseAddress = crypto.PubkeyToAddress(*coinbasePubKey)
+	}
+
+	return coinbaseAddress, nil
 }
 
 // processInternalTransactions decides if InternalTransactions should be

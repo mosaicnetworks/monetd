@@ -71,6 +71,7 @@ func (c *Config) ToEVMLConfig() *evml_config.Config {
 	evmlConfig.Genesis = fmt.Sprintf("%s/%s/%s", c.DataDir, EthDir, GenesisJSON)
 	evmlConfig.DbFile = fmt.Sprintf("%s/%s/%s", c.DataDir, EthDir, Chaindata)
 	evmlConfig.Cache = c.Eth.Cache
+	evmlConfig.MinGasPrice = c.Eth.MinGasPrice
 
 	return evmlConfig
 }

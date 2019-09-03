@@ -113,7 +113,7 @@ func CopyFileContents(src, dst string) (err error) {
 //n is capped at 100 - which would require the user to manually tidy the parent folder.
 func SafeRenameDir(origDir string) error {
 
-	// XXX no renaming to do if the original file/folder doesnt exist
+	// no renaming is necessary if the original file/folder doesnt exist
 	if !CheckIfExists(origDir) {
 		return nil
 	}
