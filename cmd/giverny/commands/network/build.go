@@ -18,9 +18,11 @@ import (
 	"github.com/mosaicnetworks/monetd/src/types"
 	"github.com/pelletier/go-toml"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
-const bool full
+//CLI Parameter
+var noGenerateKeys bool
 
 func newBuildCmd() *cobra.Command {
 	cmd := &cobra.Command{
@@ -33,13 +35,13 @@ giverny network build
 		RunE: networkBuild,
 	}
 
-	viper.addBuildFlags(cmd)
+	addBuildFlags(cmd)
 
 	return cmd
 }
 
 func addBuildFlags(cmd *cobra.Command) {
-	cmd.Flags().BoolVar(&full, "full", false, "process keys")
+	cmd.Flags().BoolVar(&noGenerateKeys, "no-generate-keys", noGenerateKeys, "Do not generate missing keys")
 	viper.BindPFlags(cmd.Flags())
 }
 
@@ -107,7 +109,7 @@ func dumpPeersJSON(conf *Config, thisNetworkDir string) error {
 		rec := config.GenesisAllocRecord{Moniker: n.Moniker, Balance: n.Tokens}
 		alloc[n.Address] = &rec
 
-		if !n.Validator {
+		if !n.Validator || n.NonNode {
 			continue
 		}
 
@@ -116,7 +118,7 @@ func dumpPeersJSON(conf *Config, thisNetworkDir string) error {
 			PubKeyHex: n.PubKeyHex})
 
 		// If we reach this point this node is a validator
-		if full {
+		if !noGenerateKeys {
 			if err := createKeyFileIfNotExists(thisNetworkDir, n.Moniker, n.Address, n.PubKeyHex); err != nil {
 				return err
 			}

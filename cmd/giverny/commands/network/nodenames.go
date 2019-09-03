@@ -47,7 +47,7 @@ func getNodesWithNames(srcFile string, numNodes int, numValidators int, initialI
 
 			rtn = append(rtn, node{Moniker: nodeNamePrefix + strconv.Itoa(i),
 				NetAddr: netaddr, Validator: (numValidators < 1 || i < numValidators),
-				Tokens: defaultTokens, Address: "", PubKeyHex: ""})
+				Tokens: defaultTokens, Address: "", PubKeyHex: "", NonNode: false})
 		}
 		return rtn, netaddr, nil
 	}
@@ -71,6 +71,8 @@ func getNodesWithNames(srcFile string, numNodes int, numValidators int, initialI
 
 		if IPStem != "" {
 			netaddr = IPStem + strconv.Itoa(lastDigit+i-1)
+		} else {
+			netaddr = ""
 		}
 
 		line := strings.TrimSpace(scanner.Text())
@@ -84,6 +86,7 @@ func getNodesWithNames(srcFile string, numNodes int, numValidators int, initialI
 
 		validator := (numValidators < 1 || i <= numValidators)
 		tokens := defaultTokens
+		nonnode := false
 
 		if strings.Contains(line, ",") {
 			arrLine := strings.Split(line, ",")
@@ -105,6 +108,10 @@ func getNodesWithNames(srcFile string, numNodes int, numValidators int, initialI
 				validator, _ = strconv.ParseBool(arrLine[3])
 			}
 
+			if len(arrLine) > 4 && len(strings.TrimSpace(arrLine[4])) > 0 {
+				nonnode, _ = strconv.ParseBool(arrLine[4])
+			}
+
 		} else {
 			moniker = line
 		}
@@ -115,7 +122,7 @@ func getNodesWithNames(srcFile string, numNodes int, numValidators int, initialI
 
 		rtn = append(rtn, node{Moniker: moniker,
 			NetAddr: netaddr, Validator: validator,
-			Tokens: tokens, Address: netaddr, PubKeyHex: ""})
+			Tokens: tokens, Address: netaddr, PubKeyHex: "", NonNode: nonnode})
 
 		if i >= numNodes && numNodes > 0 {
 			break
