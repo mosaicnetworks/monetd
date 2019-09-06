@@ -1,5 +1,5 @@
 
-## Unreleased
+## v0.2.2 (September 6, 2019)
 
 FEATURES:
 
