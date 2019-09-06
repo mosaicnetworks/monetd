@@ -13,6 +13,7 @@ The current subcommands are:
 - **keys** --- key management tools
 - **server** --- configuration server management
 - **network** --- configure and build networks
+- **transactions** --- generate test transactions sets
 
 
 ***********
@@ -265,6 +266,9 @@ The ``giverny network build`` subcommand takes a configuration created by the
 ``build`` can be run repeatably safely. It is envisaged that users will edit
 the ``network.toml`` file to adjust token allocations or change addresses.
 
+``--no-generate-keys`` disables the creation of any keys not already in the 
+keystore. 
+
 A "built" network will have a file structure like this:
 
 .. code:: bash
@@ -320,3 +324,24 @@ source for the import can be configured thus:
 .. [1] This location is for Linux instances. Mac and Windows uses a different
        path. The path for your instance can be ascertain with this command:
        ``giverny network location``
+
+************
+Transactions
+************
+
+The transaction commands has one subcommand: ``generate``. It is used to
+generate transactions set for end to end testing of networks.
+
+The following flags can be set:
+
+.. code:: bash
+
+      --count int        number of tranactions to generate (default 20)
+      --faucet string    faucet account moniker (default "Faucet")
+  -h, --help             help for generate
+      --ips string       ips.dat file path
+  -n, --network string   network name
+      --surplus int      additional credit to allocate each account from the faucet above the bare minimum (default 1000000)
+
+
+
