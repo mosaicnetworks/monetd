@@ -98,7 +98,7 @@ func (p *InmemProxy) getCoinbase(block hashgraph.Block) (ethCommon.Address, erro
 	coinbaseAddress := ethCommon.Address{}
 
 	if p.babble != nil {
-		babbleValidators, err := p.babble.Node.GetValidators(block.RoundReceived())
+		babbleValidators, err := p.babble.Node.GetValidatorSet(block.RoundReceived())
 		if err != nil {
 			return coinbaseAddress, err
 		}
