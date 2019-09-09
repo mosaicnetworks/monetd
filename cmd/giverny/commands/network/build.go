@@ -123,7 +123,6 @@ func dumpPeersJSON(conf *Config, thisNetworkDir string) error {
 				return err
 			}
 		}
-
 	}
 
 	peersJSONOut, err := json.MarshalIndent(peers, "", "\t")
