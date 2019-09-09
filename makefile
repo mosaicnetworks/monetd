@@ -33,4 +33,7 @@ testevml:
 testbabble:
 	@echo "\nBabble Tests\n\n" ; cd vendor/github.com/mosaicnetworks/babble ;   go test ./src/... -count=1 -tags=unit | sed -e 's?github.com/mosaicnetworks/monetd/vendor/github.com/mosaicnetworks/?.../vendor/.../?g'
 
+dist:
+	xgo --targets=*/amd64 --dest=build/  ./cmd/monetd/ 
+
 .PHONY: all vendor install installd installcli installgiv test update docker testmonetd testevml testbabble

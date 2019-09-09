@@ -1,9 +1,21 @@
 
+# Changelog
+
+## Unreleased
+
+SECURITY:
+FEATURES:
+IMPROVEMENTS:
+BUG-FIXES:
+
+## v0.2.2 (September 6, 2019)
+
 FEATURES:
 
 - evm-lite~service: minimum gas price
 - evm-lite~state: make use of coinbase address
 - monetd~babble-proxy: pseudo-random coinbase selection
+- giverny: build test transaction sets
 
 ## v0.2.1 (August 29, 2019)
 

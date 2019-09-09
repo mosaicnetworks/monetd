@@ -48,6 +48,7 @@ func init() {
 		newStatusCmd(),
 		newStopCmd(),
 		newLocationCmd(),
+		newListCmd(),
 	)
 
 	//	viper.BindPFlags(NetworkCmd.Flags())

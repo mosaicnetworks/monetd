@@ -23,7 +23,7 @@ giverny network build $NET -v
 giverny network start $NET --use-existing -v
 
 
-for node in $(giverny network dump $NET | grep "|true$" | cut -f1 -d'|')
+for node in $(giverny network dump $NET | grep "|true|" | cut -f1 -d'|')
 do 
     giverny network push $NET $node -v
 done 
