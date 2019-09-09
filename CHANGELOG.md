@@ -9,6 +9,8 @@ FEATURES:
 
 IMPROVEMENTS:
 
+- babble: better handling of "normal" SelfParent errors
+
 BUG-FIXES: 
 
 - monetd: Add moniker to configuration.
