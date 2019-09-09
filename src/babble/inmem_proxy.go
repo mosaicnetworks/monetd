@@ -70,7 +70,7 @@ func (p *InmemProxy) CommitBlock(block hashgraph.Block) (proxy.CommitResponse, e
 
 	for i, tx := range block.Transactions() {
 		if err := p.state.ApplyTransaction(tx, i, blockHash, coinbaseAddress); err != nil {
-			return proxy.CommitResponse{}, err
+			p.logger.WithError(err).Errorf("Failed to apply tx %d of %d", i+1 , len(block.Transactions()))
 		}
 	}
 
