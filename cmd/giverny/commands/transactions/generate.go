@@ -212,6 +212,7 @@ func generateTransactions(cmd *cobra.Command, args []string) error {
 			Node:     nodes[nodeno].NetAddr,
 			NodeName: nodes[nodeno].Moniker,
 			From:     accounts[fromacct].Address,
+			FromName: accounts[fromacct].Moniker,
 			To:       accounts[toacct].Address,
 			Amount:   amt,
 		}
@@ -227,6 +228,7 @@ func generateTransactions(cmd *cobra.Command, args []string) error {
 
 		faucettrans.Transactions = append(faucettrans.Transactions, fulltransaction{
 			From:     faucetAccount.Address,
+			FromName: faucetAccount.Moniker,
 			To:       accounts[i].Address,
 			Amount:   debits[i] + int64(surplusCredit),
 			Node:     nodes[nodeno].NetAddr,

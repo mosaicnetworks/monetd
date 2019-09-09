@@ -20,10 +20,10 @@
 
 # Moniker,NetAddr,Balance,Validator,NonNode
 
-Jon,192.168.1.18,1Z,false,false
-Martin,192.168.1.3,1E,true,false
-Kevin,192.168.1.15,1P,true,false
-Danu,192.168.1.11,1T,false,false
+Jon,,1Z,true,false
+Martin,,1E,true,false
+Kevin,,1P,true,false
+Danu,,1T,true,false
 Acc1,,1P,false,true
 Acc2,,2P,false,true
 Acc3,,3P,false,true
