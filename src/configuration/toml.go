@@ -18,6 +18,7 @@ api-listen = "{{.APIAddr}}"
   sync-limit = {{.Babble.SyncLimit}}
   max-pool = {{.Babble.MaxPool}}
   bootstrap = {{.Babble.Bootstrap}}
+  moniker = "{{.Babble.Moniker}}"
 
 [eth]
   cache = {{.Eth.Cache}}
