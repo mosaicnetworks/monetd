@@ -6,34 +6,37 @@ mydir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" > /dev/null && pwd )"
 
 NET=${1:-"benchmark"}
 
-node $mydir/index.js --network=$NET --account=faucet --maxmem
+
+PRETOT=/tmp/pre.$$.json
+POSTOT=/tmp/post.$$.json
 
 
-
-
-exit 0
-
-PORT=${2:-8080}
-TRANSCOUNT=${3:-25}
-
+# node $mydir/index.js --network=$NET --account=faucet --totals=$PRETOT
 
 CONFIG_DIR="$HOME/.giverny/networks/$NET/"
-KEY_DIR="$HOME/.giverny/networks/$NET/keystore/"
-PWD_FILE="$mydir/../../networks/pwd.txt"
+
+PIDS=""
+
+for i in ${CONFIG_DIR}trans/*.json
+do
+    stub=$(basename $i .json)
+
+    if [ "$stub" == "faucet" ] ; then
+        continue
+    fi
+    if [ "$stub" == "delta" ] ; then
+        continue
+    fi
+    if [ "$stub" == "trans" ] ; then
+        continue
+    fi
 
 
-(node $mydir/index.js --datadir="$CONFIG_DIR" --nodeno=3 --transcount=$TRANSCOUNT ) &
-PIDS="$!"
+    echo $stub
 
-( node $mydir/index.js --datadir="$CONFIG_DIR" --nodeno=2 --transcount=$TRANSCOUNT ) &
-PIDS="$PIDS $!"
+    ( node $mydir/index.js --network=$NET --account=$stub ) & PIDS="$PIDS $!"
 
-( node $mydir/index.js --datadir="$CONFIG_DIR" --nodeno=1 --transcount=$TRANSCOUNT  ) &
-PIDS="$PIDS $!"
-
-( node $mydir/index.js --datadir="$CONFIG_DIR" --nodeno=0  --transcount=$TRANSCOUNT ) &
-PIDS="$PIDS $!"
-
+done
 
 
 FAIL=0
@@ -53,10 +56,4 @@ else
     exit 5
 fi
 
-
-$mydir/../../scripts/testlastblock.sh $( giverny network dump $NET | awk -F "|" '{print $2}')
-
-# Test Balances
-
-
- node $mydir/index.js --datadir="$CONFIG_DIR" --nodeno=-1  --transcount=$TRANSCOUNT
+# Test last balances...
