@@ -1,0 +1,16 @@
+
+verbose = "false"
+api-listen = ":8080"
+
+[babble]
+  listen = "192.168.1.18:1337"
+  heartbeat = "200ms"
+  timeout = "1s"
+  cache-size = 50000
+  sync-limit = 1000
+  max-pool = 2
+  bootstrap = false
+
+[eth]
+  cache = 128
+  min-gas-price = 0
