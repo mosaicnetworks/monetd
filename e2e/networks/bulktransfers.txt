@@ -20,18 +20,19 @@
 
 # Moniker,NetAddr,Balance,Validator,NonNode
 
-Jon,,1Z,true,false
-Martin,,1E,true,false
-Kevin,,1P,true,false
-Danu,,1T,true,false
-Acc1,,1P,false,true
-Acc2,,2P,false,true
-Acc3,,3P,false,true
-Acc4,,4P,false,true
-Acc5,,5P,false,true
-Acc6,,6P,false,true
-Acc7,,7P,false,true
-Acc8,,8P,false,true
-Acc9,,9P,false,true
-Acc10,,10P,false,true
-Faucet,,1Y,false,true
+
+Jon,,100000T,true,false
+Martin,,100T,true,false
+Kevin,,100T,true,false
+Danu,,1000T,true,false
+Acc1,,100T,false,true
+Acc2,,100T,false,true
+Acc3,,100T,false,true
+Acc4,,100T,false,true
+Acc5,,100T,false,true
+Acc6,,100T,false,true
+Acc7,,100T,false,true
+Acc8,,100T,false,true
+Acc9,,100T,false,true
+Acc10,,100T,false,true
+Faucet,,10000000T,false,true
