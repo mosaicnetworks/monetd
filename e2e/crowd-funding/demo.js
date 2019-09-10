@@ -257,7 +257,7 @@ const transferRaw = async (from, to, value) => {
 	const transactionReceipt = await from.api.transfer(
 		from.account,
 		to.account.address,
-		value,
+		value.toString()+"000000000000000000",
 		DEFAULT_GAS,
 		DEFAULT_GASPRICE
 	);
@@ -287,7 +287,7 @@ class CrowdFunding {
 
 	async deploy(value) {
 		const tx = this.contract.deployTx(
-			[value],
+			[value.toString()+"000000000000000000"],
 			this.node.account.address,
 			DEFAULT_GAS,
 			DEFAULT_GASPRICE
@@ -304,7 +304,7 @@ class CrowdFunding {
 	async contribute(value) {
 		const tx = this.contract.methods.contribute({
 			from: this.node.account.address,
-			value,
+			value: value.toString()+"000000000000000000",
 			gas: DEFAULT_GAS,
 			gasPrice: DEFAULT_GASPRICE
 		});
@@ -381,14 +381,14 @@ init()
 				'of all the private keys to demonstrate client-side signing.'
 		)
 	)
-	.then(() => step('STEP 2) Send 500 tokens from Amelia to Becky'))
+	.then(() => step('STEP 2) Send 500 Tenom from Amelia to Becky'))
 	.then(() => {
 		space();
 		return transferRaw(allNodes[0], allNodes[1], 500);
 	})
 	.then(() =>
 		explain(
-			'We created an EVM transaction to send 500 tokens from Amelia to Becky. The \n' +
+			'We created an EVM transaction to send 500 Tenom from Amelia to Becky. The \n' +
 				"transaction was signed localy with Amelia's private key and sent through Amelia's node. \n" +
 				'The client-facing service running in EVM-Lite relayed the transaction to Babble \n' +
 				'for consensus ordering. Babble gossiped the raw transaction to the other Babble \n' +
@@ -407,7 +407,7 @@ init()
 	)
 	.then(() =>
 		step(
-			'STEP 4) Deploy a CrowdFunding SmartContract for 1000 tokens from Amelia'
+			'STEP 4) Deploy a CrowdFunding SmartContract for 1000 Tenom from Amelia'
 		)
 	)
 	.then(() => {
@@ -428,7 +428,7 @@ init()
 				'the same code with the same data.'
 		)
 	)
-	.then(() => step('STEP 5) Contribute 499 tokens from Amelia'))
+	.then(() => step('STEP 5) Contribute 499 Tenom from Amelia'))
 	.then(() => {
 		space();
 		return crowdFunding.contribute(499);
@@ -450,10 +450,10 @@ init()
 	.then(() =>
 		explain(
 			'Here we called another method of the SmartContract to check if the funding goal \n' +
-				'was met. Since only 499 of 1000 were received, the answer is no.'
+				'was met. Since only 499 of 1000 Tenom were received, the answer is no.'
 		)
 	)
-	.then(() => step('STEP 7) Contribute 501 wei from Amelia again'))
+	.then(() => step('STEP 7) Contribute 501 Tenom from Amelia again'))
 	.then(() => {
 		space();
 		return crowdFunding.contribute(501);
