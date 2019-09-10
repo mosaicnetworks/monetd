@@ -110,6 +110,9 @@ func getNodesWithNames(srcFile string, numNodes int, numValidators int, initialI
 
 			if len(arrLine) > 4 && len(strings.TrimSpace(arrLine[4])) > 0 {
 				nonnode, _ = strconv.ParseBool(arrLine[4])
+				if nonnode {
+					netaddr = ""
+				}
 			}
 
 		} else {

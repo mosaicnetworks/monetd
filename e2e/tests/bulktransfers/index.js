@@ -12,8 +12,9 @@ const { default:DataDirectory } = require("evm-lite-datadir");
 const network = argv.network
 const acct = argv.account
 const total = argv.totals
+const givdir = argv.givdir
 
-const networkpath = "/home/jon/.giverny/networks/"+network+"/"
+const networkpath = givdir+"/networks/"+network+"/"
 
 const transdir = networkpath + "trans/"
 const faucetfile = transdir + acct + ".json"
