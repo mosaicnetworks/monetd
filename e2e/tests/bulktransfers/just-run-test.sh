@@ -10,7 +10,7 @@ NET=${1:-"benchmark"}
 PRETOT=/tmp/pre.$$.json
 POSTOT=/tmp/post.$$.json
 
-node $mydir/index.js --network=$NET --account=faucet --totals=$PRETOT  --givdir=="$GIVDIR" 
+node $mydir/index.js --network=$NET --account=faucet --totals=$PRETOT  --givdir="$GIVDIR" 
 
 CONFIG_DIR="$HOME/.giverny/networks/$NET/"
 GIVDIR="$HOME/.giverny"
@@ -34,7 +34,7 @@ do
 
     echo $stub
 
-    ( node $mydir/index.js --network=$NET --account=$stub --givdir=="$GIVDIR" ) & PIDS="$PIDS $!"
+    ( node $mydir/index.js --network=$NET --account=$stub --givdir="$GIVDIR" ) & PIDS="$PIDS $!"
 
 done
 
