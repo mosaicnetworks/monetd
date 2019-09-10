@@ -1,0 +1,8 @@
+[connection]
+host = "localhost"
+port = 8080
+
+[defaults]
+from = ""
+gas = 1000000
+gasPrice = 0

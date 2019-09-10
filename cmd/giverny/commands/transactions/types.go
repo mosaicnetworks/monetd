@@ -26,6 +26,7 @@ type fulltransaction struct {
 	Node     string
 	NodeName string
 	From     string
+	FromName string
 	To       string
 	Amount   int64
 }

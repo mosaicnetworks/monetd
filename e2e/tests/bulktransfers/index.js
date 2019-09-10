@@ -11,6 +11,7 @@ const { default:DataDirectory } = require("evm-lite-datadir");
 
 const network = argv.network
 const acct = argv.account
+const total = argv.totals
 
 const networkpath = "/home/jon/.giverny/networks/"+network+"/"
 
@@ -110,30 +111,34 @@ const processJSON = async (input) => {
 
 console.log("\n Loading "+input+"\n");
 var content = fs.readFileSync(input);
+var node;
 
 try {
     const data = JSON.parse(content)
  //   console.log(data);
+
     const arraylength = data.Transactions.length;
     for (var i = 0; i < arraylength; i++ ) {
         arrSplit = data.Transactions[i].Node.split(":");
 
-        InitNode(data.Transactions[i].NodeName, arrSplit[0], arrSplit[1]);
+        if (i==0) {
+          InitNode(data.Transactions[i].NodeName, arrSplit[0], arrSplit[1]);
+          node = NodeCollection[data.Transactions[i].NodeName];
+        }  
 
         await InitAccount(data.Transactions[i].FromName, password, datadir, data.Transactions[i].NodeName, data.Transactions[i].From);
 
-
-        console.log(data.Transactions[i].Amount);
+        console.log(AccountCollection[data.Transactions[i].FromName].to + " "+ data.Transactions[i].Amount);
 
          let payer = data.Transactions[i].From;
          let payee = data.Transactions[i].To;
          let value = data.Transactions[i].Amount;
 
-         console.log(AccountCollection[data.Transactions[i].FromName]);
+ //        console.log(AccountCollection[data.Transactions[i].FromName]);
 
  //         console.log(NodeCollection[data.Transactions[i].NodeName]);
 
-         await transferRaw(NodeCollection[data.Transactions[i].NodeName], 
+         await transferRaw(node, 
               AccountCollection[data.Transactions[i].FromName], payee, value);
     }
  
@@ -141,18 +146,32 @@ try {
     console.error(err);
   }
 
+
+
+  if (  total ) {
+
   try{
       const data = JSON.parse(content)
+      var totals = [];
+
     //   console.log(data);
       const arraylength = data.Transactions.length;
       for (var i = 0; i < arraylength; i++ ) {
-        baseAccount = await NodeCollection[data.Transactions[i].NodeName].api.getAccount(address);
-        console.log(baseAccount.balance)
+        baseAccount = await node.api.getAccount(data.Transactions[i].To);
+       // console.log(baseAccount.address + " "+ baseAccount.balance.toNumber().toString());
+        totals.push({"address": baseAccount.address, "balance": baseAccount.balance.toNumber()});
       }
+
+      fs.writeFile (total, JSON.stringify(totals), function(err) {
+        if (err) throw err;
+        console.log('complete');
+        }
+    );
+
     } catch(err) {
       console.error(err);
     }
-  
+  }
 
 };
 

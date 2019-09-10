@@ -4,7 +4,15 @@ set -eu
 
 mydir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" > /dev/null && pwd )"
 
-NET=${1:-"transfers"}
+NET=${1:-"benchmark"}
+
+node $mydir/index.js --network=$NET --account=faucet --maxmem
+
+
+
+
+exit 0
+
 PORT=${2:-8080}
 TRANSCOUNT=${3:-25}
 

@@ -1,0 +1,146 @@
+
+[docker]
+  baseip = "172.77.5.10"
+  gateway = "172.77.5.254"
+  iprange = "172.77.0.0/16"
+  lastip = "172.77.5.24"
+  name = "benchmark"
+  subnet = "172.77.0.0/16"
+
+[network]
+  name = "benchmark"
+
+[[nodes]]
+  address = "0x80cAA11821488F1C684BE4359a775A50A42358dd"
+  moniker = "Jon"
+  netaddr = "172.77.5.10"
+  nonnode = false
+  pubkey = "0486e4a9aa76798e51287bf110b0310a1c9fa21730a442826502e7f9a7848aef33a5579c4867439cc367e4cf00d632a0687c8d2b1eb2b00003051605706fcf6bbe"
+  tokens = "1000000000000000000000"
+  validator = true
+
+[[nodes]]
+  address = "0x08222F255c9D53A3981a780faD9d7aa7f1535695"
+  moniker = "Martin"
+  netaddr = "172.77.5.11"
+  nonnode = false
+  pubkey = "045635ba786efc4c079ed63bafaeb2e8d46d4edba2ecf2196e4bed9135e213f0791d112a9d56bc062f741e1b85e70187ca43bcdeaa100365aadd7953c419603307"
+  tokens = "1000000000000000000"
+  validator = true
+
+[[nodes]]
+  address = "0x6aBbDD9F03600703088e57B1CCCD492d2d1F5CB6"
+  moniker = "Kevin"
+  netaddr = "172.77.5.12"
+  nonnode = false
+  pubkey = "04fdd5b2abbb4aecc20e77a7c58bf2b1dc6251dffa582c62d99752b1124e33542ad07ea1f4b9416accfcad1b9ea69dd408d3b687633cd8a496ccb8a4ed26f98b10"
+  tokens = "1000000000000000"
+  validator = true
+
+[[nodes]]
+  address = "0x100886387aD0Da8fbaba8ec6Da92e01275281613"
+  moniker = "Danu"
+  netaddr = "172.77.5.13"
+  nonnode = false
+  pubkey = "04c0701d8fbf8adfbffd28ff61ea5b634644c79d2c160758a1a59b1580512178a1ca941f380fe6c963824f7ab39b497ff96cd83a2a4a12f08284c27fbd5fe1e2b0"
+  tokens = "1000000000000"
+  validator = true
+
+[[nodes]]
+  address = "0x1380B6ED40EB0768C2fF9C734462CCA910479B45"
+  moniker = "Acc1"
+  netaddr = ""
+  nonnode = true
+  pubkey = "0404c43c69bbc0bfc096aa893fcb174c98293d73601bd15b75016594f5d870db9e06c2de3badfc1dbedca4986afef1dc6714c1cbcbcd16796b16830222a8003ab9"
+  tokens = "1000000000000000"
+  validator = false
+
+[[nodes]]
+  address = "0xd38adA622b1894e819836c37B11Ca1dF2959B1f4"
+  moniker = "Acc2"
+  netaddr = ""
+  nonnode = true
+  pubkey = "04d6e1284855260f3be0faeedbc21469cc492bc89497ce5061916d412079b419fcddfd3779d229a0066b32ff57c0519b82e304ef2e4d2fd6b14f6b93b8d465f44f"
+  tokens = "2000000000000000"
+  validator = false
+
+[[nodes]]
+  address = "0x15d26ded9B34Bba503D5b44EfC55b92Af04e00E7"
+  moniker = "Acc3"
+  netaddr = ""
+  nonnode = true
+  pubkey = "044b4cb1b9b5eaa05eff6571040ac52b0cbae678d9e9f2ca285540cf2373128a04aead51a6c3b406e13a216f6f72863f990bff9e129bfcfd5fd7d47a1a2a8d8603"
+  tokens = "3000000000000000"
+  validator = false
+
+[[nodes]]
+  address = "0x66065ccEb1d3dbDA2F4B368450c9020BC7Bdc192"
+  moniker = "Acc4"
+  netaddr = ""
+  nonnode = true
+  pubkey = "04a435e623f23ab225a42423accf5cabdb5d420e65554f33dd95aaf9377226b857360e988d9b2d7d0dda9858df4c326ad75961a505ebf29698ee0d47809fdda5ce"
+  tokens = "4000000000000000"
+  validator = false
+
+[[nodes]]
+  address = "0xb5a548dc8Ff6795c16A501ea9e0b2d2aF4550e12"
+  moniker = "Acc5"
+  netaddr = ""
+  nonnode = true
+  pubkey = "045284b3f1dcbc98ba3267354b55336d55019105ae8ac596a3da2b3916803d77d7e9d0885ba45ab1634b54cfbefa1ffabb4d8dc8dd3be9f5c416c5bbadf0401509"
+  tokens = "5000000000000000"
+  validator = false
+
+[[nodes]]
+  address = "0xe8d253890E763672a89c354134F2e65f52A9F8e5"
+  moniker = "Acc6"
+  netaddr = ""
+  nonnode = true
+  pubkey = "04125bf88d516e9cb75015c05fe32e78a25a3d30c3399f372c22eead15597aefb7afce10aadf5fc7dd3ed54a2301ca681719337b9882e709d1d0391057316770c0"
+  tokens = "6000000000000000"
+  validator = false
+
+[[nodes]]
+  address = "0xE4a380B3Ac3030d29c54D7fb47474866A54Cc7fc"
+  moniker = "Acc7"
+  netaddr = ""
+  nonnode = true
+  pubkey = "04276706cfac211366304fc0d2ebf539a78c89a6577d23dfca24eed1de2a7f3a85d58180688276ec7c77c2ca3f46eca0323f251dd2e8fd28d98ef404e432665c87"
+  tokens = "7000000000000000"
+  validator = false
+
+[[nodes]]
+  address = "0x18C88e4688B85abfa1ffDDd50679D4A3B2f18577"
+  moniker = "Acc8"
+  netaddr = ""
+  nonnode = true
+  pubkey = "04864548956f63acaab667b9690e5c1a18716c7c7447f2538364e543bf117e25ae5518de94a724bd944d6c21bb42d6dbba63e8c76573738b9b05695ca3f32a1804"
+  tokens = "8000000000000000"
+  validator = false
+
+[[nodes]]
+  address = "0x76AcC3299B886397E2FF42CeFEDd181741dC8EE7"
+  moniker = "Acc9"
+  netaddr = ""
+  nonnode = true
+  pubkey = "04332c175ca6c24d55060df25f63c17d80434e2f09610983a78dbc40e98ba23d91051345f9994718c722ce4c7bcb88a55687ddcf7a14376b1978214361cd4b1035"
+  tokens = "9000000000000000"
+  validator = false
+
+[[nodes]]
+  address = "0x6bc16A3B5031E2354d689f7789f24a220993b136"
+  moniker = "Acc10"
+  netaddr = ""
+  nonnode = true
+  pubkey = "04633f6d8d22fee332bd9cc8ea20ba7f1e745fe5e18070bd3b15156fd9655a0eb9139fa27bb9dcb267ce8907c0dc4515a0b7db064a9d43e26631ab0ba72d092805"
+  tokens = "10000000000000000"
+  validator = false
+
+[[nodes]]
+  address = "0x2869a6D7d40e843b3315708b44897a2eA756EeA1"
+  moniker = "Faucet"
+  netaddr = ""
+  nonnode = true
+  pubkey = "04d4369fabcfbf9ce15b05f6ce2b900b63bd74544c0a4a5f5f48b39418464624f7b02bbdabfb5bf38d8877d1e217959c605a535c42a98cb7667cfb7e0dd4614f34"
+  tokens = "1000000000000000000000000"
+  validator = false
