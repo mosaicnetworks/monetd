@@ -18,6 +18,13 @@ do
         continue
     fi
 
+# Temporary workaround to disable bulktransfers
+
+ if  [ "$testname" == "bulktransfers" ] ; then
+            continue
+  fi
+
+
     testname=$(basename $d)
     output="$mydir"/../tests/"$testname.out"
 
