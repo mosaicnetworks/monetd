@@ -4,15 +4,8 @@ set -eu
 
 mydir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" > /dev/null && pwd )"
 
-NET=${1:-"bulktransfers"}
-# CNT=${2:-30}
-CNT=30
+NET=${1:-"benchmark"}
 
-
-
-giverny transactions generate -n "$NET" --count "$CNT"
-
-exit 0
 
 PRETOT=/tmp/pre.$$.json
 POSTOT=/tmp/post.$$.json
@@ -41,7 +34,7 @@ do
 
     echo $stub
 
-    ( node $mydir/index.js --network=$NET --account=$stub  --givdir=="$GIVDIR"  ) & PIDS="$PIDS $!"
+    ( node $mydir/index.js --network=$NET --account=$stub --givdir=="$GIVDIR" ) & PIDS="$PIDS $!"
 
 done
 

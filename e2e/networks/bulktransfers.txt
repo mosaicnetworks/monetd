@@ -1,0 +1,37 @@
+# This is an examples of the extended "giverny network new --names" syntax.
+# 
+# Comments are lines that start with a # and are ignore
+
+# Blanks lines are also ignored
+# Fields are separated by commas
+# Any field apart from moniker can be blank, and a default value will be used. 
+# 
+# Field 1: Moniker. Only letters A-Z, a-z numbers 0-9 and underscore _ are valid. NO SPACES.
+# Field 2: IP address
+# Field 3: Tokens. Units are K,M,G,T,P,E,Z or Y where K is 1,000, M is 1,000,000
+#                       G is 1,000,000,000, T is 1,000,000,000,000 etc
+# Field 4: Is initial validator - can be set to true or false
+# Field 5: Is non node - set to true if this is a pure token allocation, not a node configuration
+
+# N.B. if the number of node is limited by a command line parameter, all
+# processing stops after the node limit is reached. Put non nodes first in the list
+
+# By convention Faucet is used as a source of funds for test nets. 
+
+# Moniker,NetAddr,Balance,Validator,NonNode
+
+Jon,,1Z,true,false
+Martin,,1E,true,false
+Kevin,,1P,true,false
+Danu,,1T,true,false
+Acc1,,1P,false,true
+Acc2,,2P,false,true
+Acc3,,3P,false,true
+Acc4,,4P,false,true
+Acc5,,5P,false,true
+Acc6,,6P,false,true
+Acc7,,7P,false,true
+Acc8,,8P,false,true
+Acc9,,9P,false,true
+Acc10,,10P,false,true
+Faucet,,1Y,false,true
