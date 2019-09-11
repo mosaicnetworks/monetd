@@ -1,6 +1,9 @@
 const path = require("path");
+const BigNumber = require('bignumber.js');
+
 const fetch = require("node-fetch");
 const argv = require('minimist')(process.argv.slice(2));
+const JSONbig = require('json-bigint');
 
 // import required objects
 const { default:Node, Contract, Account, Transaction } = require("evm-lite-core");
@@ -116,8 +119,11 @@ var content = fs.readFileSync(input);
 var node;
 
 try {
-    const data = JSON.parse(content)
- //   console.log(data);
+    const data = JSONbig.parse(content)
+    console.log(data);
+
+    if (data.Transactions)
+    {
 
     const arraylength = data.Transactions.length;
     for (var i = 0; i < arraylength; i++ ) {
@@ -142,6 +148,8 @@ try {
 
          await transferRaw(node, 
               AccountCollection[data.Transactions[i].FromName], payee, value);
+
+         }       
     }
  
   } catch(err) {
@@ -153,18 +161,21 @@ try {
   if (  total ) {
 
   try{
-      const data = JSON.parse(content)
+      const data = JSONbig.parse(content)
       var totals = [];
 
     //   console.log(data);
       const arraylength = data.Transactions.length;
       for (var i = 0; i < arraylength; i++ ) {
         baseAccount = await node.api.getAccount(data.Transactions[i].To);
+
        // console.log(baseAccount.address + " "+ baseAccount.balance.toNumber().toString());
-        totals.push({"address": baseAccount.address, "balance": baseAccount.balance.toNumber()});
+        totals.push({"address": baseAccount.address, 
+           "balance": baseAccount.balance.toFixed()
+          });
       }
 
-      fs.writeFile (total, JSON.stringify(totals), function(err) {
+      fs.writeFile (total, JSONbig.stringify(totals), function(err) {
         if (err) throw err;
         console.log('complete');
         }
@@ -192,47 +203,70 @@ const checkTotals = async (input) => {
 
   
   try {
-      const predata = JSON.parse(precontent)
+      const predata = JSONbig.parse(precontent)
   //    console.log(predata);
-      const deltadata = JSON.parse(deltacontent)
+      const deltadata = JSONbig.parse(deltacontent)
   //    console.log(deltadata);
-      const faucetdata = JSON.parse(faucetcontent)
+      const faucetdata = JSONbig.parse(faucetcontent)
    //  console.log(faucetdata);
 
       var arrSplit = faucetdata.Transactions[0].Node.split(":");
       var node = new DemoNode(faucetdata.Transactions[0].NodeName, arrSplit[0], arrSplit[1]);
   
       const prearraylength = predata.length;
-      const deltaarraylength = predata.length;
+      const deltaarraylength = deltadata.length;
+
+
+
+      console.log("Calculating Totals:");
+
+      var failures = 0; 
 
       for (var i = 0; i < prearraylength; i++ ) {
-        for (var j = 0; j < deltaarraylength; j++ ) {
+     //   console.log("Pre "+ i+ " " + predata[i].address );
+        for (var j = 0; j < deltaarraylength; j++ ) {  
+     //     console.log("delta "+ j + " " + deltadata[j].Address) ;       
           if (predata[i].address == deltadata[j].Address){
-            deltadata[j]["PreBalance"] = predata[i].balance;
-            var baseAccount = await node.api.getAccount(predata[i].address);
-            deltadata[j]["PostBalance"] = baseAccount.balance.toNumber();
-            deltadata[j]["PostNet"] = deltadata[j]["PostBalance"] - deltadata[j]["PreBalance"];
-            deltadata[j]["Diff"] = deltadata[j]["PostNet"] - deltadata[j]["TransNet"];
+   //         console.log(deltadata[j]);
 
+
+            deltadata[j]["PreBalance"] = new BigNumber(predata[i].balance);
+            var baseAccount = await node.api.getAccount(predata[i].address);
+            deltadata[j]["PostBalance"] = new BigNumber(baseAccount.balance);
+            deltadata[j]["PostNet"] = deltadata[j]["PostBalance"].minus(deltadata[j]["PreBalance"]);
+            deltadata[j]["Diff"] = deltadata[j]["PostNet"].minus(deltadata[j]["TransNet"]);
+            console.log(deltadata[j].Moniker + ":");
+            console.log("  Post   : "+baseAccount.balance.toFixed());              
+            console.log("  Pre    : "+deltadata[j]["PreBalance"].toFixed());               
+            console.log("  Calc   : "+deltadata[j]["TransNet"].toFixed());                            
+            console.log("  Actual : "+deltadata[j]["PostNet"].toFixed());                            
+            console.log("  Diff   : "+deltadata[j]["Diff"].toFixed());  
+            
+            if ( ! deltadata[j]["Diff"].isZero() ){
+              failures++;
+            } 
+            
             break;
           }
         }
-      } 
-
-      console.log(deltadata);
+      }
+      console.log("Calculated Totals"); 
+      if (failures > 0) {
+          console.log("Balance Failures: "+failures)
+             process.exit(1);
+      }
+//      console.log(deltadata);
   } catch(err) {
     console.error(err);
+    process.exit(2);
   }
 }
 
 
 if (pretotals) {
   checkTotals(pretotals)
-  .then(console.log)
-  .catch(console.log);
+  .catch(err => console.log(err));
 } else {
   processJSON(faucetfile)
-  .then(console.log)
-  .catch(console.log);
-
+  .catch(err => console.log(err));
 }
