@@ -6,7 +6,7 @@ mydir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" > /dev/null && pwd )"
 
 NET=${1:-"bulktransfers"}
 # CNT=${2:-30}
-CNT=50
+CNT=200
 
 giverny transactions generate -n "$NET" --count "$CNT"
 
@@ -20,6 +20,8 @@ POSTOT=/tmp/post.$$.json
 node $mydir/index.js --network=$NET --account=faucet --totals=$PRETOT  --givdir="$GIVDIR" 
 
 
+# Only time from here - as it is the actual test rather than preconfig.
+res1=$(date +%s.%N)
 
 PIDS=""
 
@@ -52,7 +54,17 @@ do
     echo $job $FAIL
 done
 
+res2=$(date +%s.%N)
+dt=$(echo "$res2 - $res1" | bc)
+
+
+
 echo $FAIL
+
+echo "\n\n\n"
+
+node $mydir/index.js --network=$NET --pretotals=$PRETOT  --givdir="$GIVDIR" 
+
 
 if [ "$FAIL" == "0" ];
 then
@@ -62,4 +74,6 @@ else
     exit 5
 fi
 
-# Test last balances...
+echo "$CNT transactions took $dt seconds"
+rate=$(echo "scale=4;$CNT / $dt" | bc)
+echo "$rate transactions per second"

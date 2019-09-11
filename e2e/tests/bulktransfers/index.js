@@ -13,6 +13,7 @@ const network = argv.network
 const acct = argv.account
 const total = argv.totals
 const givdir = argv.givdir
+const pretotals = argv.pretotals
 
 const networkpath = givdir+"/networks/"+network+"/"
 
@@ -120,9 +121,9 @@ try {
 
     const arraylength = data.Transactions.length;
     for (var i = 0; i < arraylength; i++ ) {
-        arrSplit = data.Transactions[i].Node.split(":");
 
         if (i==0) {
+          arrSplit = data.Transactions[i].Node.split(":");
           InitNode(data.Transactions[i].NodeName, arrSplit[0], arrSplit[1]);
           node = NodeCollection[data.Transactions[i].NodeName];
         }  
@@ -177,8 +178,61 @@ try {
 };
 
 
+// Verify that totals match
+const checkTotals = async (input) => {
+  const deltafile = transdir +  "delta.json"
+  const faucetfile = transdir +  "faucet.json"
 
-processJSON(faucetfile)
-.then(console.log)
-.catch(console.log);
+  console.log("\n Loading "+input+"\n");
+  var precontent = fs.readFileSync(input);
+  console.log("\n Loading "+deltafile+"\n");
+  var deltacontent = fs.readFileSync(deltafile);
+  console.log("\n Loading "+faucetfile+"\n");
+  var faucetcontent = fs.readFileSync(faucetfile);
 
+  
+  try {
+      const predata = JSON.parse(precontent)
+  //    console.log(predata);
+      const deltadata = JSON.parse(deltacontent)
+  //    console.log(deltadata);
+      const faucetdata = JSON.parse(faucetcontent)
+   //  console.log(faucetdata);
+
+      var arrSplit = faucetdata.Transactions[0].Node.split(":");
+      var node = new DemoNode(faucetdata.Transactions[0].NodeName, arrSplit[0], arrSplit[1]);
+  
+      const prearraylength = predata.length;
+      const deltaarraylength = predata.length;
+
+      for (var i = 0; i < prearraylength; i++ ) {
+        for (var j = 0; j < deltaarraylength; j++ ) {
+          if (predata[i].address == deltadata[j].Address){
+            deltadata[j]["PreBalance"] = predata[i].balance;
+            var baseAccount = await node.api.getAccount(predata[i].address);
+            deltadata[j]["PostBalance"] = baseAccount.balance.toNumber();
+            deltadata[j]["PostNet"] = deltadata[j]["PostBalance"] - deltadata[j]["PreBalance"];
+            deltadata[j]["Diff"] = deltadata[j]["PostNet"] - deltadata[j]["TransNet"];
+
+            break;
+          }
+        }
+      } 
+
+      console.log(deltadata);
+  } catch(err) {
+    console.error(err);
+  }
+}
+
+
+if (pretotals) {
+  checkTotals(pretotals)
+  .then(console.log)
+  .catch(console.log);
+} else {
+  processJSON(faucetfile)
+  .then(console.log)
+  .catch(console.log);
+
+}
