@@ -4,6 +4,8 @@ set -eu
 
 NET=${1:-"crowdfundnet"}
 INITIP=${2:-""}
+VERBOSE=${3:-""}
+
 
 if [ "$INITIP" != "" ] ; then
     INITIP="--initial-ip $INITIP"
@@ -17,6 +19,13 @@ giverny network new $NET \
     $INITIP \
     --names $mydir/../networks/$NET.txt \
     --pass $mydir/../networks/pwd.txt -v
+
+
+
+if [ "$VERBOSE" != "" ] ; then
+    sed --in-place "s/verbose = \"false\"/verbose = \"true\"/g" $HOME/.giverny/networks/$NET/monetd.toml
+fi
+
 
 giverny network build $NET -v
 

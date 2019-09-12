@@ -1,5 +1,6 @@
 OFFLINE=""
 NOSTOP=""
+VERBOSE=""
 TEST=crowdfundnet
 
 install: 
@@ -12,7 +13,7 @@ install:
 
 start:
 	./scripts/testdependencies.sh
-	./scripts/start.sh $(TEST) 172.77.5.10
+	./scripts/start.sh $(TEST) 172.77.5.10 $(VERBOSE)
 
 demo:
 	./scripts/crowd-funding-demo.sh $(TEST)
