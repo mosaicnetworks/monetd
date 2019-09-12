@@ -27,6 +27,7 @@ func init() {
 	//Subcommands
 	TransCmd.AddCommand(
 		newGenerateCmd(),
+		newSoloCmd(),
 	)
 
 }
