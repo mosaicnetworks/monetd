@@ -1,6 +1,8 @@
 // evm-lite-js imports
 const { default: Node, Account, Contract } = require('evm-lite-core');
 const { default: Keystore } = require('evm-lite-keystore');
+const { Currency } = require('evm-lite-utils');
+const BigNumber = require('bignumber.js');
 
 const util = require('util');
 const path = require('path');
@@ -21,7 +23,8 @@ const log = (color, text) => {
 	console.log(color + text + '\x1b[0m');
 };
 
-const finalDelta = [-500, +500, 0, 0];
+// Amounts are expressed in Tenom (10^18 attom)
+const finalDelta = [-500, 500, 0, 0];
 
 var online = true;
 
@@ -155,37 +158,23 @@ const decryptAccounts = async ({ keystore, password }) => {
 
 		try {
 			account = await Keystore.decrypt(keyfile, password);
-		} catch (e) {
-			console.error(
-				`Decryption Failed: ${keyfile.address} (${password})`
-			);
-		}
-
-		try {
+			
 			if (account) {
 				const base = await allNodes[0].api.getAccount(account.address);
 
 				account.balance = base.balance;
 				account.nonce = base.nonce;
 				account.moniker = moniker;
+	
+				console.log('Decrypted: ', `${account.address} (${account.balance.format("T")})`);
+				allAccounts.push(account);
+				allMonikers.push(moniker);
+				initBalance.push(account.balance);
 			}
 		} catch (e) {
-			// pass
-		}
-
-		if (account) {
-			let balance = 0;
-
-			if (typeof account.balance === 'object') {
-				balance = account.balance.toFormat(0);
-			} else {
-				balance = account.balance;
-			}
-
-			console.log('Decrypted: ', `${account.address} (${balance || 0})`);
-			allAccounts.push(account);
-			allMonikers.push(moniker);
-			initBalance.push(balance);
+			console.error(
+				`Decryption Failed: ${keyfile.address} (${password})`
+			);
 		}
 	}
 
@@ -198,22 +187,38 @@ const decryptAccounts = async ({ keystore, password }) => {
 	console.groupEnd();
 };
 
+const displayAllBalances = async () => {
+	console.group('Current Account Balances');
+
+	let i = 0;
+	for (const node of allNodes) {
+		const baseAccount = await node.api.getAccount(node.account.address);
+		
+		lastBalance[i] = baseAccount.balance;
+		
+		console.log(`${node.name}: `, '\n', baseAccount.balance.format("T"), '\n');
+		
+		i++;
+	}
+	console.groupEnd();
+};
+
 const checkBalances = async () => {
 	console.group('Check Balances: ');
 	i = 0;
 	let failed = false;
 	for (const node of allNodes) {
-		let expected = initBalance[i] + finalDelta[i];
-		if (expected == lastBalance[i]) {
+		let expected = initBalance[i].plus(finalDelta[i] * Currency.Token);
+		if (expected.isEqualTo(lastBalance[i])) {
 			console.log(node.name + ' balance as expected.');
 		} else {
 			console.log(
 				'ERROR: ' +
 					node.name +
 					' expected ' +
-					expected +
+					expected.toFormat(0) +
 					' got ' +
-					lastBalance[i]
+					lastBalance[i].toFormat(0)
 			);
 			failed = true;
 		}
@@ -225,39 +230,13 @@ const checkBalances = async () => {
 	}
 };
 
-const displayAllBalances = async () => {
-	console.group('Current Account Balances');
-
-	let i = 0;
-	for (const node of allNodes) {
-		const baseAccount = await node.api.getAccount(node.account.address);
-		const account = {
-			...baseAccount
-		};
-
-		let balance = 0;
-
-		if (typeof account.balance === 'object') {
-			balance = account.balance.toFormat(0);
-		} else {
-			balance = account.balance;
-		}
-
-		account.balance = balance;
-		lastBalance[i] = balance;
-		i++;
-		console.log(`${node.name}: `, '\n', account, '\n');
-	}
-	console.groupEnd();
-};
-
 const transferRaw = async (from, to, value) => {
 	console.group('Locally Signed Transfer');
 
 	const transactionReceipt = await from.api.transfer(
 		from.account,
 		to.account.address,
-		value.toString()+"000000000000000000",
+		value,
 		DEFAULT_GAS,
 		DEFAULT_GASPRICE
 	);
@@ -287,11 +266,13 @@ class CrowdFunding {
 
 	async deploy(value) {
 		const tx = this.contract.deployTx(
-			[value.toString()+"000000000000000000"],
+			[value],
 			this.node.account.address,
 			DEFAULT_GAS,
 			DEFAULT_GASPRICE
 		);
+
+		console.log("deploy tx:", tx)
 
 		const receipt = await this.node.api.sendTx(tx, this.node.account);
 		console.log('Receipt:', receipt);
@@ -304,7 +285,7 @@ class CrowdFunding {
 	async contribute(value) {
 		const tx = this.contract.methods.contribute({
 			from: this.node.account.address,
-			value: value.toString()+"000000000000000000",
+			value: value,
 			gas: DEFAULT_GAS,
 			gasPrice: DEFAULT_GASPRICE
 		});
@@ -375,26 +356,23 @@ init()
 	.then(() =>
 		explain(
 			'Each node controls one account which allows it to send and receive Ether. \n' +
-				'The private keys reside locally and directly on the evm-lite nodes. In a \n' +
-				'production setting, access to the nodes would be restricted to the people  \n' +
-				'allowed to sign messages with the private key. We also keep a local copy \n' +
-				'of all the private keys to demonstrate client-side signing.'
+			'Transactions are signed locally before being submitted to the network.'
 		)
 	)
 	.then(() => step('STEP 2) Send 500 Tenom from Amelia to Becky'))
 	.then(() => {
 		space();
-		return transferRaw(allNodes[0], allNodes[1], 500);
+		return transferRaw(allNodes[0], allNodes[1], 500 * Currency.Token);
 	})
 	.then(() =>
 		explain(
 			'We created an EVM transaction to send 500 Tenom from Amelia to Becky. The \n' +
-				"transaction was signed localy with Amelia's private key and sent through Amelia's node. \n" +
-				'The client-facing service running in EVM-Lite relayed the transaction to Babble \n' +
-				'for consensus ordering. Babble gossiped the raw transaction to the other Babble \n' +
-				'nodes which ran it through the consensus algorithm before committing it back to \n' +
-				'EVM-Lite as part of Block. So each node received and processed the transaction. \n' +
-				'They each applied the same changes to their local copy of the ledger.\n'
+			"transaction was signed localy with Amelia's private key and sent through Amelia's node. \n" +
+			'The client-facing service running in EVM-Lite relayed the transaction to Babble \n' +
+			'for consensus ordering. Babble gossiped the raw transaction to the other Babble \n' +
+			'nodes which ran it through the consensus algorithm before committing it back to \n' +
+			'EVM-Lite as part of Block. So each node received and processed the transaction. \n' +
+			'They each applied the same changes to their local copy of the ledger.\n'
 		)
 	)
 	.then(() => step('STEP 3) Check balances again'))
@@ -416,22 +394,22 @@ init()
 	})
 	.then(async contract => {
 		crowdFunding = new CrowdFunding(contract, allNodes[0]);
-		await crowdFunding.deploy(1000);
+		await crowdFunding.deploy(1000 * Currency.Token );
 	})
 	.then(() =>
 		explain(
 			'Here we compiled and deployed the CrowdFunding SmartContract. \n' +
-				'The contract was written in the high-level Solidity language which compiles \n' +
-				'down to EVM bytecode. To deploy the SmartContract we created an EVM transaction \n' +
-				"with a 'data' field containing the bytecode. After going through consensus, the \n" +
-				'transaction is applied on every node, so every participant will run a copy of \n' +
-				'the same code with the same data.'
+			'The contract was written in the high-level Solidity language which compiles \n' +
+			'down to EVM bytecode. To deploy the SmartContract we created an EVM transaction \n' +
+			"with a 'data' field containing the bytecode. After going through consensus, the \n" +
+			'transaction is applied on every node, so every participant will run a copy of \n' +
+			'the same code with the same data.'
 		)
 	)
 	.then(() => step('STEP 5) Contribute 499 Tenom from Amelia'))
 	.then(() => {
 		space();
-		return crowdFunding.contribute(499);
+		return crowdFunding.contribute(499 * Currency.Token);
 	})
 	.then(() =>
 		explain(
@@ -456,7 +434,7 @@ init()
 	.then(() => step('STEP 7) Contribute 501 Tenom from Amelia again'))
 	.then(() => {
 		space();
-		return crowdFunding.contribute(501);
+		return crowdFunding.contribute(501 * Currency.Token);
 	})
 	.then(() => step('STEP 8) Check goal reached'))
 	.then(() => {
