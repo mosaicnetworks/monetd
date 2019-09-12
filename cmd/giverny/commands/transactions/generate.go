@@ -50,10 +50,6 @@ func addGenerateFlags(cmd *cobra.Command) {
 
 func generateTransactions(cmd *cobra.Command, args []string) error {
 
-	// N.B. this function used int64 to generate transaction amounts.
-	// It is good enough - there is sufficent range to be a realistic test
-	// We could use bit.Int - but it appears unnecessary.
-
 	var ipmap ipmapping
 
 	var surplusCreditBig = new(big.Int).SetInt64(int64(surplusCredit))
