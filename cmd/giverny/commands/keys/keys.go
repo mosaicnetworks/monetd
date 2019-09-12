@@ -26,6 +26,7 @@ func init() {
 	//Subcommands
 	KeysCmd.AddCommand(
 		newImportCmd(),
+		newGenerateCmd(),
 	)
 
 	//Commonly used command line flags

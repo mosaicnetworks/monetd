@@ -1,5 +1,7 @@
 package transactions
 
+import "math/big"
+
 // CLI Parameters
 var networkName = ""
 var ips = ""
@@ -19,7 +21,7 @@ type account struct {
 type transaction struct {
 	From   int
 	To     int
-	Amount int64
+	Amount *big.Int
 }
 
 type fulltransaction struct {
@@ -28,17 +30,17 @@ type fulltransaction struct {
 	From     string
 	FromName string
 	To       string
-	Amount   int64
+	Amount   *big.Int
 }
 
 type delta struct {
 	Moniker      string
 	Address      string
-	TransCredit  int64
-	TransDebit   int64
-	TransNet     int64
-	FaucetCredit int64
-	TotalNet     int64
+	TransCredit  *big.Int
+	TransDebit   *big.Int
+	TransNet     *big.Int
+	FaucetCredit *big.Int
+	TotalNet     *big.Int
 }
 
 type node struct {

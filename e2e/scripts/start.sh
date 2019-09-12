@@ -16,7 +16,7 @@ rm -rf $HOME/.giverny/networks/$NET
 giverny network new $NET \
     $INITIP \
     --names $mydir/../networks/$NET.txt \
-    --pass $mydir/../networks/pwd.txt
+    --pass $mydir/../networks/pwd.txt -v
 
 giverny network build $NET -v
 

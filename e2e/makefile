@@ -6,6 +6,7 @@ install:
 	-$(MAKE) -C crowd-funding install
 	-$(MAKE) -C tests/jointest install
 	-$(MAKE) -C tests/transfers install
+	-$(MAKE) -C tests/bulktransfers install
 
 	./scripts/testdependencies.sh
 

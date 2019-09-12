@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
+	"math/big"
 	"math/rand"
 	"os"
 	"path/filepath"
@@ -54,6 +55,9 @@ func generateTransactions(cmd *cobra.Command, args []string) error {
 	// We could use bit.Int - but it appears unnecessary.
 
 	var ipmap ipmapping
+
+	var surplusCreditBig = new(big.Int).SetInt64(int64(surplusCredit))
+
 	if !common.CheckMoniker(networkName) {
 		return errors.New("network name must only contains characters in the range 0-9 or A-Z or a-z")
 	}
@@ -107,8 +111,8 @@ func generateTransactions(cmd *cobra.Command, args []string) error {
 
 	var nodes []node
 	var accounts []account
-	var debits []int64
-	var credits []int64
+	var debits []*big.Int
+	var credits []*big.Int
 	var faucetAccount *account
 	var trans []transaction
 	var deltas []delta
@@ -139,8 +143,8 @@ func generateTransactions(cmd *cobra.Command, args []string) error {
 					Tokens:    balance,
 				})
 
-				credits = append(credits, 0)
-				debits = append(debits, 0)
+				credits = append(credits, new(big.Int))
+				debits = append(debits, new(big.Int))
 
 				common.DebugMessage("account ", moniker, balance)
 			}
@@ -195,10 +199,16 @@ func generateTransactions(cmd *cobra.Command, args []string) error {
 				break
 			}
 		}
-		amt := int64((rand.Intn(1000) * 1000000) + (rand.Intn(1000) * 1000) + rand.Intn(999) + 1)
+		//	amt := int64((rand.Intn(1000) * 1000000) + (rand.Intn(1000) * 1000) + rand.Intn(999) + 1)
 
-		credits[toacct] += amt
-		debits[fromacct] += amt
+		amt := new(big.Int).SetInt64(int64(rand.Intn(99990) + 9))
+		amt.Mul(amt, new(big.Int).SetInt64(100000000))
+		amt.Mul(amt, new(big.Int).SetInt64(100000000))
+
+		// TODO add some lower order bits noise
+
+		credits[toacct].Add(credits[toacct], amt)
+		debits[fromacct].Add(debits[fromacct], amt)
 
 		trans = append(trans, transaction{
 			From:   fromacct,
@@ -230,7 +240,7 @@ func generateTransactions(cmd *cobra.Command, args []string) error {
 			From:     faucetAccount.Address,
 			FromName: faucetAccount.Moniker,
 			To:       accounts[i].Address,
-			Amount:   debits[i] + int64(surplusCredit),
+			Amount:   new(big.Int).Add(debits[i], surplusCreditBig),
 			Node:     nodes[nodeno].NetAddr,
 			NodeName: nodes[nodeno].Moniker,
 		})
@@ -240,12 +250,13 @@ func generateTransactions(cmd *cobra.Command, args []string) error {
 			Address:      accounts[i].Address,
 			TransCredit:  credits[i],
 			TransDebit:   debits[i],
-			TransNet:     credits[i] - debits[i],
-			FaucetCredit: debits[i] + int64(surplusCredit),
-			TotalNet:     credits[i] + int64(surplusCredit),
+			TransNet:     new(big.Int).Sub(credits[i], debits[i]),
+			FaucetCredit: new(big.Int).Add(debits[i], surplusCreditBig),
+			TotalNet:     new(big.Int).Add(credits[i], surplusCreditBig),
 		})
 
-		common.DebugMessage("Account " + accounts[i].Moniker + " +" + strconv.FormatInt(credits[i], 10) + " -" + strconv.FormatInt(debits[i], 10))
+		common.DebugMessage("Account " + accounts[i].Moniker + " +" +
+			credits[i].String() + " -" + debits[i].String())
 
 		var jsonData []byte
 
