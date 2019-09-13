@@ -11,7 +11,7 @@ PREFIX="Test"            # Prefix of the Moniker for transfer monikers
 NODENAME="Node0"         # Node Name
 NODEHOST="172.77.5.10"   # Node IP
 NODEPORT="8080"          # Node Port
-CONFIGDIR="$HOME/.monet" # Monet Config Dir
+CONFIGDIR="$HOME/.monettest" # Monet Config Dir
 OUTDIRSTEM="/tmp"        # Output Directory
 
 # Derived globals section
@@ -30,7 +30,12 @@ res1=$(date +%s.%N)
 
 
 # Generate Accounts to use for testing
-giverny keys generate --prefix $PREFIX --min-suffix 1 --max-suffix $ACCTCNT $VERBOSE
+giverny --monet-data-dir $CONFIGDIR keys generate \
+    --prefix $PREFIX \ 
+    --min-suffix 1 \
+    --max-suffix $ACCTCNT \
+    $VERBOSE
+
 
 
 # Create expanded account list
@@ -46,8 +51,12 @@ done
 
 
 # Generate Transactions
-giverny transactions solo -v --faucet $FAUCET --accounts $ACCTS   \
---count $TRANSCNT $VERBOSE --output $TRANSFILE
+giverny --monet-data-dir $CONFIGDIR transactions solo -v \
+    --faucet $FAUCET \
+    --accounts $ACCTS \
+    --count $TRANSCNT \
+    --output $TRANSFILE \
+    $VERBOSE
 
 
 
