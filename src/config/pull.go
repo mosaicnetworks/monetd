@@ -26,6 +26,10 @@ func PullConfig(configDir, moniker, selfAddress, otherAddress, passwordFile stri
 	common.MessageWithType(common.MsgDebug, "Using Network Address: ", selfAddress)
 	common.MessageWithType(common.MsgDebug, "Pulling from         : ", otherAddress)
 	common.MessageWithType(common.MsgDebug, "Using Password File  : ", passwordFile)
+	common.MessageWithType(common.MsgDebug, "Using Moniker        : ", moniker)
+
+	// Set global moniker config
+	configuration.Global.Babble.Moniker = moniker
 
 	// Retrieve the keyfile corresponding to moniker
 	privateKey, err := getKey(configDir, moniker, passwordFile)

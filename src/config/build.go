@@ -16,9 +16,13 @@ import (
 func BuildConfig(configDir, moniker, selfAddress, passwordFile string) error {
 
 	// Some debug output confirming parameters
-	common.DebugMessage("Building Config for: ", moniker)
-	common.DebugMessage("Using Network Address: ", selfAddress)
-	common.DebugMessage("Using Password File: ", passwordFile)
+	common.DebugMessage("Building Config for   : ", moniker)
+	common.DebugMessage("Using Network Address : ", selfAddress)
+	common.DebugMessage("Using Password File   : ", passwordFile)
+	common.DebugMessage("Using Moniker         : ", moniker)
+
+	// set global config moniker
+	configuration.Global.Babble.Moniker = moniker
 
 	// Retrieve the keyfile corresponding to moniker
 	privateKey, err := getKey(configDir, moniker, passwordFile)

@@ -1,7 +1,7 @@
 # End-To-End Tests
 
 To test with "develop" version of evm-lite-js modules, direct npm to our private
-registry (on Danu's node)
+registry in the office.
 
 ```
 npm set registry http://192.168.1.4:4873/

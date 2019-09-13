@@ -17,7 +17,7 @@ var TransCmd = &cobra.Command{
 	Short: "giverny transactions",
 	Long: `Server
 	
-The giverny transaction command is used to generate sets of transactios for 
+The giverny transaction command is used to generate sets of transactions for 
 testing networks.`,
 
 	TraverseChildren: true,

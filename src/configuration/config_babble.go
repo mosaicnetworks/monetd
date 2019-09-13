@@ -44,6 +44,9 @@ type BabbleConfig struct {
 
 	// Bootstrap from database
 	Bootstrap bool `mapstructure:"bootstrap"`
+
+	// Moniker is a friendly name to indentify this peer
+	Moniker string `mapstructure:"moniker"`
 }
 
 // DefaultBabbleConfig returns the default configuration for a Babble node

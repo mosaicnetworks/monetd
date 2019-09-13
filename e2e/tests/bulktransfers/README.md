@@ -1,5 +1,3 @@
-
-
 The benchmark sub folder here contains a giverny config. Copy it into place:
 
 ```bash 
@@ -34,10 +32,6 @@ Launch the tests
     ./run-test.sh
 ```    
 
-
-
-
-
 Stop the network:
 
 ```bash
@@ -48,8 +42,6 @@ Tidy up:
 ```bash
    docker container prune    
 ```
-
-
 
 Ignore this for now:
 

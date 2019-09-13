@@ -6,13 +6,11 @@
 + `jointest` --- This is a test of the poa joining
 + `transfers` --- This is a test of transfers of tokens between 4 nodes
 
-
 To run all tests
 
 ```bash
 [...e2e] $ make tests
 ```
-
 
 To run one test:
 
@@ -33,15 +31,17 @@ Running one test is equivalent to:
 [...e2e] $ make stop TEST=jointest
 ```
 
-Tests create output in a `[testname].out` file, in the same directory that this
+Tests creates output in a `[testname].out` file, in the same directory that this
 `README.md` is in. 
-
 
 ## Creating a test
 
-Each test need a network definition. For a network named `newnet` it would be in `.../e2e/networks/newnet.txt`.
+Each test needs a network definition. For a network named `newnet` it would be
+in `.../e2e/networks/newnet.txt`.
 
-A folder called `.../e2e/tests/newnet` will need to be created. In that folder would be a file `run-test.sh`. That file should exit with a non-zero exit code if the test fails. 
+A folder called `.../e2e/tests/newnet` will need to be created. In that folder
+would be a file `run-test.sh`. That file should exit with a non-zero exit code 
+if the test fails. 
 
 
 

@@ -4,9 +4,16 @@
 ## Unreleased
 
 SECURITY:
+
 FEATURES:
+
 IMPROVEMENTS:
-BUG-FIXES:
+
+- babble: better handling of "normal" SelfParent errors
+
+BUG-FIXES: 
+
+- monetd: Add moniker to configuration.
 
 ## v0.2.2 (September 6, 2019)
 
