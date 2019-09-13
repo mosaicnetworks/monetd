@@ -4,11 +4,11 @@
 
 # CLI Params section. These will become parameters
 VERBOSE="-v"             # EIther "" or "-v"
-ACCTCNT=3                # Number of Accounts to transfer between       
-TRANSCNT=10              # Total number of transactions 
+ACCTCNT=10               # Number of Accounts to transfer between       
+TRANSCNT=100              # Total number of transactions 
 FAUCET="Faucet"          # Faucet Account Moniker
 PREFIX="Test"            # Prefix of the Moniker for transfer monikers   
-NODENAME="Node0"         # Node Name
+NODENAME="Node"         # Node Name
 NODEHOST="172.77.5.10"   # Node IP
 NODEPORT="8080"          # Node Port
 CONFIGDIR="$HOME/.monet" # Monet Config Dir
@@ -52,16 +52,23 @@ giverny transactions solo -v --faucet $FAUCET --accounts $ACCTS   \
 
 
 
+# Get Peers List
+peers=()
+for peer in $(curl -s $NODEHOST:$NODEPORT/peers | jq ".[] | .NetAddr" | sed -e 's/"//g;s/:1337//g')
+do
+   peers+=( $peer )
+done
+numpeers=${#peers[@]}
 
 
 # Process Faucet
-node index.js --account=$FAUCET --nodename=$NODENAME --nodehost=$NODEHOST \
+node index.js --account=$FAUCET --nodename=${NODENAME}0 --nodehost=$NODEHOST \
  --nodeport=$NODEPORT --transfile=$TRANSFILE --configdir=$CONFIGDIR  --total=$PRE
      # --outfile=$OUTDIR/$FAUCET$SUFFIX
 
 for i in $(seq 1 $ACCTCNT)
 do
-    node index.js --account=$PREFIX$i --nodename=$NODENAME --nodehost=$NODEHOST \
+    node index.js --account=$PREFIX$i --nodename=${NODENAME}$(($i % $numpeers))  --nodehost=${peers[$(($i % $numpeers))]} \
     --nodeport=$NODEPORT --transfile=$TRANSFILE --configdir=$CONFIGDIR --outfile=$OUTDIR/$PREFIX$i$SUFFIX
 done
 

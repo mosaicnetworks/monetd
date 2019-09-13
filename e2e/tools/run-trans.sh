@@ -7,7 +7,7 @@ METHOD="batch"
 
 
 
-if [ "$METHOD" == "batch"] ; then
+if [ "$METHOD" == "batch" ] ; then
 
     cmd="curl"
 
