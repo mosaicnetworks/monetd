@@ -18,7 +18,7 @@ if [ "$METHOD" == "batch" ] ; then
         cmd="$cmd --next"
     fi 
     cmd="$cmd $host -d $post -X POST"
-    echo $cmd
+#    echo $cmd
     done
     $cmd
     } 
