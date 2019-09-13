@@ -4,16 +4,25 @@
 ## Unreleased
 
 SECURITY:
+FEATURES:
+IMPROVEMENTS:
+BUG FIXES:
+
+## v0.2.3 (September 13, 2019)
 
 FEATURES:
 
+- evm-lite~currency: new denominations for token units
+
 IMPROVEMENTS:
 
-- babble: better handling of "normal" SelfParent errors
+- monetd~babble: better handling of "normal" SelfParent errors
+- monetd~e2e: use new js libs for currency operations
 
 BUG-FIXES: 
 
-- monetd: Add moniker to configuration.
+- monetd: Add moniker to configuration
+- evm-lite~state: handling transaction promises and errors
 
 ## v0.2.2 (September 6, 2019)
 
