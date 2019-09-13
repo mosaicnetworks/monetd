@@ -3,16 +3,16 @@
 
 
 # CLI Params section. These will become parameters
-VERBOSE="-v"
-ACCTCNT=3
-TRANSCNT=12
-FAUCET="Faucet"
-PREFIX="Test"
-NODENAME="Node0"
-NODEHOST="172.77.5.10"
-NODEPORT="8080"
-CONFIGDIR="$HOME/.monet"
-OUTDIRSTEM="/tmp"
+VERBOSE="-v"             # EIther "" or "-v"
+ACCTCNT=20                # Number of Accounts to transfer between       
+TRANSCNT=200              # Total number of transactions 
+FAUCET="Faucet"          # Faucet Account Moniker
+PREFIX="Test"            # Prefix of the Moniker for transfer monikers   
+NODENAME="Node0"         # Node Name
+NODEHOST="172.77.5.10"   # Node IP
+NODEPORT="8080"          # Node Port
+CONFIGDIR="$HOME/.monet" # Monet Config Dir
+OUTDIRSTEM="/tmp"        # Output Directory
 
 # Derived globals section
 
@@ -26,6 +26,7 @@ mkdir -p $OUTDIR
 mydir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" > /dev/null && pwd )"
 
 
+res1=$(date +%s.%N)
 
 
 # Generate Accounts to use for testing
@@ -43,9 +44,13 @@ do
 done
 
 
+
 # Generate Transactions
 giverny transactions solo -v --faucet $FAUCET --accounts $ACCTS   \
 --count $TRANSCNT $VERBOSE --output $TRANSFILE
+
+
+
 
 
 # Process Faucet
@@ -60,10 +65,41 @@ do
 done
 
 
+res2=$(date +%s.%N)
+
+
+PIDS=""
 
 for i in $(seq 1 $ACCTCNT)
 do
-   $mydir/run-trans.sh $OUTDIR/$PREFIX$i$SUFFIX
+    ( $mydir/run-trans.sh $OUTDIR/$PREFIX$i$SUFFIX  ) & PIDS="$PIDS $!"
 done
 
+
+FAIL=0
+for job in $PIDS
+do
+    wait $job || let "FAIL+=1"
+    echo $job $FAIL
+done
+
+
+# TImings
+
+res3=$(date +%s.%N)
+dt=$(echo "$res2 - $res1" | bc)
+dt2=$(echo "$res3 - $res2" | bc)
+echo "Preparing $TRANSCNT transactions took $dt seconds"
+echo "$TRANSCNT transactions applying took $dt2 seconds"
+rate=$(echo "scale=4;$TRANSCNT / $dt2" | bc)
+echo "$rate transactions per second"
+
+
+if [ "$FAIL" == "0" ];
+then
+    echo "PASSED"
+else
+    echo "FAIL! ($FAIL)"
+    exit 5
+fi
 

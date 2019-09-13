@@ -69,7 +69,7 @@ const transferRaw = async (node, from, to, value) => {
 
       tx.nonce = nonce;
 
-      receipt = await node.api.sendTx(tx, from);
+ //     receipt = await node.api.sendTx(tx, from);
       tx.signed = await from.signTx(tx);
 
       console.log(tx.signed);
