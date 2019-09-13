@@ -5,7 +5,7 @@
 # CLI Params section. These will become parameters
 VERBOSE="-v"             # EIther "" or "-v"
 ACCTCNT=10               # Number of Accounts to transfer between       
-TRANSCNT=100              # Total number of transactions 
+TRANSCNT=1000              # Total number of transactions 
 FAUCET="Faucet"          # Faucet Account Moniker
 PREFIX="Test"            # Prefix of the Moniker for transfer monikers   
 NODENAME="Node"         # Node Name

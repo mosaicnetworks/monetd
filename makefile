@@ -19,6 +19,15 @@ installgiv:
 		--ldflags "-X github.com/mosaicnetworks/monetd/src/version.GitCommit=`git rev-parse HEAD` -X github.com/mosaicnetworks/monetd/src/version.GitBranch=`git symbolic-ref --short HEAD`" \
 		./cmd/giverny
 
+
+
+installclaude:
+	go install \
+		--ldflags "-X github.com/mosaicnetworks/monetd/src/version.GitCommit=`git rev-parse HEAD` -X github.com/mosaicnetworks/monetd/src/version.GitBranch=`git symbolic-ref --short HEAD`" \
+		./cmd/claude
+
+
+
 docker:
 	$(MAKE) -C docker
 
@@ -36,4 +45,4 @@ testbabble:
 dist:
 	xgo --targets=*/amd64 --dest=build/  ./cmd/monetd/ 
 
-.PHONY: all vendor install installd installcli installgiv test update docker testmonetd testevml testbabble
+.PHONY: all vendor install installd installcli installgiv test update docker testmonetd testevml testbabble installclaude
