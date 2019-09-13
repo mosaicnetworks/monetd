@@ -129,7 +129,7 @@ const processAccount = async (accountName) => {
                   {
                       await transferRaw(node, thisAccount, data[i].Transactions[j].To, data[i].Transactions[j].Amount);
                   } else {
-                      console.log("Asynchronous execution selected")
+               //       console.log("Asynchronous execution selected")
                       uri = await asynchTransferRaw(node, thisAccount, data[i].Transactions[j].To, data[i].Transactions[j].Amount, baseAccount.nonce+data[i].Transactions[j].Nonce-1);
                       arrTrans=arrTrans+"\n"+uri;
                   }
@@ -208,30 +208,30 @@ const checkTotals = async () => {
   //    console.log(predata);
       const transdata = JSONbig.parse(transcontent)
   //    console.log(deltadata);
-      const faucetdata = JSONbig.parse(faucetcontent)
-   //  console.log(faucetdata);
 
       const prearraylength = predata.length;
       const transarraylength = transdata.length;
 
 
 
-      console.log("Calculating Totals:");
+      console.log("Calculating Totals ("+prearraylength+", "+transarraylength+"):");
 
       var failures = 0; 
 
-      for (var i = 0; i < prearraylength; i++ ) {
-     //   console.log("Pre "+ i+ " " + predata[i].address );
+      for (var i = 0; i < prearraylength; i++ ) {        
+        var addr = predata[i].address.replace(/^(0[xX])/,"").toUpperCase();
+//        console.log("Pre "+ i+ " " + addr );
         for (var j = 1; j < transarraylength; j++ ) {  
-     //     console.log("delta "+ j + " " + deltadata[j].Address) ;       
-          if (predata[i].address == transdata[j].Address){
+          var addr2 = transdata[j].Address.replace(/^(0[xX])/,"").toUpperCase();
+//          console.log("trans "+ j + " " + addr2) ;       
+          if (addr == addr2){
             predata[i]["PreBalance"] = new BigNumber(predata[i].balance);
             var baseAccount = await node.api.getAccount(predata[i].address);
             predata[i]["PostBalance"] = new BigNumber(baseAccount.balance);
             predata[i]["PostNet"] = predata[j]["PostBalance"].minus(predata[i]["PreBalance"]);
             predata[i]["TransNet"] = transdata[j]["Delta"];         
             predata[i]["Diff"] = predata[i]["PostNet"].minus(transdata[j]["Delta"]);
-            console.log(deltadata[j].Moniker + ":");
+            console.log(transdata[j].Moniker + ":");
             console.log("  Post   : "+baseAccount.balance.toFixed());              
             console.log("  Pre    : "+predata[i]["PreBalance"].toFixed());               
             console.log("  Calc   : "+predata[i]["TransNet"].toFixed());                            
@@ -251,6 +251,7 @@ const checkTotals = async () => {
           console.log("Balance Failures: "+failures)
              process.exit(1);
       }
+      console.log("Balance Checks Passed.")
 //      console.log(deltadata);
   } catch(err) {
     console.error(err);
