@@ -6,10 +6,10 @@
 VERBOSE="-v"             # EIther "" or "-v"
 ACCTCNT=10               # Number of Accounts to transfer between       
 TRANSCNT=100              # Total number of transactions 
-FAUCET="Faucet"          # Faucet Account Moniker
+FAUCET="Jon"          # Faucet Account Moniker
 PREFIX="Test"            # Prefix of the Moniker for transfer monikers   
 NODENAME="Node"         # Node Name
-NODEHOST="172.77.5.10"   # Node IP
+NODEHOST="192.168.1.10"   # Node IP
 NODEPORT="8080"          # Node Port
 CONFIGDIR="$HOME/.monettest" # Monet Config Dir
 OUTDIRSTEM="/tmp"        # Output Directory
@@ -32,7 +32,7 @@ res1=$(date +%s.%N)
 
 # Generate Accounts to use for testing
 giverny --monet-data-dir $CONFIGDIR keys generate \
-    --prefix $PREFIX \ 
+    --prefix $PREFIX \
     --min-suffix 1 \
     --max-suffix $ACCTCNT \
     $VERBOSE

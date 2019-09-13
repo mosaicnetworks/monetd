@@ -37,6 +37,7 @@ type soloTransaction struct {
 //CLI params
 var accounts string
 var outputfile = "trans.json"
+var maxTransValue = 10
 
 func newSoloCmd() *cobra.Command {
 	cmd := &cobra.Command{
@@ -62,7 +63,7 @@ func addSoloFlags(cmd *cobra.Command) {
 
 	cmd.Flags().IntVar(&totalTransactions, "count", totalTransactions, "number of tranactions to solo")
 	cmd.Flags().IntVar(&surplusCredit, "surplus", surplusCredit, "additional credit to allocate each account from the faucet above the bare minimum")
-
+	cmd.Flags().IntVar(&maxTransValue, "max-trans-value", maxTransValue, "maximum transaction value")
 	//	cmd.Flags().StringVarP(&networkName, "network", "n", "", "network name")
 	//	cmd.Flags().StringVar(&ips, "ips", "", "ips.dat file path")
 	viper.BindPFlags(cmd.Flags())
@@ -151,7 +152,7 @@ func soloTransactions(cmd *cobra.Command, args []string) error {
 			}
 		}
 
-		amt := new(big.Int).SetInt64(int64(rand.Intn(99990) + 9))
+		amt := new(big.Int).SetInt64(int64(rand.Intn((maxTransValue*100)-10) + 9))
 		amt.Mul(amt, new(big.Int).SetInt64(100000000))
 		amt.Mul(amt, new(big.Int).SetInt64(100000000))
 
