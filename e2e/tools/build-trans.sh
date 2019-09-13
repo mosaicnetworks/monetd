@@ -4,8 +4,8 @@
 
 # CLI Params section. These will become parameters
 VERBOSE="-v"             # EIther "" or "-v"
-ACCTCNT=20                # Number of Accounts to transfer between       
-TRANSCNT=200              # Total number of transactions 
+ACCTCNT=3                # Number of Accounts to transfer between       
+TRANSCNT=10              # Total number of transactions 
 FAUCET="Faucet"          # Faucet Account Moniker
 PREFIX="Test"            # Prefix of the Moniker for transfer monikers   
 NODENAME="Node0"         # Node Name
@@ -19,6 +19,7 @@ OUTDIRSTEM="/tmp"        # Output Directory
 OUTDIR="$OUTDIRSTEM/Trans.$$"
 SUFFIX=".json"
 TRANSFILE=$OUTDIR/trans$SUFFIX
+PRE=$OUTDIR/pre.json
 
 mkdir -p $OUTDIR
 
@@ -55,8 +56,8 @@ giverny transactions solo -v --faucet $FAUCET --accounts $ACCTS   \
 
 # Process Faucet
 node index.js --account=$FAUCET --nodename=$NODENAME --nodehost=$NODEHOST \
- --nodeport=$NODEPORT --transfile=$TRANSFILE --configdir=$CONFIGDIR --outfile=$OUTDIR/$FAUCET$SUFFIX
-
+ --nodeport=$NODEPORT --transfile=$TRANSFILE --configdir=$CONFIGDIR  --total=$PRE
+     # --outfile=$OUTDIR/$FAUCET$SUFFIX
 
 for i in $(seq 1 $ACCTCNT)
 do
@@ -89,6 +90,13 @@ done
 res3=$(date +%s.%N)
 dt=$(echo "$res2 - $res1" | bc)
 dt2=$(echo "$res3 - $res2" | bc)
+
+
+node index.js --account=$FAUCET --nodename=$NODENAME --nodehost=$NODEHOST \
+ --nodeport=$NODEPORT --transfile=$TRANSFILE --configdir=$CONFIGDIR  --pre=$PRE
+
+
+
 echo "Preparing $TRANSCNT transactions took $dt seconds"
 echo "$TRANSCNT transactions applying took $dt2 seconds"
 rate=$(echo "scale=4;$TRANSCNT / $dt2" | bc)

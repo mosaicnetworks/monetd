@@ -15,8 +15,9 @@ const nodehost = argv.nodehost;
 const nodeport = argv.nodeport;
 const transfile = argv.transfile;
 const outfile = argv.outfile;
-const networkpath = argv.configdir
-
+const networkpath = argv.configdir;
+const total = argv.total;
+const pre = argv.pre;
 
 const defaultGas = 10000000;
 const defaultGasPrice = 0;
@@ -62,18 +63,13 @@ const transferRaw = async (node, from, to, value) => {
 
   const asynchTransferRaw = async (node, from, to, value, nonce) => {
     //	console.group('Locally Signed Transfer');
-    console.log("AsynchTransferRAW");
-  
+  //  console.log("AsynchTransferRAW");  
       const tx = new Transaction({from: from.address, to: to, value: value, gas: defaultGas, gasPrice: defaultGasPrice});
       tx.beforeSubmission();
-
       tx.nonce = nonce;
-
  //     receipt = await node.api.sendTx(tx, from);
       tx.signed = await from.signTx(tx);
-
-      console.log(tx.signed);
-     
+ //     console.log(tx.signed);
       return rawURI = "http://"+nodehost+":"+nodeport+"/rawtx "+tx.signed.rawTransaction
     };
   
@@ -94,6 +90,8 @@ const processAccount = async (accountName) => {
 
   
   try {
+
+      var found = false;
       const data = JSONbig.parse(content)
  //     console.log(data);
   
@@ -145,22 +143,131 @@ const processAccount = async (accountName) => {
                  if (err) {console.log("error writing file : "+err)}
               });
              }
-             return; 
+             found=true;
+             break; 
           }
         }    
 
+        if (! found) {
         console.log("Account "+accountName+" is not in transaction data. Aborting")
         process.exit(2);
-
-        return ;
+        }
    
     } catch(err) {
       console.error(err);
     }
-  
+
+
+    console.log("Total check")
+    if ( total ) {
+      try{
+          const data = JSONbig.parse(content)
+          var totals = [];
+    
+        //   console.log(data);
+          const arraylength = data.length;
+          for (var i = 0; i < arraylength; i++ ) {
+            baseAccount = await node.api.getAccount(data[i].Address);
+    
+           // console.log(baseAccount.address + " "+ baseAccount.balance.toNumber().toString());
+            totals.push({"address": baseAccount.address, 
+               "balance": baseAccount.balance.toFixed()
+              });
+          }
+    
+          fs.writeFile (total, JSONbig.stringify(totals), function(err) {
+            if (err) throw err;
+            console.log('complete');
+            }
+        );
+    
+        } catch(err) {
+          console.error(err);
+        }
+      }
   } 
 
 
+// Verify that totals match
+const checkTotals = async () => {
+  console.log("\n Loading "+transfile+"\n");
+  var transcontent = fs.readFileSync(transfile);
 
+  console.log("\n Loading "+pre+"\n");
+  var precontent = fs.readFileSync(pre);
+
+  node = new NewNode(nodename, nodehost, nodeport);
+ //  thisAccount = await getAccount(data[i].Moniker, password, datadir);
+ //  var baseAccount = await node.api.getAccount(thisAccount.address);
+
+
+
+  
+  try {
+      const predata = JSONbig.parse(precontent)
+  //    console.log(predata);
+      const transdata = JSONbig.parse(transcontent)
+  //    console.log(deltadata);
+      const faucetdata = JSONbig.parse(faucetcontent)
+   //  console.log(faucetdata);
+
+      const prearraylength = predata.length;
+      const transarraylength = transdata.length;
+
+
+
+      console.log("Calculating Totals:");
+
+      var failures = 0; 
+
+      for (var i = 0; i < prearraylength; i++ ) {
+     //   console.log("Pre "+ i+ " " + predata[i].address );
+        for (var j = 1; j < transarraylength; j++ ) {  
+     //     console.log("delta "+ j + " " + deltadata[j].Address) ;       
+          if (predata[i].address == transdata[j].Address){
+            predata[i]["PreBalance"] = new BigNumber(predata[i].balance);
+            var baseAccount = await node.api.getAccount(predata[i].address);
+            predata[i]["PostBalance"] = new BigNumber(baseAccount.balance);
+            predata[i]["PostNet"] = predata[j]["PostBalance"].minus(predata[i]["PreBalance"]);
+            predata[i]["TransNet"] = transdata[j]["Delta"];         
+            predata[i]["Diff"] = predata[i]["PostNet"].minus(transdata[j]["Delta"]);
+            console.log(deltadata[j].Moniker + ":");
+            console.log("  Post   : "+baseAccount.balance.toFixed());              
+            console.log("  Pre    : "+predata[i]["PreBalance"].toFixed());               
+            console.log("  Calc   : "+predata[i]["TransNet"].toFixed());                            
+            console.log("  Actual : "+predata[i]["PostNet"].toFixed());                            
+            console.log("  Diff   : "+predata[i]["Diff"].toFixed());  
+            
+            if ( ! predata[i]["Diff"].isZero() ){
+              failures++;
+            } 
+            
+            break;
+          }
+        }
+      }
+      console.log("Calculated Totals"); 
+      if (failures > 0) {
+          console.log("Balance Failures: "+failures)
+             process.exit(1);
+      }
+//      console.log(deltadata);
+  } catch(err) {
+    console.error(err);
+    process.exit(2);
+  }
+}
+
+
+
+
+
+if (pre){
+  checkTotals()
+  .catch(err => console.log(err));
+}
+else
+{
   processAccount(acct)
   .catch(err => console.log(err));
+}
