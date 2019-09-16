@@ -1,0 +1,22 @@
+[..monetd] $ giverny help transactions solo
+
+Solo transactions generate a transaction set without needing access 
+to the network toml file. You just need a well funded faucet account.
+The additional accounts can be generated using giverny keys generate
+
+Usage:
+  giverny transactions solo [flags]
+
+Flags:
+      --accounts string       comma separated account list
+      --count int             number of tranactions to solo (default 20)
+      --faucet string         faucet account moniker (default "Faucet")
+  -h, --help                  help for solo
+      --max-trans-value int   maximum transaction value (default 10)
+      --output string         output file (default "trans.json")
+      --surplus int           additional credit to allocate each account from the faucet above the bare minimum (default 1000000)
+
+Global Flags:
+  -g, --giverny-data-dir string   Top-level giverny directory for configuration and data (default "/home/jon/.giverny")
+  -m, --monet-data-dir string     Top-level monetd directory for configuration and data (default "/home/jon/.monet")
+  -v, --verbose                   verbose messages

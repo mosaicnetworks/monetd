@@ -1,0 +1,23 @@
+[..monetd] $ giverny help keys generate
+
+The generate sub command is intended only for test nets. It generates a 
+number of key pairs and places them in the current monet keystore. The 
+accounts are names <prefix><suffix> where prefix is set by --prefix (default
+"Account") and suffix is a number between --min-suffix and --max-suffix 
+inclusive. The defaults are 1 and 5.
+
+Usage:
+  giverny keys generate [flags]
+
+Flags:
+  -h, --help             help for generate
+      --max-suffix int   maximum suffix for account monikers (default 5)
+      --min-suffix int   minimum suffix for account monikers (default 1)
+      --prefix string    prefix for account monikers (default "Account")
+
+Global Flags:
+  -g, --giverny-data-dir string   Top-level giverny directory for configuration and data (default "/home/jon/.giverny")
+      --json                      output JSON instead of human-readable format
+  -m, --monet-data-dir string     Top-level monetd directory for configuration and data (default "/home/jon/.monet")
+      --passfile string           the file that contains the passphrase for the keyfile
+  -v, --verbose                   verbose messages

@@ -1,0 +1,20 @@
+[..monetd] $ giverny help network start
+
+giverny network start
+
+Starts a network. Does not start individual nodes. The --force-network parameter
+stops and restarts the network.
+
+Usage:
+  giverny network start [network] [flags]
+
+Flags:
+      --force-network   force network down if already exists
+  -h, --help            help for start
+      --start-nodes     start nodes
+      --use-existing    use existing network if already exists
+
+Global Flags:
+  -g, --giverny-data-dir string   Top-level giverny directory for configuration and data (default "/home/jon/.giverny")
+  -m, --monet-data-dir string     Top-level monetd directory for configuration and data (default "/home/jon/.monet")
+  -v, --verbose                   verbose messages

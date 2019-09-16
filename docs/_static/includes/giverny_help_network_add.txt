@@ -1,0 +1,18 @@
+[..monetd] $ giverny help network add
+
+giverny network add
+
+Usage:
+  giverny network add [network_name] [node_name] [moniker] [flags]
+
+Flags:
+      --generate-pass       generate pass phrases
+  -h, --help                help for add
+      --initial-ip string   IP
+      --no-save-pass        don't save pass phrase entered on command line
+      --pass string         filename of a file containing a passphrase
+
+Global Flags:
+  -g, --giverny-data-dir string   Top-level giverny directory for configuration and data (default "/home/jon/.giverny")
+  -m, --monet-data-dir string     Top-level monetd directory for configuration and data (default "/home/jon/.monet")
+  -v, --verbose                   verbose messages

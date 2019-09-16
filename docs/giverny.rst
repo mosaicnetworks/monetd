@@ -67,12 +67,24 @@ addtional flags as follows:
 Import
 ======
 
-The ``import`` subcommand is used to import a pre-existing private key into the
-``monetd`` keystore, creating the associated ``toml`` file, assigning a moniker
-and setting a passphrase.
-
+The ``import`` subcommand is used to import a pre-existing key pair into the
+``monetd`` keystore, assigning the given moniker and setting a passphrase.
 
 .. include:: _static/includes/giverny_help_keys_import.txt
+    :code: bash
+
+
+Generate
+========
+
+The ``generate`` subcommand is used to bulk generate key pairs for a test net.
+The ``--prefix`` parameter defines a prefix for the account monikers. Then the
+``--min-suffix`` and ``--max-suffix`` define the range of accounts names.
+
+E.g. ``--prefix=Acc --min-suffix=1 --max-suffix=3`` would generate accounts:
+``Acc1``, ``Acc2`` and ``Acc3``.
+
+.. include:: _static/includes/giverny_help_keys_generate.txt
     :code: bash
 
 
@@ -180,6 +192,8 @@ New
 ===
 
 The ``new`` subcommand creates a new test network configuration. It also
+invokes the build command automatically, unless the ``--no-build`` parameter
+is specified.
 
 Syntax
 ------
@@ -223,20 +237,20 @@ There are numerous pass phrase flags for the ``new`` subcommand.
 - ``--generate-pass`` --- generates a unique passphrase for each key pair and
   writes it to a file nodename.txt in the network configuration keystore
   directory
-- ``--save-pass`` --- saves pass phrases in the network configuration keystore
-  directory
+- ``--no-save-pass`` --- suppresses saving pass phrases in the network
+  configuration keystore directory
 
 The typical use case scenarios for these flags would be:
 
 - None specified --- you are prompted to enter the passphrase for each node
-  which is not saved
-- ``--pass`` only --- the specified pass phrase is used, but not saved in the
+  which is saved
+- ``--pass`` only --- the specified pass phrase is used, and saved in the
   config folder
-- ``--pass`` and ``--save-pass`` --- the specified pass phrase is used **and**
-  saved in the config folder
+- ``--pass`` and ``--no-save-pass`` --- the specified pass phrase is used
+  **and** not saved in the config folder
 - ``--generate-pass`` only --- pass phrases are generated and saved
-- ``--save-pass`` only --- you are prompted to enter the passphrase for each
-  node, which is saved in the config folder
+- ``--no-save-pass`` only --- you are prompted to enter the passphrase for each
+  node, which is not saved in the config folder
 
 
 Build
@@ -266,8 +280,8 @@ The ``giverny network build`` subcommand takes a configuration created by the
 ``build`` can be run repeatably safely. It is envisaged that users will edit
 the ``network.toml`` file to adjust token allocations or change addresses.
 
-``--no-generate-keys`` disables the creation of any keys not already in the 
-keystore. 
+``--no-generate-keys`` disables the creation of any keys not already in the
+keystore.
 
 A "built" network will have a file structure like this:
 
@@ -300,6 +314,16 @@ zip file. The ``network export`` command has a mandatory network name
 parameter, and optionally one or more node names. If the node names are
 omitted, all of the nodes for that network are exported.
 
+Thus to export node ``nodename``:
+
+.. code:: bash
+
+    $ giverny network export nodename
+
+
+On Linux this writes to ``$HOME/.giverny/exports/nodename_<account>.zip``
+where there is one file for each account defined in the network.
+
 
 Import
 ======
@@ -325,12 +349,116 @@ source for the import can be configured thus:
        path. The path for your instance can be ascertain with this command:
        ``giverny network location``
 
+
+List
+====
+
+The ``list`` subcommand lists the configured network names.
+
+.. code:: bash
+
+    $ giverny network list
+    benchmark
+    benchnet
+    bulktransfers
+
+
+Dump
+====
+
+The ``dump`` subcommand outputs the nodes in a named network in bar delimited
+format as below:
+
+.. code:: bash
+
+    giverny network dump crowdfundnet
+    Amelia|172.77.5.10|0x7bBE1Df184142709d5B99C5788982D0bEE5d1167|true|false
+    Becky|172.77.5.11|0xC6a29c6378C20eA9E868EdD3538Ba58d09318f81|true|false
+    Chloe|172.77.5.12|0x7b225252dEe5aDa558a233c7B8B654Ef366EBe61|true|false
+    Danu|172.77.5.13|0xC0d14Ed110045d7A401ecC9E57628D55e56Fd4c4|true|false
+
+
+
+Add
+===
+
+The ``add`` subcommand adds a node to the specified network. The resultant
+network will then need to be built using the ``build`` subcommand.
+
+.. include:: _static/includes/giverny_help_network_add.txt
+    :code: bash
+
+Start
+=====
+
+The ``start`` subcommand starts a docker network. Individual nodes are not
+started unless the ``--start-nodes`` parameter is specified. If the
+``--force-network`` parameter is set, then the network is forced down if it
+is already running.
+
+
+.. include:: _static/includes/giverny_help_network_start.txt
+    :code: bash
+
+
+Stop
+====
+
+The ``stop`` subcommand stops a docker network and all the nodes within it.
+
+
+.. include:: _static/includes/giverny_help_network_stop.txt
+    :code: bash
+
+
+Status
+======
+
+The ``status`` subcommand shows the docker network status
+
+.. code:: bash
+
+    $ giverny network status
+
+    Networks
+
+    crowdfundnet   663db79442357cb8814b7ff40076abdd6479a2f5b24ab7087deceaf07913999a  bridge
+    none   257f919e7203933bb10aadf17637552b16acb5490b5c8141815e2f19c01ff1fe  null
+    bridge   37b969bb113d1707ce01328803bc57d0dc86bb349f617112d242f82ade0ada76  bridge
+    host   b89aa9c3a413c14af09cbab6b3ee4450c2cf1cfdbc0449cb28d1f73e4c296d8b  host
+
+    Containers
+
+    /Danu   a67496705d1e5bf6dc0b92a7c4ec69d6c055dc2d08a3193d0e2f5c0fde74564b  Up 10 seconds
+    /Chloe   d7da80c6e3c7b92a61975208d72e5d4864d5c5b31bb67859d3c1bbb3feb38b43  Up 11 seconds
+    /Becky   dbe47cb5ff517f47f18c4307c09de95ef86fe75279657e342d3bcfee2d6f1a1e  Up 11 seconds
+    /Amelia   0f08e59ef698aecc62b2c6945d8c351c7902c90f13e6c4828ef9ab7c9ee27ec3  Up 12 seconds
+
+
+
+
+Push
+====
+
+The ``push`` subcommand creates a named node on a built docker network. If
+the docker network has not yet been build, there is no need to push the node.
+
+.. include:: _static/includes/giverny_help_network_push.txt
+    :code: bash
+
 ************
 Transactions
 ************
 
-The transaction commands has one subcommand: ``generate``. It is used to
-generate transactions set for end to end testing of networks.
+The transaction commands are used to generate transactions sets for end to end
+testing of networks.
+
+
+Generate
+========
+
+The ``generate`` subcommand is used to generate transaction sets from the
+``network.toml`` file.
 
 The following flags can be set:
 
@@ -344,4 +472,13 @@ The following flags can be set:
       --surplus int      additional credit to allocate each account from the faucet above the bare minimum (default 1000000)
 
 
+Solo
+====
+
+The ``solo`` subcommand is used to generate transactions sets from a single
+funded account. Look in ``e2e/tools/build-trans.sh`` for an end to end example
+using the ``solo`` command.
+
+.. include:: _static/includes/giverny_help_transactions_solo.txt
+    :code: bash
 

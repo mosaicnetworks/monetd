@@ -1,0 +1,14 @@
+[..monetd] $ giverny help network push
+
+giverny network push
+
+Usage:
+  giverny network push [network] [node] [flags]
+
+Flags:
+  -h, --help   help for push
+
+Global Flags:
+  -g, --giverny-data-dir string   Top-level giverny directory for configuration and data (default "/home/jon/.giverny")
+  -m, --monet-data-dir string     Top-level monetd directory for configuration and data (default "/home/jon/.monet")
+  -v, --verbose                   verbose messages
