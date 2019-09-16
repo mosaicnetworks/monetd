@@ -18,7 +18,8 @@ PWD_FILE="$mydir/../../networks/pwd.txt"
 
 ips=($(giverny network dump $NET | awk -F "|" '{print $2}' | paste -sd "," -))
 
-set -x
+# set -x
+
 node $mydir/../../crowd-funding/demo.js --ips=$ips \
     --port=$PORT \
     --contract=$SOL_FILE \
