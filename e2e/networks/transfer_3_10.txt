@@ -1,0 +1,5 @@
+Jon,,100000T,true,false
+Martin,,100T,true,false
+Kevin,,100T,true,false
+Danu,,1000T,true,false
+Faucet,,10000000T,false,true
