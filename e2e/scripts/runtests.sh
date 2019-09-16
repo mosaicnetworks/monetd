@@ -4,7 +4,7 @@ TEST=${1:-""}
 NOSTOP=${2:-""}
 
 NODUMMY="true"
-
+RANSPECIFIEDTEST="false"
 
 set -eu
 
@@ -26,7 +26,8 @@ do
     if [ "$TEST" != "" ] ; then
         if [ "$TEST" != "$testname" ] ; then
             continue
-        fi    
+        fi   
+        RANSPECIFIEDTEST="true" 
     fi
 
 
@@ -60,6 +61,15 @@ do
     $mydir/stop.sh $testname 2>&1 >> $output
 
 done 
+
+
+    if [ "$TEST" != "" ] ; then
+        if [ "$RANSPECIFIEDTEST" != "true" ] ; then
+            echo "Test $TEST not found. Aborting."
+            exit 9            
+        fi   
+    fi
+
 
 echo ""
 echo ""
