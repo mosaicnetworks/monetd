@@ -106,7 +106,7 @@ Tests output logs to ``...monetd/e2e/tests/<TESTNAME>.out``
 
 
 Transfer Tests
-==============
+--------------
 
 As well as standalone tests, the transaction generation tools can be used
 against extant networks.
