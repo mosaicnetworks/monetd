@@ -1,5 +1,10 @@
 [..monetd] $ monetd help keys update
-change the passphrase on a keyfile
+
+Change the passphrase on a keyfile.
+
+If --passfile is not specified, the user will be prompted to enter the current 
+passphrase manually. Likewise, if --new-passfile is not specified, the user will
+be prompted to input and confirm the new password.
 
 Usage:
   monetd keys update [moniker] [flags]

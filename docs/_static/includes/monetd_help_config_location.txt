@@ -1,10 +1,7 @@
 [..monetd] $ monetd help config location
 
-The location subcommand shows the location of the monetd configuration files. It 
-respects any --datadir parameter. 
-
-If you specify --expanded then a list of configuration folders and directories
-is output.
+Show the location of the monetd configuration files. If --expanded is specified,
+a detailed list of configuration files and directories is returned.
 
 Usage:
   monetd config location [flags]

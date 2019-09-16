@@ -1,8 +1,8 @@
 [..monetd] $ monetd help config contract
 
-monetd config contract
+Display the PoA smart contract.
 
-Outputs the standard monetd contract, configured with [moniker] as the initial
+Outputs the standard monetd contract, configured with [moniker] in the initial
 whitelist.
 
 Usage:

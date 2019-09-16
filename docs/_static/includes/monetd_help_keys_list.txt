@@ -1,5 +1,5 @@
 [..monetd] $ monetd help keys list
-list keyfiles
+List keyfiles in [datadir]/keystore.
 
 Usage:
   monetd keys list [flags]

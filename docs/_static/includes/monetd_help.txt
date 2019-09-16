@@ -1,8 +1,10 @@
 [..monetd] $ monetd help
-MONET-Daemon
+
+Monetd is the daemon component of the Monet Toolchain; a distributed
+smart-contract platform based on the Ethereum Virtual Machine and Babble 
+consensus.  
 	
-Monetd provides the core commands needed to configure and run a Monet
-node. The minimal quickstart configuration is:
+The minimal quickstart configuration is:
 
 	$ monetd config clear
 	$ monetd keys new node0
@@ -15,10 +17,10 @@ Usage:
   monetd [command]
 
 Available Commands:
-  config      manage monetd configuration
+  config      manage configuration
   help        Help about any command
-  keys        monet key manager
-  run         run a MONET node
+  keys        manage keys
+  run         run a node
   version     show version info
 
 Flags:

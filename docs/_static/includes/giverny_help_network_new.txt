@@ -10,11 +10,11 @@ Flags:
   -h, --help                help for new
       --initial-ip string   initial IP address of range
       --initial-peers int   number of initial peers
-      --names string        filename of a file containing a list of node monikers
+      --names string        file containing node configurations
       --no-build            disables the automatic build of a new network
       --no-save-pass        don't save pass phrase entered on command line
   -n, --nodes int           number of nodes in this configuration (default -1)
-      --pass string         filename of a file containing a passphrase
+      --pass string         file containing a passphrase
 
 Global Flags:
   -g, --giverny-data-dir string   Top-level giverny directory for configuration and data (default "/home/jon/.giverny")
