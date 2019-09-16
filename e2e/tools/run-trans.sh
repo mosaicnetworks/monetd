@@ -2,7 +2,9 @@
 
 
 URIFILE=$1
-METHOD="batch"
+
+# METHOD="batch"
+METHOD="notbatch"
 # TMPFILE=/tmp/tmp.curl.$$
 
 

@@ -50,7 +50,8 @@ func bindFlags(cmd *cobra.Command) {
 	cmd.Flags().String("api-listen", configuration.Global.APIAddr, "IP:PORT of HTTP API service")
 
 	// Babble config
-	cmd.Flags().String("babble.listen", configuration.Global.Babble.BindAddr, "IP:PORT of Babble node")
+	cmd.Flags().String("babble.listen", configuration.Global.Babble.BindAddr, "Bind IP:PORT of Babble node")
+	cmd.Flags().String("babble.advertise", configuration.Global.Babble.AdvertiseAddr, "Advertise IP:PORT of Babble node")
 	cmd.Flags().Duration("babble.heartbeat", configuration.Global.Babble.Heartbeat, "heartbeat timer milliseconds (time between gossips)")
 	cmd.Flags().Duration("babble.timeout", configuration.Global.Babble.TCPTimeout, "TCP timeout milliseconds")
 	cmd.Flags().Int("babble.cache-size", configuration.Global.Babble.CacheSize, "number of items in LRU caches")

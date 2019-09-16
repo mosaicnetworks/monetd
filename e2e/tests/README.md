@@ -42,7 +42,3 @@ in `.../e2e/networks/newnet.txt`.
 A folder called `.../e2e/tests/newnet` will need to be created. In that folder
 would be a file `run-test.sh`. That file should exit with a non-zero exit code 
 if the test fails. 
-
-
-
-

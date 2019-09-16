@@ -4,8 +4,16 @@
 ## Unreleased
 
 SECURITY:
+
 FEATURES:
+
+- monetd~babble: enable advertising a different address than "babble.listen"
+
 IMPROVEMENTS:
+
+- monetd~evm-lite: more granular mutexes around state increases service API
+                   throughput.
+
 BUG FIXES:
 
 ## v0.2.3 (September 13, 2019)
