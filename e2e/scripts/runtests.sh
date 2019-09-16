@@ -18,18 +18,9 @@ do
         continue
     fi
 
-
-
-
     testname=$(basename $d)
     output="$mydir"/../tests/"$testname.out"
 
-
-# Temporary workaround to disable bulktransfers
- 
-    if  [ "$testname" == "bulktransfers" ] && [ "$TEST" != "bulktransfers" ] ; then
-            continue
-    fi
 
 # If set we only run the matching test
     if [ "$TEST" != "" ] ; then
