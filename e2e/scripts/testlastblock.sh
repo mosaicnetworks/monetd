@@ -5,6 +5,8 @@ NODES=$*
 
 
 lastbi=""
+lowestbi=""
+err=""
 
 for n in $NODES
 do
@@ -14,16 +16,26 @@ do
  #  echo "$n: $bi"
 
    if [ "$lastbi" != "" ] && [ "$lastbi" != "$bi" ] ; then
-        echo "last block index mismatch. $bi & $lastbi "
-        exit 401
+        err="last block index mismatch. $bi & $lastbi "
    fi
+
+   if [ "$lowestbi" == "" ] ; then
+     lowestbi="$bi"   
+   else
+     if [ "$bi" -lt "$lowestbi" ] ; then
+        lowestbi="$bi"  
+     fi
+   fi 
 
    lastbi="$bi"
 done
 
-# If we reach here all nodes have bi last_block_index
+if [ "$err" != "" ] ; then
+     echo $err
+fi
 
 
+# We use lowestbi - the lowest common block index.
 
 lastsh=""
 lastfh=""
@@ -32,7 +44,7 @@ exitcode=0
 
 for n in $NODES
 do
-   url="http://$n:8080/block/$lastbi"
+   url="http://$n:8080/block/$lowestbi"
    raw=$(curl -s $url)
 
    sh=$(echo $raw  | json_pp | grep "StateHash" | sed 's/.*"StateHash"[ \t]*:[ \t]*"\([^"]*\)".*/\1/'  )

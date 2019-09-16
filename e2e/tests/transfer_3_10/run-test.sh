@@ -10,4 +10,15 @@ $mydir/../../tools/build-trans.sh -v --accounts=3 --transactions=10 --faucet="Fa
   --prefix=Test --node-name=Node --node-host=172.77.5.10 --node-port=8080 \
   --config-dir=$HOME/.monettest --temp-dir=/tmp --faucet-config-dir=$HOME/.giverny/networks/$NET/keystore
 
-exit $?
+ex=$?
+
+if [ $ex -ne 0 ] ; then
+    exit $?
+fi
+
+# Sleep to allow the blocks to be committed.
+  sleep 2
+
+  $mydir/../../scripts/testlastblock.sh $( giverny network dump $NET | awk -F "|" '{print $2}')
+
+  exit $?  
