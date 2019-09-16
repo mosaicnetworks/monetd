@@ -10,6 +10,7 @@
    overview.rst
    install.rst
    quickstart.rst
+   tests.rst
    join.rst
    fees.rst
    monetd_api.rst

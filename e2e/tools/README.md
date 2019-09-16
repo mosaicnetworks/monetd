@@ -6,7 +6,7 @@ Start the docker network, with the logging overwritten to set verbose on.
 
 ```bash
 $ cd e2e
-$ make start TEST=bulktransfers  VERBOSE=verbose
+$ make start TEST=transfer_3_10  VERBOSE=verbose
 ```
 Run the test suite. 
 
