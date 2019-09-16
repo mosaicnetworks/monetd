@@ -108,10 +108,15 @@ const processAccount = async (accountName) => {
              var baseAccount = await node.api.getAccount(thisAccount.address);
              console.log("Account has  : "+baseAccount.balance.toFixed()+ "aŦ");
              console.log("Account needs: "+data[i].Debits.toFixed()+ "aŦ");
+  
+// The types of these variables is variable - so we force them into a BigNumber.
+             var has = new BigNumber(baseAccount.balance);
+             var needs = new BigNumber(data[i].Debits);
              
-             if (baseAccount.balance<data[i].Debits ) {
+             
+             if (needs.isGreaterThan(has)) {
                 console.log("Account has insufficient credit to guarantee successful execution")
-//TODO                process.exit(3);
+                process.exit(3);
                 
              }
 

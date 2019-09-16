@@ -169,6 +169,14 @@ node $mydir/index.js --account=$FAUCET --nodename=${NODENAME}0 --nodehost=$NODEH
  --nodeport=$NODEPORT --transfile=$TRANSFILE --configdir=$CONFIGDIR  --total=$PRE
      # --outfile=$OUTDIR/$FAUCET$SUFFIX
 
+exitcode=$?
+
+if [ $exitcode -ne 0 ] ; then
+    echo "Faucet Allocation failed."
+    exit $exitcode
+fi
+
+
 if [ ! -f "$PRE" ] ; then
     echo "Funding from $FAUCET failed. Aborting."
     exit 6
@@ -179,6 +187,14 @@ for i in $(seq 1 $ACCTCNT)
 do
     node $mydir/index.js --account=$PREFIX$i --nodename=${NODENAME}$(($i % $numpeers))  --nodehost=${peers[$(($i % $numpeers))]} \
     --nodeport=$NODEPORT --transfile=$TRANSFILE --configdir=$CONFIGDIR --outfile=$OUTDIR/$PREFIX$i$SUFFIX
+
+    exitcode=$?
+
+    if [ $exitcode -ne 0 ] ; then
+        echo "Transaction signing for $PREFIX$i failed."
+        exit $exitcode
+    fi
+
 done
 
 
@@ -217,6 +233,12 @@ dt2=$(echo "$res3 - $res2" | bc)
 node $mydir/index.js --account=$FAUCET --nodename=$NODENAME --nodehost=$NODEHOST \
  --nodeport=$NODEPORT --transfile=$TRANSFILE --configdir=$CONFIGDIR  --pre=$PRE
 
+exitcode=$?
+
+if [ $exitcode -ne 0 ] ; then
+    echo "Balance checks failed."
+    exit $exitcode
+fi
 
 
 echo "Preparing $TRANSCNT transactions took $dt seconds"
