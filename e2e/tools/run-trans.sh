@@ -9,12 +9,12 @@ METHOD="batch"
 
 if [ "$METHOD" == "batch" ] ; then
 
-    cmd="curl"
+    cmd="curl -s"
 
     grep http $URIFILE | {
     while read host post  
     do
-    if [ "$cmd" != "curl" ] ; then 
+    if [ "$cmd" != "curl -s" ] ; then 
         cmd="$cmd --next"
     fi 
     cmd="$cmd $host -d $post -X POST"
@@ -26,7 +26,7 @@ else
     grep http $URIFILE | {
     while read host post  
     do
-    curl $host -d "$post" -X POST
+    curl -s $host -d "$post" -X POST
     done
     }
 fi
