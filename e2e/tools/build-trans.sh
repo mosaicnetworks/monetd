@@ -12,12 +12,12 @@ NODEHOST="172.77.5.11"          # Node IP
 NODEPORT="8080"                 # Node Port
 CONFIGDIR="$HOME/.monettest"    # Monet Config Dir used for this test
 OUTDIRSTEM="/tmp"               # Output Directory
-
+ROUNDROBIN=""              # Round Robin Transaction generation
 
 # Populate the helptext including the default values
 HELPTEXT="$0 [-v] [--accounts=$ACCTCNT] [--transactions=$TRANSCNT] [--faucet=\"$FAUCET\"] \
  [--faucet-config-dir=$FAUCETCONFIG] [--prefix=$PREFIX] [--node-name=$NODENAME] [--node-host=$NODEHOST]\
- [--node-port=$NODEPORT] [--config-dir=$CONFIGDIR] [--temp-dir=$OUTDIRSTEM] [-h|--help]"
+ [--node-port=$NODEPORT] [--config-dir=$CONFIGDIR] [--temp-dir=$OUTDIRSTEM] [--round-robin] [-h|--help]"
 
 
 # Parse all the command line options
@@ -56,6 +56,9 @@ while [ $# -gt 0 ]; do
     --temp-dir=*)
       OUTDIRSTEM="${1#*=}"
       ;;
+    --round-robin)
+      ROUNDROBIN="--round-robin"
+      ;;  
     -h|--help)
       echo $HELPTEXT
       exit 0
@@ -76,7 +79,7 @@ done
 
 echo "$0 $VERBOSE --accounts=$ACCTCNT --transactions=$TRANSCNT --faucet=\"$FAUCET\" \
  --faucet-config-dir=$FAUCETCONFIG --prefix=$PREFIX --node-name=$NODENAME \
- --node-host=$NODEHOST --node-port=$NODEPORT \
+ --node-host=$NODEHOST --node-port=$NODEPORT $ROUNDROBIN \
  --config-dir=$CONFIGDIR --temp-dir=$OUTDIRSTEM \n"
 
 # Derived globals section
@@ -127,8 +130,7 @@ giverny --monet-data-dir $CONFIGDIR keys generate \
     --prefix $PREFIX \
     --min-suffix 1 \
     --max-suffix $ACCTCNT \
-    $VERBOSE
-
+    $VERBOSE 
 
 # Create expanded account list
 ACCTS=""
@@ -148,7 +150,9 @@ giverny --monet-data-dir $CONFIGDIR transactions solo -v \
     --accounts $ACCTS \
     --count $TRANSCNT \
     --output $TRANSFILE \
-    $VERBOSE
+    $VERBOSE \
+    $ROUNDROBIN
+
 
 
 

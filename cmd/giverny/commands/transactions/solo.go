@@ -38,6 +38,7 @@ type soloTransaction struct {
 var accounts string
 var outputfile = "trans.json"
 var maxTransValue = 10
+var roundRobin = false
 
 func newSoloCmd() *cobra.Command {
 	cmd := &cobra.Command{
@@ -60,6 +61,8 @@ func addSoloFlags(cmd *cobra.Command) {
 	cmd.Flags().StringVar(&faucet, "faucet", faucet, "faucet account moniker")
 	cmd.Flags().StringVar(&accounts, "accounts", accounts, "comma separated account list")
 	cmd.Flags().StringVar(&outputfile, "output", outputfile, "output file")
+
+	cmd.Flags().BoolVar(&roundRobin, "round-robin", roundRobin, "set sender accounts round robin")
 
 	cmd.Flags().IntVar(&totalTransactions, "count", totalTransactions, "number of tranactions to solo")
 	cmd.Flags().IntVar(&surplusCredit, "surplus", surplusCredit, "additional credit to allocate each account from the faucet above the bare minimum")
@@ -145,7 +148,11 @@ func soloTransactions(cmd *cobra.Command, args []string) error {
 		var fromacct, toacct int
 
 		for {
-			fromacct = rand.Intn(accountCount) + 1
+			if roundRobin {
+				fromacct = (i % accountCount) + 1
+			} else {
+				fromacct = rand.Intn(accountCount) + 1
+			}
 			toacct = rand.Intn(accountCount) + 1
 			if fromacct != toacct {
 				break
