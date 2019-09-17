@@ -12,12 +12,15 @@ NODEHOST="172.77.5.11"          # Node IP
 NODEPORT="8080"                 # Node Port
 CONFIGDIR="$HOME/.monettest"    # Monet Config Dir used for this test
 OUTDIRSTEM="/tmp"               # Output Directory
-
+ROUNDROBIN=""                   # Round Robin Transaction generation
+STATSCODE=""                    # Log Stats Under This Code
+STATSFILE="$HOME/monetstats.txt"  # Stats File
 
 # Populate the helptext including the default values
 HELPTEXT="$0 [-v] [--accounts=$ACCTCNT] [--transactions=$TRANSCNT] [--faucet=\"$FAUCET\"] \
  [--faucet-config-dir=$FAUCETCONFIG] [--prefix=$PREFIX] [--node-name=$NODENAME] [--node-host=$NODEHOST]\
- [--node-port=$NODEPORT] [--config-dir=$CONFIGDIR] [--temp-dir=$OUTDIRSTEM] [-h|--help]"
+ [--node-port=$NODEPORT] [--config-dir=$CONFIGDIR] [--temp-dir=$OUTDIRSTEM] \
+ [--stats-code=$STATSCODE] [--stats-file=$STATSFILE] [--round-robin] [-h|--help]"
 
 
 # Parse all the command line options
@@ -56,6 +59,15 @@ while [ $# -gt 0 ]; do
     --temp-dir=*)
       OUTDIRSTEM="${1#*=}"
       ;;
+    --stats-file=*)
+      STATSFILE="${1#*=}"
+      ;;
+    --stats-code=*)
+      STATSCODE="${1#*=}"
+      ;;
+    --round-robin)
+      ROUNDROBIN="--round-robin"
+      ;;  
     -h|--help)
       echo $HELPTEXT
       exit 0
@@ -76,8 +88,10 @@ done
 
 echo "$0 $VERBOSE --accounts=$ACCTCNT --transactions=$TRANSCNT --faucet=\"$FAUCET\" \
  --faucet-config-dir=$FAUCETCONFIG --prefix=$PREFIX --node-name=$NODENAME \
- --node-host=$NODEHOST --node-port=$NODEPORT \
- --config-dir=$CONFIGDIR --temp-dir=$OUTDIRSTEM \n"
+ --node-host=$NODEHOST --node-port=$NODEPORT $ROUNDROBIN \
+ --config-dir=$CONFIGDIR --temp-dir=$OUTDIRSTEM \
+ --stats-code=\"$STATSCODE\" --stats-file=$STATSFILE "
+
 
 # Derived globals section
 
@@ -127,8 +141,7 @@ giverny --monet-data-dir $CONFIGDIR keys generate \
     --prefix $PREFIX \
     --min-suffix 1 \
     --max-suffix $ACCTCNT \
-    $VERBOSE
-
+    $VERBOSE 
 
 # Create expanded account list
 ACCTS=""
@@ -148,7 +161,9 @@ giverny --monet-data-dir $CONFIGDIR transactions solo -v \
     --accounts $ACCTS \
     --count $TRANSCNT \
     --output $TRANSFILE \
-    $VERBOSE
+    $VERBOSE \
+    $ROUNDROBIN
+
 
 
 
@@ -162,9 +177,6 @@ numpeers=${#peers[@]}
 
 
 # Process Faucet
-echo node $mydir/index.js --account=$FAUCET --nodename=${NODENAME}0 --nodehost=$NODEHOST \
- --nodeport=$NODEPORT --transfile=$TRANSFILE --configdir=$CONFIGDIR  --total=$PRE
-
 node $mydir/index.js --account=$FAUCET --nodename=${NODENAME}0 --nodehost=$NODEHOST \
  --nodeport=$NODEPORT --transfile=$TRANSFILE --configdir=$CONFIGDIR  --total=$PRE
      # --outfile=$OUTDIR/$FAUCET$SUFFIX
@@ -194,34 +206,39 @@ do
         echo "Transaction signing for $PREFIX$i failed."
         exit $exitcode
     fi
-
 done
 
+
+
+
+
+echo ""
+echo "Starting timed section ($TRANSCNT transactions)"
+echo ""
+
+printf '%*s' $TRANSCNT | tr ' ' '*' 
+printf "\e[${TRANSCNT}D\e[$(( 200 / $(tput cols) ))A"
 
 # Start Trans Timestamp
 res2=$(date +%s.%N)
 
-
-PIDS=""
-
 # Launch signed transactions processing as a background process
+PIDS=""
 for i in $(seq 1 $ACCTCNT)
 do
     ( $mydir/run-trans.sh $OUTDIR/$PREFIX$i$SUFFIX  ) & PIDS="$PIDS $!"
 done
-
 
 # Wait for background tasks to finish
 FAIL=0
 for job in $PIDS
 do
     wait $job || let "FAIL+=1"
-    echo $job $FAIL
 done
 
+echo ""
 
 # Timings
-
 # Finish timer
 res3=$(date +%s.%N)
 dt=$(echo "$res2 - $res1" | bc)
@@ -229,17 +246,9 @@ dt2=$(echo "$res3 - $res2" | bc)
 
 
 # Check values of accounts as expected
-
 node $mydir/index.js --account=$FAUCET --nodename=$NODENAME --nodehost=$NODEHOST \
  --nodeport=$NODEPORT --transfile=$TRANSFILE --configdir=$CONFIGDIR  --pre=$PRE
-
 exitcode=$?
-
-if [ $exitcode -ne 0 ] ; then
-    echo "Balance checks failed."
-    exit $exitcode
-fi
-
 
 echo "Preparing $TRANSCNT transactions took $dt seconds"
 echo "$TRANSCNT transactions applying took $dt2 seconds"
@@ -247,9 +256,21 @@ rate=$(echo "scale=4;$TRANSCNT / $dt2" | bc)
 echo "$rate transactions per second"
 
 
+if [ $exitcode -ne 0 ] ; then
+    echo "Balance checks failed."
+    exit $exitcode
+fi
+
+
 if [ "$FAIL" == "0" ];
 then
     echo "PASSED"
+        
+    if [ ! -z "$STATSCODE" ] ; then
+      echo "$TRANSCNT $ACCTCNT $dt2 $STATSCODE" >> $STATSFILE
+    fi  
+
+
 else
     echo "FAIL! ($FAIL)"
     exit 5

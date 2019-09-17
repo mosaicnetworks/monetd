@@ -12,7 +12,7 @@ install:
 
 start:
 	./scripts/testdependencies.sh
-	./scripts/start.sh $(TEST) 172.77.5.10 $(VERBOSE)
+	./scripts/start.sh --network=$(TEST) --init-ip=172.77.5.10 --verbose=$(VERBOSE)
 
 demo:
 	./scripts/crowd-funding-demo.sh $(TEST)
