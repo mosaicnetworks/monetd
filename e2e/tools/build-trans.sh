@@ -162,9 +162,6 @@ numpeers=${#peers[@]}
 
 
 # Process Faucet
-echo node $mydir/index.js --account=$FAUCET --nodename=${NODENAME}0 --nodehost=$NODEHOST \
- --nodeport=$NODEPORT --transfile=$TRANSFILE --configdir=$CONFIGDIR  --total=$PRE
-
 node $mydir/index.js --account=$FAUCET --nodename=${NODENAME}0 --nodehost=$NODEHOST \
  --nodeport=$NODEPORT --transfile=$TRANSFILE --configdir=$CONFIGDIR  --total=$PRE
      # --outfile=$OUTDIR/$FAUCET$SUFFIX
@@ -194,34 +191,39 @@ do
         echo "Transaction signing for $PREFIX$i failed."
         exit $exitcode
     fi
-
 done
 
+
+
+
+
+echo ""
+echo "Starting timed section ($TRANSCNT transactions)"
+echo ""
+
+printf '%*s' $TRANSCNT | tr ' ' '*' 
+printf "\e[${TRANSCNT}D\e[$(( 200 / $(tput cols) ))A"
 
 # Start Trans Timestamp
 res2=$(date +%s.%N)
 
-
-PIDS=""
-
 # Launch signed transactions processing as a background process
+PIDS=""
 for i in $(seq 1 $ACCTCNT)
 do
     ( $mydir/run-trans.sh $OUTDIR/$PREFIX$i$SUFFIX  ) & PIDS="$PIDS $!"
 done
-
 
 # Wait for background tasks to finish
 FAIL=0
 for job in $PIDS
 do
     wait $job || let "FAIL+=1"
-    echo $job $FAIL
 done
 
+echo ""
 
 # Timings
-
 # Finish timer
 res3=$(date +%s.%N)
 dt=$(echo "$res2 - $res1" | bc)
@@ -229,22 +231,19 @@ dt2=$(echo "$res3 - $res2" | bc)
 
 
 # Check values of accounts as expected
-
 node $mydir/index.js --account=$FAUCET --nodename=$NODENAME --nodehost=$NODEHOST \
  --nodeport=$NODEPORT --transfile=$TRANSFILE --configdir=$CONFIGDIR  --pre=$PRE
-
 exitcode=$?
-
-if [ $exitcode -ne 0 ] ; then
-    echo "Balance checks failed."
-    exit $exitcode
-fi
-
 
 echo "Preparing $TRANSCNT transactions took $dt seconds"
 echo "$TRANSCNT transactions applying took $dt2 seconds"
 rate=$(echo "scale=4;$TRANSCNT / $dt2" | bc)
 echo "$rate transactions per second"
+
+if [ $exitcode -ne 0 ] ; then
+    echo "Balance checks failed."
+    exit $exitcode
+fi
 
 
 if [ "$FAIL" == "0" ];

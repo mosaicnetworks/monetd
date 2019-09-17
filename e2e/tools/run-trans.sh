@@ -43,27 +43,25 @@ else
          if [ "$(echo $rc | grep -c "HTTP/1.1 200 OK")" -gt 0 ] ; then
             echo -n "."
          else   
-          echo "$host $post" >> $ERRFILE
-          echo "$rc" >> $ERRFILE
-          echo "$json\n\n" >> $ERRFILE           
-          echo "" >> $ERRFILE   
+          { echo "$host $post" 
+          echo "$rc" 
+          echo "$json\n\n"            
+          echo ""; } >> $ERRFILE   
 
           echo ""
           echo "ERROR: $URIFILE"
           echo "$host $post" 
           echo ""
-
           echo "$rc"           
           echo ""
-
           echo "$json"
           echo ""               
          fi   
 
-         echo "$host $post" >> $OUTFILE
-         echo "$rc" >> $OUTFILE
-         echo "$json" >> $OUTFILE
-         echo "" >> $OUTFILE
+         { echo "$URIFILE $host $post" 
+         echo "$rc" 
+         echo "$json" 
+         echo "" ; } >> $OUTFILE
     done
     }
 fi
@@ -73,4 +71,6 @@ if [ ! -s $ERRFILE ] ; then
     rm  $ERRFILE
 fi
 
-rm $TMPFILE
+if [ -f "$TMPFILE" ] ; then
+    rm $TMPFILE 
+fi    
