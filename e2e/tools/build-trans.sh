@@ -12,12 +12,15 @@ NODEHOST="172.77.5.11"          # Node IP
 NODEPORT="8080"                 # Node Port
 CONFIGDIR="$HOME/.monettest"    # Monet Config Dir used for this test
 OUTDIRSTEM="/tmp"               # Output Directory
-ROUNDROBIN=""              # Round Robin Transaction generation
+ROUNDROBIN=""                   # Round Robin Transaction generation
+STATSCODE=""                    # Log Stats Under This Code
+STATSFILE="$HOME/monetstats.txt"  # Stats File
 
 # Populate the helptext including the default values
 HELPTEXT="$0 [-v] [--accounts=$ACCTCNT] [--transactions=$TRANSCNT] [--faucet=\"$FAUCET\"] \
  [--faucet-config-dir=$FAUCETCONFIG] [--prefix=$PREFIX] [--node-name=$NODENAME] [--node-host=$NODEHOST]\
- [--node-port=$NODEPORT] [--config-dir=$CONFIGDIR] [--temp-dir=$OUTDIRSTEM] [--round-robin] [-h|--help]"
+ [--node-port=$NODEPORT] [--config-dir=$CONFIGDIR] [--temp-dir=$OUTDIRSTEM] \
+ [--stats-code=$STATSCODE] [--stats-file=$STATSFILE] [--round-robin] [-h|--help]"
 
 
 # Parse all the command line options
@@ -56,6 +59,12 @@ while [ $# -gt 0 ]; do
     --temp-dir=*)
       OUTDIRSTEM="${1#*=}"
       ;;
+    --stats-file=*)
+      STATSFILE="${1#*=}"
+      ;;
+    --stats-code=*)
+      STATSCODE="${1#*=}"
+      ;;
     --round-robin)
       ROUNDROBIN="--round-robin"
       ;;  
@@ -80,7 +89,9 @@ done
 echo "$0 $VERBOSE --accounts=$ACCTCNT --transactions=$TRANSCNT --faucet=\"$FAUCET\" \
  --faucet-config-dir=$FAUCETCONFIG --prefix=$PREFIX --node-name=$NODENAME \
  --node-host=$NODEHOST --node-port=$NODEPORT $ROUNDROBIN \
- --config-dir=$CONFIGDIR --temp-dir=$OUTDIRSTEM \n"
+ --config-dir=$CONFIGDIR --temp-dir=$OUTDIRSTEM \
+ --stats-code=\"$STATSCODE\" --stats-file=$STATSFILE "
+
 
 # Derived globals section
 
@@ -244,6 +255,7 @@ echo "$TRANSCNT transactions applying took $dt2 seconds"
 rate=$(echo "scale=4;$TRANSCNT / $dt2" | bc)
 echo "$rate transactions per second"
 
+
 if [ $exitcode -ne 0 ] ; then
     echo "Balance checks failed."
     exit $exitcode
@@ -253,6 +265,12 @@ fi
 if [ "$FAIL" == "0" ];
 then
     echo "PASSED"
+        
+    if [ ! -z "$STATSCODE" ] ; then
+      echo "$TRANSCNT $ACCTCNT $dt2 $STATSCODE" >> $STATSFILE
+    fi  
+
+
 else
     echo "FAIL! ($FAIL)"
     exit 5

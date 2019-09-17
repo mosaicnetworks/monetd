@@ -54,3 +54,14 @@ The Transactions are generated in a ``trans.$$`` subdirectory of $OUTDIRSTEM.
 It defaults to ``/tmp``.
 
 At the moment, the ``trans.$$`` folder is not deleted.
+
+
+## Heartbeat Benchmarks
+
+Just change the ``--heartbeat`` value in the first line.  
+
+```bash
+$ scripts/start.sh --network=transfer_03_10 --init-ip=172.77.5.10 --heartbeat=100ms
+$ tools/build-trans.sh --accounts=10 --transactions=200 --faucet-config-dir=/home/jon/.giverny/networks/transfer_03_10/keystore --round-robin
+$ make stop TEST=transfer_03_10
+```
