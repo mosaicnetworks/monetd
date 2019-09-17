@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # CLI Params default section
-VERBOSE="-v"                    # EIther "" or "-v"
+VERBOSE=""                    # EIther "" or "-v"
 ACCTCNT=10                      # Number of Accounts to transfer between       
 TRANSCNT=200                    # Total number of transactions 
 FAUCET="Faucet"                 # Faucet Account Moniker
@@ -217,7 +217,7 @@ echo "Starting timed section ($TRANSCNT transactions)"
 echo ""
 
 printf '%*s' $TRANSCNT | tr ' ' '*' 
-printf "\e[${TRANSCNT}D\e[$(( 200 / $(tput cols) ))A"
+printf "\e[${TRANSCNT}D\e[$(( $TRANSCNT / $(tput cols) ))A"
 
 # Start Trans Timestamp
 res2=$(date +%s.%N)
