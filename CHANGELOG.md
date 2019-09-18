@@ -8,6 +8,18 @@ FEATURES:
 IMPROVEMENTS:
 BUG FIXES:
 
+## v0.2.4 (September 18, 2019)
+
+FEATURES:
+
+- monetd~babble: enable advertising a different address than "babble.listen"
+- e2e: enhanced testing toolset
+
+IMPROVEMENTS:
+
+- monetd~evm-lite: more granular mutexes around state increases service API
+                   throughput.
+
 ## v0.2.3 (September 13, 2019)
 
 FEATURES:

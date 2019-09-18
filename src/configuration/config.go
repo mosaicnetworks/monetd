@@ -85,6 +85,7 @@ func (c *Config) ToBabbleConfig() *babble_config.Config {
 	babbleConfig.DataDir = fmt.Sprintf("%s/%s", c.DataDir, BabbleDir)
 	babbleConfig.LogLevel = c.LogLevel()
 	babbleConfig.BindAddr = c.Babble.BindAddr
+	babbleConfig.AdvertiseAddr = c.Babble.AdvertiseAddr
 	babbleConfig.MaxPool = c.Babble.MaxPool
 	babbleConfig.HeartbeatTimeout = c.Babble.Heartbeat
 	babbleConfig.TCPTimeout = c.Babble.TCPTimeout
