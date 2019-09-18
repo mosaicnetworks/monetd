@@ -42,7 +42,7 @@ do
 
     echo -n "$testname ."
    
-    $mydir/start.sh $testname $IP 2>&1 > $output
+    $mydir/start.sh --network=$testname --init-ip=$IP 2>&1 > $output
 
     echo -n "."
     set +e

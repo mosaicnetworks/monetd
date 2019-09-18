@@ -33,14 +33,14 @@ var fs = require("fs");
 
 
 const getAccount = async (address, password, datadir) => {
-  console.log("Decrypting "+address+", "+password)
+//  console.log("Decrypting "+address+", "+password)
   const keyfile = await datadir.keystore.get(address);
   return Keystore.decrypt(keyfile, password);
 
 };
 
 function NewNode(name, host, port) {
-  console.log("Creating Node "+name);
+//  console.log("Creating Node "+name);
 	this.name = name;
 	this.api = new Node(host, port);
 	this.account = {};
@@ -56,7 +56,7 @@ const transferRaw = async (node, from, to, value) => {
       defaultGasPrice
     );
    
-    console.log('Status: ', receipt.status);
+    process.stdout.write(receipt.status);
   };
 
 
@@ -79,7 +79,7 @@ const transferRaw = async (node, from, to, value) => {
 
 const processAccount = async (accountName) => {
 
-  console.log("\n Loading "+transfile+" searching for "+accountName+"\n");
+ // console.log("\n Loading "+transfile+" searching for "+accountName+"\n");
   var content = fs.readFileSync(transfile);
 
   var arrTrans = {};
@@ -99,15 +99,14 @@ const processAccount = async (accountName) => {
       const arraylength = data.length;
       for (var i = 0; i < arraylength; i++ ) {
           if (data[i].Moniker == accountName) {
-             console.log("Found Account "+accountName+" "+ i)
+          //   console.log("Found Account "+accountName+" "+ i)
              if (i==0) { runSynchronously = true;}
              node = new NewNode(nodename, nodehost, nodeport);
              thisAccount = await getAccount(data[i].Moniker, password, datadir);
              
 
              var baseAccount = await node.api.getAccount(thisAccount.address);
-             console.log("Account has  : "+baseAccount.balance.toFixed()+ "aŦ");
-             console.log("Account needs: "+data[i].Debits.toFixed()+ "aŦ");
+             console.log("Account "+accountName+" has  : "+baseAccount.balance.toFixed()+ "aŦ needs: "+data[i].Debits.toFixed()+ "aŦ");
   
 // The types of these variables is variable - so we force them into a BigNumber.
              var has = new BigNumber(baseAccount.balance);
@@ -143,7 +142,7 @@ const processAccount = async (accountName) => {
 
 
              if (arrTrans!="") {
-              console.log("Writing "+outfile); 
+ //             console.log("Writing "+outfile); 
               fs.writeFile(outfile, arrTrans, function(err) {
                  if (err) {console.log("error writing file : "+err)}
               });
@@ -163,7 +162,7 @@ const processAccount = async (accountName) => {
     }
 
 
-    console.log("Total check")
+  //  console.log("Total check")
     if ( total ) {
       try{
           const data = JSONbig.parse(content)
@@ -182,7 +181,7 @@ const processAccount = async (accountName) => {
     
           fs.writeFile (total, JSONbig.stringify(totals), function(err) {
             if (err) throw err;
-            console.log('complete');
+           // console.log('complete');
             }
         );
     
@@ -195,10 +194,10 @@ const processAccount = async (accountName) => {
 
 // Verify that totals match
 const checkTotals = async () => {
-  console.log("\n Loading "+transfile+"\n");
+//  console.log("\n Loading "+transfile+"\n");
   var transcontent = fs.readFileSync(transfile);
 
-  console.log("\n Loading "+pre+"\n");
+//  console.log("\n Loading "+pre+"\n");
   var precontent = fs.readFileSync(pre);
 
   node = new NewNode(nodename, nodehost, nodeport);
