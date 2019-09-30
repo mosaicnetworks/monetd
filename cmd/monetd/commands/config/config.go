@@ -1,7 +1,6 @@
 package config
 
 import (
-	"fmt"
 	"io/ioutil"
 	"path/filepath"
 	"strings"
@@ -59,7 +58,6 @@ func getDefaultKey() string {
 
 	files, err := ioutil.ReadDir(keystore)
 	if err != nil {
-		fmt.Println(err)
 		return ""
 	}
 
