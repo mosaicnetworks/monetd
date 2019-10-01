@@ -9,7 +9,7 @@ Versioning
 ``monetd`` versions follow `semantic versioning <https://semver.org>`__. As we
 are still in the 0.x range, different versions might contain undocumented
 and/or breaking changes. At this stage, the prefered way of installing
-``monetd`` is building from source, or using our public Docker images.
+``monetd`` is building from source, or downloading binaries directly.
 
 Docker
 ++++++
@@ -30,9 +30,22 @@ environment where ``monetd`` is sure to run.
 Downloads
 +++++++++
 
-Binary packages of ``monetd`` will be available from
+Binary packages of ``monetd`` are available from
 `github <https://github.com/mosaicnetworks/monetd/releases>`__.
 
+
+**Example**: Download ``monetd`` and copy it to the local bin directory.
+
+.. code ::
+
+    wget -O monetd \
+      https://github.com/mosaicnetworks/monetd/releases/download/v0.2.4/monetd-linux-amd64
+
+    chmod 751 monetd
+    sudo mv monetd /usr/local/bin/
+
+Please refer to :ref:`monetd systemd<monetd_systemd_rst>` for instructions to
+setup a ``systemd`` service on Linux systems.
 
 Building From Source
 ++++++++++++++++++++

@@ -1,0 +1,21 @@
+[..monetd] $ monetd help keys inspect
+
+Display the contents of a keyfile.
+
+The output contains the corresponding address and public key. If --private is
+specified, the keyfile will be decrypted with the passphrase and the raw private
+key will also be returned. If --passfile is not specified, the user will be
+prompted to enter the passphrase manually.
+
+Usage:
+  monetd keys inspect [moniker] [flags]
+
+Flags:
+  -h, --help      help for inspect
+      --private   include the private key in the output
+
+Global Flags:
+  -d, --datadir string    top-level directory for configuration and data (default "/home/martin/.monet")
+      --json              output JSON instead of human-readable format
+      --passfile string   file containing the passphrase
+  -v, --verbose           verbose output

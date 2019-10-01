@@ -12,5 +12,5 @@ Flags:
   -h, --help   help for contract
 
 Global Flags:
-  -d, --datadir string   top-level directory for configuration and data (default "/home/jon/.monet")
+  -d, --datadir string   top-level directory for configuration and data (default "/home/martin/.monet")
   -v, --verbose          verbose output

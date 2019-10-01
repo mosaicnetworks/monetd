@@ -9,17 +9,18 @@
    design.rst
    overview.rst
    install.rst
-   quickstart.rst
    tests.rst
+   quickstart.rst
    join.rst
    fees.rst
    monetd_api.rst
-   monetd_poa.rst
-   giverny_examples.rst
-
+   poa_overview.rst
+   poa_smartcontract.rst
+   monetd_systemd.rst
    monetd_configuration.rst
    monetd_commands.rst
    giverny.rst
+   giverny_examples.rst
    licence.rst
    faq.rst
 

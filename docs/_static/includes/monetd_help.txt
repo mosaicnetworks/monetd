@@ -24,7 +24,7 @@ Available Commands:
   version     show version info
 
 Flags:
-  -d, --datadir string   top-level directory for configuration and data (default "/home/jon/.monet")
+  -d, --datadir string   top-level directory for configuration and data (default "/home/martin/.monet")
   -h, --help             help for monetd
   -v, --verbose          verbose output
 

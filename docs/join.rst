@@ -16,9 +16,9 @@ the Monet Toolchain:
     $ monetcli poa nominate -h [address] -p [port] --from [node1 address] --pwd [password file for node1 key] --moniker node1 [node1 address]
 
     # wait to be accepted in the whitelist, which can be checked with
-    $ monetd poa whitelist
+    $ monetcli poa whitelist
     # or
-    $ monetd poa nomineelist
+    $ monetcli poa nomineelist
 
     $ monetd run
 

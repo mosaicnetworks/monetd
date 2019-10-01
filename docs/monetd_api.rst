@@ -370,3 +370,85 @@ Get Babble's initial validator-set.
 
     GET /genesispeers
     returns: []Peer
+
+History
+-------
+
+Get the entire history of validator-sets. It returns a map of validator-sets
+indexed by round number. The round number corresponds to the Hashgraph round at
+which the corresponding validator-set took effect.
+
+.. code:: http
+
+    Get /history
+    returns: map[int][]Peer
+
+.. code:: go
+
+    type Peer struct {
+        NetAddr   string
+        PubKeyHex string
+        Moniker   string
+    }
+
+Example:
+
+.. code:: bash
+
+    $host:-$ curl http://localhost:8080/history | jq
+
+    "0": [
+      {
+        "NetAddr": "node0.monet.network:1337",
+        "PubKeyHex": "0X04717E964AB361D46268389691B2B9638A07079263097E7F685397935A0038569EA9BCF10AC5FAF3025312014192D4303FE5981CC3CB8AE3C7C0645E1510D9D4BB",
+        "Moniker": "node0"
+      }
+    ],
+    "7": [
+      {
+        "NetAddr": "node0.monet.network:1337",
+        "PubKeyHex": "0X04717E964AB361D46268389691B2B9638A07079263097E7F685397935A0038569EA9BCF10AC5FAF3025312014192D4303FE5981CC3CB8AE3C7C0645E1510D9D4BB",
+        "Moniker": "node0"
+      },
+      {
+        "NetAddr": "node1.monet.network:1337",
+        "PubKeyHex": "0X04824C5EA5E0169ECA63141F388563D14F05E0C71BC9B5AA2A10D44EC06931CC56E4C5AE18473941AC92739AE9E7B9E792DE29E9368920F56FD559ABF7139430A7",
+        "Moniker": "node1"
+      }
+    ],
+    "21": [
+      {
+        "NetAddr": "node0.monet.network:1337",
+        "PubKeyHex": "0X04717E964AB361D46268389691B2B9638A07079263097E7F685397935A0038569EA9BCF10AC5FAF3025312014192D4303FE5981CC3CB8AE3C7C0645E1510D9D4BB",
+        "Moniker": "node0"
+      }
+    ],
+    "31": [
+      {
+        "NetAddr": "node0.monet.network:1337",
+        "PubKeyHex": "0X04717E964AB361D46268389691B2B9638A07079263097E7F685397935A0038569EA9BCF10AC5FAF3025312014192D4303FE5981CC3CB8AE3C7C0645E1510D9D4BB",
+        "Moniker": "node0"
+      },
+      {
+        "NetAddr": "node1.monet.network:1337",
+        "PubKeyHex": "0X04824C5EA5E0169ECA63141F388563D14F05E0C71BC9B5AA2A10D44EC06931CC56E4C5AE18473941AC92739AE9E7B9E792DE29E9368920F56FD559ABF7139430A7",
+        "Moniker": "node1"
+      }
+    ],
+    "44": [
+      {
+        "NetAddr": "node0.monet.network:1337",
+        "PubKeyHex": "0X04717E964AB361D46268389691B2B9638A07079263097E7F685397935A0038569EA9BCF10AC5FAF3025312014192D4303FE5981CC3CB8AE3C7C0645E1510D9D4BB",
+        "Moniker": "node0"
+      },
+      {
+        "NetAddr": "node1.monet.network:1337",
+        "PubKeyHex": "0X04824C5EA5E0169ECA63141F388563D14F05E0C71BC9B5AA2A10D44EC06931CC56E4C5AE18473941AC92739AE9E7B9E792DE29E9368920F56FD559ABF7139430A7",
+        "Moniker": "node1"
+      },
+      {
+        "NetAddr": "node2.monet.network:1337",
+        "PubKeyHex": "0X0475ADBA5AD67D0A12EBD68FA696806D411012E8C1A8D82A6EA08403E9C03F16D9F81A4CB175015ABBC47E45CA6E30999454A4D2CD040040A6687BA729D96913EC",
+        "Moniker": "node2"
+      }
+    ],

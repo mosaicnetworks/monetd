@@ -3,13 +3,12 @@
 Monetd Reference
 ================
 
-``monetd`` provides the core commands needed to configure and run a node. It
-has context sensitive help accessed either by running ``monetd help`` or by
-adding a ``-h`` parameter to the relevant command.
+``monetd`` provides the core commands needed to configure and run a node. It has
+context sensitive help accessed either by running ``monetd help`` or by adding a
+``-h`` parameter to the relevant command.
 
 .. include:: _static/includes/monetd_help.txt
     :code: bash
-
 
 There are 5 subcommands. ``help`` is described above. The other 4 commands are
 described in separate sections below:
@@ -20,7 +19,6 @@ described in separate sections below:
 - **config** --- creates and manages configurations
 - **run** --- runs the monet daemon, i.e. starts a node
 
-
 Global Parameters
 -----------------
 
@@ -30,7 +28,6 @@ Global Parameters are available for all subcommands.
   configuration files
 - **-h, --help** --- help command as discussed above
 - **-v, --verbose** --- turns on verbose messages. Defaults to false.
-
 
 Version
 -------
@@ -106,7 +103,7 @@ attempt to create a duplicate, the command will abort with an error.
 Inspect
 ~~~~~~~
 
-.. include:: _static/includes/monetd_help_keys_display.txt
+.. include:: _static/includes/monetd_help_keys_inspect.txt
     :code: bash
 
 

@@ -13,7 +13,7 @@ Flags:
   -h, --help   help for new
 
 Global Flags:
-  -d, --datadir string    top-level directory for configuration and data (default "/home/jon/.monet")
+  -d, --datadir string    top-level directory for configuration and data (default "/home/martin/.monet")
       --json              output JSON instead of human-readable format
       --passfile string   file containing the passphrase
   -v, --verbose           verbose output

@@ -1,4 +1,4 @@
-.. _monetd_poa_rst:
+.. _poa_smartcontract_rst:
 
 POA Smart Contract
 ==================

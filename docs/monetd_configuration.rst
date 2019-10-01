@@ -81,6 +81,7 @@ environment.
 
     Flags:
         --api-listen string           IP:PORT of HTTP API service (default ":8080")
+        --babble.advertise string     Advertise IP:PORT of Babble node
         --babble.bootstrap            bootstrap Babble from database
         --babble.cache-size int       number of items in LRU caches (default 50000)
         --babble.heartbeat duration   heartbeat timer milliseconds (time between gossips) (default 200ms)

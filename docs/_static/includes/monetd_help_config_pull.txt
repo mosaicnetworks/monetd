@@ -21,11 +21,11 @@ Examples:
   monetd config pull "192.168.5.1:8080"
 
 Flags:
-      --address string    IP/hostname of this node (default "192.168.1.10")
+      --address string    IP/hostname of this node (default "192.168.1.3")
   -h, --help              help for pull
-      --key string        moniker of the key to use for this node (default "Jon")
+      --key string        moniker of the key to use for this node (default "Amelia")
       --passfile string   file containing the passphrase
 
 Global Flags:
-  -d, --datadir string   top-level directory for configuration and data (default "/home/jon/.monet")
+  -d, --datadir string   top-level directory for configuration and data (default "/home/martin/.monet")
   -v, --verbose          verbose output

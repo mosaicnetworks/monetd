@@ -12,6 +12,6 @@ Flags:
       --remove   stop and remove node
 
 Global Flags:
-  -g, --giverny-data-dir string   Top-level giverny directory for configuration and data (default "/home/jon/.giverny")
-  -m, --monet-data-dir string     Top-level monetd directory for configuration and data (default "/home/jon/.monet")
+  -g, --giverny-data-dir string   Top-level giverny directory for configuration and data (default "/home/martin/.giverny")
+  -m, --monet-data-dir string     Top-level monetd directory for configuration and data (default "/home/martin/.monet")
   -v, --verbose                   verbose messages

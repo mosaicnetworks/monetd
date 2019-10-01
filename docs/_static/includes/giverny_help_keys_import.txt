@@ -9,8 +9,8 @@ Flags:
   -h, --help   help for import
 
 Global Flags:
-  -g, --giverny-data-dir string   Top-level giverny directory for configuration and data (default "/home/jon/.giverny")
+  -g, --giverny-data-dir string   Top-level giverny directory for configuration and data (default "/home/martin/.giverny")
       --json                      output JSON instead of human-readable format
-  -m, --monet-data-dir string     Top-level monetd directory for configuration and data (default "/home/jon/.monet")
+  -m, --monet-data-dir string     Top-level monetd directory for configuration and data (default "/home/martin/.monet")
       --passfile string           the file that contains the passphrase for the keyfile
   -v, --verbose                   verbose messages
