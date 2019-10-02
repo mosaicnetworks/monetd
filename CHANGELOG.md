@@ -4,9 +4,18 @@
 ## Unreleased
 
 SECURITY:
+
 FEATURES:
+
 IMPROVEMENTS:
+
+- docs: Document POA process
+
 BUG FIXES:
+
+- monetd~babble: Intercept SIGTERM together with SIGINT
+- monetd~babble: Add timestamp to node stats
+- monetd~config: Ignore error when 'config pull' tries to provide default key.
 
 ## v0.2.4 (September 18, 2019)
 
