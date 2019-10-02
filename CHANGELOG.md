@@ -1,6 +1,13 @@
 
 # Changelog
 
+## Unreleased
+
+SECURITY:
+FEATURES:
+IMPROVEMENTS:
+BUG FIXES:
+
 ## v0.2.5 (October 2, 2019)
 
 IMPROVEMENTS:
