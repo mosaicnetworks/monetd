@@ -1,20 +1,16 @@
 
 # Changelog
 
-## Unreleased
-
-SECURITY:
-
-FEATURES:
+## v0.2.5 (October 2, 2019)
 
 IMPROVEMENTS:
 
 - docs: Document POA process
+- monetd~babble: Add timestamp to node stats
 
 BUG FIXES:
 
 - monetd~babble: Intercept SIGTERM together with SIGINT
-- monetd~babble: Add timestamp to node stats
 - monetd~config: Ignore error when 'config pull' tries to provide default key.
 
 ## v0.2.4 (September 18, 2019)
