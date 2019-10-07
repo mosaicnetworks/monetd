@@ -1,14 +1,15 @@
 package config
 
 import (
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"path/filepath"
 
 	"github.com/mosaicnetworks/monetd/src/configuration"
 	"github.com/mosaicnetworks/monetd/src/contract"
+	"github.com/mosaicnetworks/monetd/src/crypto"
 
-	"github.com/mosaicnetworks/monetd/src/common"
-	"github.com/mosaicnetworks/monetd/src/files"
 	"github.com/mosaicnetworks/monetd/src/types"
 	"github.com/spf13/cobra"
 )
@@ -34,17 +35,22 @@ func contractConfig(cmd *cobra.Command, args []string) error {
 
 	node := args[0]
 
-	tomlfile := filepath.Join(configuration.Global.DataDir, configuration.KeyStoreDir, node+".toml")
+	jsonfile := filepath.Join(configuration.Global.DataDir, configuration.KeyStoreDir, node+".json")
 	// For a simple change, tree is quicker and easier than unmarshalling the whole tree
-	tree, err := files.LoadToml(tomlfile)
+
+	// Read key from file.
+	keyjson, err := ioutil.ReadFile(jsonfile)
 	if err != nil {
-		common.MessageWithType(common.MsgError, "Cannot read peer configuration: ", tomlfile)
+		return fmt.Errorf("Failed to read the keyfile at '%s': %v", jsonfile, err)
+	}
+
+	k := new(crypto.EncryptedKeyJSONMonet)
+	if err := json.Unmarshal(keyjson, k); err != nil {
 		return err
 	}
-	pubkey := tree.GetPath([]string{"node", "pubkey"}).(string)
-	moniker := tree.GetPath([]string{"node", "moniker"}).(string)
+
 	peersJSON := types.PeerRecordList{}
-	peersJSON = append(peersJSON, &types.PeerRecord{NetAddr: "localhost:1337", PubKeyHex: pubkey, Moniker: moniker})
+	peersJSON = append(peersJSON, &types.PeerRecord{NetAddr: "localhost:1337", PubKeyHex: k.PublicKey, Moniker: node})
 
 	solSource, err := contract.GetFinalSoliditySource(peersJSON)
 
