@@ -58,7 +58,6 @@ func init() {
 	)
 
 	// set global flags
-	RootCmd.PersistentFlags().StringP("datadir", "d", configuration.Global.DataDir, "top-level directory for configuration and data")
 	RootCmd.PersistentFlags().BoolP("verbose", "v", configuration.Global.Verbose, "verbose output")
 
 	// do not print usage when error occurs
@@ -83,8 +82,8 @@ func readConfig(cmd *cobra.Command) error {
 	}
 
 	// Read from configuration file if there is one.
-	viper.SetConfigName("monetd")                     // name of config file (without extension)
-	viper.AddConfigPath(configuration.Global.DataDir) // search root directory
+	viper.SetConfigName("monetd")                       // name of config file (without extension)
+	viper.AddConfigPath(configuration.Global.ConfigDir) // search config directory
 
 	// If a config file is found, read it in.
 	if err := viper.ReadInConfig(); err == nil {

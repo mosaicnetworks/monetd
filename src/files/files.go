@@ -15,8 +15,8 @@ import (
 	"github.com/mosaicnetworks/monetd/src/configuration"
 )
 
-//WriteToFile writes a string variable to a file.
-//It overwrites any pre-existing data silently.
+// WriteToFile writes a string variable to a file. It overwrites any
+// pre-existing data silently.
 func WriteToFile(filename string, data string) error {
 	file, err := os.Create(filename)
 	if err != nil {
@@ -31,44 +31,35 @@ func WriteToFile(filename string, data string) error {
 	return file.Sync()
 }
 
-//WriteToFilePrivate writes a string variable to a file with 0600 permissions
+// WriteToFilePrivate writes a string variable to a file with 0600 permissions.
+// It creates all directories along the path if they don't exist.
 func WriteToFilePrivate(filename string, data string) error {
-
+	if err := os.MkdirAll(filepath.Dir(filename), 0744); err != nil {
+		return err
+	}
 	return ioutil.WriteFile(
 		filename,
 		[]byte(data), 0600)
 }
 
-//CreateDirsIfNotExists takes an array of strings contain filepaths and
-//any that for not exist are created.
+// CreateDirsIfNotExists takes an array of strings containing filepaths and for
+// any path that contains directories which do not exist, it creates them.
 func CreateDirsIfNotExists(d []string) error {
-
 	for _, dir := range d {
-		if _, err := os.Stat(dir); os.IsNotExist(err) {
-			err := os.MkdirAll(dir, os.ModePerm)
-			if err != nil {
-				common.ErrorMessage("Error creating directory: ", dir)
-				return err
-			}
-			common.DebugMessage("Created Directory: ", dir)
-		} else {
-			if err != nil {
-				return err
-			}
+		if err := os.MkdirAll(dir, 0744); err != nil {
+			return err
 		}
 	}
-
 	return nil
 }
 
-// CreateMonetConfigFolders creates the standard directory layout for a
-// monet configuration folder
+// CreateMonetConfigFolders creates the standard directory layout for a monet
+// configuration folder
 func CreateMonetConfigFolders(configDir string) error {
 	return CreateDirsIfNotExists([]string{
 		configDir,
 		filepath.Join(configDir, configuration.BabbleDir),
 		filepath.Join(configDir, configuration.EthDir),
-		filepath.Join(configDir, configuration.KeyStoreDir),
 		filepath.Join(configDir, configuration.EthDir, configuration.POADir),
 	})
 }

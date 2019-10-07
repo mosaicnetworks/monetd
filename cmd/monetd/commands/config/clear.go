@@ -21,8 +21,8 @@ Backup and delete the current configuration folder ([datadir]).
 }
 
 func clearConfig(cmd *cobra.Command, args []string) error {
-	if files.CheckIfExists(configuration.Global.DataDir) {
-		files.SafeRenameDir(configuration.Global.DataDir)
+	if files.CheckIfExists(configuration.DefaultMonetDir()) {
+		files.SafeRenameDir(configuration.DefaultMonetDir())
 	}
 	return nil
 }

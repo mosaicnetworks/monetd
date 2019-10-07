@@ -137,7 +137,7 @@ res1=$(date +%s.%N)
 
 
 # Generate Accounts to use for testing
-giverny --monet-data-dir $CONFIGDIR keys generate \
+giverny --keystore $CONFIGDIR/keystore keys generate \
     --prefix $PREFIX \
     --min-suffix 1 \
     --max-suffix $ACCTCNT \
@@ -156,7 +156,7 @@ done
 
 
 # Generate Transactions
-giverny --monet-data-dir $CONFIGDIR transactions solo -v \
+giverny --keystore $CONFIGDIR/keystore transactions solo -v \
     --faucet $FAUCET \
     --accounts $ACCTS \
     --count $TRANSCNT \

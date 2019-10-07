@@ -15,7 +15,9 @@ func newStopCmd() *cobra.Command {
 		Long: `
 giverny network stop
 
-Stop a node and all the nodes within it.
+If the <node> value is provided, this command stops just that node. Otherwise it
+stops all the nodes. Additionaly, if the --remove flag is set, the nodes are 
+also deleted.
 		`,
 		Args: cobra.MinimumNArgs(1),
 		RunE: networkStop,

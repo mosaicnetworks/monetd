@@ -11,9 +11,11 @@ import (
 )
 
 var (
-	keyParam     = getDefaultKey() //get default keyfile
-	addressParam = common.GetMyIP()
-	passwordFile string
+	_keystore     = configuration.DefaultKeystoreDir()
+	_configDir    = configuration.DefaultConfigDir()
+	_keyParam     = getDefaultKey() //get default keyfile
+	_addressParam = common.GetMyIP()
+	_passwordFile string
 )
 
 // ConfigCmd implements the config CLI subcommand
@@ -23,12 +25,9 @@ var ConfigCmd = &cobra.Command{
 	Long: `
 Manage monetd configuration.
 
-The monetd server reads configuration from --datadir. There are two ways of 
-initialising the configuration:
-
 * config build - creates the configuration for a single-node network, based on 
-                 one of the keys in [datadir]/keystore. This is a quick and easy 
-                 way to get started with monetd. 
+                 one of the keys in <keystore>. This is a quick and easy way to
+                 get started with monetd. 
 
 * config pull -  fetches the configuration from a running node. This is used to
                  join an existing network.
@@ -50,11 +49,11 @@ func init() {
 	)
 }
 
-// getDefaultKey returns the moniker of the the first keyfile in
-// [datadir]/keystore
+// getDefaultKey returns the moniker of the the first keyfile in the default
+// keystore
 func getDefaultKey() string {
 
-	keystore := filepath.Join(configuration.Global.DataDir, "keystore")
+	keystore := configuration.DefaultKeystoreDir()
 
 	files, err := ioutil.ReadDir(keystore)
 	if err != nil {

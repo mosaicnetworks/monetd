@@ -16,12 +16,22 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// Parameters for docker client
+const (
+	imgName     = "mosaicnetworks/monetd:latest"
+	imgIsRemote = false
+)
+
 func newPushCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "push [network] [node]",
-		Short: "push the configuration for a node on the named network",
+		Short: "push a node onto the named network",
 		Long: `
 giverny network push
+
+This command is called after 'giverny network start'. It builds a node based on
+the configation files found for <node>, attaches it to the docker network, and
+starts monetd.
 		`,
 		Args: cobra.ExactArgs(2),
 		RunE: networkPush,
@@ -30,18 +40,14 @@ giverny network push
 	return cmd
 }
 
-const imgName = "mosaicnetworks/monetd:latest"
-
-var imgIsRemote = false
-
 func networkPush(cmd *cobra.Command, args []string) error {
 	networkName := args[0]
 	nodeName := args[1]
-	return pushDockerNode(networkName, nodeName, "", imgName, imgIsRemote)
+	return pushDockerNode(networkName, nodeName, imgName, imgIsRemote)
 }
 
-//PushDockerNode builds a docker node, configures it and starts it
-func pushDockerNode(networkName, nodeName, networkID, imgName string, isRemoteImage bool) error {
+// PushDockerNode builds a docker node, configures it and starts it
+func pushDockerNode(networkName, nodeName, imgName string, isRemoteImage bool) error {
 	common.DebugMessage("Pushing network " + networkName + " node " + nodeName)
 
 	// First we validate that the requested node has been created
@@ -81,7 +87,8 @@ func pushDockerNode(networkName, nodeName, networkID, imgName string, isRemoteIm
 		return err
 	}
 
-	// If we don't have a networkID we retrieve one
+	// retrieve network ID based on network name
+	var networkID string
 
 	if nets, err := docker.GetNetworks(cli, false); err == nil {
 		if net, ok := nets[networkName]; ok {
@@ -104,22 +111,25 @@ func pushDockerNode(networkName, nodeName, networkID, imgName string, isRemoteIm
 	// Create Node
 	common.DebugMessage("Creating Container ")
 
-	containerID, err := docker.CreateContainerFromImage(cli, imgName, isRemoteImage,
-		nodeName, strslice.StrSlice{"run"}, false)
+	containerID, err := docker.CreateContainerFromImage(
+		cli,
+		imgName,
+		isRemoteImage,
+		nodeName,
+		strslice.StrSlice{"run"},
+		false)
 
 	common.DebugMessage("Created Container " + containerID)
 
 	// Copy Configuration to Node
-
 	common.DebugMessage("Copying Config to Container ")
+
 	err = docker.CopyToContainer(cli, containerID, dockerconfigpath, "/")
 	if err != nil {
 		return err
 	}
 
 	// Configure Networking
-
-	//	func ConnectContainerToNetwork(cli *client.Client, networkID string, containerID string, ip string) error {
 	common.DebugMessage("Connecting Container to Network")
 
 	err = docker.ConnectContainerToNetwork(cli, networkID, containerID, config.NetAddr)
@@ -129,6 +139,7 @@ func pushDockerNode(networkName, nodeName, networkID, imgName string, isRemoteIm
 
 	// Start Node
 	common.DebugMessage("Starting Container ")
+
 	err = docker.StartContainer(cli, containerID)
 	if err != nil {
 		return err

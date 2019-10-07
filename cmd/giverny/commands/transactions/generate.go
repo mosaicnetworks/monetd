@@ -16,7 +16,6 @@ import (
 	"github.com/mosaicnetworks/monetd/cmd/giverny/commands/network"
 
 	"github.com/BurntSushi/toml"
-	"github.com/mosaicnetworks/monetd/cmd/giverny/configuration"
 	"github.com/mosaicnetworks/monetd/src/common"
 	monetconfig "github.com/mosaicnetworks/monetd/src/configuration"
 	"github.com/mosaicnetworks/monetd/src/files"
@@ -28,11 +27,8 @@ func newGenerateCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "generate",
 		Short: "generate transactions",
-		Long: `
-Generate transactions.
-`,
-		Args: cobra.ArbitraryArgs,
-		RunE: generateTransactions,
+		Args:  cobra.ArbitraryArgs,
+		RunE:  generateTransactions,
 	}
 
 	addGenerateFlags(cmd)
@@ -58,13 +54,13 @@ func generateTransactions(cmd *cobra.Command, args []string) error {
 		return errors.New("network name must only contains characters in the range 0-9 or A-Z or a-z")
 	}
 
-	networkDir := filepath.Join(configuration.GivernyConfigDir, givernyNetworksDir, networkName)
+	networkDir := filepath.Join(_giverny, givernyNetworksDir, networkName)
 	if !files.CheckIfExists(networkDir) {
 		return errors.New("network does not exist: " + networkDir)
 	}
 
 	keystore := filepath.Join(networkDir, givernyKeystoreDir)
-	if !files.CheckIfExists(networkDir) {
+	if !files.CheckIfExists(keystore) {
 		return errors.New("keystore does not exist: " + keystore)
 	}
 

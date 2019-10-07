@@ -6,7 +6,6 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/mosaicnetworks/monetd/src/configuration"
 	"github.com/spf13/cobra"
 )
 
@@ -15,7 +14,7 @@ func newListCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "list",
 		Short: "list keyfiles",
-		Long:  "List keyfiles in [datadir]/keystore.",
+		Long:  "List keyfiles in <keystore>",
 		RunE:  list,
 	}
 
@@ -25,9 +24,7 @@ func newListCmd() *cobra.Command {
 // list prints all the *.json files in [datadir]/keystore
 func list(cmd *cobra.Command, args []string) error {
 
-	keystore := filepath.Join(configuration.Global.DataDir, "keystore")
-
-	files, err := ioutil.ReadDir(keystore)
+	files, err := ioutil.ReadDir(_keystore)
 	if err != nil {
 		fmt.Println(err)
 		return nil

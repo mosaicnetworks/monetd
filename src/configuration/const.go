@@ -1,7 +1,6 @@
 package configuration
 
 import (
-	"errors"
 	"os"
 	"os/user"
 	"path/filepath"
@@ -10,17 +9,23 @@ import (
 
 // Directory Constants
 const (
-	BabbleDir   = "babble"
-	EthDir      = "eth"
+	// config
+	ConfigDir = "monetd-config"
+	BabbleDir = "babble"
+	EthDir    = "eth"
+	POADir    = "poa"
+
+	// data
+	DatabaseDir = "monetd-data"
+
+	// keystore
 	KeyStoreDir = "keystore"
-	POADir      = "poa"
-	ServerDir   = "server"
 )
 
 // Monetd Configuration Directory
 const (
 	MonetdTomlDirDot  = ".monet"
-	MonetdTomlDirCaps = "MONET"
+	MonetdTomlDirCaps = "Monet"
 )
 
 // Filename constants
@@ -29,9 +34,11 @@ const (
 	PeersGenesisJSON = "peers.genesis.json"
 	GenesisJSON      = "genesis.json"
 	MonetTomlFile    = "monetd.toml"
+	EthDB            = "eth-db"
+	BabbleDB         = "babble-db"
 	WalletTomlFile   = "wallet.toml"
 	ServerPIDFile    = "server.pid"
-	Chaindata        = "chaindata"
+	BabblePrivKey    = "priv_key"
 )
 
 // Network Constants
@@ -55,33 +62,41 @@ const (
 	CompileResultFile      = "compile.toml"
 )
 
-//DefaultMonetConfigDir is a wrapper for DefaultConfigDir, but returns the
-//location of the monetd configuration file.
-func DefaultMonetConfigDir() (string, error) {
-	if runtime.GOOS == "darwin" || runtime.GOOS == "windows" {
-		return DefaultConfigDir(MonetdTomlDirCaps)
-	}
-	return DefaultConfigDir(MonetdTomlDirDot)
+// DefaultConfigDir returns the full path of the config directory where static
+// configuration files are stored.
+func DefaultConfigDir() string {
+	return filepath.Join(DefaultMonetDir(), ConfigDir)
 }
 
-//DefaultConfigDir returns a the full path for the default location for a configuration file.
-func DefaultConfigDir(configDir string) (string, error) {
+// DefaultDataDir returns the full path of the data directory where databases
+// are stored.
+func DefaultDataDir() string {
+	return filepath.Join(DefaultMonetDir(), DatabaseDir)
+}
+
+// DefaultKeystoreDir returns the full path of the keystore where encrypted
+// keyfiles are stored.
+func DefaultKeystoreDir() string {
+	return filepath.Join(DefaultMonetDir(), "keystore")
+}
+
+// DefaultMonetDir returns a the full path for the default location Monet
+// configuration files based on the underlying OS.
+func DefaultMonetDir() string {
 	// Try to place the data folder in the user's home dir
 	home := homeDir()
 	if home != "" {
 		if runtime.GOOS == "darwin" {
-			return filepath.Join(home, "Library", configDir), nil
+			return filepath.Join(home, "Library", "Monet")
 		} else if runtime.GOOS == "windows" {
-			return filepath.Join(home, "AppData", "Roaming", configDir), nil
+			return filepath.Join(home, "AppData", "Roaming", "Monet")
 		} else {
-			return filepath.Join(home, configDir), nil
+			return filepath.Join(home, ".monet")
 		}
 	}
-	// As we cannot guess a stable location, return empty and handle later
-	return "", errors.New("network: cannot determine a sensible default")
+	return ""
 }
 
-/* Helper Functions */
 // Guess a sensible default location from OS and environment variables.
 func homeDir() string {
 	if home := os.Getenv("HOME"); home != "" {
