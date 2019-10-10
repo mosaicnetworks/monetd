@@ -1,6 +1,6 @@
 #!/bin/bash
 
-
+ACCTMASK=$1
 NET="prebaked"
 GIVDIR="$HOME/.giverny/networks/$NET"
 TRANS="$GIVDIR/trans"
@@ -10,14 +10,12 @@ mydir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" > /dev/null && pwd )"
 
 
 cnt=1
-
-for i in $TRANS/*.json
+# echo trans_${ACCTMASK}_
+# echo $TRANS/trans_${ACCTMASK}_*.json
+for i in $TRANS/trans_${ACCTMASK}_*.json
 do
 
-
-
     TRANSSET=$(basename $i .json)
-
 
     # Every 5th run, we hard reset the network to manage logs etc. 
     if [ $(($cnt % 5)) == 4 ] ; then

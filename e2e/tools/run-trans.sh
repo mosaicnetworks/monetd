@@ -33,6 +33,9 @@ else
     while read host post  
     do
         
+    # //TODO Remove
+    #     host="35.176.237.170:8080/rawtx"
+
          json=$( curl -v $host -d "$post" -X POST  2> $TMPFILE); 
 
          rc="$(grep -v "POST is already" $TMPFILE)"       
