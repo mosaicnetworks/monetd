@@ -15,6 +15,9 @@ OUTDIRSTEM="/tmp"               # Output Directory
 ROUNDROBIN=""                   # Round Robin Transaction generation
 STATSCODE=""                    # Log Stats Under This Code
 STATSFILE="$HOME/monetstats.txt"  # Stats File
+MINACCT=1001
+
+
 
 # Populate the helptext including the default values
 HELPTEXT="$0 [-v] [--accounts=$ACCTCNT] [--transactions=$TRANSCNT] [--faucet=\"$FAUCET\"] \
@@ -139,13 +142,13 @@ res1=$(date +%s.%N)
 # Generate Accounts to use for testing
 giverny --monet-data-dir $CONFIGDIR keys generate \
     --prefix $PREFIX \
-    --min-suffix 1 \
+    --min-suffix $MINACCT \
     --max-suffix $ACCTCNT \
     $VERBOSE 
 
 # Create expanded account list
 ACCTS=""
-for i in $(seq 1 $ACCTCNT)
+for i in $(seq $MINACCT $ACCTCNT)
 do
     if [ "$ACCTS" != "" ] ; then
         ACCTS="$ACCTS,"
