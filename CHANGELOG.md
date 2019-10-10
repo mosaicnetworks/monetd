@@ -8,6 +8,8 @@ FEATURES:
 IMPROVEMENTS:
 
 - monetd~babble: Badger_DB updated to latest v1.6.0
+- monetd~poa:    Implement a voting scheme to evict a validator
+                 joinleavetest to test nominating and evicting validators
 
 BUG FIXES:
 
