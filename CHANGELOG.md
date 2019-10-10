@@ -6,6 +6,9 @@
 SECURITY:
 FEATURES:
 IMPROVEMENTS:
+
+- monetd~babble: Badger_DB updated to latest v1.6.0
+
 BUG FIXES:
 
 ## v0.2.5 (October 2, 2019)
