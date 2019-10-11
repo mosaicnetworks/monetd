@@ -92,7 +92,7 @@ func pullConfig(cmd *cobra.Command, args []string) error {
 	}
 
 	for _, item := range filesList {
-		err := files.DownloadFile(item.URL, item.Dest)
+		err := files.DownloadFile(item.URL, item.Dest, files.OverwriteSilently)
 		if err != nil {
 			common.ErrorMessage(fmt.Sprintf("Error downloading %s", item.URL))
 			return err
@@ -101,9 +101,5 @@ func pullConfig(cmd *cobra.Command, args []string) error {
 	}
 
 	// Write TOML file for monetd based on global config object
-	if err := configuration.DumpGlobalTOML(_configDir, configuration.MonetTomlFile); err != nil {
-		return err
-	}
-
-	return nil
+	return configuration.DumpGlobalTOML(_configDir, configuration.MonetTomlFile)
 }

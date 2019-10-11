@@ -287,7 +287,7 @@ func generateKeys(keystore string, nodeList []node) error {
 	if !_noSavePassKey && _passFile == "" && !_generatePassKey {
 		passphrase, _ := crypto.GetPassphrase("", true)
 		_passFile = filepath.Join(keystore, "pwd.txt")
-		files.WriteToFile(_passFile, passphrase)
+		files.WriteToFile(_passFile, passphrase, files.OverwriteSilently)
 	}
 
 	// Generate Keys
@@ -358,11 +358,10 @@ func generateGivernyConfig(configFile, networkName, initIP string, nodeList []no
 		return err
 	}
 
-<<<<<<< HEAD
-	err = files.WriteToFile(filepath.Join(networkDir, networkTomlFileName), string(tomlBytes), files.BackupExisting)
-=======
-	err = files.WriteToFile(configFile, string(tomlBytes))
->>>>>>> filesystem-layout
+	err = files.WriteToFile(
+		configFile,
+		string(tomlBytes),
+		files.BackupExisting)
 	if err != nil {
 		return err
 	}

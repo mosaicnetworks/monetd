@@ -102,9 +102,7 @@ func buildConfig(cmd *cobra.Command, args []string) error {
 	}
 
 	// Write TOML file for monetd based on global config object
-	if err := configuration.DumpGlobalTOML(_configDir, configuration.MonetTomlFile); err != nil {
-		return err
-	}
+	return configuration.DumpGlobalTOML(_configDir, configuration.MonetTomlFile)
 
 	return nil
 }
@@ -119,11 +117,11 @@ func dumpPeers(configDir string, peers []*peers.Peer) error {
 
 	// peers.json
 	jsonFileName := filepath.Join(configDir, configuration.BabbleDir, configuration.PeersJSON)
-	files.WriteToFile(jsonFileName, string(peersJSONOut))
+	files.WriteToFile(jsonFileName, string(peersJSONOut), files.OverwriteSilently)
 
 	// peers.genesis.json
 	jsonFileName = filepath.Join(configDir, configuration.BabbleDir, configuration.PeersGenesisJSON)
-	files.WriteToFile(jsonFileName, string(peersJSONOut))
+	files.WriteToFile(jsonFileName, string(peersJSONOut), files.OverwriteSilently)
 
 	return nil
 }

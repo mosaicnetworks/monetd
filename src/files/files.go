@@ -17,11 +17,10 @@ import (
 	"github.com/mosaicnetworks/monetd/src/configuration"
 )
 
-<<<<<<< HEAD
-//Bits is used to hold bitwise options
+// Bits is used to hold bitwise options
 type Bits uint8
 
-//File options
+// File options
 const (
 	BackupExisting Bits = 1 << iota
 	PromptIfExisting
@@ -57,19 +56,14 @@ func ProcessFileOptions(filename string, options Bits) error {
 	return nil
 }
 
-//WriteToFile writes a string variable to a file.
-//It overwrites any pre-existing data silently.
+// WriteToFile writes a string variable to a file.
+// It overwrites any pre-existing data silently.
 func WriteToFile(filename string, data string, options Bits) error {
 
 	if err := ProcessFileOptions(filename, options); err != nil {
 		return err
 	}
 
-=======
-// WriteToFile writes a string variable to a file. It overwrites any
-// pre-existing data silently.
-func WriteToFile(filename string, data string) error {
->>>>>>> filesystem-layout
 	file, err := os.Create(filename)
 	if err != nil {
 		return err
@@ -91,7 +85,8 @@ func WriteToFilePrivate(filename string, data string) error {
 	}
 	return ioutil.WriteFile(
 		filename,
-		[]byte(data), 0600)
+		[]byte(data),
+		0600)
 }
 
 // CreateDirsIfNotExists takes an array of strings containing filepaths and for

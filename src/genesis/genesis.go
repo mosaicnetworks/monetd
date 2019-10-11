@@ -78,7 +78,7 @@ func GenerateGenesisJSON(outDir, keystore string, peers []*peers.Peer, alloc *Al
 
 	common.DebugMessage("Write Genesis.json")
 	jsonFileName := filepath.Join(outDir, configuration.GenesisJSON)
-	files.WriteToFile(jsonFileName, string(genesisjson))
+	files.WriteToFile(jsonFileName, string(genesisjson), files.OverwriteSilently)
 
 	return nil
 }
