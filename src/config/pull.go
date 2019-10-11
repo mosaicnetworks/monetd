@@ -57,7 +57,7 @@ func PullConfig(configDir, moniker, selfAddress, otherAddress, passwordFile stri
 	}
 
 	for _, item := range filesList {
-		err := files.DownloadFile(item.URL, item.Dest, files.BackupExisting|files.PromptIfExisting)
+		err := files.DownloadFile(item.URL, item.Dest, files.BackupExisting)
 		if err != nil {
 			common.ErrorMessage(fmt.Sprintf("Error downloading %s", item.URL))
 			return err

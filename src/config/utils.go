@@ -6,7 +6,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"net"
 	"path/filepath"
+	"strings"
 
 	eth_crypto "github.com/ethereum/go-ethereum/crypto"
 	"github.com/mosaicnetworks/monetd/src/configuration"
@@ -39,11 +41,57 @@ func DumpConfigTOML(configDir, fileName string) error {
 
 	tomlPath := filepath.Join(configDir, fileName)
 
+	if err := files.ProcessFileOptions(tomlPath, files.BackupExisting|files.PromptIfExisting); err != nil {
+		return fmt.Errorf("Aborted writing %s: %v", tomlPath, err)
+	}
+
 	if err := ioutil.WriteFile(tomlPath, []byte(tomlString), 0644); err != nil {
 		return fmt.Errorf("Failed to write %s: %v", tomlPath, err)
 	}
 
+	ShowWarnings()
+
 	return nil
+}
+
+func checkIP(ip string, portOnlyOk bool) bool {
+	if len(ip) == 0 {
+		return true
+	}
+	if ip[0] == ':' { // Port only address
+		return !portOnlyOk
+	}
+
+	parts := strings.Split(ip, ":")
+	trimmedIP := parts[0]
+
+	private := false
+	IP := net.ParseIP(trimmedIP)
+	if IP == nil {
+		return true
+	} else {
+		_, private24BitBlock, _ := net.ParseCIDR("10.0.0.0/8")
+		_, private24BitBlock2, _ := net.ParseCIDR("127.0.0.0/8")
+		_, private20BitBlock, _ := net.ParseCIDR("172.16.0.0/12")
+		_, private16BitBlock, _ := net.ParseCIDR("192.168.0.0/16")
+		private = private24BitBlock2.Contains(IP) || private24BitBlock.Contains(IP) || private20BitBlock.Contains(IP) || private16BitBlock.Contains(IP)
+	}
+	return private
+
+}
+
+//ShowWarnings outputs warnings in output configurations
+func ShowWarnings() {
+	api := configuration.Global.APIAddr
+	gossip := configuration.Global.Babble.BindAddr
+
+	if checkIP(api, true) {
+		fmt.Printf("Monetd listening address in monetd.toml may be internal: %s \n", api)
+	}
+	if checkIP(gossip, false) {
+		fmt.Printf("Babble gossip address in monetd.toml may be internal: %s \n", gossip)
+	}
+
 }
 
 // dumpPrivKey converts an ecdsa private key into a hex string and writes it to
