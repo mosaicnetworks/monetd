@@ -6,15 +6,15 @@ import (
 	"strings"
 	"text/template"
 
+	"github.com/mosaicnetworks/babble/src/peers"
 	"github.com/mosaicnetworks/monetd/src/crypto"
-	poatypes "github.com/mosaicnetworks/monetd/src/types"
 )
 
 //GetFinalSoliditySource has the POA contract embedded within the function.
 //This function applies the peers supplied to the inital white list for
 //the POA contract and returns the Solidity source as a string ready to
 //be compiled.
-func GetFinalSoliditySource(peers poatypes.PeerRecordList) (string, error) {
+func GetFinalSoliditySource(peers []*peers.Peer) (string, error) {
 
 	var consts, addTo, checks []string
 

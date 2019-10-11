@@ -11,10 +11,8 @@ The current subcommands are:
 - **help** --- help
 - **version** --- outputs version information
 - **keys** --- key management tools
-- **server** --- configuration server management
 - **network** --- configure and build networks
 - **transactions** --- generate test transactions sets
-
 
 ***********
 Global Flag
@@ -23,21 +21,18 @@ Global Flag
 The ``--verbose`` flag, or ``-v`` for short, turns on extended messages for
 each ``giverny`` command.
 
-
 ****
 Help
 ****
 
-``giverny`` has context sensitive help accessed either by
-running ``giverny help`` or by adding a ``-h`` parameter to the relevant
-command.
-
+``giverny`` has context sensitive help accessed either by running 
+``giverny help`` or by adding a ``-h`` parameter to the relevant command.
 
 *******
 Version
 *******
 
-The ``version`` subcommand outputs the version number for ``monetd``,
+The ``version`` subcommand outputs the version number for ``monetd``, 
 ``EVM-Lite``, ``Babble`` and ``Geth``.
 
 If you compile your own tools, the suffices are the GIT branch and the GIT
@@ -45,7 +40,6 @@ commit hash.
 
 .. include:: _static/includes/giverny_version.txt
     :code: bash
-
 
 ****
 Keys
@@ -56,13 +50,11 @@ The ``keys`` subcommand offers tools to manage keys.
 Keys Flags
 ==========
 
-In addition to the ``--verbose`` flag, the ``keys`` subcommand defines
-addtional flags as follows:
+In addition to the ``--verbose`` flag, the ``keys`` subcommand defines addtional
+flags as follows:
 
 .. include:: _static/includes/giverny_keys_flags.txt
     :code: bash
-
-
 
 Import
 ======
@@ -72,7 +64,6 @@ The ``import`` subcommand is used to import a pre-existing key pair into the
 
 .. include:: _static/includes/giverny_help_keys_import.txt
     :code: bash
-
 
 Generate
 ========
@@ -86,59 +77,6 @@ E.g. ``--prefix=Acc --min-suffix=1 --max-suffix=3`` would generate accounts:
 
 .. include:: _static/includes/giverny_help_keys_generate.txt
     :code: bash
-
-
-******
-Server
-******
-
-The ``server`` subcommand is used for adminstering a REST server used to
-co-ordinate configurations between multiple nodes prior to the initial node of
-a network.
-
-The server listens on port 8088. It writes logs to
-``~/.giverny/server/server.pid``. [1]_
-
-For usage examples, see the recipes for setting up networks.
-
-Start
-=====
-
-
-To start the server in the foreground:
-
-.. code:: bash
-
-    $ giverny server start
-
-
-To start the server in the background:
-
-.. code:: bash
-
-    $ giverny server start --background
-
-Stop
-====
-
-To stop a server running in the background:
-
-.. code:: bash
-
-    $ giverny server stop
-
-
-Status
-======
-
-Reports on the status of the server. It both checks for the PID file in
-``~/.giverny/server/server.pid`` [1]_ and checks the the server is responding
-on localhost:8088.
-
-.. code:: bash
-
-    $ giverny server status
-
 
 *******
 Network
@@ -186,8 +124,6 @@ Example with a network specified:
     Monetd TOML             : /home/user/.giverny/networks/node7/monetd.toml
     Network TOML            : /home/user/.giverny/networks/node7/network.toml
 
-
-
 New
 ===
 
@@ -204,10 +140,9 @@ Syntax
 Nodes
 -----
 
-The number of nodes in this network is specified by the
-``--nodes [int]`` parameter. The ``--initial-peers [int]`` parameter specifies
-the number of initial peers. If not set it assumes that all nodes are in the
-initial peer set.
+The number of nodes in this network is specified by the ``--nodes [int]`` 
+parameter. The ``--initial-peers [int]`` parameter specifies the number of
+initial peers. If not set it assumes that all nodes are in the initial peer set.
 
 IP Addresses
 ------------
@@ -216,7 +151,6 @@ An initial IP address is supplied using the ``--initial-ip`` parameter. It is
 assumed the IP address range will be assigned by simply incrementing the last
 octet of the IP address for each node. N.B. the first node will be assigned the
 actual IP supplied by the ``initial-ip`` parameter.
-
 
 Node Names
 ----------
@@ -252,13 +186,11 @@ The typical use case scenarios for these flags would be:
 - ``--no-save-pass`` only --- you are prompted to enter the passphrase for each
   node, which is not saved in the config folder
 
-
 Build
 -----
 
 By default ``giverny network new`` will run ``giverny network build``
 automatically. This can be disabled by specifying the ``-no-build`` flag.
-
 
 Examples
 --------
@@ -268,8 +200,6 @@ An example of the new subcommand:
 .. code:: bash
 
     $ giverny network new test11 --names sampledata/names.txt --nodes 7 --pass sampledata/pwd.txt --initial-peers 3 --initial-ip 192.168.1.19
-
-
 
 Build
 =====
@@ -305,51 +235,6 @@ A "built" network will have a file structure like this:
     ├── network.toml
     └── peers.json
 
-Export
-======
-
-The ``export`` subcommand takes a configuration that has been generated and
-exports it to the exports subfolder of the giverny configuration folders as a
-zip file. The ``network export`` command has a mandatory network name
-parameter, and optionally one or more node names. If the node names are
-omitted, all of the nodes for that network are exported.
-
-Thus to export node ``nodename``:
-
-.. code:: bash
-
-    $ giverny network export nodename
-
-
-On Linux this writes to ``$HOME/.giverny/exports/nodename_<account>.zip``
-where there is one file for each account defined in the network.
-
-
-Import
-======
-
-The ``import`` subcommand takes a configuration previously exported by the
-``export`` and configures ``monetd`` to use the new configuration. You will
-always need to specify a network name and a node name for the import. The
-source for the import can be configured thus:
-
-- ``--from-exports`` --- from the exports subfolder in the giverny
-  configuration folders. This is the default output location for the ``export``
-  command.
-- ``--server`` --- from a giverny server. The giverny server will look in the
-  exports subfolder in the giverny configuration folders on the instance it is
-  running on. N.B. do not run the giverny server on any instance with live
-  key pairs or sensitive configuration, as it may be exposed.
-- ``--dir`` --- specify the folder the export zip is in. Do not rename the zip
-  file. This is used when a secondary channel is used to communicate the keys.
-
-
-
-.. [1] This location is for Linux instances. Mac and Windows uses a different
-       path. The path for your instance can be ascertain with this command:
-       ``giverny network location``
-
-
 List
 ====
 
@@ -377,17 +262,6 @@ format as below:
     Chloe|172.77.5.12|0x7b225252dEe5aDa558a233c7B8B654Ef366EBe61|true|false
     Danu|172.77.5.13|0xC0d14Ed110045d7A401ecC9E57628D55e56Fd4c4|true|false
 
-
-
-Add
-===
-
-The ``add`` subcommand adds a node to the specified network. The resultant
-network will then need to be built using the ``build`` subcommand.
-
-.. include:: _static/includes/giverny_help_network_add.txt
-    :code: bash
-
 Start
 =====
 
@@ -400,16 +274,13 @@ is already running.
 .. include:: _static/includes/giverny_help_network_start.txt
     :code: bash
 
-
 Stop
 ====
 
 The ``stop`` subcommand stops a docker network and all the nodes within it.
 
-
 .. include:: _static/includes/giverny_help_network_stop.txt
     :code: bash
-
 
 Status
 ======
@@ -434,14 +305,11 @@ The ``status`` subcommand shows the docker network status
     /Becky   dbe47cb5ff517f47f18c4307c09de95ef86fe75279657e342d3bcfee2d6f1a1e  Up 11 seconds
     /Amelia   0f08e59ef698aecc62b2c6945d8c351c7902c90f13e6c4828ef9ab7c9ee27ec3  Up 12 seconds
 
-
-
-
 Push
 ====
 
-The ``push`` subcommand creates a named node on a built docker network. If
-the docker network has not yet been build, there is no need to push the node.
+The ``push`` subcommand creates a named node on a built docker network. If the
+docker network has not yet been build, there is no need to push the node.
 
 .. include:: _static/includes/giverny_help_network_push.txt
     :code: bash
@@ -452,7 +320,6 @@ Transactions
 
 The transaction commands are used to generate transactions sets for end to end
 testing of networks.
-
 
 Generate
 ========
@@ -470,7 +337,6 @@ The following flags can be set:
       --ips string       ips.dat file path
   -n, --network string   network name
       --surplus int      additional credit to allocate each account from the faucet above the bare minimum (default 1000000)
-
 
 Solo
 ====

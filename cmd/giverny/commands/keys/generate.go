@@ -1,13 +1,11 @@
 package keys
 
 import (
-	"fmt"
 	"path/filepath"
 	"strconv"
 
 	"github.com/mosaicnetworks/monetd/src/files"
 
-	"github.com/mosaicnetworks/monetd/src/configuration"
 	"github.com/mosaicnetworks/monetd/src/crypto"
 
 	"github.com/mosaicnetworks/monetd/src/common"
@@ -26,13 +24,12 @@ const defaultPassword = "test"
 func newGenerateCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "generate",
-		Short: "bulk generate key pairs",
+		Short: "generate multiple keys",
 		Long: `
-The generate sub command is intended only for test nets. It generates a 
-number of key pairs and places them in the current monet keystore. The 
-accounts are names <prefix><suffix> where prefix is set by --prefix (default
-"Account") and suffix is a number between --min-suffix and --max-suffix 
-inclusive. The defaults are 1 and 5.
+The generate sub command is intended only for tests. It generates a number of
+keys and writes them to <keystore>. The keyfiles are named <prefix><suffix> 
+where prefix is set by --prefix (default "Account") and suffix is a number 
+between --min-suffix and --max-suffix inclusive.
 `,
 		Args: cobra.ArbitraryArgs,
 		RunE: generateKey,
@@ -49,24 +46,30 @@ inclusive. The defaults are 1 and 5.
 
 func generateKey(cmd *cobra.Command, args []string) error {
 
-	common.DebugMessage("Config dir: ", configuration.Global.DataDir)
-	keydir := filepath.Join(configuration.Global.DataDir, configuration.KeyStoreDir)
-
 	for i := minSuffix; i <= maxSuffix; i++ {
 		moniker := prefix + strconv.Itoa(i)
 		common.DebugMessage("Account ", moniker)
-		pwdfile := filepath.Join(keydir, moniker+".txt")
-		pairfile := filepath.Join(keydir, moniker+".json")
-		if files.CheckIfExists(pairfile) {
+
+		// check if the keyfile already exists
+		keyfile := filepath.Join(_keystore, moniker+".json")
+		if files.CheckIfExists(keyfile) {
 			common.ErrorMessage(moniker + " already exists. skipping ")
 			continue
 		}
 
-		files.WriteToFilePrivate(pwdfile, defaultPassword)
-		_, err := crypto.NewKeyPair(configuration.Global.DataDir, moniker, pwdfile)
+		// write the password file
+		pwdfile := filepath.Join(_keystore, moniker+".txt")
+		if err := files.WriteToFilePrivate(pwdfile, defaultPassword); err != nil {
+			common.ErrorMessage(err)
+			continue
+		}
+
+		// write the keyfile
+		_, err := crypto.NewKeyfile(_keystore, moniker, pwdfile)
 		if err != nil {
-			fmt.Println(err)
+			common.ErrorMessage(err)
 		}
 	}
+
 	return nil
 }

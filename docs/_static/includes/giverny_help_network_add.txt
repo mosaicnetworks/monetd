@@ -1,18 +1,26 @@
 [..monetd] $ giverny help network add
-
-giverny network add
+Network
+	
+Advanced Network Config Manager.
 
 Usage:
-  giverny network add [network_name] [node_name] [moniker] [flags]
+  giverny network [command]
+
+Available Commands:
+  build       build monetd configuration files based on a giverny network file
+  dump        Dump the network settings
+  list        list configured networks
+  location    show the location of the configuration files
+  new         new configuration for a multi-node network
+  push        push a node onto the named network
+  start       start a docker network
+  status      shows network status
+  stop        stop a network
 
 Flags:
-      --generate-pass       generate pass phrases
-  -h, --help                help for add
-      --initial-ip string   IP
-      --no-save-pass        don't save pass phrase entered on command line
-      --pass string         filename of a file containing a passphrase
+  -h, --help   help for network
 
 Global Flags:
-  -g, --giverny-data-dir string   Top-level giverny directory for configuration and data (default "/home/martin/.giverny")
-  -m, --monet-data-dir string     Top-level monetd directory for configuration and data (default "/home/martin/.monet")
-  -v, --verbose                   verbose messages
+  -v, --verbose   verbose messages
+
+Use "giverny network [command] --help" for more information about a command.

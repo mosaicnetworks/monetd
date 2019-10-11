@@ -1,30 +1,43 @@
-//Package configuration contains global configuration options for Giverny
 package configuration
 
 import (
+	"os"
+	"os/user"
+	"path/filepath"
 	"runtime"
-
-	"github.com/mosaicnetworks/monetd/src/configuration"
 )
 
-//GivernyConfigDir is the root config directory for Giverny.
-var GivernyConfigDir = defaultGivernyConfigDir()
-
-//GivernyExportDir is the exports subfolder of the Giverny config folder
-var GivernyExportDir = "exports"
+// GivernyConfigDir is the absolute path of the giverny configuration directory
+var GivernyConfigDir = defaultGivernyDir()
 
 const (
-	givernyTomlDirCaps = "Giverny"
-	givernyTomlDirDot  = ".giverny"
-	// GivernyServerPort is the default port for Giverny Server
-	GivernyServerPort = "8088"
+	// GivernyNetworkDir is the networks subfolder of the Giverny config folder
+	GivernyNetworkDir = "networks"
 )
 
-func defaultGivernyConfigDir() string {
-	if runtime.GOOS == "darwin" || runtime.GOOS == "windows" {
-		rtn, _ := configuration.DefaultConfigDir(givernyTomlDirCaps)
-		return rtn
+// defaultGivernyDir returns the full path for Giverny's data directory.
+func defaultGivernyDir() string {
+	// Try to place the data folder in the user's home dir
+	home := homeDir()
+	if home != "" {
+		if runtime.GOOS == "darwin" {
+			return filepath.Join(home, "Library", "Giverny")
+		} else if runtime.GOOS == "windows" {
+			return filepath.Join(home, "AppData", "Roaming", "Giverny")
+		} else {
+			return filepath.Join(home, ".giverny")
+		}
 	}
-	rtn, _ := configuration.DefaultConfigDir(givernyTomlDirDot)
-	return rtn
+	return ""
+}
+
+// Guess a sensible default location from OS and environment variables.
+func homeDir() string {
+	if home := os.Getenv("HOME"); home != "" {
+		return home
+	}
+	if usr, err := user.Current(); err == nil {
+		return usr.HomeDir
+	}
+	return ""
 }

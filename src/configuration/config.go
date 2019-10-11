@@ -2,7 +2,7 @@
 package configuration
 
 import (
-	"fmt"
+	"path/filepath"
 
 	babble_config "github.com/mosaicnetworks/babble/src/config"
 	evml_config "github.com/mosaicnetworks/evm-lite/src/config"
@@ -12,9 +12,6 @@ import (
 )
 
 var (
-	// Base
-	defaultDataDir, _ = DefaultMonetConfigDir()
-
 	// Global is a global Config object used by commands in cmd/ to manipulate
 	// configuration options.
 	Global = DefaultConfig()
@@ -65,11 +62,10 @@ func (c *Config) Logger(prefix string) *logrus.Entry {
 func (c *Config) ToEVMLConfig() *evml_config.Config {
 	evmlConfig := evml_config.DefaultConfig()
 
-	evmlConfig.DataDir = c.DataDir
 	evmlConfig.LogLevel = c.LogLevel()
 	evmlConfig.EthAPIAddr = c.APIAddr
-	evmlConfig.Genesis = fmt.Sprintf("%s/%s/%s", c.DataDir, EthDir, GenesisJSON)
-	evmlConfig.DbFile = fmt.Sprintf("%s/%s/%s", c.DataDir, EthDir, Chaindata)
+	evmlConfig.Genesis = filepath.Join(c.ConfigDir, EthDir, GenesisJSON)
+	evmlConfig.DbFile = filepath.Join(c.DataDir, EthDB)
 	evmlConfig.Cache = c.Eth.Cache
 	evmlConfig.MinGasPrice = c.Eth.MinGasPrice
 
@@ -82,7 +78,8 @@ func (c *Config) ToEVMLConfig() *evml_config.Config {
 func (c *Config) ToBabbleConfig() *babble_config.Config {
 	babbleConfig := babble_config.NewDefaultConfig()
 
-	babbleConfig.DataDir = fmt.Sprintf("%s/%s", c.DataDir, BabbleDir)
+	babbleConfig.DataDir = filepath.Join(c.ConfigDir, BabbleDir)
+	babbleConfig.DatabaseDir = filepath.Join(c.DataDir, BabbleDB)
 	babbleConfig.LogLevel = c.LogLevel()
 	babbleConfig.BindAddr = c.Babble.BindAddr
 	babbleConfig.AdvertiseAddr = c.Babble.AdvertiseAddr
@@ -115,9 +112,11 @@ BASE CONFIG
 
 // BaseConfig contains the top level configuration for an EVM-Babble node
 type BaseConfig struct {
+	// ConfigDir contains static configuration files
+	ConfigDir string `mapstructure:"config"`
 
-	// Top-level directory of evm-babble data
-	DataDir string `mapstructure:"datadir"`
+	// DataDir contains babble and eth databases
+	DataDir string `mapstructure:"data"`
 
 	// Verbose
 	Verbose bool `mapstructure:"verbose"`
@@ -131,7 +130,8 @@ type BaseConfig struct {
 // DefaultBaseConfig returns the default top-level configuration for EVM-Babble
 func DefaultBaseConfig() BaseConfig {
 	return BaseConfig{
-		DataDir: defaultDataDir,
-		APIAddr: DefaultAPIAddr,
+		ConfigDir: DefaultConfigDir(),
+		DataDir:   DefaultDataDir(),
+		APIAddr:   DefaultAPIAddr,
 	}
 }

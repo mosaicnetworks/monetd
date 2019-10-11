@@ -3,13 +3,12 @@ package keys
 import (
 	"fmt"
 
-	"github.com/mosaicnetworks/monetd/src/configuration"
 	"github.com/mosaicnetworks/monetd/src/crypto"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
 
-var newPasswordFile string
+var _newPasswordFile string
 
 // newUpdateCmd returns the command that changes the passphrase of a keyfile
 func newUpdateCmd() *cobra.Command {
@@ -33,14 +32,14 @@ be prompted to input and confirm the new password.
 }
 
 func addUpdateFlags(cmd *cobra.Command) {
-	cmd.Flags().StringVar(&newPasswordFile, "new-passfile", "", "the file containing the new passphrase")
+	cmd.Flags().StringVar(&_newPasswordFile, "new-passfile", "", "the file containing the new passphrase")
 	viper.BindPFlags(cmd.Flags())
 }
 
 func update(cmd *cobra.Command, args []string) error {
 	moniker := args[0]
 
-	err := crypto.UpdateKeysMoniker(configuration.Global.DataDir, moniker, PasswordFile, newPasswordFile)
+	err := crypto.UpdateKeyByMoniker(_keystore, moniker, _passwordFile, _newPasswordFile)
 	if err != nil {
 		fmt.Println(err)
 	}

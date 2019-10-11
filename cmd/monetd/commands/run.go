@@ -19,16 +19,7 @@ func newRunCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "run",
 		Short: "run a node",
-		Long: `
-Run a node.
-
-Use the --datadir flag (-d) to set the node's data directory ($HOME/.monet by 
-default on Linux). It should contain a set of files defining the network that
-this node is attempting to join or create. Please refer to the 'monetd config'
-command to manage this configuration. Further options pertaining to the
-operation of monetd can be specified in a monetd.toml file, within the data
-directory, or overwritten by the following flags:
-`,
+		Long:  `Run a node.`,
 
 		PreRunE: func(cmd *cobra.Command, args []string) (err error) {
 			common.DebugMessage(fmt.Sprintf("Base Config: %+v", configuration.Global.BaseConfig))
@@ -46,12 +37,16 @@ directory, or overwritten by the following flags:
 }
 
 func bindFlags(cmd *cobra.Command) {
+	// Config and data directories
+	cmd.Flags().StringP("config", "c", configuration.Global.ConfigDir, "configuration directory")
+	cmd.Flags().StringP("data", "d", configuration.Global.DataDir, "data directory")
+
 	// EVM-Lite and Babble share the same API address
 	cmd.Flags().String("api-listen", configuration.Global.APIAddr, "IP:PORT of HTTP API service")
 
 	// Babble config
-	cmd.Flags().String("babble.listen", configuration.Global.Babble.BindAddr, "Bind IP:PORT of Babble node")
-	cmd.Flags().String("babble.advertise", configuration.Global.Babble.AdvertiseAddr, "Advertise IP:PORT of Babble node")
+	cmd.Flags().String("babble.listen", configuration.Global.Babble.BindAddr, "bind IP:PORT of Babble node")
+	cmd.Flags().String("babble.advertise", configuration.Global.Babble.AdvertiseAddr, "advertise IP:PORT of Babble node")
 	cmd.Flags().Duration("babble.heartbeat", configuration.Global.Babble.Heartbeat, "heartbeat timer milliseconds (time between gossips)")
 	cmd.Flags().Duration("babble.timeout", configuration.Global.Babble.TCPTimeout, "TCP timeout milliseconds")
 	cmd.Flags().Int("babble.cache-size", configuration.Global.Babble.CacheSize, "number of items in LRU caches")

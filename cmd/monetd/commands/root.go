@@ -26,14 +26,7 @@ Monetd is the daemon component of the Monet Toolchain; a distributed
 smart-contract platform based on the Ethereum Virtual Machine and Babble 
 consensus.  
 	
-The minimal quickstart configuration is:
-
-	$ monetd config clear
-	$ monetd keys new node0
-	$ monetd config build node0
-	$ monetd run
-
-See the documentation at https://monetd.readthedocs.io/ for further information.
+See the documentation at https://docs.monet.network/ for further information.
 `,
 	TraverseChildren: true,
 	PersistentPreRunE: func(cmd *cobra.Command, args []string) (err error) {
@@ -58,7 +51,6 @@ func init() {
 	)
 
 	// set global flags
-	RootCmd.PersistentFlags().StringP("datadir", "d", configuration.Global.DataDir, "top-level directory for configuration and data")
 	RootCmd.PersistentFlags().BoolP("verbose", "v", configuration.Global.Verbose, "verbose output")
 
 	// do not print usage when error occurs
@@ -83,8 +75,8 @@ func readConfig(cmd *cobra.Command) error {
 	}
 
 	// Read from configuration file if there is one.
-	viper.SetConfigName("monetd")                     // name of config file (without extension)
-	viper.AddConfigPath(configuration.Global.DataDir) // search root directory
+	viper.SetConfigName("monetd")                       // name of config file (without extension)
+	viper.AddConfigPath(configuration.Global.ConfigDir) // search config directory
 
 	// If a config file is found, read it in.
 	if err := viper.ReadInConfig(); err == nil {

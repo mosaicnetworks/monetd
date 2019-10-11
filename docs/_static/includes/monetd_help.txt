@@ -4,14 +4,7 @@ Monetd is the daemon component of the Monet Toolchain; a distributed
 smart-contract platform based on the Ethereum Virtual Machine and Babble 
 consensus.  
 	
-The minimal quickstart configuration is:
-
-	$ monetd config clear
-	$ monetd keys new node0
-	$ monetd config build node0
-	$ monetd run
-
-See the documentation at https://monetd.readthedocs.io/ for further information.
+See the documentation at https://docs.monet.network/ for further information.
 
 Usage:
   monetd [command]
@@ -24,8 +17,7 @@ Available Commands:
   version     show version info
 
 Flags:
-  -d, --datadir string   top-level directory for configuration and data (default "/home/martin/.monet")
-  -h, --help             help for monetd
-  -v, --verbose          verbose output
+  -h, --help      help for monetd
+  -v, --verbose   verbose output
 
 Use "monetd [command] --help" for more information about a command.

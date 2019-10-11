@@ -45,16 +45,16 @@ func PublicKeyHexToAddressHex(publicKey string) (string, error) {
 	return ethcommon.BytesToAddress(pubKeyHash).Hex(), nil
 }
 
-// NewKeyPair is a wrapper to NewKeyPairFull and thus GenerateKeyPair. It does
+// NewKeyfile is a wrapper to NewKeyfileFull and thus GenerateKeyfile. It does
 // not support setting a private key. Additionally it does not support
 // outputting to JSON format - if required, that can be achieved calling
-// GenerateKeyPair directly.
-func NewKeyPair(configDir, moniker, passwordFile string) (*keystore.Key, error) {
-	return NewKeyPairFull(configDir, moniker, passwordFile, "", false)
+// GenerateKeyfile directly.
+func NewKeyfile(keystore, moniker, passwordFile string) (*keystore.Key, error) {
+	return NewKeyfileFull(keystore, moniker, passwordFile, "", false)
 }
 
-// NewKeyPairFull is a wrapper to GenerateKeyPair adding moniker support
-func NewKeyPairFull(configDir, moniker, passwordFile string, privateKeyfile string, outputJSON bool) (*keystore.Key, error) {
+// NewKeyfileFull is a wrapper to GenerateKeyfile adding moniker support
+func NewKeyfileFull(keystore, moniker, passwordFile string, privateKeyfile string, outputJSON bool) (*keystore.Key, error) {
 
 	if strings.TrimSpace(moniker) == "" {
 		return nil, errors.New("moniker is not set")
@@ -64,24 +64,21 @@ func NewKeyPairFull(configDir, moniker, passwordFile string, privateKeyfile stri
 		return nil, errors.New("moniker can only contain characters (uppercase or lowercase), underscores or numbers")
 	}
 
-	dirlist := []string{configDir,
-		filepath.Join(configDir, configuration.KeyStoreDir),
-	}
+	dirlist := []string{keystore}
 
 	err := files.CreateDirsIfNotExists(dirlist)
-
 	if err != nil {
-		common.ErrorMessage("cannot create keystore directories")
+		common.ErrorMessage("cannot create keystore directory")
 		return nil, err
 	}
 
-	keyfilepath := filepath.Join(configDir, configuration.KeyStoreDir, moniker+".json")
+	keyfilepath := filepath.Join(keystore, moniker+".json")
 
 	if files.CheckIfExists(keyfilepath) {
 		return nil, errors.New("key for node " + moniker + " already exists")
 	}
 
-	key, err := GenerateKeyPair(keyfilepath, passwordFile, privateKeyfile, outputJSON)
+	key, err := GenerateKeyfile(keyfilepath, passwordFile, privateKeyfile, outputJSON)
 
 	if err != nil {
 		return key, err
@@ -90,7 +87,7 @@ func NewKeyPairFull(configDir, moniker, passwordFile string, privateKeyfile stri
 	return key, nil
 }
 
-/* GenerateKeyPair generates an Ethereum key pair.
+/* GenerateKeyfile generates an Ethereum keyfile and writes it.
 
 keyfilepath: path to write the new keyfile to.
 
@@ -105,7 +102,7 @@ outputJSON: controls whether the output to stdio is in JSON format or not.
             The function returns a key object which can be used to retrieve
             public or private keys or the address.
 */
-func GenerateKeyPair(keyfilepath, passwordFile, privateKeyfile string, outputJSON bool) (*keystore.Key, error) {
+func GenerateKeyfile(keyfilepath, passwordFile, privateKeyfile string, outputJSON bool) (*keystore.Key, error) {
 	if keyfilepath == "" {
 		keyfilepath = configuration.DefaultKeyfile
 	}
@@ -117,8 +114,6 @@ func GenerateKeyPair(keyfilepath, passwordFile, privateKeyfile string, outputJSO
 
 	var privateKey *ecdsa.PrivateKey
 	var err error
-
-	common.DebugMessage("Private Key File is: ", privateKeyfile)
 
 	if file := privateKeyfile; file != "" {
 		// Load private key from file.
@@ -148,6 +143,9 @@ func GenerateKeyPair(keyfilepath, passwordFile, privateKeyfile string, outputJSO
 	if err != nil {
 		return nil, fmt.Errorf("Error encrypting key: %v", err)
 	}
+
+	// Load private key from file.
+	common.DebugMessage("Destination: ", keyfilepath)
 
 	// Store the file to disk.
 	if err := os.MkdirAll(filepath.Dir(keyfilepath), 0700); err != nil {
@@ -207,9 +205,9 @@ func GetPrivateKeyString(keyfilePath string, passwordFile string) (string, error
 	return hex.EncodeToString(eth_crypto.FromECDSA(privKey)), nil
 }
 
-// InspectKeyMoniker is a wrapper around InspectKey to add moniker support
-func InspectKeyMoniker(configDir string, moniker string, PasswordFile string, showPrivate bool, outputJSON bool) error {
-	filepath := filepath.Join(configDir, configuration.KeyStoreDir, moniker+".json")
+// InspectKeyByMoniker is a wrapper around InspectKey to add moniker support
+func InspectKeyByMoniker(keystore string, moniker string, PasswordFile string, showPrivate bool, outputJSON bool) error {
+	filepath := filepath.Join(keystore, moniker+".json")
 
 	if !files.CheckIfExists(filepath) {
 		return errors.New("cannot find keyfile for that moniker")
@@ -261,21 +259,19 @@ func InspectKey(keyfilepath string, PasswordFile string, showPrivate bool, outpu
 	return nil
 }
 
-// UpdateKeysMoniker wraps UpdateKeys adding moniker support
-func UpdateKeysMoniker(configDir string, moniker string, PasswordFile string, newPasswordFile string) error {
-	filepath := filepath.Join(configDir, configuration.KeyStoreDir, moniker+".json")
+// UpdateKeyByMoniker wraps UpdateKey adding moniker support
+func UpdateKeyByMoniker(keystore, moniker string, passwordFile string, newPasswordFile string) error {
+	filepath := filepath.Join(keystore, moniker+".json")
 
 	if !files.CheckIfExists(filepath) {
 		return errors.New("cannot find keyfile for that moniker")
 	}
 
-	return UpdateKeys(filepath, PasswordFile, newPasswordFile)
+	return UpdateKey(filepath, passwordFile, newPasswordFile)
 }
 
-// UpdateKeys changes the passphrase on an encrypted keyfile
-func UpdateKeys(keyfilepath string, PasswordFile string, newPasswordFile string) error {
-	//	keyfilepath := args[0]
-
+// UpdateKey changes the passphrase on an encrypted keyfile
+func UpdateKey(keyfilepath string, PasswordFile string, newPasswordFile string) error {
 	// Read key from file.
 	keyjson, err := ioutil.ReadFile(keyfilepath)
 	if err != nil {

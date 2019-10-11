@@ -1,6 +1,15 @@
 package transactions
 
-import "github.com/spf13/cobra"
+import (
+	"github.com/mosaicnetworks/monetd/cmd/giverny/configuration"
+	monetconfig "github.com/mosaicnetworks/monetd/src/configuration"
+	"github.com/spf13/cobra"
+)
+
+var (
+	_keystore = monetconfig.DefaultKeystoreDir()
+	_giverny  = configuration.GivernyConfigDir
+)
 
 //TODO duplicates the definition in networks package.
 //Probably better to publish them and use them directly.
@@ -29,5 +38,8 @@ func init() {
 		newGenerateCmd(),
 		newSoloCmd(),
 	)
+
+	TransCmd.PersistentFlags().StringVarP(&_keystore, "keystore", "k", _keystore, "keystore directory")
+	TransCmd.PersistentFlags().StringVarP(&_giverny, "dir", "d", _giverny, "giverny directory")
 
 }

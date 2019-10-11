@@ -20,10 +20,10 @@ type encryptedKeyJSONV3 struct {
 	Version int                 `json:"version"`
 }
 
-// We just added the public key as one of the fields in the JSON object because
-// it makes our lives easier when working with Babble. We could change the
-// Version number, but then other non-monet tools, would not be able to decrypt
-// keys
+// EncryptedKeyJSONMonet is an extension of a regular Ethereum keyfile with an
+// added public key. It makes our lives easier when working with Babble. We
+// could change the Version number, but then other non-monet tools, would not be
+// able to decrypt keys
 type EncryptedKeyJSONMonet struct {
 	Address   string              `json:"address"`
 	PublicKey string              `json:"pub"`
@@ -50,7 +50,7 @@ func EncryptKey(key *keystore.Key, auth string, scryptN, scryptP int) ([]byte, e
 	return json.Marshal(encryptedKeyJSONMonet)
 }
 
-// WrapKey Create the keyfile object with a random UUID. It would be preferable
+// WrapKey creates the keyfile object with a random UUID. It would be preferable
 // to create the key manually, rather then calling this function, but we cannot
 // use pborman/uuid directly because it is vendored in go-ethereum. That package
 // defines the type of keystore.Key.Id.
