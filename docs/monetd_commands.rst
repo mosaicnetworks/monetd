@@ -42,7 +42,6 @@ commit hash.
 .. include:: _static/includes/monetd_version.txt
     :code: bash
 
-
 Keys
 ----
 
@@ -60,16 +59,12 @@ instance with this command:
 
 .. code:: bash
 
-    $ monetd config location -x
+    $ monetd config location
 
 The help for the keys command is:
 
-
 .. include:: _static/includes/monetd_keys_help.txt
     :code: bash
-
-
-
 
 Parameters
 ~~~~~~~~~~
@@ -175,9 +170,8 @@ Config
 ------
 
 The ``config`` subcommand initialises the configuration for a ``monetd`` node.
-The folder can be overridden by the ``--datadir`` parameter. The configuration
-commands create all the files necessary for a node to join an existing network
-or to create a new one.
+The configuration commands create all the files necessary for a node to join an
+existing network or to create a new one.
 
 There are 5 subcommands each described in a separate section below:
 
@@ -190,12 +184,12 @@ There are 5 subcommands each described in a separate section below:
 The two most common scenarios are:
 
 - config build - config build creates the configuration for a single-node
-                 network, based on one of the keys in [datadir]/keystore.
-                 This is a quick and easy way to get started with ``monetd``.
+                 network, based on one of the keys in [<keystore>. This is a
+                 quick and easy way to get started with ``monetd``.
                  See :ref:`quickstart_rst`.
 
 - config pull - config pull is used to join an existing network. It fetches the
-                configuration from one of the existing nodes. See
+                configuration from one of the existing nodes. See 
                 :ref:`join_rst`.
 
 For more complex scenarios, please refer to :ref:`giverny_rst`, which is a
@@ -216,7 +210,6 @@ inadvertent deletion of keys.
     $ monetd config clear
     Renaming /home/user/.monet to /home/user/.monet.~1~
 
-
 Contract
 ~~~~~~~~
 
@@ -225,12 +218,8 @@ contract with the supplied node as the sole entry on the initial whitelist.
 This command is not used in the standard workflow, but is provided as a
 convenient mechanism to retrieve the solidity source.
 
-
-
 .. include:: _static/includes/monetd_help_config_contract.txt
     :code: bash
-
-
 
 A sample session is as follows. The contract is written to stdout, so you will
 probably wish to redirect it to a file or a pager.
@@ -247,31 +236,21 @@ probably wish to redirect it to a file or a pager.
 Location
 ~~~~~~~~
 
-The ``location`` subcommand displays the path to the configuration folder. With
-the ``--expanded`` parameter, a list of directories and configuration files are
-output.
+The ``location`` subcommand displays the path to the configuration folder.
 
 .. include:: _static/includes/monetd_help_config_location.txt
     :code: bash
 
 .. code:: bash
 
-        $ monetd config location
-        /home/user/.monet
-
-.. code:: bash
-
-        $ monetd config location --expanded
-        Config root   : /home/user/.monet
-        Babble Dir    : /home/user/.monet/babble
-        EVM-Lite Dir  : /home/user/.monet/eth
-        Keystore Dir  : /home/user/.monet/keystore
-        Config File   : /home/user/.monet/monet.toml
-        Wallet Config : /home/user/.monet/wallet.toml
-        Peers         : /home/user/.monet/babble/peers.json
-        Genesis Peers : /home/user/.monet/babble/peers.genesis.json
-        Genesis File  : /home/user/.monet/eth/genesis.json
-
+    Monetd Config        : /home/user/.monet/monetd-config/monetd.toml
+    Babble Peers         : /home/user/.monet/monetd-config/babble/peers.json
+    Babble Genesis Peers : /home/user/.monet/monetd-config/babble/peers.genesis.json
+    Babble Private Key   : /home/user/.monet/monetd-config/babble/priv_key
+    EVM-Lite Genesis     : /home/user/.monet/monetd-config/eth/genesis.json
+    Babble Database      : /home/user/.monet/monetd-data/babble-db
+    EVM-Lite Database    : /home/user/.monet/monetd-data/eth-db
+    Keystore        : /home/user/.monet/keystore
 
 Build
 ~~~~~
@@ -279,23 +258,21 @@ Build
 The ``build`` subcommand initialises the bare-bones configuration to start
 ``monetd``. It uses one of the accounts from the keystore to define a network
 consisting of a unique node, which is automatically added to the PoA whitelist.
-Additionally, all the accounts in [datadir]/keystore are credited with a large
-amount of tokens in the genesis file. This command is mostly used for testing.
+Additionally, all the accounts in the keystore are credited with a large amount
+of tokens in the genesis file. This command is mostly used for testing.
 
 If the ``--address`` flag is omitted, the first non-loopback address for this
 instance is used.
 
-
 .. include:: _static/includes/monetd_help_config_build.txt
     :code: bash
-
 
 Pull
 ~~~~
 
 The ``pull`` subcommand is used to join an existing network. It takes the
 address of a running peer, and downloads the following set of files into the
-configuration directory [datadir]:
+configuration directory <config>:
 
 - babble/peers.json         : The current validator-set
 - babble/peers.genesis.json : The initial validator-set
@@ -305,12 +282,8 @@ It also builds all the other configuration files required to run a monetd node.
 If the peer specified does not include a port, the default gossip port (1337)
 is used.
 
-
-
 .. include:: _static/includes/monetd_help_config_pull.txt
     :code: bash
-
-
 
 Run
 ---
@@ -318,7 +291,6 @@ Run
 The ``run`` subcommands starts the monetd node running. Whilst there are legacy
 parameters ``--babble.*`` and ``--eth.*``, we strongly recommend that they are
 not used. The equivalent changes can be made in the configuration files.
-
 
 .. include:: _static/includes/monetd_help_run.txt
     :code: bash

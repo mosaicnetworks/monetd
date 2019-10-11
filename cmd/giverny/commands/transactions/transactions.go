@@ -39,7 +39,7 @@ func init() {
 		newSoloCmd(),
 	)
 
-	TransCmd.PersistentFlags().StringVarP(&_keystore, "keystore", "m", _keystore, "keystore directory")
+	TransCmd.PersistentFlags().StringVarP(&_keystore, "keystore", "k", _keystore, "keystore directory")
 	TransCmd.PersistentFlags().StringVarP(&_giverny, "dir", "d", _giverny, "giverny directory")
 
 }

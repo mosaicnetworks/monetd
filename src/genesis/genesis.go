@@ -52,7 +52,10 @@ func GenerateGenesisJSON(outDir, keystore string, peers []*peers.Peer, alloc *Al
 		return err
 	}
 
-	genesispoa, err := BuildPOA(finalSource, contractAddress, outDir)
+	genesispoa, err := BuildPOA(
+		finalSource,
+		contractAddress,
+		filepath.Join(outDir, configuration.POADir))
 	if err != nil {
 		return err
 	}

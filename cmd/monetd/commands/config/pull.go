@@ -47,7 +47,7 @@ non-loopback address is used.
 
 func addPullFlags(cmd *cobra.Command) {
 	cmd.Flags().StringVar(&_keystore, "keystore", _keystore, "keystore directory")
-	cmd.Flags().StringVar(&_configDir, "config", _configDir, "monetd config directory")
+	cmd.Flags().StringVar(&_configDir, "config", _configDir, "output directory")
 	cmd.Flags().StringVar(&_addressParam, "address", _addressParam, "IP/hostname of this node")
 	cmd.Flags().StringVar(&_keyParam, "key", _keyParam, "moniker of the key to use for this node")
 	cmd.Flags().StringVar(&_passwordFile, "passfile", "", "file containing the passphrase")
@@ -80,7 +80,7 @@ func pullConfig(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	rootURL := "http://" + _addressParam
+	rootURL := "http://" + peerAddr
 
 	filesList := []*downloadItem{
 		&downloadItem{URL: rootURL + "/genesispeers",

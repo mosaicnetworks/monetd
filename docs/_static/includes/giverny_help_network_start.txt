@@ -2,8 +2,7 @@
 
 giverny network start
 
-Starts a network. Does not start individual nodes. The --force-network parameter
-stops and restarts the network.
+Starts a network. Does not start individual nodes.
 
 Usage:
   giverny network start [network] [flags]
@@ -15,6 +14,4 @@ Flags:
       --use-existing    use existing network if already exists
 
 Global Flags:
-  -g, --giverny-data-dir string   Top-level giverny directory for configuration and data (default "/home/martin/.giverny")
-  -m, --monet-data-dir string     Top-level monetd directory for configuration and data (default "/home/martin/.monet")
-  -v, --verbose                   verbose messages
+  -v, --verbose   verbose messages

@@ -3,6 +3,7 @@ package config
 import (
 	"encoding/hex"
 	"encoding/json"
+	"fmt"
 	"path/filepath"
 
 	eth_crypto "github.com/ethereum/go-ethereum/crypto"
@@ -41,7 +42,7 @@ If the --address flag is omitted, the first non-loopback address is used.
 
 func addBuildFlags(cmd *cobra.Command) {
 	cmd.Flags().StringVar(&_keystore, "keystore", _keystore, "keystore directory")
-	cmd.Flags().StringVar(&_configDir, "config", _configDir, "monetd config directory")
+	cmd.Flags().StringVar(&_configDir, "config", _configDir, "output directory")
 	cmd.Flags().StringVar(&_addressParam, "address", _addressParam, "IP/hostname of this node")
 	cmd.Flags().StringVar(&_passwordFile, "passfile", "", "file containing the passphrase")
 	viper.BindPFlags(cmd.Flags())
@@ -50,9 +51,11 @@ func addBuildFlags(cmd *cobra.Command) {
 func buildConfig(cmd *cobra.Command, args []string) error {
 	moniker := args[0]
 
+	address := fmt.Sprintf("%s:%s", _addressParam, configuration.DefaultGossipPort)
+
 	// Some debug output confirming parameters
 	common.DebugMessage("Building Config for   : ", moniker)
-	common.DebugMessage("Using Network Address : ", _addressParam)
+	common.DebugMessage("Using Network Address : ", address)
 	common.DebugMessage("Using Password File   : ", _passwordFile)
 
 	// set global config moniker
@@ -79,7 +82,7 @@ func buildConfig(cmd *cobra.Command, args []string) error {
 
 	// Create a peer-set whith a single node
 	peers := []*peers.Peer{
-		peers.NewPeer(pubKey, _addressParam, moniker),
+		peers.NewPeer(pubKey, address, moniker),
 	}
 
 	// Write peers.json and peers.genesis.json
@@ -88,7 +91,12 @@ func buildConfig(cmd *cobra.Command, args []string) error {
 	}
 
 	// Create the eth/genesis.json file
-	err = genesis.GenerateGenesisJSON(_configDir, _keystore, peers, nil, configuration.DefaultContractAddress)
+	err = genesis.GenerateGenesisJSON(
+		filepath.Join(_configDir, configuration.EthDir),
+		_keystore,
+		peers,
+		nil,
+		configuration.DefaultContractAddress)
 	if err != nil {
 		return err
 	}

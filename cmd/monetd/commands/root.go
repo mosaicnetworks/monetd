@@ -26,14 +26,7 @@ Monetd is the daemon component of the Monet Toolchain; a distributed
 smart-contract platform based on the Ethereum Virtual Machine and Babble 
 consensus.  
 	
-The minimal quickstart configuration is:
-
-	$ monetd config clear
-	$ monetd keys new node0
-	$ monetd config build node0
-	$ monetd run
-
-See the documentation at https://monetd.readthedocs.io/ for further information.
+See the documentation at https://docs.monet.network/ for further information.
 `,
 	TraverseChildren: true,
 	PersistentPreRunE: func(cmd *cobra.Command, args []string) (err error) {
