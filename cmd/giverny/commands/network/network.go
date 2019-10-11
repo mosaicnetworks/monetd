@@ -6,6 +6,7 @@ import (
 	"github.com/mosaicnetworks/monetd/cmd/giverny/configuration"
 	"github.com/mosaicnetworks/monetd/src/files"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 const (
@@ -51,7 +52,7 @@ func init() {
 		newListCmd(),
 	)
 
-	//	viper.BindPFlags(NetworkCmd.Flags())
+	viper.BindPFlags(NetworkCmd.Flags())
 
 	// make sure the giverny config folders exist.
 	createGivernyRootNetworkFolders()

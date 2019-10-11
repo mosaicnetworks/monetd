@@ -93,25 +93,25 @@ rm -rf $HOME/.giverny/networks/$NET
 giverny network new $NET \
     $INITIP \
     --names $mydir/../networks/$NET.txt \
-    --pass $mydir/../networks/pwd.txt -v
+    --pass $mydir/../networks/pwd.txt -v  --non-interactive
 
 
 
 if [ "$VERBOSE" != "" ] ; then
     sed --in-place "s/verbose = \"false\"/verbose = \"true\"/g" $HOME/.giverny/networks/$NET/monetd.toml
 fi
-
+ 
 sed --in-place "s/bootstrap = .*$/bootstrap = $BOOTSTRAP/g;s/cache-size = .*$/cache-size = $CACHESIZE/g; \
 s/heartbeat = .*$/heartbeat = \"$HEARTBEAT\"/g;s/max-pool = .*$/max-pool = $MAXPOOL/g; \
 s/sync-limit = .*$/sync-limit = $SYNCLIMIT/g;s/timeout = .*$/timeout = \"$TIMEOUT\"/g; \
 s/cache = .*$/cache = $CACHE/g;s/min-gas-price = .*$/min-gas-price = $MINGASPRICE/g;" \
 $HOME/.giverny/networks/$NET/monetd.toml 
 
-giverny network build $NET -v
+giverny network build $NET -v --non-interactive
 
-giverny network start $NET --use-existing -v
+giverny network start $NET --use-existing -v  --non-interactive
 
 for node in $(giverny network dump $NET | grep "|true|" | cut -f1 -d'|')
 do 
-    giverny network push $NET $node -v
+    giverny network push $NET $node -v --non-interactive
 done 

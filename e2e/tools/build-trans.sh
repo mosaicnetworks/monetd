@@ -15,7 +15,7 @@ OUTDIRSTEM="/tmp"               # Output Directory
 ROUNDROBIN=""                   # Round Robin Transaction generation
 STATSCODE=""                    # Log Stats Under This Code
 STATSFILE="$HOME/monetstats.txt"  # Stats File
-MINACCT=1001
+MINACCT=1
 
 
 
@@ -139,6 +139,7 @@ mydir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" > /dev/null && pwd )"
 res1=$(date +%s.%N)
 
 
+echo "Generate Accounts to use for testing"
 # Generate Accounts to use for testing
 giverny --monet-data-dir $CONFIGDIR keys generate \
     --prefix $PREFIX \
@@ -147,6 +148,8 @@ giverny --monet-data-dir $CONFIGDIR keys generate \
     $VERBOSE 
 
 # Create expanded account list
+
+echo "Generate Account List from $MINACCT to $ACCTCNT"
 ACCTS=""
 for i in $(seq $MINACCT $ACCTCNT)
 do
@@ -157,9 +160,9 @@ do
 done
 
 
-
+echo "Generate Transactions to use for testing"
 # Generate Transactions
-giverny --monet-data-dir $CONFIGDIR transactions solo -v \
+echo giverny --monet-data-dir $CONFIGDIR transactions solo -v \
     --faucet $FAUCET \
     --accounts $ACCTS \
     --count $TRANSCNT \
@@ -169,6 +172,16 @@ giverny --monet-data-dir $CONFIGDIR transactions solo -v \
 
 
 
+giverny --monet-data-dir $CONFIGDIR transactions solo -v \
+    --faucet $FAUCET \
+    --accounts $ACCTS \
+    --count $TRANSCNT \
+    --output $TRANSFILE \
+    $VERBOSE \
+    $ROUNDROBIN
+
+
+echo "Get Peers List"
 
 # Get Peers List
 peers=()

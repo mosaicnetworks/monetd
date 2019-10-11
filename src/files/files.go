@@ -31,7 +31,7 @@ const (
 func ProcessFileOptions(filename string, options Bits) error {
 	if CheckIfExists(filename) {
 		if options&OverwriteSilently == 0 {
-			if options&PromptIfExisting != 0 {
+			if (options&PromptIfExisting != 0) && (!configuration.NonInteractive) {
 				for {
 					reader := bufio.NewReader(os.Stdin)
 					fmt.Printf("File %s already exists. Overwrite (yes/no)?: ", filename)

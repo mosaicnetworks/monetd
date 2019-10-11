@@ -43,7 +43,7 @@ func init() {
 
 	RootCmd.PersistentFlags().StringVarP(&monetconfig.Global.DataDir, "monet-data-dir", "m", monetconfig.Global.DataDir, "Top-level monetd directory for configuration and data")
 	RootCmd.PersistentFlags().StringVarP(&configuration.GivernyConfigDir, "giverny-data-dir", "g", configuration.GivernyConfigDir, "Top-level giverny directory for configuration and data")
-
+	RootCmd.PersistentFlags().BoolVar(&monetconfig.NonInteractive, "non-interactive", false, "non-interactive")
 	RootCmd.PersistentFlags().BoolVarP(&common.VerboseLogging, "verbose", "v", false, "verbose messages")
 	viper.BindPFlags(RootCmd.Flags())
 }

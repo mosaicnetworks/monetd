@@ -18,6 +18,9 @@ var (
 	// Global is a global Config object used by commands in cmd/ to manipulate
 	// configuration options.
 	Global = DefaultConfig()
+
+	// NonInteractive is a global flag that can set set to suppress prompts
+	NonInteractive = false
 )
 
 // Config contains the configuration for MONET node
