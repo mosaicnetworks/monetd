@@ -269,7 +269,7 @@ function isWhitelisted(address _address) private view returns (bool)
                  yesVotes: 0, noVotes: 0, yesArray: new address[](0),noArray: new address[](0) });
      evictionArray.push(_nomineeAddress);
 //        monikerList[_nomineeAddress] = _moniker;
-     emit NomineeProposed(_nomineeAddress,  msg.sender);
+     emit EvictionProposed(_nomineeAddress,  msg.sender);
 //        emit MonikerAnnounce(_nomineeAddress, _moniker);
  }
 
