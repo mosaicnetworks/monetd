@@ -116,7 +116,7 @@ func addNodeToNetwork(networkName, moniker string) error {
 	if !noSavePassKey && passFile == "" && !generatePassKey {
 		passphrase, _ := crypto.GetPassphrase("", true)
 		passFile = filepath.Join(networkDir, "pwd.txt")
-		files.WriteToFile(passFile, passphrase)
+		files.WriteToFile(passFile, passphrase, files.PromptIfExisting|files.BackupExisting)
 	}
 
 	// Create a Key
@@ -124,7 +124,7 @@ func addNodeToNetwork(networkName, moniker string) error {
 
 	if generatePassKey {
 		passphrase := crypto.RandomPassphrase(8)
-		files.WriteToFile(thisNodePassPhraseFile, passphrase)
+		files.WriteToFile(thisNodePassPhraseFile, passphrase, files.PromptIfExisting|files.BackupExisting)
 		common.DebugMessage("Written " + thisNodePassPhraseFile)
 	} else {
 		if !noSavePassKey {
@@ -159,7 +159,7 @@ func addNodeToNetwork(networkName, moniker string) error {
 		return err
 	}
 
-	err = files.WriteToFile(filepath.Join(networkDir, networkTomlFileName), string(tomlBytes))
+	err = files.WriteToFile(filepath.Join(networkDir, networkTomlFileName), string(tomlBytes), files.PromptIfExisting|files.BackupExisting)
 	if err != nil {
 		return err
 	}

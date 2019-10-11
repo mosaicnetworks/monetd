@@ -72,11 +72,11 @@ func dumpPeers(configDir string, peers types.PeerRecordList) error {
 
 	// peers.json
 	jsonFileName := filepath.Join(configDir, configuration.BabbleDir, configuration.PeersJSON)
-	files.WriteToFile(jsonFileName, string(peersJSONOut))
+	files.WriteToFile(jsonFileName, string(peersJSONOut), files.BackupExisting|files.PromptIfExisting)
 
 	// peers.genesis.json
 	jsonFileName = filepath.Join(configDir, configuration.BabbleDir, configuration.PeersGenesisJSON)
-	files.WriteToFile(jsonFileName, string(peersJSONOut))
+	files.WriteToFile(jsonFileName, string(peersJSONOut), 0)
 
 	return nil
 }

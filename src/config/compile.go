@@ -81,7 +81,7 @@ func BuildGenesisJSON(configDir string, peers mtypes.PeerRecordList, contractAdd
 
 	common.DebugMessage("Write Genesis.json")
 	jsonFileName := filepath.Join(configDir, configuration.EthDir, configuration.GenesisJSON)
-	files.WriteToFile(jsonFileName, string(genesisjson))
+	files.WriteToFile(jsonFileName, string(genesisjson), files.OverwriteSilently)
 
 	return nil
 }
@@ -212,7 +212,7 @@ func BuildCompilationReport(version string, contractInfo map[string]*compiler.Co
 		tree.SetPath([]string{"poa", "abi"}, string(jsonabi))
 		tree.SetPath([]string{"poa", "address"}, eip55addr)
 
-		files.WriteToFile(filepath.Join(outputDir, configuration.GenesisABI), string(jsonabi))
+		files.WriteToFile(filepath.Join(outputDir, configuration.GenesisABI), string(jsonabi), files.OverwriteSilently)
 
 		tree.SetPath([]string{"poa", "bytecode"}, strings.TrimPrefix(v.RuntimeCode, "0x"))
 
@@ -224,7 +224,7 @@ func BuildCompilationReport(version string, contractInfo map[string]*compiler.Co
 		// We only have one contract ever so no need to loop. We use the for loop as k is indeterminate
 	}
 
-	files.WriteToFile(filepath.Join(outputDir, configuration.GenesisContract), solidityCode)
+	files.WriteToFile(filepath.Join(outputDir, configuration.GenesisContract), solidityCode, files.OverwriteSilently)
 
 	files.SaveToml(tree, filepath.Join(outputDir, configuration.CompileResultFile))
 

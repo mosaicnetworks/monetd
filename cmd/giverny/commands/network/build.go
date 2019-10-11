@@ -131,14 +131,14 @@ func dumpPeersJSON(conf *Config, thisNetworkDir string) error {
 	}
 
 	jsonFileName := filepath.Join(thisNetworkDir, monetconfig.PeersJSON)
-	err = files.WriteToFile(jsonFileName, string(peersJSONOut))
+	err = files.WriteToFile(jsonFileName, string(peersJSONOut), files.PromptIfExisting|files.BackupExisting)
 	if err != nil {
 		return err
 	}
 
 	// Write copy of peers.json to peers.genesis.json
 	jsonFileName = filepath.Join(thisNetworkDir, monetconfig.PeersGenesisJSON)
-	err = files.WriteToFile(jsonFileName, string(peersJSONOut))
+	err = files.WriteToFile(jsonFileName, string(peersJSONOut), files.OverwriteSilently)
 	if err != nil {
 		return err
 	}
@@ -168,7 +168,7 @@ func createKeyFileIfNotExists(configDir string, moniker string, addr string, pub
 		return err
 	}
 
-	err = files.WriteToFile(keyfile, string(out))
+	err = files.WriteToFile(keyfile, string(out), files.BackupExisting|files.PromptIfExisting)
 	if err != nil {
 		return err
 	}
@@ -212,7 +212,7 @@ func BuildGenesisJSON(configDir string, peers types.PeerRecordList, contractAddr
 
 	common.DebugMessage("Write Genesis.json")
 	jsonFileName := filepath.Join(configDir, monetconfig.GenesisJSON)
-	files.WriteToFile(jsonFileName, string(genesisjson))
+	files.WriteToFile(jsonFileName, string(genesisjson), files.BackupExisting)
 
 	return nil
 }

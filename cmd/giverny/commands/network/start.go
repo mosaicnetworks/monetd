@@ -213,7 +213,7 @@ func exportDockerNodeConfig(networkDir, dockerDir string, n *node) error {
 			return err
 		}
 
-		err = files.WriteToFile(nodeConfigFile, string(tomlBytes))
+		err = files.WriteToFile(nodeConfigFile, string(tomlBytes), 0)
 		if err != nil {
 			return err
 		}

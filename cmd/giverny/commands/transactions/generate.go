@@ -261,7 +261,7 @@ func generateTransactions(cmd *cobra.Command, args []string) error {
 		if err != nil {
 			return err
 		}
-		files.WriteToFile(nodefile, string(jsonData))
+		files.WriteToFile(nodefile, string(jsonData), files.BackupExisting)
 		common.DebugMessage("Node File written: ", nodefile)
 
 	}
@@ -272,21 +272,21 @@ func generateTransactions(cmd *cobra.Command, args []string) error {
 	if err != nil {
 		return err
 	}
-	files.WriteToFile(faucetTransFile, string(jsonData))
+	files.WriteToFile(faucetTransFile, string(jsonData), files.BackupExisting)
 	common.DebugMessage("Faucet File written: ", faucetTransFile)
 
 	jsonData, err = json.Marshal(fulltrans)
 	if err != nil {
 		return err
 	}
-	files.WriteToFile(transFile, string(jsonData))
+	files.WriteToFile(transFile, string(jsonData), files.BackupExisting)
 	common.DebugMessage("Trans File written: ", transFile)
 
 	jsonData, err = json.Marshal(deltas)
 	if err != nil {
 		return err
 	}
-	files.WriteToFile(deltaFile, string(jsonData))
+	files.WriteToFile(deltaFile, string(jsonData), files.BackupExisting)
 	common.DebugMessage("Delta File written: ", deltaFile)
 
 	return nil

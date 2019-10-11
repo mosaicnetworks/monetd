@@ -205,7 +205,7 @@ func soloTransactions(cmd *cobra.Command, args []string) error {
 	if err != nil {
 		return err
 	}
-	files.WriteToFile(outputfile, string(jsonData))
+	files.WriteToFile(outputfile, string(jsonData), files.BackupExisting)
 	common.DebugMessage("Node File written: ", outputfile)
 
 	common.InfoMessage(string(jsonData))

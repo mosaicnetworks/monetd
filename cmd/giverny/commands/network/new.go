@@ -97,7 +97,7 @@ func networkNew(cmd *cobra.Command, args []string) error {
 	if !noSavePassKey && passFile == "" && !generatePassKey {
 		passphrase, _ := crypto.GetPassphrase("", true)
 		passFile = filepath.Join(networkDir, "pwd.txt")
-		files.WriteToFile(passFile, passphrase)
+		files.WriteToFile(passFile, passphrase, files.BackupExisting)
 	}
 
 	common.InfoMessage("Generate " + strconv.Itoa(numberOfNodes) + " Nodes with " +
@@ -116,7 +116,7 @@ func networkNew(cmd *cobra.Command, args []string) error {
 
 		if generatePassKey {
 			passphrase := crypto.RandomPassphrase(8)
-			files.WriteToFile(thisNodePassPhraseFile, passphrase)
+			files.WriteToFile(thisNodePassPhraseFile, passphrase, files.BackupExisting)
 			common.DebugMessage("Written " + thisNodePassPhraseFile)
 		} else {
 			if !noSavePassKey {
@@ -169,7 +169,7 @@ func networkNew(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	err = files.WriteToFile(filepath.Join(networkDir, networkTomlFileName), string(tomlBytes))
+	err = files.WriteToFile(filepath.Join(networkDir, networkTomlFileName), string(tomlBytes), files.BackupExisting)
 	if err != nil {
 		return err
 	}

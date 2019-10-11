@@ -22,11 +22,11 @@ type downloadItem struct {
 func PullConfig(configDir, moniker, selfAddress, otherAddress, passwordFile string) error {
 
 	// Helpful debugging output
-	common.MessageWithType(common.MsgDebug, "Building Config for  : ", moniker)
-	common.MessageWithType(common.MsgDebug, "Using Network Address: ", selfAddress)
-	common.MessageWithType(common.MsgDebug, "Pulling from         : ", otherAddress)
-	common.MessageWithType(common.MsgDebug, "Using Password File  : ", passwordFile)
-	common.MessageWithType(common.MsgDebug, "Using Moniker        : ", moniker)
+	common.DebugMessage("Building Config for  : ", moniker)
+	common.DebugMessage("Using Network Address: ", selfAddress)
+	common.DebugMessage("Pulling from         : ", otherAddress)
+	common.DebugMessage("Using Password File  : ", passwordFile)
+	common.DebugMessage("Using Moniker        : ", moniker)
 
 	// Set global moniker config
 	configuration.Global.Babble.Moniker = moniker
@@ -57,7 +57,7 @@ func PullConfig(configDir, moniker, selfAddress, otherAddress, passwordFile stri
 	}
 
 	for _, item := range filesList {
-		err := files.DownloadFile(item.URL, item.Dest)
+		err := files.DownloadFile(item.URL, item.Dest, files.BackupExisting|files.PromptIfExisting)
 		if err != nil {
 			common.ErrorMessage(fmt.Sprintf("Error downloading %s", item.URL))
 			return err

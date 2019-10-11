@@ -27,7 +27,7 @@ func SaveToml(tree *toml.Tree, tomlFile string) error {
 		return err
 	}
 
-	err = WriteToFile(tomlFile, tomlStr)
+	err = WriteToFile(tomlFile, tomlStr, 0)
 
 	if err != nil {
 		common.ErrorMessage("Failed to write toml output file", tomlFile)

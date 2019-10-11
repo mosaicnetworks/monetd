@@ -2,6 +2,7 @@
 package files
 
 import (
+	"bufio"
 	"errors"
 	"fmt"
 	"io"
@@ -10,14 +11,59 @@ import (
 	"os"
 	"path/filepath"
 	"strconv"
+	"strings"
 
 	"github.com/mosaicnetworks/monetd/src/common"
 	"github.com/mosaicnetworks/monetd/src/configuration"
 )
 
+//Bits is used to hold bitwise options
+type Bits uint8
+
+//File options
+const (
+	BackupExisting Bits = 1 << iota
+	PromptIfExisting
+	OverwriteSilently
+)
+
+//ProcessFileOptions handles prompts etc
+func ProcessFileOptions(filename string, options Bits) error {
+	if CheckIfExists(filename) {
+		if options&OverwriteSilently == 0 {
+			if options&PromptIfExisting != 0 {
+				for {
+					reader := bufio.NewReader(os.Stdin)
+					fmt.Printf("File %s already exists. Overwrite (yes/no)?: ", filename)
+					name, _ := reader.ReadString('\n')
+					fmt.Println("")
+					tidiedName := strings.ToLower(strings.TrimSpace(name))
+					if tidiedName == "no" || tidiedName == "n" {
+						return errors.New("you declined to overwrite " + filename)
+					}
+					if tidiedName == "yes" {
+						break
+					}
+					fmt.Println("You must type 'yes' or 'no'")
+				}
+
+			}
+			if options&BackupExisting != 0 {
+				SafeRenameDir(filename)
+			}
+		}
+	}
+	return nil
+}
+
 //WriteToFile writes a string variable to a file.
 //It overwrites any pre-existing data silently.
-func WriteToFile(filename string, data string) error {
+func WriteToFile(filename string, data string, options Bits) error {
+
+	if err := ProcessFileOptions(filename, options); err != nil {
+		return err
+	}
+
 	file, err := os.Create(filename)
 	if err != nil {
 		return err
@@ -136,14 +182,18 @@ func SafeRenameDir(origDir string) error {
 }
 
 //DownloadFile downs a file from a URL and writes it to disk
-func DownloadFile(url string, writefile string) error {
+func DownloadFile(url string, writefile string, options Bits) error {
 	b, err := getRequest(url)
 	if err != nil {
 		fmt.Println("Error getting "+url, err)
 		return err
 	}
 
-	err = WriteToFile(writefile, string(b))
+	if err := ProcessFileOptions(writefile, options); err != nil {
+		return err
+	}
+
+	err = WriteToFile(writefile, string(b), options)
 	if err != nil {
 		fmt.Println("Error writing "+writefile, err)
 		return err
