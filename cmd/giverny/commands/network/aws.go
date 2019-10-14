@@ -113,7 +113,7 @@ func exportAWSNodeConfig(networkDir, outPath string, n *node) error {
 
 	if n.Moniker != "" { // Should not be blank here, but safety first
 
-		monetDir := filepath.Join(outPath, n.Moniker, monetconfig.MonetdTomlDirDot)
+		monetDir := filepath.Join(outPath, n.Moniker)
 		configDir := filepath.Join(monetDir, monetconfig.ConfigDir)
 		babbleConfigDir := filepath.Join(configDir, monetconfig.BabbleDir)
 		ethConfigDir := filepath.Join(configDir, monetconfig.EthDir)
