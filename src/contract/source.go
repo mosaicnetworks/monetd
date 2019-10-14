@@ -10,20 +10,21 @@ import (
 	"github.com/mosaicnetworks/monetd/src/crypto"
 )
 
-//GetFinalSoliditySource has the POA contract embedded within the function.
-//This function applies the peers supplied to the inital white list for
+type MinimalPeerRecord struct {
+	Address string
+	Moniker string
+}
+
+//GetFinalSolidityFromAddress has the POA contract embedded within the function.
+//This function applies the addresses supplied to the inital white list for
 //the POA contract and returns the Solidity source as a string ready to
 //be compiled.
-func GetFinalSoliditySource(peers []*peers.Peer) (string, error) {
+func GetFinalSoliditySourceFromAddress(peers []*MinimalPeerRecord) (string, error) {
 
 	var consts, addTo, checks []string
 
 	for i, peer := range peers {
-		addr, err := crypto.PublicKeyHexToAddressHex(peer.PubKeyHex)
-		if err != nil {
-			return "", err
-		}
-
+		addr := peer.Address
 		consts = append(consts, "    address constant initWhitelist"+strconv.Itoa(i)+" = "+addr+";")
 		consts = append(consts, "    bytes32 constant initWhitelistMoniker"+strconv.Itoa(i)+" = \""+peer.Moniker+"\";")
 
@@ -707,4 +708,19 @@ function getNomineeAddressFromIdx(uint idx) public view returns (address Nominee
 	templ.Execute(buf, solFields)
 
 	return buf.String(), nil
+}
+
+func GetFinalSoliditySource(peers []*peers.Peer) (string, error) {
+
+	var miniPeers []*MinimalPeerRecord
+
+	for _, peer := range peers {
+		addr, err := crypto.PublicKeyHexToAddressHex(peer.PubKeyHex)
+		if err != nil {
+			return "", err
+		}
+		miniPeers = append(miniPeers, &MinimalPeerRecord{Address: addr, Moniker: peer.Moniker})
+	}
+
+	return GetFinalSoliditySourceFromAddress(miniPeers)
 }
