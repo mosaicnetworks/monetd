@@ -5,6 +5,7 @@ import (
 	"github.com/mosaicnetworks/monetd/cmd/giverny/commands/network"
 	"github.com/mosaicnetworks/monetd/cmd/giverny/commands/transactions"
 	"github.com/mosaicnetworks/monetd/src/common"
+	"github.com/mosaicnetworks/monetd/src/configuration"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -32,7 +33,7 @@ func init() {
 	//do not print usage when error occurs
 	RootCmd.SilenceUsage = true
 
-	RootCmd.PersistentFlags().BoolVar(&monetconfig.NonInteractive, "non-interactive", false, "non-interactive")
+	RootCmd.PersistentFlags().BoolVar(&configuration.NonInteractive, "non-interactive", false, "non-interactive")
 	RootCmd.PersistentFlags().BoolVarP(&common.VerboseLogging, "verbose", "v", false, "verbose messages")
 
 	viper.BindPFlags(RootCmd.Flags())
