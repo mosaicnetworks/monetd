@@ -17,10 +17,10 @@ import (
 	"github.com/mosaicnetworks/monetd/src/configuration"
 )
 
-//Bits is used to hold bitwise options
+// Bits is used to hold bitwise options
 type Bits uint8
 
-//File options
+// File options
 const (
 	BackupExisting Bits = 1 << iota
 	PromptIfExisting
@@ -56,8 +56,8 @@ func ProcessFileOptions(filename string, options Bits) error {
 	return nil
 }
 
-//WriteToFile writes a string variable to a file.
-//It overwrites any pre-existing data silently.
+// WriteToFile writes a string variable to a file.
+// It overwrites any pre-existing data silently.
 func WriteToFile(filename string, data string, options Bits) error {
 
 	if err := ProcessFileOptions(filename, options); err != nil {
@@ -77,44 +77,36 @@ func WriteToFile(filename string, data string, options Bits) error {
 	return file.Sync()
 }
 
-//WriteToFilePrivate writes a string variable to a file with 0600 permissions
+// WriteToFilePrivate writes a string variable to a file with 0600 permissions.
+// It creates all directories along the path if they don't exist.
 func WriteToFilePrivate(filename string, data string) error {
-
+	if err := os.MkdirAll(filepath.Dir(filename), 0744); err != nil {
+		return err
+	}
 	return ioutil.WriteFile(
 		filename,
-		[]byte(data), 0600)
+		[]byte(data),
+		0600)
 }
 
-//CreateDirsIfNotExists takes an array of strings contain filepaths and
-//any that for not exist are created.
+// CreateDirsIfNotExists takes an array of strings containing filepaths and for
+// any path that contains directories which do not exist, it creates them.
 func CreateDirsIfNotExists(d []string) error {
-
 	for _, dir := range d {
-		if _, err := os.Stat(dir); os.IsNotExist(err) {
-			err := os.MkdirAll(dir, os.ModePerm)
-			if err != nil {
-				common.ErrorMessage("Error creating directory: ", dir)
-				return err
-			}
-			common.DebugMessage("Created Directory: ", dir)
-		} else {
-			if err != nil {
-				return err
-			}
+		if err := os.MkdirAll(dir, 0744); err != nil {
+			return err
 		}
 	}
-
 	return nil
 }
 
-// CreateMonetConfigFolders creates the standard directory layout for a
-// monet configuration folder
+// CreateMonetConfigFolders creates the standard directory layout for a monet
+// configuration folder
 func CreateMonetConfigFolders(configDir string) error {
 	return CreateDirsIfNotExists([]string{
 		configDir,
 		filepath.Join(configDir, configuration.BabbleDir),
 		filepath.Join(configDir, configuration.EthDir),
-		filepath.Join(configDir, configuration.KeyStoreDir),
 		filepath.Join(configDir, configuration.EthDir, configuration.POADir),
 	})
 }

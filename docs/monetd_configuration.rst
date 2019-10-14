@@ -4,33 +4,26 @@ Monetd Configuration
 ====================
 
 All the configuration required to run a node is stored under a directory with a
-very specific structure. By default, ``monetd`` will look for this directory in
-``$HOME/.monet`` [1]_ (on Linux), but it is possible to override this with the
-``--datadir`` flag.
+specific structure. By default, ``monetd`` will look for this directory in
+``$HOME/.monet/monetd-dir/`` [1]_ (on Linux), but it is possible to override 
+this with the ``--config`` flag.
 
 The directory must respect the following stucture:
 
 ::
-
-    host:~/.monet$ tree
-    ├── babble
-    │   ├── peers.genesis.json
-    │   ├── peers.json
-    │   └── priv_key
-    ├── eth
-    │   ├── genesis.json
-    │   └── poa
-    │       ├── compile.toml
-    │       ├── contract0.abi
-    │       └── contract0.sol
-    ├── keystore
-    │   ├── node0.json
-    ├── monetd.toml
-
+  
+  .monet/monetd-config/
+  ├── babble
+  │   ├── peers.genesis.json
+  │   ├── peers.json
+  │   └── priv_key
+  ├── eth
+  │   ├── genesis.json
+  └── monetd.toml
 
 You would not normally need to access these configuration files directly. The
 ``monetd config`` tool provides a CLI interfaces to set up a network. The
-command ``monetd config location --expanded`` provides further details of the
+command ``monetd config location`` provides further details of the default 
 filepaths used for your instance.
 
 Eth
@@ -72,30 +65,30 @@ Babble
 Run Options
 -----------
 
-Options pertaining to the operation of the node are read from the
-[datadir]/monetd.toml file, or overwritten by the following flags. It is
-envisaged that you would not need to use these flags in a production
-environment.
+Options pertaining to the operation of the node are read from the 
+<config>/monetd.toml file, or overwritten by the following flags:
 
 ::
 
     Flags:
-        --api-listen string           IP:PORT of HTTP API service (default ":8080")
-        --babble.advertise string     Advertise IP:PORT of Babble node
-        --babble.bootstrap            bootstrap Babble from database
-        --babble.cache-size int       number of items in LRU caches (default 50000)
-        --babble.heartbeat duration   heartbeat timer milliseconds (time between gossips) (default 200ms)
-        --babble.listen string        IP:PORT of Babble node (default "192.168.1.3:1337")
-        --babble.max-pool int         max number of pool connections (default 2)
-        --babble.sync-limit int       max number of Events per sync (default 1000)
-        --babble.timeout duration     TCP timeout milliseconds (default 1s)
-        --eth.cache int               megabytes of memory allocated to internal caching (min 16MB / database forced) (default 128)
-        --eth.min-gas-price string    minimum gasprice of transactions submitted through this node (ex 1K, 1M, 1G, etc.) (default "0")
-      -h, --help                      help for run
+          --api-listen string           IP:PORT of HTTP API service (default ":8080")
+          --babble.advertise string     advertise IP:PORT of Babble node
+          --babble.bootstrap            bootstrap Babble from database
+          --babble.cache-size int       number of items in LRU caches (default 50000)
+          --babble.heartbeat duration   heartbeat timer milliseconds (time between gossips) (default 200ms)
+          --babble.listen string        bind IP:PORT of Babble node (default "192.168.1.3:1337")
+          --babble.max-pool int         max number of pool connections (default 2)
+          --babble.moniker string       friendly name
+          --babble.sync-limit int       max number of Events per sync (default 1000)
+          --babble.timeout duration     TCP timeout milliseconds (default 1s)
+      -c, --config string               configuration directory (default "/home/martin/.monet/monetd-config")
+      -d, --data string                 data directory (default "/home/martin/.monet/monetd-data")
+          --eth.cache int               megabytes of memory allocated to internal caching (min 16MB / database forced) (default 128)
+          --eth.min-gas-price string    minimum gasprice of transactions submitted through this node (ex 1K, 1M, 1G, etc.) (default "0")
+      -h, --help                        help for run
 
     Global Flags:
-      -d, --datadir string   top-level directory for configuration and data (default "/home/martin/.monet")
-      -v, --verbose          verbose output
+      -v, --verbose   verbose output
 
 Example of a monet.toml file:
 
@@ -107,6 +100,7 @@ Example of a monet.toml file:
 
   [babble]
     listen = "192.168.1.3:1337"
+    advertise = "mypublicaddress:1337"
     heartbeat = "500ms"
     timeout = "1s"
     cache-size = 50000
@@ -119,5 +113,5 @@ Example of a monet.toml file:
 
 
 .. [1] This location is for Linux instances. Mac and Windows uses a different
-       path. The path for your instance can be ascertain with this command:
+       path. The path for your instance can be ascertained with this command:
        ``monetd config location``

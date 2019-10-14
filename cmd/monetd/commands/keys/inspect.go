@@ -3,13 +3,12 @@ package keys
 import (
 	"fmt"
 
-	"github.com/mosaicnetworks/monetd/src/configuration"
 	"github.com/mosaicnetworks/monetd/src/crypto"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
 
-var showPrivate bool
+var _showPrivate bool
 
 // newInspectCmd returns the command that inspects an Ethereum keyfile
 func newInspectCmd() *cobra.Command {
@@ -35,14 +34,14 @@ prompted to enter the passphrase manually.
 
 // addInspectFlags adds flags to the Inspect command
 func addInspectFlags(cmd *cobra.Command) {
-	cmd.Flags().BoolVar(&showPrivate, "private", false, "include the private key in the output")
+	cmd.Flags().BoolVar(&_showPrivate, "private", false, "include the private key in the output")
 	viper.BindPFlags(cmd.Flags())
 }
 
 func inspect(cmd *cobra.Command, args []string) error {
 	moniker := args[0]
 
-	err := crypto.InspectKeyMoniker(configuration.Global.DataDir, moniker, PasswordFile, showPrivate, OutputJSON)
+	err := crypto.InspectKeyByMoniker(_keystore, moniker, _passwordFile, _showPrivate, _outputJSON)
 	if err != nil {
 		fmt.Println(err)
 	}

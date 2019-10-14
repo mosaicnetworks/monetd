@@ -1,24 +1,19 @@
 package keys
 
 import (
+	"github.com/mosaicnetworks/monetd/src/configuration"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
 
 var (
-	passwordFile string
-	outputJSON   bool
-	monikerParam string
+	_keystore = configuration.DefaultKeystoreDir()
 )
 
 //KeysCmd is an Ethereum key manager
 var KeysCmd = &cobra.Command{
-	Use:   "keys",
-	Short: "monet key manager",
-	Long: `Keys
-	
-Monet Key Manager. `,
-
+	Use:              "keys",
+	Short:            "monet key manager",
 	TraverseChildren: true,
 }
 
@@ -30,7 +25,6 @@ func init() {
 	)
 
 	//Commonly used command line flags
-	KeysCmd.PersistentFlags().StringVar(&passwordFile, "passfile", "", "the file that contains the passphrase for the keyfile")
-	KeysCmd.PersistentFlags().BoolVar(&outputJSON, "json", false, "output JSON instead of human-readable format")
+	KeysCmd.PersistentFlags().StringVarP(&_keystore, "keystore", "k", _keystore, "keystore directory")
 	viper.BindPFlags(KeysCmd.Flags())
 }

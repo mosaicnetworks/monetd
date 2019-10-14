@@ -19,8 +19,7 @@ const (
 )
 
 var (
-	numberOfNodes = -1
-	networkName   = "network0"
+	networkName = "network0"
 )
 
 //NetworkCmd is the CLI subcommand
@@ -38,25 +37,21 @@ func init() {
 
 	//Subcommands
 	NetworkCmd.AddCommand(
-		newAddCmd(),
-		newBuildCmd(),
-		newDumpCmd(),
-		newExportCmd(),
-		newImportCmd(),
 		newNewCmd(),
-		newPushCmd(),
+		newBuildCmd(),
 		newStartCmd(),
+		newPushCmd(),
 		newStatusCmd(),
 		newStopCmd(),
-		newLocationCmd(),
 		newListCmd(),
+		newDumpCmd(),
+		newLocationCmd(),
 	)
 
 	viper.BindPFlags(NetworkCmd.Flags())
 
 	// make sure the giverny config folders exist.
 	createGivernyRootNetworkFolders()
-
 }
 
 func createGivernyRootNetworkFolders() error {

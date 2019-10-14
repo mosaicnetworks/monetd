@@ -1,5 +1,5 @@
 [..monetd] $ monetd help keys list
-List keyfiles in [datadir]/keystore.
+List keyfiles in <keystore>
 
 Usage:
   monetd keys list [flags]
@@ -8,7 +8,7 @@ Flags:
   -h, --help   help for list
 
 Global Flags:
-  -d, --datadir string    top-level directory for configuration and data (default "/home/martin/.monet")
       --json              output JSON instead of human-readable format
+      --keystore string   keystore directory (default "/home/martin/.monet/keystore")
       --passfile string   file containing the passphrase
   -v, --verbose           verbose output

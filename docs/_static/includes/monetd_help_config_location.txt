@@ -1,15 +1,11 @@
 [..monetd] $ monetd help config location
-
-Show the location of the monetd configuration files. If --expanded is specified,
-a detailed list of configuration files and directories is returned.
+Show the default locations of monetd configuration files.
 
 Usage:
   monetd config location [flags]
 
 Flags:
-  -x, --expanded   show expanded information
-  -h, --help       help for location
+  -h, --help   help for location
 
 Global Flags:
-  -d, --datadir string   top-level directory for configuration and data (default "/home/martin/.monet")
-  -v, --verbose          verbose output
+  -v, --verbose   verbose output

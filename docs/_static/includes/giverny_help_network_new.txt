@@ -1,6 +1,5 @@
 [..monetd] $ giverny help network new
-
-giverny network build
+new configuration for a multi-node network
 
 Usage:
   giverny network new [network_name] [flags]
@@ -12,11 +11,9 @@ Flags:
       --initial-peers int   number of initial peers
       --names string        file containing node configurations
       --no-build            disables the automatic build of a new network
-      --no-save-pass        don't save pass phrase entered on command line
+      --no-save-pass        don't save passphrase entered on command line
   -n, --nodes int           number of nodes in this configuration (default -1)
       --pass string         file containing a passphrase
 
 Global Flags:
-  -g, --giverny-data-dir string   Top-level giverny directory for configuration and data (default "/home/martin/.giverny")
-  -m, --monet-data-dir string     Top-level monetd directory for configuration and data (default "/home/martin/.monet")
-  -v, --verbose                   verbose messages
+  -v, --verbose   verbose messages

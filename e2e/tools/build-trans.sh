@@ -141,7 +141,7 @@ res1=$(date +%s.%N)
 
 echo "Generate Accounts to use for testing"
 # Generate Accounts to use for testing
-giverny --monet-data-dir $CONFIGDIR keys generate \
+giverny --keystore $CONFIGDIR/keystore keys generate \
     --prefix $PREFIX \
     --min-suffix $MINACCT \
     --max-suffix $ACCTCNT \
@@ -162,7 +162,7 @@ done
 
 echo "Generate Transactions to use for testing"
 # Generate Transactions
-echo giverny --monet-data-dir $CONFIGDIR transactions solo -v \
+giverny --keystore $CONFIGDIR/keystore transactions solo -v \
     --faucet $FAUCET \
     --accounts $ACCTS \
     --count $TRANSCNT \
@@ -172,13 +172,13 @@ echo giverny --monet-data-dir $CONFIGDIR transactions solo -v \
 
 
 
-giverny --monet-data-dir $CONFIGDIR transactions solo -v \
-    --faucet $FAUCET \
-    --accounts $ACCTS \
-    --count $TRANSCNT \
-    --output $TRANSFILE \
-    $VERBOSE \
-    $ROUNDROBIN
+# giverny --monet-data-dir $CONFIGDIR transactions solo -v \
+ #   --faucet $FAUCET \
+#    --accounts $ACCTS \
+ #   --count $TRANSCNT \
+#    --output $TRANSFILE \
+ #   $VERBOSE \
+#    $ROUNDROBIN
 
 
 echo "Get Peers List"
