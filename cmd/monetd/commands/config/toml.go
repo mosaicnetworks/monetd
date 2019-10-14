@@ -1,4 +1,4 @@
-package configuration
+package config
 
 import (
 	"bytes"
@@ -6,6 +6,9 @@ import (
 	"html/template"
 	"io/ioutil"
 	"path/filepath"
+
+	"github.com/mosaicnetworks/monetd/src/configuration"
+	"github.com/mosaicnetworks/monetd/src/files"
 )
 
 const configTOML = `
@@ -49,7 +52,7 @@ func GlobalTOML() (string, error) {
 	}
 
 	var buf bytes.Buffer
-	err = configTmpl.Execute(&buf, Global)
+	err = configTmpl.Execute(&buf, configuration.Global)
 	if err != nil {
 		return "", fmt.Errorf("Error executing monetd.toml template: %v", err)
 	}
@@ -66,6 +69,10 @@ func DumpGlobalTOML(configDir, fileName string) error {
 	}
 
 	tomlPath := filepath.Join(configDir, fileName)
+
+	if err := files.ProcessFileOptions(tomlPath, files.BackupExisting); err != nil {
+		return err
+	}
 
 	if err := ioutil.WriteFile(tomlPath, []byte(tomlString), 0644); err != nil {
 		return fmt.Errorf("Failed to write %s: %v", tomlPath, err)

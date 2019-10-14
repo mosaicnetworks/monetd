@@ -15,6 +15,7 @@ import (
 	ecrypto "github.com/ethereum/go-ethereum/crypto"
 	"github.com/mosaicnetworks/evm-lite/src/currency"
 	"github.com/mosaicnetworks/monetd/cmd/giverny/configuration"
+	"github.com/mosaicnetworks/monetd/cmd/monetd/commands/config"
 	"github.com/mosaicnetworks/monetd/src/common"
 
 	mconfiguration "github.com/mosaicnetworks/monetd/src/configuration"
@@ -114,7 +115,7 @@ func networkNew(cmd *cobra.Command, args []string) error {
 	}
 
 	// Write default monetd.toml file
-	mconfiguration.DumpGlobalTOML(networkDir, mconfiguration.MonetTomlFile)
+	config.DumpGlobalTOML(networkDir, mconfiguration.MonetTomlFile)
 
 	if _noBuild {
 		return nil

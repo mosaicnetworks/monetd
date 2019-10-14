@@ -101,5 +101,5 @@ func pullConfig(cmd *cobra.Command, args []string) error {
 	}
 
 	// Write TOML file for monetd based on global config object
-	return configuration.DumpGlobalTOML(_configDir, configuration.MonetTomlFile)
+	return DumpGlobalTOML(_configDir, configuration.MonetTomlFile)
 }
