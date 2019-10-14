@@ -172,6 +172,7 @@ const decryptAccounts = async ({ keystore, password }) => {
 				initBalance.push(account.balance);
 			}
 		} catch (e) {
+			console.error(e.name + ': ' + e.message);
 			console.error(
 				`Decryption Failed: ${keyfile.address} (${password})`
 			);

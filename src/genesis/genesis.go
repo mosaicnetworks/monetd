@@ -34,8 +34,8 @@ type POA struct {
 	Code    string `json:"code"`
 }
 
-// GenesisFile is the structure that a Genesis file gets parsed into.
-type GenesisFile struct {
+// file is the structure that a Genesis file gets parsed into.
+type file struct {
 	Alloc *Alloc `json:"alloc"`
 	Poa   *POA   `json:"poa"`
 }
@@ -45,17 +45,21 @@ type GenesisFile struct {
 // corresponding POA section, and if no alloc section is provided, creates one
 // with all the keys in keystore. The file is written to outDir.
 func GenerateGenesisJSON(outDir, keystore string, peers []*peers.Peer, alloc *Alloc, contractAddress string) error {
-	var genesis GenesisFile
+	var genesis file
 
 	finalSource, err := contract.GetFinalSoliditySource(peers)
 	if err != nil {
 		return err
 	}
 
+	poaDir := filepath.Join(outDir, configuration.POADir)
+
+	files.CreateDirsIfNotExists([]string{poaDir})
+
 	genesispoa, err := BuildPOA(
 		finalSource,
 		contractAddress,
-		filepath.Join(outDir, configuration.POADir))
+		poaDir)
 	if err != nil {
 		return err
 	}
