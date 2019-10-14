@@ -78,5 +78,6 @@ func DumpGlobalTOML(configDir, fileName string) error {
 		return fmt.Errorf("Failed to write %s: %v", tomlPath, err)
 	}
 
+	configuration.ShowIPWarnings()
 	return nil
 }
