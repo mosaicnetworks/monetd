@@ -8,13 +8,13 @@ import (
 )
 
 var (
-	defaultNodeAddr       = fmt.Sprintf("%s:%d", common.GetMyIP(), 1337)
-	defaultHeartbeat      = 200 * time.Millisecond
-	defaultTCPTimeout     = 1000 * time.Millisecond
-	defaultCacheSize      = 50000
-	defaultSyncLimit      = 1000
-	defaultEnableFastSync = false
-	defaultMaxPool        = 2
+	defaultNodeAddr   = fmt.Sprintf("%s:%d", common.GetMyIP(), 1337)
+	defaultHeartbeat  = 200 * time.Millisecond
+	defaultTCPTimeout = 1000 * time.Millisecond
+	defaultCacheSize  = 50000
+	defaultSyncLimit  = 1000
+	defaultBootstrap  = true
+	defaultMaxPool    = 2
 )
 
 // BabbleConfig contains the configuration for the Babble node used by monetd.
@@ -25,9 +25,8 @@ var (
 type BabbleConfig struct {
 
 	// BindAddr is the local address:port where this node gossips with other
-	// nodes. This is an IP address that should be reachable by all other nodes
-	// in the cluster. By default, this is "0.0.0.0", meaning Babble will bind
-	// to all addresses on the local machine and will advertise the private IPv4
+	// nodes. By default, this is "0.0.0.0", meaning Babble will bind to all
+	// addresses on the local machine and will advertise the private IPv4
 	// address to the rest of the cluster. However, in some cases, there may be
 	// a routable address that cannot be bound. Use AdvertiseAddr to enable
 	// gossiping a different address to support this. If this address is not
@@ -70,5 +69,6 @@ func DefaultBabbleConfig() *BabbleConfig {
 		CacheSize:  defaultCacheSize,
 		SyncLimit:  defaultSyncLimit,
 		MaxPool:    defaultMaxPool,
+		Bootstrap:  defaultBootstrap,
 	}
 }
