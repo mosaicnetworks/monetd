@@ -30,6 +30,17 @@ func GetControllerSoliditySource(contractAddress string) (string, error) {
 		{
 			return poaContract;
 		}    
+
+
+
+		///@notice This function sets the current POA Contract Address
+		///@param contractAddress is the address of the POA smart contract
+		function UNSAFESetPOAContractAddress(address contractAddress) public 
+		{
+			poaContract = contractAddress;
+		}    
+	
+
 			
 	} `
 
