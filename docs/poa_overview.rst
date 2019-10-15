@@ -44,9 +44,9 @@ called using ``monetcli``.
 
 ``monetcli whitelist`` displays the current whitelist.
 
-``monetcli nomineelist`` displays the current nomineelist.
+``monetcli nominee list`` displays the current nomineelist.
 
-``monetcli vote`` is used to cast a vote for a nomination.
+``monetcli nominee vote`` is used to cast a vote for a nomination.
 
 
 
