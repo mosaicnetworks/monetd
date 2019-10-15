@@ -1,0 +1,8 @@
+# This file contains a list of names used as monikers for the 
+# nodes of this network. 
+# see [monetd]/sampledata/withnodes.txt for a more complex example 
+node0,,1000T,true
+node1,,1000T,true
+node2,,1000T,true
+node3,,1000T,false
+node4,,1000T,false

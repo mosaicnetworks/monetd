@@ -1,0 +1,8 @@
+[connection]
+host = "172.77.5.10"
+port = 8080
+
+[defaults]
+from = "node0"
+gas = 1000000
+gasPrice = 0
