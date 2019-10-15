@@ -3,7 +3,7 @@ import:
 - package: github.com/mosaicnetworks/babble
   version: develop
 - package: github.com/mosaicnetworks/evm-lite
-  version: develop
+  version: controller
 - package: github.com/ethereum/go-ethereum
   version: =1.8.27
 - package: github.com/sirupsen/logrus
