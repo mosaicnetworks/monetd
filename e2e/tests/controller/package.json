@@ -1,10 +1,11 @@
 {
-	"name": "crowd-funding",
+	"name": "controller",
 	"version": "1.0.0",
-	"description": "A Crowd Funding demo for EVM-Lite.",
-	"main": "demo.js",
+	"description": "A Controller Smart Contract Demo for MonetD.",
+	"main": "index.js",
 	"scripts": {
-		"demo": "node demo --ips 127.0.0.1,127.0.0.1 --port 8080 --keystore /Users/danu/.evmlc/keystore --pwd ./pwd.txt --contract ../smart-contracts/CrowdFunding.sol"
+		"run": "node index.js",
+		"debug": "node --nolazy --inspect-brk=9229 index.js"
 	},
 	"dependencies": {
 		"evm-lite-client": "^1.3.0",
