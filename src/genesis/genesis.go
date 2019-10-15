@@ -36,18 +36,24 @@ type POA struct {
 
 // file is the structure that a Genesis file gets parsed into.
 type file struct {
-	Alloc *Alloc `json:"alloc"`
-	Poa   *POA   `json:"poa"`
+	Alloc      *Alloc `json:"alloc"`
+	Poa        *POA   `json:"poa"`
+	Controller *POA   `json:"controller"`
 }
 
 // GenerateGenesisJSON compiles the POA solitity smart-contract with the peers
 // baked into the whitelist. It then creates a genesis file with the
 // corresponding POA section, and if no alloc section is provided, creates one
 // with all the keys in keystore. The file is written to outDir.
-func GenerateGenesisJSON(outDir, keystore string, peers []*peers.Peer, alloc *Alloc, contractAddress string) error {
+func GenerateGenesisJSON(outDir, keystore string, peers []*peers.Peer, alloc *Alloc, contractAddress string, controllerAddress string) error {
 	var genesis file
 
 	finalSource, err := contract.GetFinalSoliditySource(peers)
+	if err != nil {
+		return err
+	}
+
+	controllerSource, err := contract.GetControllerSoliditySource(contractAddress)
 	if err != nil {
 		return err
 	}
@@ -56,14 +62,17 @@ func GenerateGenesisJSON(outDir, keystore string, peers []*peers.Peer, alloc *Al
 
 	files.CreateDirsIfNotExists([]string{poaDir})
 
-	genesispoa, err := BuildPOA(
+	genesispoa, genesiscontroller, err := BuildPOA(
 		finalSource,
 		contractAddress,
+		controllerSource,
+		controllerAddress,
 		poaDir)
 	if err != nil {
 		return err
 	}
 	genesis.Poa = &genesispoa
+	genesis.Controller = &genesiscontroller
 
 	if alloc == nil {
 		alloctmp, err := BuildAlloc(keystore)
@@ -127,26 +136,33 @@ func BuildAlloc(accountsDir string) (Alloc, error) {
 
 // BuildPOA builds the poa section of the genesis file, and saves a compilation
 // report to outDir.
-func BuildPOA(solidityCode string, contractAddress string, outDir string) (POA, error) {
-	var poagenesis POA
+func BuildPOA(solidityCode string, contractAddress string, controllerSource string,
+	controllerAddress string, outDir string) (poagenesis POA, controllergenesis POA, err error) {
 
 	// Retrieve and set the version number
 	version, err := GetSolidityCompilerVersion()
 	if err != nil {
-		return poagenesis, err
+		return poagenesis, controllergenesis, err
 	}
 
 	contractInfo, err := CompileSolidityContract(solidityCode)
 	if err != nil {
 		common.ErrorMessage("Error compiling genesis contract:", err)
-		return poagenesis, err
+		return poagenesis, controllergenesis, err
 	}
 
-	poagenesis, err = BuildCompilationReport(version, contractInfo, contractAddress, solidityCode, outDir)
+	controllerInfo, err := CompileSolidityContract(controllerSource)
+	if err != nil {
+		common.ErrorMessage("Error compiling controller contract:", err)
+		return poagenesis, controllergenesis, err
+	}
+
+	poagenesis, controllergenesis, err = BuildCompilationReport(version, contractInfo, contractAddress, solidityCode,
+		controllerInfo, controllerSource, controllerAddress, outDir)
 	if err != nil {
 		common.ErrorMessage("Error writing compilation output:", err)
-		return poagenesis, err
+		return poagenesis, controllergenesis, err
 	}
 
-	return poagenesis, nil
+	return poagenesis, controllergenesis, nil
 }

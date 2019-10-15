@@ -52,16 +52,18 @@ func BuildCompilationReport(version string,
 	contractInfo map[string]*compiler.Contract,
 	contractAddress string,
 	solidityCode string,
-	outputDir string) (POA, error) {
-
-	var poagenesis POA
+	controllerInfo map[string]*compiler.Contract,
+	controllerSource string,
+	controllerAddress string,
+	outputDir string) (poagenesis POA, controllergenesis POA, err error) {
 
 	eip55addr := eth_common.HexToAddress(contractAddress).Hex()
+	eip55Controlleraddr := eth_common.HexToAddress(controllerAddress).Hex()
 
 	// Create empty tree by loading an empty string
 	tree, err := toml.Load("")
 	if err != nil {
-		return poagenesis, errors.New("cannot create compiler results tree")
+		return poagenesis, controllergenesis, errors.New("cannot create compiler results tree")
 	}
 
 	tree.SetPath([]string{"solc", "compilerversion"}, version)
@@ -73,7 +75,7 @@ func BuildCompilationReport(version string,
 		jsonabi, err := json.MarshalIndent(v.Info.AbiDefinition, "", "\t")
 		if err != nil {
 			common.ErrorMessage("ABI error:", err)
-			return poagenesis, err
+			return poagenesis, controllergenesis, err
 		}
 
 		tree.SetPath([]string{"poa", "contractclass"}, strings.TrimPrefix(k, "<stdin>:"))
@@ -101,7 +103,40 @@ func BuildCompilationReport(version string,
 		solidityCode,
 		files.OverwriteSilently)
 
+	for k, v := range controllerInfo {
+		common.DebugMessage("Processing Contract: ", k)
+		jsonabi, err := json.MarshalIndent(v.Info.AbiDefinition, "", "\t")
+		if err != nil {
+			common.ErrorMessage("ABI error:", err)
+			return poagenesis, controllergenesis, err
+		}
+
+		tree.SetPath([]string{"controller", "contractclass"}, strings.TrimPrefix(k, "<stdin>:"))
+		tree.SetPath([]string{"controller", "abi"}, string(jsonabi))
+		tree.SetPath([]string{"controller", "address"}, eip55Controlleraddr)
+
+		files.WriteToFile(
+			filepath.Join(outputDir, configuration.ControllerABI),
+			string(jsonabi),
+			files.OverwriteSilently,
+		)
+
+		tree.SetPath([]string{"controller", "bytecode"}, strings.TrimPrefix(v.RuntimeCode, "0x"))
+
+		controllergenesis.Abi = string(jsonabi)
+		controllergenesis.Address = eip55Controlleraddr //EIP55 compliant
+		controllergenesis.Code = strings.TrimPrefix(v.RuntimeCode, "0x")
+
+		break
+		// We only have one contract ever so no need to loop. We use the for loop as k is indeterminate
+	}
+
+	files.WriteToFile(
+		filepath.Join(outputDir, configuration.ControllerContract),
+		controllerSource,
+		files.OverwriteSilently)
+
 	files.SaveToml(tree, filepath.Join(outputDir, configuration.CompileResultFile))
 
-	return poagenesis, nil
+	return poagenesis, controllergenesis, nil
 }

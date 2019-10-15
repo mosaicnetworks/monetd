@@ -55,11 +55,14 @@ const (
 
 // Genesis Constants
 const (
-	DefaultAccountBalance  = "1234567890000000000000"
-	DefaultContractAddress = "abbaabbaabbaabbaabbaabbaabbaabbaabbaabba"
-	GenesisContract        = "contract0.sol"
-	GenesisABI             = "contract0.abi"
-	CompileResultFile      = "compile.toml"
+	DefaultAccountBalance            = "1234567890000000000000"
+	DefaultContractAddress           = "abbaabbaabbaabbaabbaabbaabbaabbaabbaabba"
+	DefaultControllerContractAddress = "aabbaabbaabbaabbaabbaabbaabbaabbaabbaabb"
+	GenesisContract                  = "contract0.sol"
+	GenesisABI                       = "contract0.abi"
+	ControllerContract               = "contract1.sol"
+	ControllerABI                    = "contract1.abi"
+	CompileResultFile                = "compile.toml"
 )
 
 // DefaultConfigDir returns the full path of the config directory where static

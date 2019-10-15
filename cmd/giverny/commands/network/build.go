@@ -105,7 +105,9 @@ func generateMonetConfig(conf *Config, thisNetworkDir string) error {
 		"",
 		peers,
 		&alloc,
-		monetconfig.DefaultContractAddress)
+		monetconfig.DefaultContractAddress,
+		monetconfig.DefaultControllerContractAddress,
+	)
 	if err != nil {
 		return err
 	}

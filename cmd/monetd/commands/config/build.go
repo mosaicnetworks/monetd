@@ -96,7 +96,8 @@ func buildConfig(cmd *cobra.Command, args []string) error {
 		_keystore,
 		peers,
 		nil,
-		configuration.DefaultContractAddress)
+		configuration.DefaultContractAddress,
+		configuration.DefaultControllerContractAddress)
 	if err != nil {
 		return err
 	}
