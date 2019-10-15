@@ -6,6 +6,7 @@ import (
 	"strings"
 	"text/template"
 
+	eth_common "github.com/ethereum/go-ethereum/common"
 	"github.com/mosaicnetworks/babble/src/peers"
 	"github.com/mosaicnetworks/monetd/src/crypto"
 )
@@ -24,7 +25,7 @@ func GetFinalSoliditySourceFromAddress(peers []*MinimalPeerRecord) (string, erro
 	var consts, addTo, checks []string
 
 	for i, peer := range peers {
-		addr := peer.Address
+		addr := eth_common.HexToAddress(peer.Address).Hex() //EIP55 Compliant
 		consts = append(consts, "    address constant initWhitelist"+strconv.Itoa(i)+" = "+addr+";")
 		consts = append(consts, "    bytes32 constant initWhitelistMoniker"+strconv.Itoa(i)+" = \""+peer.Moniker+"\";")
 
