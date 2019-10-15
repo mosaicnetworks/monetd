@@ -145,7 +145,7 @@ func GetFinalSoliditySourceFromAddress(peers []*MinimalPeerRecord) (string, erro
           address[] noArray;
         }
     
-        mapping (address => WhitelistPerson) public whiteList;
+        mapping (address => WhitelistPerson) whiteList;
         uint whiteListCount;
         address[] whiteListArray;
         mapping (address => NomineeElection) nomineeList;
