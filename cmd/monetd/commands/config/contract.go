@@ -7,12 +7,16 @@ import (
 	"path/filepath"
 	"strings"
 
+	givconf "github.com/mosaicnetworks/monetd/cmd/giverny/configuration"
 	"github.com/mosaicnetworks/monetd/src/configuration"
 	"github.com/mosaicnetworks/monetd/src/contract"
 	"github.com/mosaicnetworks/monetd/src/crypto"
 
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
+
+var contractNetwork = ""
 
 // newContractCommand returns the ContractCmd
 func newContractCmd() *cobra.Command {
@@ -30,20 +34,37 @@ in the same command line.
 		Args: cobra.MinimumNArgs(1),
 		RunE: contractConfig,
 	}
+
+	addContractFlags(cmd)
+
 	return cmd
+}
+
+func addContractFlags(cmd *cobra.Command) {
+	cmd.Flags().StringVar(&contractNetwork, "network", contractNetwork, "network name")
+	viper.BindPFlags(cmd.Flags())
 }
 
 func contractConfig(cmd *cobra.Command, args []string) error {
 	var err error
+	var keystore string
 
 	var minPeers []*contract.MinimalPeerRecord
+
+	if contractNetwork == "" {
+		keystore = configuration.DefaultKeystoreDir()
+	} else {
+		keystore = filepath.Join(givconf.GivernyConfigDir, givconf.GivernyNetworkDir,
+			contractNetwork, configuration.KeyStoreDir)
+	}
 
 	for _, peer := range args {
 		splitRec := strings.Split(peer, "=")
 		if len(splitRec) > 1 {
-			minPeers = append(minPeers, &contract.MinimalPeerRecord{Address: splitRec[1], Moniker: splitRec[0]})
+			minPeers = append(minPeers,
+				&contract.MinimalPeerRecord{Address: splitRec[1], Moniker: splitRec[0]})
 		} else {
-			jsonfile := filepath.Join(configuration.DefaultKeystoreDir(), peer+".json")
+			jsonfile := filepath.Join(keystore, peer+".json")
 
 			// Read key from file.
 			keyjson, err := ioutil.ReadFile(jsonfile)
@@ -55,7 +76,8 @@ func contractConfig(cmd *cobra.Command, args []string) error {
 			if err := json.Unmarshal(keyjson, k); err != nil {
 				return err
 			}
-			minPeers = append(minPeers, &contract.MinimalPeerRecord{Address: k.Address, Moniker: peer})
+			minPeers = append(minPeers,
+				&contract.MinimalPeerRecord{Address: k.Address, Moniker: peer})
 		}
 	}
 
