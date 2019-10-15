@@ -14,7 +14,6 @@ import (
 	"strings"
 
 	"github.com/mosaicnetworks/monetd/src/common"
-	"github.com/mosaicnetworks/monetd/src/configuration"
 )
 
 // Bits is used to hold bitwise options
@@ -27,14 +26,20 @@ const (
 	OverwriteSilently
 )
 
-//ProcessFileOptions handles prompts etc
+// ProcessFileOptions decides what to do with an existing file before any
+// modifications (create, copy, move, delete, update), based on the options
+// provided.
+// If the OverwriteSilently bit is set, this function does nothing, allowing the
+// file to be silently modified later. Otherwise, if the PromptIfExisting bit is
+// set, the user is interactively prompted for confirmation (yes/no). If the
+// BackupExisting flag is set, the file is also backed-up.
 func ProcessFileOptions(filename string, options Bits) error {
 	if CheckIfExists(filename) {
 		if options&OverwriteSilently == 0 {
-			if (options&PromptIfExisting != 0) && (!configuration.NonInteractive) {
+			if options&PromptIfExisting != 0 {
 				for {
 					reader := bufio.NewReader(os.Stdin)
-					fmt.Printf("File %s already exists. Overwrite (yes/no)?: ", filename)
+					common.PromptMessage(fmt.Sprintf("File %s already exists. Overwrite (yes/no)?: ", filename))
 					name, _ := reader.ReadString('\n')
 					fmt.Println("")
 					tidiedName := strings.ToLower(strings.TrimSpace(name))
@@ -44,37 +49,29 @@ func ProcessFileOptions(filename string, options Bits) error {
 					if tidiedName == "yes" {
 						break
 					}
-					fmt.Println("You must type 'yes' or 'no'")
+					common.PromptMessage("You must type 'yes' or 'no'")
 				}
-
 			}
 			if options&BackupExisting != 0 {
-				SafeRenameDir(filename)
+				SafeRename(filename)
 			}
 		}
 	}
 	return nil
 }
 
-// WriteToFile writes a string variable to a file.
-// It overwrites any pre-existing data silently.
+// WriteToFile calls ProcessFileOptions before writing a string variable to a
+// file.
 func WriteToFile(filename string, data string, options Bits) error {
-
 	if err := ProcessFileOptions(filename, options); err != nil {
 		return err
 	}
 
-	file, err := os.Create(filename)
-	if err != nil {
-		return err
+	if err := ioutil.WriteFile(filename, []byte(data), 0644); err != nil {
+		return fmt.Errorf("Failed to write %s: %v", filename, err)
 	}
-	defer file.Close()
 
-	_, err = io.WriteString(file, data)
-	if err != nil {
-		return err
-	}
-	return file.Sync()
+	return nil
 }
 
 // WriteToFilePrivate writes a string variable to a file with 0600 permissions.
@@ -100,17 +97,6 @@ func CreateDirsIfNotExists(d []string) error {
 	return nil
 }
 
-// CreateMonetConfigFolders creates the standard directory layout for a monet
-// configuration folder
-func CreateMonetConfigFolders(configDir string) error {
-	return CreateDirsIfNotExists([]string{
-		configDir,
-		filepath.Join(configDir, configuration.BabbleDir),
-		filepath.Join(configDir, configuration.EthDir),
-		filepath.Join(configDir, configuration.EthDir, configuration.POADir),
-	})
-}
-
 //CheckIfExists checks if a file / directory exists
 func CheckIfExists(dir string) bool {
 	if _, err := os.Stat(dir); os.IsNotExist(err) {
@@ -119,8 +105,8 @@ func CheckIfExists(dir string) bool {
 	return true
 }
 
-//CopyFileContents writes the contents to src to a new file dst.
-//This operation is silently destructive
+// CopyFileContents writes the contents from src to a new file dst. This
+// operation is silently destructive
 func CopyFileContents(src, dst string) (err error) {
 
 	common.DebugMessage("Copying from " + src + " to " + dst)
@@ -146,10 +132,10 @@ func CopyFileContents(src, dst string) (err error) {
 	return
 }
 
-//SafeRenameDir renames a folder to folder.~n~ where n is the lowest value
-//where the folder does not already exist.
-//n is capped at 100 - which would require the user to manually tidy the parent folder.
-func SafeRenameDir(origDir string) error {
+// SafeRename renames a folder or file to <name>.~n~ where n is the lowest value
+// where the folder does not already exist. The value of n is capped at 100,
+// which would require the user to manually tidy the parent folder.
+func SafeRename(origDir string) error {
 
 	// no renaming is necessary if the original file/folder doesnt exist
 	if !CheckIfExists(origDir) {
@@ -163,7 +149,7 @@ func SafeRenameDir(origDir string) error {
 		if CheckIfExists(newDir) {
 			continue
 		}
-		fmt.Println("Renaming " + origDir + " to " + newDir)
+		common.DebugMessage("Renaming " + origDir + " to " + newDir)
 		err := os.Rename(origDir, newDir)
 		if err != nil {
 			return err
@@ -174,20 +160,22 @@ func SafeRenameDir(origDir string) error {
 }
 
 //DownloadFile downs a file from a URL and writes it to disk
-func DownloadFile(url string, writefile string, options Bits) error {
+func DownloadFile(url string, writefile string, interactive bool) error {
 	b, err := getRequest(url)
 	if err != nil {
-		fmt.Println("Error getting "+url, err)
+		common.ErrorMessage("Error getting "+url, err)
 		return err
 	}
 
-	if err := ProcessFileOptions(writefile, options); err != nil {
-		return err
+	// Set options for WriteToFile base on 'interactive' flag
+	var options Bits
+	if interactive {
+		options = PromptIfExisting
 	}
 
 	err = WriteToFile(writefile, string(b), options)
 	if err != nil {
-		fmt.Println("Error writing "+writefile, err)
+		common.ErrorMessage("Error writing "+writefile, err)
 		return err
 	}
 	return nil

@@ -1,13 +1,11 @@
-package config
+package configuration
 
 import (
 	"bytes"
 	"fmt"
 	"html/template"
-	"io/ioutil"
 	"path/filepath"
 
-	"github.com/mosaicnetworks/monetd/src/configuration"
 	"github.com/mosaicnetworks/monetd/src/files"
 )
 
@@ -67,7 +65,7 @@ func GlobalTOML() (string, error) {
 	}
 
 	var buf bytes.Buffer
-	err = configTmpl.Execute(&buf, configuration.Global)
+	err = configTmpl.Execute(&buf, Global)
 	if err != nil {
 		return "", fmt.Errorf("Error executing monetd.toml template: %v", err)
 	}
@@ -77,22 +75,24 @@ func GlobalTOML() (string, error) {
 
 // DumpGlobalTOML takes the global Config object, encodes it into a TOML string,
 // and writes it to a file.
-func DumpGlobalTOML(configDir, fileName string) error {
+func DumpGlobalTOML(configDir, fileName string, interactive bool) error {
 	tomlString, err := GlobalTOML()
 	if err != nil {
 		return err
 	}
 
-	tomlPath := filepath.Join(configDir, fileName)
+	options := files.OverwriteSilently
 
-	if err := files.ProcessFileOptions(tomlPath, files.BackupExisting); err != nil {
+	if interactive {
+		options = files.PromptIfExisting
+	}
+
+	if err := files.WriteToFile(
+		filepath.Join(configDir, fileName),
+		tomlString,
+		options); err != nil {
 		return err
 	}
 
-	if err := ioutil.WriteFile(tomlPath, []byte(tomlString), 0644); err != nil {
-		return fmt.Errorf("Failed to write %s: %v", tomlPath, err)
-	}
-
-	configuration.ShowIPWarnings()
 	return nil
 }

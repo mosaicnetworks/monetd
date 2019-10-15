@@ -51,6 +51,7 @@ func addPullFlags(cmd *cobra.Command) {
 	cmd.Flags().StringVar(&_addressParam, "address", _addressParam, "IP/hostname of this node")
 	cmd.Flags().StringVar(&_keyParam, "key", _keyParam, "moniker of the key to use for this node")
 	cmd.Flags().StringVar(&_passwordFile, "passfile", "", "file containing the passphrase")
+	cmd.Flags().BoolVarP(&_force, "force", "f", _force, "don't prompt before manipulating files")
 	viper.BindPFlags(cmd.Flags())
 }
 
@@ -70,7 +71,7 @@ func pullConfig(cmd *cobra.Command, args []string) error {
 	}
 
 	// Create Directories if they don't exist
-	files.CreateMonetConfigFolders(_configDir)
+	CreateMonetConfigFolders(_configDir)
 
 	// Copy the key to babble directory with appropriate permissions
 	err = keystore.DumpPrivKey(
@@ -92,7 +93,10 @@ func pullConfig(cmd *cobra.Command, args []string) error {
 	}
 
 	for _, item := range filesList {
-		err := files.DownloadFile(item.URL, item.Dest, files.OverwriteSilently)
+		err := files.DownloadFile(
+			item.URL,
+			item.Dest,
+			!_force)
 		if err != nil {
 			common.ErrorMessage(fmt.Sprintf("Error downloading %s", item.URL))
 			return err
@@ -101,5 +105,15 @@ func pullConfig(cmd *cobra.Command, args []string) error {
 	}
 
 	// Write TOML file for monetd based on global config object
-	return DumpGlobalTOML(_configDir, configuration.MonetTomlFile)
+	err = configuration.DumpGlobalTOML(
+		_configDir,
+		configuration.MonetTomlFile,
+		!_force)
+	if err != nil {
+		return err
+	}
+
+	ShowIPWarnings()
+
+	return nil
 }

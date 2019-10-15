@@ -2,7 +2,6 @@
 package configuration
 
 import (
-	"fmt"
 	"path/filepath"
 
 	babble_config "github.com/mosaicnetworks/babble/src/config"
@@ -16,9 +15,6 @@ var (
 	// Global is a global Config object used by commands in cmd/ to manipulate
 	// configuration options.
 	Global = DefaultConfig()
-
-	// NonInteractive is a global flag that can set set to suppress prompts
-	NonInteractive = false
 )
 
 // Config contains the configuration for MONET node
@@ -138,19 +134,4 @@ func DefaultBaseConfig() BaseConfig {
 		DataDir:   DefaultDataDir(),
 		APIAddr:   DefaultAPIAddr,
 	}
-}
-
-//
-//ShowIPWarnings outputs warnings in output configurations
-func ShowIPWarnings() {
-	api := Global.APIAddr
-	gossip := Global.Babble.BindAddr
-
-	if common.CheckIP(api, true) {
-		common.MessageWithType(common.MsgWarning, fmt.Sprintf("Monetd listening address in monetd.toml may be internal: %s \n", api))
-	}
-	if common.CheckIP(gossip, false) {
-		common.MessageWithType(common.MsgWarning, fmt.Sprintf("Babble gossip address in monetd.toml may be internal: %s \n", gossip))
-	}
-
 }
