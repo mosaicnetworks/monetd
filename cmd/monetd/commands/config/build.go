@@ -45,7 +45,6 @@ func addBuildFlags(cmd *cobra.Command) {
 	cmd.Flags().StringVar(&_configDir, "config", _configDir, "output directory")
 	cmd.Flags().StringVar(&_addressParam, "address", _addressParam, "IP/hostname of this node")
 	cmd.Flags().StringVar(&_passwordFile, "passfile", "", "file containing the passphrase")
-	cmd.Flags().BoolVarP(&_force, "force", "f", _force, "don't prompt before manipulating files")
 	viper.BindPFlags(cmd.Flags())
 }
 
@@ -106,7 +105,7 @@ func buildConfig(cmd *cobra.Command, args []string) error {
 	err = configuration.DumpGlobalTOML(
 		_configDir,
 		configuration.MonetTomlFile,
-		!_force)
+		true)
 	if err != nil {
 		return err
 	}

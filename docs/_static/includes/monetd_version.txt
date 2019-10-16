@@ -1,5 +1,5 @@
 [..monetd] $ monetd version
-Monetd Version: 0.2.5-filesystem-layout-3f96c705
-     EVM-Lite Version: 0.3.4-develop
-     Babble Version: 0.5.7-develop
+Monetd Version: 0.2.5-develop-9b16ad82
+     EVM-Lite Version: 0.3.5-
+     Babble Version: 0.5.8-
      Geth Version: 1.8.27

@@ -94,7 +94,6 @@ Example of a monet.toml file:
 
 ::
 
-  datadir = "/home/user/.monet"
   verbose = "false"
   api-listen = ":8080"
 
