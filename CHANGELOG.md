@@ -1,12 +1,12 @@
 
 # Changelog
 
-## v0.3.0 (October 15, 2019)
+## v0.3.0 (October 16, 2019)
 
 IMPROVEMENTS:
 
 - monetd:        Restructure the configuration directories to facilitate role
-                 separation  
+                 separation between data and config
 - monetd~babble: Badger_DB updated to latest v1.6.0
 - monetd~poa:    Implement a voting scheme to evict a validator
                  joinleavetest to test nominating and evicting validators
