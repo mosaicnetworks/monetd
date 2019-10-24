@@ -6,16 +6,19 @@
 SECURITY:
 FEATURES:
 IMPROVEMENTS:
+BUG FIXES:
 
+## v0.3.0 (October 16, 2019)
+
+IMPROVEMENTS:
+
+- monetd:        Restructure the configuration directories to facilitate role
+                 separation between data and config
 - monetd~babble: Badger_DB updated to latest v1.6.0
 - monetd~poa:    Implement a voting scheme to evict a validator
                  joinleavetest to test nominating and evicting validators
 - monetd~cli:    Additional warnings and confirmation prompts about when
                  overwriting configuration files
-- monetd:        Restructure the configuration directories to facilitate role
-                 separation                  
-
-BUG FIXES:
 
 ## v0.2.5 (October 2, 2019)
 

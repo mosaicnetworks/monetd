@@ -16,6 +16,7 @@ var (
 	_keyParam     = getDefaultKey() //get default keyfile
 	_addressParam = common.GetMyIP()
 	_passwordFile string
+	_force        = false
 )
 
 // ConfigCmd implements the config CLI subcommand

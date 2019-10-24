@@ -7,6 +7,7 @@ Usage:
   giverny network [command]
 
 Available Commands:
+  aws         write aws configuration files
   build       build monetd configuration files based on a giverny network file
   dump        Dump the network settings
   list        list configured networks

@@ -1,5 +1,5 @@
-MONETD_VERSION=0.2.5dev
-GIVERNY_VERSION=0.2.5dev
+MONETD_VERSION=0.3.0dev
+GIVERNY_VERSION=0.3.0dev
 
 all: solidity monetd-image giverny-image
 

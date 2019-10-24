@@ -68,7 +68,7 @@ func buildConfig(cmd *cobra.Command, args []string) error {
 	}
 
 	// Create Directories if they don't exist
-	files.CreateMonetConfigFolders(_configDir)
+	CreateMonetConfigFolders(_configDir)
 
 	// Copy the key to babble directory with appropriate permissions
 	err = keystore.DumpPrivKey(
@@ -103,9 +103,15 @@ func buildConfig(cmd *cobra.Command, args []string) error {
 	}
 
 	// Write TOML file for monetd based on global config object
-	return DumpGlobalTOML(_configDir, configuration.MonetTomlFile)
+	err = configuration.DumpGlobalTOML(
+		_configDir,
+		configuration.MonetTomlFile,
+		true)
+	if err != nil {
+		return err
+	}
 
-	//	return nil
+	return nil
 }
 
 // dumpPeers takes a list of peers and dumps it into peers.json and

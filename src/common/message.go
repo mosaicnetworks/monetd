@@ -45,20 +45,23 @@ func InfoMessage(a ...interface{}) (n int, err error) {
 
 //ErrorMessage is a simple wrapper for stdout logging for Error Messages.
 func ErrorMessage(a ...interface{}) (n int, err error) {
-	//	if VerboseLogging {
 	n, err = MessageWithType(MsgError, a...)
 	return n, err
-	//	}
-	//	return 0, nil
 }
 
-//DebugMessage is a simple wrapper for stdout logging. Setting VerboseLayout to false disables its output
+//DebugMessage is a simple wrapper for stdout logging. Setting VerboseLayout to
+// false disables its output
 func DebugMessage(a ...interface{}) (n int, err error) {
 	if VerboseLogging {
 		n, err = MessageWithType(MsgDebug, a...)
 		return n, err
 	}
 	return 0, nil
+}
+
+// PromptMessage displays a prompt message in the appropriate color.
+func PromptMessage(a ...interface{}) (n int, err error) {
+	return MessageWithType(MsgPrompt, a...)
 }
 
 //MessageWithType is a central point for cli logging messages

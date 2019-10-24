@@ -70,7 +70,7 @@ func generateTransactions(cmd *cobra.Command, args []string) error {
 	}
 
 	transDir := filepath.Join(networkDir, givernyTransactionsDir)
-	if err := files.SafeRenameDir(transDir); err != nil {
+	if err := files.SafeRename(transDir); err != nil {
 		return err
 	}
 
