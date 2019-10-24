@@ -1,6 +1,7 @@
 package config
 
 import (
+	"errors"
 	"io/ioutil"
 	"path/filepath"
 	"strings"
@@ -13,7 +14,7 @@ import (
 var (
 	_keystore     = configuration.DefaultKeystoreDir()
 	_configDir    = configuration.DefaultConfigDir()
-	_keyParam     = getDefaultKey() //get default keyfile
+	_keyParam     = ""
 	_addressParam = common.GetMyIP()
 	_passwordFile string
 	_force        = false
@@ -52,23 +53,44 @@ func init() {
 
 // getDefaultKey returns the moniker of the the first keyfile in the default
 // keystore
-func getDefaultKey() string {
+func getDefaultKey() (string, error) {
 
 	keystore := configuration.DefaultKeystoreDir()
 
 	files, err := ioutil.ReadDir(keystore)
 	if err != nil {
-		return ""
+		return "", err
 	}
+
+	moniker := ""
+	extraMonikers := ""
 
 	for _, file := range files {
 		if filepath.Ext(file.Name()) == ".json" {
-			return strings.TrimSuffix(
-				file.Name(),
-				filepath.Ext(file.Name()),
-			)
+			if moniker == "" {
+				moniker = strings.TrimSuffix(
+					file.Name(),
+					filepath.Ext(file.Name()),
+				)
+			} else {
+				extraMonikers = extraMonikers + ", " + strings.TrimSuffix(
+					file.Name(),
+					filepath.Ext(file.Name()),
+				)
+			}
 		}
 	}
 
-	return ""
+	if moniker == "" {
+		return "", errors.New("No keys found. Use 'monet keys new' to generate keys ")
+	}
+
+	if extraMonikers == "" {
+		return moniker, nil
+	}
+
+	common.ErrorMessage("You have multiple available keys. Specify one using the --key parameter.")
+	common.InfoMessage(moniker + extraMonikers)
+	return "", errors.New("key to use is ambiguous")
+
 }

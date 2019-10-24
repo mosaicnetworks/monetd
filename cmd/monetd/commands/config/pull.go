@@ -58,6 +58,14 @@ func addPullFlags(cmd *cobra.Command) {
 func pullConfig(cmd *cobra.Command, args []string) error {
 	peerAddr := args[0]
 
+	var err error
+
+	if _keyParam == "" {
+		if _keyParam, err = getDefaultKey(); err != nil {
+			return err
+		}
+	}
+
 	// Helpful debugging output
 	common.MessageWithType(common.MsgDebug, "Pulling from         : ", peerAddr)
 	common.MessageWithType(common.MsgDebug, "Using Network Address: ", _addressParam)
