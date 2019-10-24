@@ -6,6 +6,9 @@ NOSTOP=${2:-""}
 NODUMMY="true"
 RANSPECIFIEDTEST="false"
 
+STARTPARAMS=""
+
+
 set -eu
 
 IP=172.77.5.10
@@ -42,6 +45,12 @@ do
 
     echo -n "$testname ."
    
+
+    if [ -f "$mydir/../tests/$testname/start.params" ] ; then
+        STARTPARAMS=$(cat "$mydir/../tests/$testname/start.params")
+        echo $STARTPARAMS
+    fi
+
     $mydir/start.sh --network=$testname --init-ip=$IP 2>&1 > $output
 
     echo -n "."
