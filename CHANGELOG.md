@@ -8,6 +8,10 @@ FEATURES:
 IMPROVEMENTS:
 BUG FIXES:
 
+- monetd~babble: Fix error reading events expired from the cache
+- monetd~babble: Defer netowrk starting listening after bootstrap process ends
+- monetd~config: Prevent ambiguous choice of keys in pull command
+
 ## v0.3.0 (October 16, 2019)
 
 IMPROVEMENTS:
