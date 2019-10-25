@@ -48,10 +48,10 @@ do
 
     if [ -f "$mydir/../tests/$testname/start.params" ] ; then
         STARTPARAMS=$(cat "$mydir/../tests/$testname/start.params")
-        echo $STARTPARAMS
+  #      echo $STARTPARAMS
     fi
 
-    $mydir/start.sh --network=$testname --init-ip=$IP 2>&1 > $output
+    $mydir/start.sh --network=$testname --init-ip=$IP  $STARTPARAMS  2>&1 > $output
 
     echo -n "."
     set +e

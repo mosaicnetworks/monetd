@@ -1,1 +1,1 @@
---cache-size=500 --bootstrap=true
+--cache-size=5000 --bootstrap=true --verbose
