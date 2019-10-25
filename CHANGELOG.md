@@ -1,15 +1,14 @@
 
 # Changelog
 
-## Unreleased
+## v0.3.1 (October 25, 2019)
 
-SECURITY:
-FEATURES:
-IMPROVEMENTS:
 BUG FIXES:
 
 - monetd~babble: Fix error reading events expired from the cache
-- monetd~babble: Defer netowrk starting listening after bootstrap process ends
+- monetd~babble: Defer network starting listening after bootstrap process ends
+- monetd~babble: Add the badgerdb truncate option to truncate value log files to
+                 delete corrupt data
 - monetd~config: Prevent ambiguous choice of keys in pull command
 
 ## v0.3.0 (October 16, 2019)
