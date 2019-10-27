@@ -53,9 +53,7 @@ func init() {
 
 // getDefaultKey returns the moniker of the the first keyfile in the default
 // keystore
-func getDefaultKey() (string, error) {
-
-	keystore := configuration.DefaultKeystoreDir()
+func getDefaultKey(string keystore) (string, error) {
 
 	files, err := ioutil.ReadDir(keystore)
 	if err != nil {

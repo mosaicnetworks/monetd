@@ -61,7 +61,7 @@ func pullConfig(cmd *cobra.Command, args []string) error {
 	var err error
 
 	if _keyParam == "" {
-		if _keyParam, err = getDefaultKey(); err != nil {
+		if _keyParam, err = getDefaultKey(_keystore); err != nil {
 			return err
 		}
 	}
