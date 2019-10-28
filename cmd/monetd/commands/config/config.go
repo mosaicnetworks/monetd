@@ -53,7 +53,7 @@ func init() {
 
 // getDefaultKey returns the moniker of the the first keyfile in the default
 // keystore
-func getDefaultKey(string keystore) (string, error) {
+func getDefaultKey(keystore string) (string, error) {
 
 	files, err := ioutil.ReadDir(keystore)
 	if err != nil {
@@ -62,10 +62,8 @@ func getDefaultKey(string keystore) (string, error) {
 
 	moniker := ""
 	extraMonikers := ""
-
 	for _, file := range files {
 		if filepath.Ext(file.Name()) == ".json" {
-			if moniker == "" {
 				moniker = strings.TrimSuffix(
 					file.Name(),
 					filepath.Ext(file.Name()),
