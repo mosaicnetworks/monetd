@@ -253,12 +253,15 @@ function isWhitelisted(address _address) private view returns (bool)
 /// @param _moniker the moniker of the new nominee as displayed during the voting process
  function submitNominee (address _nomineeAddress, bytes32 _moniker) public payable // checkAuthorisedModifier(msg.sender)
  {
-     nomineeList[_nomineeAddress] = NomineeElection({nominee: _nomineeAddress, proposer: msg.sender,
-                 yesVotes: 0, noVotes: 0, yesArray: new address[](0),noArray: new address[](0) });
-     nomineeArray.push(_nomineeAddress);
-     monikerList[_nomineeAddress] = _moniker;
-     emit NomineeProposed(_nomineeAddress,  msg.sender);
-     emit MonikerAnnounce(_nomineeAddress, _moniker);
+     if (! isWhitelisted(address))
+     {   
+        nomineeList[_nomineeAddress] = NomineeElection({nominee: _nomineeAddress, proposer: msg.sender,
+                    yesVotes: 0, noVotes: 0, yesArray: new address[](0),noArray: new address[](0) });
+        nomineeArray.push(_nomineeAddress);
+        monikerList[_nomineeAddress] = _moniker;
+        emit NomineeProposed(_nomineeAddress,  msg.sender);
+        emit MonikerAnnounce(_nomineeAddress, _moniker);
+     }  
  }
 
 
