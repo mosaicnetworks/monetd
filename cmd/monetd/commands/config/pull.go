@@ -66,6 +66,8 @@ func pullConfig(cmd *cobra.Command, args []string) error {
 		}
 	}
 
+	common.InfoMessage("Moniker: ", _keyParam)
+
 	// Helpful debugging output
 	common.MessageWithType(common.MsgDebug, "Pulling from         : ", peerAddr)
 	common.MessageWithType(common.MsgDebug, "Using Network Address: ", _addressParam)
