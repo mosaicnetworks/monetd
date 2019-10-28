@@ -63,7 +63,8 @@ func getDefaultKey(keystore string) (string, error) {
 	moniker := ""
 	extraMonikers := ""
 	for _, file := range files {
-		if filepath.Ext(file.Name()) == ".json" {
+		if moniker == "" {
+			if filepath.Ext(file.Name()) == ".json" {
 				moniker = strings.TrimSuffix(
 					file.Name(),
 					filepath.Ext(file.Name()),
