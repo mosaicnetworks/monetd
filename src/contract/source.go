@@ -124,6 +124,18 @@ func GetFinalSoliditySourceFromAddress(peers []*MinimalPeerRecord) (string, erro
             address indexed _address,
             bytes32 indexed _moniker
         );
+
+
+    /// @notice Event emitted on error
+    /// @param _address The address of the user
+    /// @param _message The error message
+        event POA_Error(
+            address indexed _address,
+            string _message
+        );
+    
+    
+    
     
         struct WhitelistPerson {
           address person;
@@ -184,7 +196,7 @@ modifier checkAuthorisedModifier(address _address)
          // This is a modifier on a payable transaction so we can initialise everything.
          processGenesisWhitelist();
      }
-     require(isWhitelisted(_address), "Not authorised");
+     require(isWhitelisted(_address));
      _;
 }
 
@@ -245,6 +257,10 @@ function isWhitelisted(address _address) private view returns (bool)
         emit MonikerAnnounce(_address,_moniker);
         emit NomineeDecision(_address, 0, 0, true);  // zero vote counts because there was no vote
      }
+     else
+     {
+         emit POA_Error(_address, "Dup Whitelist");
+     }
  }
 
 
@@ -253,7 +269,7 @@ function isWhitelisted(address _address) private view returns (bool)
 /// @param _moniker the moniker of the new nominee as displayed during the voting process
  function submitNominee (address _nomineeAddress, bytes32 _moniker) public payable // checkAuthorisedModifier(msg.sender)
  {
-     if (! isWhitelisted(address))
+     if ((! isWhitelisted(_nomineeAddress)) && (! isNominee(_nomineeAddress)) )  
      {   
         nomineeList[_nomineeAddress] = NomineeElection({nominee: _nomineeAddress, proposer: msg.sender,
                     yesVotes: 0, noVotes: 0, yesArray: new address[](0),noArray: new address[](0) });
@@ -261,7 +277,13 @@ function isWhitelisted(address _address) private view returns (bool)
         monikerList[_nomineeAddress] = _moniker;
         emit NomineeProposed(_nomineeAddress,  msg.sender);
         emit MonikerAnnounce(_nomineeAddress, _moniker);
-     }  
+     }  else {
+        if (isWhitelisted(_nomineeAddress)) {
+            emit POA_Error(_nomineeAddress, "On Whitelist");
+        } else {
+            emit POA_Error(_nomineeAddress, "On Nominee list"); 
+        }    
+     }
  }
 
 
@@ -269,12 +291,19 @@ function isWhitelisted(address _address) private view returns (bool)
 /// @param _nomineeAddress the address of the evictee
  function submitEviction (address _nomineeAddress) public payable  checkAuthorisedModifier(msg.sender)
  {
-     evictionList[_nomineeAddress] = NomineeElection({nominee: _nomineeAddress, proposer: msg.sender,
-                 yesVotes: 0, noVotes: 0, yesArray: new address[](0),noArray: new address[](0) });
-     evictionArray.push(_nomineeAddress);
-//        monikerList[_nomineeAddress] = _moniker;
-     emit EvictionProposed(_nomineeAddress,  msg.sender);
-//        emit MonikerAnnounce(_nomineeAddress, _moniker);
+
+    if (isWhitelisted(_nomineeAddress)) 
+    { 
+            evictionList[_nomineeAddress] = NomineeElection({nominee: _nomineeAddress, proposer: msg.sender,
+                        yesVotes: 0, noVotes: 0, yesArray: new address[](0),noArray: new address[](0) });
+            evictionArray.push(_nomineeAddress);
+        //        monikerList[_nomineeAddress] = _moniker;
+            emit EvictionProposed(_nomineeAddress,  msg.sender);
+        //        emit MonikerAnnounce(_nomineeAddress, _moniker);
+    } else {
+        emit POA_Error(_nomineeAddress, "Not On Whitelist");
+    }
+
  }
 
 
@@ -318,6 +347,7 @@ function isWhitelisted(address _address) private view returns (bool)
      }
      else
      {   // Not a nominee, so set decided to true
+         emit POA_Error(_nomineeAddress,"Not nominee");   
          decided = true;
      }
 
@@ -366,6 +396,7 @@ function isWhitelisted(address _address) private view returns (bool)
      }
      else
      {   // Not a nominee, so set decided to true
+         emit POA_Error(_nomineeAddress,"Not nominee");
          decided = true;
      }
 
@@ -460,7 +491,10 @@ function isWhitelisted(address _address) private view returns (bool)
        whiteList[_nomineeAddress] = WhitelistPerson(_nomineeAddress, 0);
        whiteListArray.push(_nomineeAddress);
        whiteListCount++;
+     } else {
+        emit POA_Error(_nomineeAddress,"Already Whitelisted");
      }
+
  // Remove from nominee list
     removeNominee(_nomineeAddress);
  }
