@@ -60,34 +60,28 @@ func getDefaultKey(keystore string) (string, error) {
 		return "", err
 	}
 
-	moniker := ""
-	extraMonikers := ""
+	var monikers []string
+
 	for _, file := range files {
-		if moniker == "" {
-			if filepath.Ext(file.Name()) == ".json" {
-				moniker = strings.TrimSuffix(
-					file.Name(),
-					filepath.Ext(file.Name()),
-				)
-			} else {
-				extraMonikers = extraMonikers + ", " + strings.TrimSuffix(
-					file.Name(),
-					filepath.Ext(file.Name()),
-				)
-			}
+		if filepath.Ext(file.Name()) == ".json" {
+			monikers = append(monikers, strings.TrimSuffix(
+				file.Name(),
+				filepath.Ext(file.Name()),
+			))
 		}
 	}
 
-	if moniker == "" {
+	if len(monikers) == 0 {
 		return "", errors.New("No keys found. Use 'monet keys new' to generate keys ")
 	}
 
-	if extraMonikers == "" {
-		return moniker, nil
+	if len(monikers) == 1 {
+		return monikers[0], nil
 	}
 
 	common.ErrorMessage("You have multiple available keys. Specify one using the --key parameter.")
-	common.InfoMessage(moniker + extraMonikers)
+	common.InfoMessage(monikers)
+
 	return "", errors.New("key to use is ambiguous")
 
 }
