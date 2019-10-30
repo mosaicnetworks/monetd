@@ -7,12 +7,21 @@ NODES=$*
 lastbi=""
 lowestbi=""
 err=""
+nodeerr=""
+exitcode=0
+
 
 for n in $NODES
 do
    url="http://$n:8080/info"
    bi=$(curl -s $url  | sed "s/},/\n/g" | sed 's/.*"last_block_index":"\([^"]*\)".*/\1/'  )
+   resp=$?
 
+   if [ "$bi" == "" ] ; then
+      nodeerr="$nodeerr\n$n generates an error"
+      exitcode=408
+      continue
+   fi 
  #  echo "$n: $bi"
 
    if [ "$lastbi" != "" ] && [ "$lastbi" != "$bi" ] ; then
@@ -40,12 +49,16 @@ fi
 lastsh=""
 lastfh=""
 lastph=""
-exitcode=0
-
 for n in $NODES
 do
    url="http://$n:8080/block/$lowestbi"
    raw=$(curl -s $url)
+   if [ "$raw" == "" ] ; then
+      nodeerr="$nodeerr\n$n generates an error"
+      exitcode=409
+      continue
+   fi 
+
 
    sh=$(echo $raw  | json_pp | grep "StateHash" | sed 's/.*"StateHash"[ \t]*:[ \t]*"\([^"]*\)".*/\1/'  )
    fh=$(echo $raw  | json_pp | grep "FrameHash" | sed 's/.*"FrameHash"[ \t]*:[ \t]*"\([^"]*\)".*/\1/'  )
@@ -80,5 +93,9 @@ do
 
    lastph="$ph"
 done
+
+if [ "$nodeerr" != "" ] ; then
+   echo -e $nodeerr
+fi
 
 exit $exitcode
