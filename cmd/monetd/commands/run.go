@@ -3,10 +3,13 @@ package commands
 import (
 	"fmt"
 
+	bvers "github.com/mosaicnetworks/babble/src/version"
 	"github.com/mosaicnetworks/evm-lite/src/engine"
+	evers "github.com/mosaicnetworks/evm-lite/src/version"
 	"github.com/mosaicnetworks/monetd/src/babble"
 	"github.com/mosaicnetworks/monetd/src/common"
 	"github.com/mosaicnetworks/monetd/src/configuration"
+	mvers "github.com/mosaicnetworks/monetd/src/version"
 	"github.com/spf13/cobra"
 )
 
@@ -66,6 +69,10 @@ READ CONFIG AND RUN
 
 // Run the EVM-Lite / Babble engine
 func runMonet(cmd *cobra.Command, args []string) error {
+
+	// Set component versions in EVM-Lite version files that the endpoint read
+	evers.JSONVersion["babble"] = bvers.Version
+	evers.JSONVersion["monetd"] = mvers.Version
 
 	babble := babble.NewInmemBabble(
 		configuration.Global.ToBabbleConfig(),
