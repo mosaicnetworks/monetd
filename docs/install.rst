@@ -42,8 +42,7 @@ Download the latest version of monetd:
 
 .. code ::
 
-    wget -O monetd \
-      https://github.com/mosaicnetworks/monetd/releases/download/v0.2.4/monetd-linux-amd64
+    wget -O monetd -L "https://dashboard.monet.network/api/downloads/applications/monetd/?os=linux"
 
     chmod 751 monetd
     sudo mv monetd /usr/local/bin/
