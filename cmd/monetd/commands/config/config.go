@@ -48,6 +48,7 @@ func init() {
 		newPullCmd(),
 		newBuildCmd(),
 		newContractCmd(),
+		newWhiteListCmd(),
 	)
 }
 
