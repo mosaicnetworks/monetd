@@ -30,8 +30,12 @@ environment where ``monetd`` is sure to run.
 Downloads
 +++++++++
 
-Binary packages of ``monetd`` are available from
-`github <https://github.com/mosaicnetworks/monetd/releases>`__.
+Download the latest version of monetd:
+
+- `Linux <https://dashboard.monet.network/api/downloads/applications/monetd/?os=linux>`__
+- `Mac <https://dashboard.monet.network/api/downloads/applications/monetd/?os=mac>`__
+- `Windows <https://dashboard.monet.network/api/downloads/applications/monetd/?os=windows>`__
+
 
 
 **Example**: Download ``monetd`` and copy it to the local bin directory.
