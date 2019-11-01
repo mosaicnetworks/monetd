@@ -57,6 +57,7 @@ func bindFlags(cmd *cobra.Command) {
 	cmd.Flags().Int("babble.max-pool", configuration.Global.Babble.MaxPool, "max number of pool connections")
 	cmd.Flags().Bool("babble.bootstrap", configuration.Global.Babble.Bootstrap, "bootstrap Babble from database")
 	cmd.Flags().String("babble.moniker", configuration.Global.Babble.Moniker, "friendly name")
+	cmd.Flags().Bool("babble.maintenance-mode", configuration.Global.Babble.MaintenanceMode, "start babble in suspended (non-gossipping) state")
 
 	// Eth config
 	cmd.Flags().Int("eth.cache", configuration.Global.Eth.Cache, "megabytes of memory allocated to internal caching (min 16MB / database forced)")

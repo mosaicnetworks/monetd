@@ -48,6 +48,10 @@ api-listen = "{{.APIAddr}}"
   # Moniker for this node  
   moniker = "{{.Babble.Moniker}}"
 
+  # Set to true to enable Maintenance Mode to start Babble in a non-gossipping
+  # suspended state.  
+  maintenance-mode = "{{.Babble.MaintenanceMode}}"
+
 [eth]
   # megabytes of memory allocated to internal caching 
   # (min 16MB / database forced) (default 128)

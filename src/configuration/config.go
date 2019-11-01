@@ -90,6 +90,7 @@ func (c *Config) ToBabbleConfig() *babble_config.Config {
 	babbleConfig.SyncLimit = c.Babble.SyncLimit
 	babbleConfig.Bootstrap = c.Babble.Bootstrap
 	babbleConfig.Moniker = c.Babble.Moniker
+	babbleConfig.MaintenanceMode = c.Babble.MaintenanceMode
 
 	// Force Babble to use persistant storage.
 	babbleConfig.Store = true
