@@ -292,4 +292,5 @@ else
     exit 5
 fi
 
-echo "Temporary files in $OUTDIR have not been deleted."
+# echo "Temporary files in $OUTDIR have not been deleted."
+rm -rf $OUTDIR

@@ -84,24 +84,57 @@ if [ $ex -ne 0 ] ; then
     exit $ex
 fi
 
-# We get the current state from :$PORT/export
-# We also get the peers from :$PORT/peers
 
+# Capture original files from network
+wget -O $TMP_DIR/orig.genesis.json  http://$HOST:$PORT/export
+ex=$?
+if [ $ex -ne 0 ] ; then
+    exit $ex
+fi
 
-wget -O $TMP_DIR/genesis.json  http://$HOST:$PORT/export
+wget -O $TMP_DIR/orig.peers.json  http://$HOST:$PORT/peers
 ex=$?
 if [ $ex -ne 0 ] ; then
     exit $ex
 fi
 
 
+# Amend config of node0 to maintenance mode 
+NODE0IP=$(docker inspect --format="{{.NetworkSettings.Networks.$NET.IPAddress}}" node0)
 
-wget -O $TMP_DIR/peers.json  http://$HOST:$PORT/peers
+echo "Node 0 IP is $NODE0IP"
+
+docker cp node0:/.monet/monetd-config/monetd.toml $TMP_DIR/orig.monetd.toml
+sed -e 's/maintenance-mode = "false"/maintenance-mode = "true"/g;s/bootstrap = false/bootstrap = true/g' $TMP_DIR/orig.monetd.toml > $TMP_DIR/maint.monetd.toml
+docker cp $TMP_DIR/maint.monetd.toml node0:/.monet/monetd-config/monetd.toml 
+
+# Stop Node0
+
+docker exec node0 kill 1
+
+sleep 5
+
+# Start Node 0 in Maintenance mode
+
+docker start node0
+
+# Get files required to restart without loss of state
+
+# Allow time to initialise the node
+sleep 10
+
+echo "Getting maintenance mode export"
+wget -O $TMP_DIR/genesis.json  http://$NODE0IP:$PORT/export
 ex=$?
 if [ $ex -ne 0 ] ; then
     exit $ex
 fi
 
+wget -O $TMP_DIR/peers.json  http://$NODE0IP:$PORT/peers
+ex=$?
+if [ $ex -ne 0 ] ; then
+    exit $ex
+fi
 
 # Generate account balances
 
@@ -110,9 +143,15 @@ for n in $(seq 1 $ACCTS)
 do
   echo -n "."
   ADDR=$(sed -e 's/",.*$//g;s/^.*":"//g'  $HOME/.monettest/keystore/Test$n.json)
-  wget -O $TMP_DIR/before$n.json  http://$HOST:$PORT/account/$ADDR
+  wget -O $TMP_DIR/before$n.json  http://$NODE0IP:$PORT/account/$ADDR
 done
 echo ""
+
+  cmp --silent $TMP_DIR/genesis.json $TMP_DIR/orig.genesis.json || ( echo "Genesis files are different" && exit 5)
+  cmp --silent $TMP_DIR/peers.json $TMP_DIR/orig.peers.json || ( echo "Peers files are different")
+
+
+
 
 
 # Overwrite docker config
