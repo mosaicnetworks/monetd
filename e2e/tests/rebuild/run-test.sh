@@ -64,7 +64,7 @@ monetcli --datadir $NETDIR poa nominee vote --pwd $NETDIR/keystore/node2.txt  --
 
 
 # Pause to allow join blocks to be committed.
-sleep 1
+sleep 2
 
 echo "Starting node 3"
 
@@ -75,7 +75,8 @@ giverny network push $NET node3
 # node and break when they all level out.
 # But a simple sleep works too...
 
-sleep 5 
+sleep 10
+
 
 $mydir/../../scripts/testlastblock.sh $( giverny network dump $NET | awk -F "|" '{print $2}')
 
@@ -112,7 +113,26 @@ docker cp $TMP_DIR/maint.monetd.toml node0:/.monet/monetd-config/monetd.toml
 
 docker exec node0 kill 1
 
-sleep 5
+
+count=0
+while true
+do
+     echo -n "$count."
+     state=$(docker inspect --format="{{.State.Status}}" node0)
+
+     if [ "$state" == "exited" ] ; then
+        break 
+     fi
+
+     if [ "$count" -gt "60" ] ; then
+          echo "Docker kill timed out"
+          exit 89
+     fi
+
+     sleep 1
+     count=$(( $count + 1 ))
+done
+
 
 # Start Node 0 in Maintenance mode
 
@@ -149,10 +169,6 @@ echo ""
 
   cmp --silent $TMP_DIR/genesis.json $TMP_DIR/orig.genesis.json || ( echo "Genesis files are different" && exit 5)
   cmp --silent $TMP_DIR/peers.json $TMP_DIR/orig.peers.json || ( echo "Peers files are different")
-
-
-
-
 
 # Overwrite docker config
 
@@ -195,7 +211,7 @@ sleep 5
 echo "After Balances"
 for n in $(seq 1 $ACCTS)
 do
-#  echo "Test$n"
+  echo -n "$n."
   ADDR=$(sed -e 's/",.*$//g;s/^.*":"//g'  $HOME/.monettest/keystore/Test$n.json)
   wget -O $TMP_DIR/after$n.json  http://$HOST:$PORT/account/$ADDR
   cmp --silent $TMP_DIR/before$n.json $TMP_DIR/after$n.json || ( echo "Test $n  files are different" && exit 3)
