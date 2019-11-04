@@ -87,13 +87,13 @@ fi
 
 
 # Capture original files from network
-wget -O $TMP_DIR/orig.genesis.json  http://$HOST:$PORT/export
+wget -O $TMP_DIR/orig.genesis.json -q http://$HOST:$PORT/export
 ex=$?
 if [ $ex -ne 0 ] ; then
     exit $ex
 fi
 
-wget -O $TMP_DIR/orig.peers.json  http://$HOST:$PORT/peers
+wget -O $TMP_DIR/orig.peers.json -q http://$HOST:$PORT/peers
 ex=$?
 if [ $ex -ne 0 ] ; then
     exit $ex
@@ -144,13 +144,13 @@ docker start node0
 sleep 10
 
 echo "Getting maintenance mode export"
-wget -O $TMP_DIR/genesis.json  http://$NODE0IP:$PORT/export
+wget -O $TMP_DIR/genesis.json -q http://$NODE0IP:$PORT/export
 ex=$?
 if [ $ex -ne 0 ] ; then
     exit $ex
 fi
 
-wget -O $TMP_DIR/peers.json  http://$NODE0IP:$PORT/peers
+wget -O $TMP_DIR/peers.json -q http://$NODE0IP:$PORT/peers
 ex=$?
 if [ $ex -ne 0 ] ; then
     exit $ex
@@ -163,7 +163,7 @@ for n in $(seq 1 $ACCTS)
 do
   echo -n "."
   ADDR=$(sed -e 's/",.*$//g;s/^.*":"//g'  $HOME/.monettest/keystore/Test$n.json)
-  wget -O $TMP_DIR/before$n.json  http://$NODE0IP:$PORT/account/$ADDR
+  wget -O $TMP_DIR/before$n.json -q http://$NODE0IP:$PORT/account/$ADDR
 done
 echo ""
 
@@ -208,17 +208,17 @@ sleep 5
 # We compare the account totals that we generated earlier. 
 # Generate account balances
 
-echo "After Balances"
+echo "After balances"
 for n in $(seq 1 $ACCTS)
 do
   echo -n "$n."
   ADDR=$(sed -e 's/",.*$//g;s/^.*":"//g'  $HOME/.monettest/keystore/Test$n.json)
-  wget -O $TMP_DIR/after$n.json  http://$HOST:$PORT/account/$ADDR
+  wget -O $TMP_DIR/after$n.json -q http://$HOST:$PORT/account/$ADDR
   cmp --silent $TMP_DIR/before$n.json $TMP_DIR/after$n.json || ( echo "Test $n  files are different" && exit 3)
   
 done
 echo ""
-
+echo "After balances pass"
 
 # $mydir/../../scripts/testlastblock.sh $( giverny network dump $NET | awk -F "|" '{print $2}')
 
