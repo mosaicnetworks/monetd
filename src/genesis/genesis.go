@@ -29,9 +29,10 @@ type Alloc map[string]*AllocRecord
 // POA is the section of a genesis file that contains information about
 // the POA smart-contract.
 type POA struct {
-	Address string `json:"address"`
-	Abi     string `json:"abi"`
-	Code    string `json:"code"`
+	Address string            `json:"address"`
+	Abi     string            `json:"abi"`
+	Code    string            `json:"code"`
+	Storage map[string]string `json:"storage,omitempty"`
 }
 
 // file is the structure that a Genesis file gets parsed into.
@@ -41,11 +42,79 @@ type file struct {
 	Controller *POA   `json:"controller"`
 }
 
-// GenerateGenesisJSON compiles the POA solitity smart-contract with the peers
+// GenerateGenesisJSON switches between the precompiled and adhoc compilation versions
+func GenerateGenesisJSON(outDir, keystore string, peers []*peers.Peer, alloc *Alloc, contractAddress string, controllerAddress string) error {
+	//TODO - remove this hardcoded switch
+	// The intention is to deprecate the solc support, but whilst in transition
+	// the solc option will not be removed.
+	var usePrecompiled = true
+
+	if usePrecompiled {
+		return GenerateGenesisJSONPreCompiled(outDir, keystore, peers, alloc, contractAddress, controllerAddress)
+	}
+
+	return GenerateGenesisJSONCompile(outDir, keystore, peers, alloc, contractAddress, controllerAddress)
+
+}
+
+// GenerateGenesisJSONPreCompiled uses solc to compile a custom version of the POA
+// contract
+func GenerateGenesisJSONPreCompiled(outDir, keystore string, peers []*peers.Peer, alloc *Alloc, contractAddress string, controllerAddress string) error {
+
+	var genesis file
+	var miniPeers []*contract.MinimalPeerRecord
+
+	for _, peer := range peers {
+		addr, err := crypto.PublicKeyHexToAddressHex(peer.PubKeyHex)
+		if err != nil {
+			return err
+		}
+		miniPeers = append(miniPeers, &contract.MinimalPeerRecord{Address: addr, Moniker: peer.Moniker})
+	}
+
+	storageJSON, err := contract.GetStorage(miniPeers)
+	if err != nil {
+		return err
+	}
+
+	genesispoa := POA{Code: contract.StandardPOAContractByteCode,
+		Address: controllerAddress,
+		Abi:     contract.StandardPOAContractABI,
+		Storage: storageJSON,
+	}
+
+	//TODO set genesiscontroller
+
+	genesis.Poa = &genesispoa
+	//	genesis.Controller = &genesiscontroller
+
+	if alloc == nil {
+		alloctmp, err := BuildAlloc(keystore)
+		if err != nil {
+			return err
+		}
+		alloc = &alloctmp
+	}
+
+	genesis.Alloc = alloc
+
+	genesisjson, err := json.MarshalIndent(genesis, "", "\t")
+	if err != nil {
+		return err
+	}
+
+	common.DebugMessage("Write Genesis.json")
+	jsonFileName := filepath.Join(outDir, configuration.GenesisJSON)
+	files.WriteToFile(jsonFileName, string(genesisjson), files.OverwriteSilently)
+
+	return nil
+}
+
+// GenerateGenesisJSONCompile compiles the POA solitity smart-contract with the peers
 // baked into the whitelist. It then creates a genesis file with the
 // corresponding POA section, and if no alloc section is provided, creates one
 // with all the keys in keystore. The file is written to outDir.
-func GenerateGenesisJSON(outDir, keystore string, peers []*peers.Peer, alloc *Alloc, contractAddress string, controllerAddress string) error {
+func GenerateGenesisJSONCompile(outDir, keystore string, peers []*peers.Peer, alloc *Alloc, contractAddress string, controllerAddress string) error {
 	var genesis file
 
 	finalSource, err := contract.GetFinalSoliditySource(peers)
@@ -134,9 +203,9 @@ func BuildAlloc(accountsDir string) (Alloc, error) {
 	return alloc, nil
 }
 
-// BuildPOA builds the poa section of the genesis file, and saves a compilation
+// buildPOA builds the poa section of the genesis file, and saves a compilation
 // report to outDir.
-func BuildPOA(solidityCode string, contractAddress string, controllerSource string,
+func buildPOA(solidityCode string, contractAddress string, controllerSource string,
 	controllerAddress string, outDir string) (poagenesis POA, controllergenesis POA, err error) {
 
 	// Retrieve and set the version number
