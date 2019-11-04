@@ -22,6 +22,10 @@ installgiv:
 docker:
 	$(MAKE) -C docker
 
+
+e2e: 
+	$(MAKE) -C e2e tests    
+
 test: testmonetd testevml testbabble
 
 testmonetd:
@@ -39,4 +43,4 @@ dist:
 lint:
 	glide novendor | xargs golint
 
-.PHONY: all vendor install installd installcli installgiv test update docker testmonetd testevml testbabble lint
+.PHONY: all vendor install installd installcli installgiv test update docker testmonetd testevml testbabble lint e2e
