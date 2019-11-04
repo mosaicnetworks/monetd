@@ -1,4 +1,4 @@
-package contract
+package genesis
 
 import (
 	"bytes"
@@ -15,6 +15,12 @@ import (
 type MinimalPeerRecord struct {
 	Address string
 	Moniker string
+}
+
+type solidityFields struct {
+	Constants string
+	AddTo     string
+	Checks    string
 }
 
 //GetFinalSoliditySourceFromAddress has the POA contract embedded within the function.

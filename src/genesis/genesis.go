@@ -9,7 +9,6 @@ import (
 
 	"github.com/mosaicnetworks/babble/src/peers"
 	"github.com/mosaicnetworks/monetd/src/configuration"
-	"github.com/mosaicnetworks/monetd/src/contract"
 	"github.com/mosaicnetworks/monetd/src/crypto"
 	"github.com/mosaicnetworks/monetd/src/files"
 
@@ -62,24 +61,24 @@ func GenerateGenesisJSON(outDir, keystore string, peers []*peers.Peer, alloc *Al
 func GenerateGenesisJSONPreCompiled(outDir, keystore string, peers []*peers.Peer, alloc *Alloc, contractAddress string, controllerAddress string) error {
 
 	var genesis file
-	var miniPeers []*contract.MinimalPeerRecord
+	var miniPeers []*MinimalPeerRecord
 
 	for _, peer := range peers {
 		addr, err := crypto.PublicKeyHexToAddressHex(peer.PubKeyHex)
 		if err != nil {
 			return err
 		}
-		miniPeers = append(miniPeers, &contract.MinimalPeerRecord{Address: addr, Moniker: peer.Moniker})
+		miniPeers = append(miniPeers, &MinimalPeerRecord{Address: addr, Moniker: peer.Moniker})
 	}
 
-	storageJSON, err := contract.GetStorage(miniPeers)
+	storageJSON, err := GetStorage(miniPeers)
 	if err != nil {
 		return err
 	}
 
-	genesispoa := POA{Code: contract.StandardPOAContractByteCode,
+	genesispoa := POA{Code: StandardPOAContractByteCode,
 		Address: controllerAddress,
-		Abi:     contract.StandardPOAContractABI,
+		Abi:     StandardPOAContractABI,
 		Storage: storageJSON,
 	}
 
@@ -117,12 +116,12 @@ func GenerateGenesisJSONPreCompiled(outDir, keystore string, peers []*peers.Peer
 func GenerateGenesisJSONCompile(outDir, keystore string, peers []*peers.Peer, alloc *Alloc, contractAddress string, controllerAddress string) error {
 	var genesis file
 
-	finalSource, err := contract.GetFinalSoliditySource(peers)
+	finalSource, err := GetFinalSoliditySource(peers)
 	if err != nil {
 		return err
 	}
 
-	controllerSource, err := contract.GetControllerSoliditySource(contractAddress)
+	controllerSource, err := GetControllerSoliditySource(contractAddress)
 	if err != nil {
 		return err
 	}

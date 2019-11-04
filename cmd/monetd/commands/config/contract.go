@@ -8,8 +8,8 @@ import (
 	"strings"
 
 	"github.com/mosaicnetworks/monetd/src/configuration"
-	"github.com/mosaicnetworks/monetd/src/contract"
 	"github.com/mosaicnetworks/monetd/src/crypto"
+	"github.com/mosaicnetworks/monetd/src/genesis"
 
 	"github.com/spf13/cobra"
 )
@@ -36,12 +36,12 @@ in the same command line.
 func contractConfig(cmd *cobra.Command, args []string) error {
 	var err error
 
-	var minPeers []*contract.MinimalPeerRecord
+	var minPeers []*genesis.MinimalPeerRecord
 
 	for _, peer := range args {
 		splitRec := strings.Split(peer, "=")
 		if len(splitRec) > 1 {
-			minPeers = append(minPeers, &contract.MinimalPeerRecord{Address: splitRec[1], Moniker: splitRec[0]})
+			minPeers = append(minPeers, &genesis.MinimalPeerRecord{Address: splitRec[1], Moniker: splitRec[0]})
 		} else {
 			jsonfile := filepath.Join(configuration.DefaultKeystoreDir(), peer+".json")
 
@@ -55,11 +55,11 @@ func contractConfig(cmd *cobra.Command, args []string) error {
 			if err := json.Unmarshal(keyjson, k); err != nil {
 				return err
 			}
-			minPeers = append(minPeers, &contract.MinimalPeerRecord{Address: k.Address, Moniker: peer})
+			minPeers = append(minPeers, &genesis.MinimalPeerRecord{Address: k.Address, Moniker: peer})
 		}
 	}
 
-	solSource, err := contract.GetFinalSoliditySourceFromAddress(minPeers)
+	solSource, err := genesis.GetFinalSoliditySourceFromAddress(minPeers)
 
 	fmt.Print(solSource)
 	fmt.Println("")
