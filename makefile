@@ -35,5 +35,8 @@ testbabble:
 
 dist:
 	xgo --targets=*/amd64 --dest=build/  ./cmd/monetd/ 
+ 
+lint:
+	glide novendor | xargs golint
 
-.PHONY: all vendor install installd installcli installgiv test update docker testmonetd testevml testbabble
+.PHONY: all vendor install installd installcli installgiv test update docker testmonetd testevml testbabble lint
