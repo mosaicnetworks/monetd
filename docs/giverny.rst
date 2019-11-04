@@ -199,7 +199,7 @@ An example of the new subcommand:
 
 .. code:: bash
 
-    $ giverny network new test11 --names sampledata/names.txt --nodes 7 --pass sampledata/pwd.txt --initial-peers 3 --initial-ip 192.168.1.19
+    $ giverny network new test11 --names e2e/sampledata/names.txt --nodes 7 --pass e2e/sampledata/pwd.txt --initial-peers 3 --initial-ip 192.168.1.19
 
 Build
 =====

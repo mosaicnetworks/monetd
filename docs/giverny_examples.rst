@@ -36,7 +36,7 @@ passphrases.
 
 .. code:: bash
 
-    giverny network new test9 --generate-pass  --names sampledata/names.txt --nodes 8 --initial-peers 4  -v
+    giverny network new test9 --generate-pass  --names e2e/sampledata/names.txt --nodes 8 --initial-peers 4  -v
 
 
 3 node network with named nodes, 2 initial peers. Passphrased prompted for on
@@ -44,7 +44,7 @@ the command line and used for all key files.
 
 .. code:: bash
 
-    make installgiv; rm -rf ~/.giverny/networks/test9; giverny network new test9 --save-pass  --names sampledata/withnodes.txt --nodes 3 --initial-peers 2  -v
+    make installgiv; rm -rf ~/.giverny/networks/test9; giverny network new test9 --save-pass  --names e2e/sampledata/withnodes.txt --nodes 3 --initial-peers 2  -v
 
 The withnodes.txt file is interesting as it shows the expanded syntax:
 

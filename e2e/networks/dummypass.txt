@@ -1,4 +1,4 @@
 # This file contains a list of names used as monikers for the 
 # nodes of this network. 
-# see [monetd]/sampledata/withnodes.txt for a more complex example 
+# see [monetd]/e2e/sampledata/withnodes.txt for a more complex example 
 Dummy,,1000T,true
