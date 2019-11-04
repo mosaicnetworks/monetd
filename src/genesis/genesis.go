@@ -89,7 +89,7 @@ func GenerateGenesisJSONPreCompiled(outDir, keystore string, peers []*peers.Peer
 	//	genesis.Controller = &genesiscontroller
 
 	if alloc == nil {
-		alloctmp, err := BuildAlloc(keystore)
+		alloctmp, err := buildAlloc(keystore)
 		if err != nil {
 			return err
 		}
@@ -131,7 +131,7 @@ func GenerateGenesisJSONCompile(outDir, keystore string, peers []*peers.Peer, al
 
 	files.CreateDirsIfNotExists([]string{poaDir})
 
-	genesispoa, genesiscontroller, err := BuildPOA(
+	genesispoa, genesiscontroller, err := buildPOA(
 		finalSource,
 		contractAddress,
 		controllerSource,
@@ -144,7 +144,7 @@ func GenerateGenesisJSONCompile(outDir, keystore string, peers []*peers.Peer, al
 	genesis.Controller = &genesiscontroller
 
 	if alloc == nil {
-		alloctmp, err := BuildAlloc(keystore)
+		alloctmp, err := buildAlloc(keystore)
 		if err != nil {
 			return err
 		}
@@ -165,8 +165,8 @@ func GenerateGenesisJSONCompile(outDir, keystore string, peers []*peers.Peer, al
 	return nil
 }
 
-// BuildAlloc builds the alloc structure of the genesis file
-func BuildAlloc(accountsDir string) (Alloc, error) {
+// buildAlloc builds the alloc structure of the genesis file
+func buildAlloc(accountsDir string) (Alloc, error) {
 	var alloc = make(Alloc)
 
 	tfiles, err := ioutil.ReadDir(accountsDir)
