@@ -10,12 +10,14 @@ import (
 	"github.com/mosaicnetworks/monetd/src/crypto"
 )
 
+//MinimalPeerRecord is used within the contract code where a full peer record is
+//not required.
 type MinimalPeerRecord struct {
 	Address string
 	Moniker string
 }
 
-//GetFinalSolidityFromAddress has the POA contract embedded within the function.
+//GetFinalSoliditySourceFromAddress has the POA contract embedded within the function.
 //This function applies the addresses supplied to the inital white list for
 //the POA contract and returns the Solidity source as a string ready to
 //be compiled.
@@ -747,6 +749,9 @@ function getNomineeAddressFromIdx(uint idx) public view returns (address Nominee
 	return buf.String(), nil
 }
 
+// GetFinalSoliditySource generates a peer list and passes it to
+// GetFinalSoliditySourceFromAddress, return the full solidity code including
+// the initial whitelist
 func GetFinalSoliditySource(peers []*peers.Peer) (string, error) {
 
 	var miniPeers []*MinimalPeerRecord

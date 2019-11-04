@@ -87,10 +87,10 @@ func NewKeyfileFull(keystore, moniker, passwordFile string, privateKeyfile strin
 	return key, nil
 }
 
-/* GenerateKeyfile generates an Ethereum keyfile and writes it.
+/*
+GenerateKeyfile generates an Ethereum keyfile and writes it.
 
 keyfilepath: path to write the new keyfile to.
-
 passwordFile: plain text file containing the passphrase to use for the
               keyfile.
 
