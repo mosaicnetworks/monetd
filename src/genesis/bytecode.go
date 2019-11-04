@@ -5,240 +5,1121 @@ package genesis
 // verify this build
 
 const (
-	// StandardPOAContractByteCode is the bytecode for the standard POA contract precompiled
-	StandardPOAContractByteCode = "60" +
-		"80604052600436106101b75760003560e01c8063937a5b9a116100ec578063d14abf181161008" +
-		"a578063e9fa930811610064578063e9fa93081461068c578063eab10dd0146106bf578063ed9856a" +
-		"6146106eb578063fc9649f714610724576101b7565b8063d14abf181461062c578063e1c7392a146" +
-		"1065a578063e87d287a14610662576101b7565b8063bfb8ead6116100c6578063bfb8ead61461056" +
-		"9578063c120f0ed14610593578063c1bd6e80146105c6578063c8f9eb17146105f9576101b7565b8" +
-		"063937a5b9a146104f75780639b1f09be1461052a578063b9fcf2cd1461053f576101b7565b80636" +
-		"3578f02116101595780637ba5bee5116101335780637ba5bee514610433578063800b3f921461045" +
-		"d57806389848372146104a95780638f82b8c4146104e2576101b7565b806363578f021461037e578" +
-		"063655ef26b146103c757806373fcdb77146103fa576101b7565b8063214b5502116101955780632" +
-		"14b55021461025557806328ec9e99146102ba5780633503e17c146102ff5780633bc953231461034" +
-		"5576101b7565b8063019e4a3e146101bc5780630eefa3ab146101e45780631a3e994514610222575" +
-		"b600080fd5b6101e2600480360360208110156101d257600080fd5b50356001600160a01b0316610" +
-		"739565b005b3480156101f057600080fd5b5061020e6004803603602081101561020757600080fd5" +
-		"b50356109ac565b604080519115158252519081900360200190f35b34801561022e57600080fd5b5" +
-		"061020e6004803603602081101561024557600080fd5b50356001600160a01b03166109de565b348" +
-		"01561026157600080fd5b506102886004803603602081101561027857600080fd5b5035600160016" +
-		"0a01b0316610a03565b604080516001600160a01b039586168152939094166020840152828401919" +
-		"09152606082015290519081900360800190f35b3480156102c657600080fd5b506102ed600480360" +
-		"360208110156102dd57600080fd5b50356001600160a01b0316610a37565b6040805191825251908" +
-		"1900360200190f35b34801561030b57600080fd5b506103296004803603602081101561032257600" +
-		"080fd5b5035610a55565b604080516001600160a01b039092168252519081900360200190f35b348" +
-		"01561035157600080fd5b506103296004803603604081101561036857600080fd5b506001600160a" +
-		"01b038135169060200135610ac0565b6103ac6004803603604081101561039457600080fd5b50600" +
-		"1600160a01b0381351690602001351515610b5c565b6040805192151583529015156020830152805" +
-		"1918290030190f35b3480156103d357600080fd5b50610288600480360360208110156103ea57600" +
-		"080fd5b50356001600160a01b0316610e01565b34801561040657600080fd5b50610329600480360" +
-		"3604081101561041d57600080fd5b506001600160a01b038135169060200135610e3b565b3480156" +
-		"1043f57600080fd5b506102886004803603602081101561045657600080fd5b5035610ebb565b348" +
-		"01561046957600080fd5b506104906004803603602081101561048057600080fd5b5035600160016" +
-		"0a01b0316610ee1565b6040805192835260208301919091528051918290030190f35b3480156104b" +
-		"557600080fd5b50610329600480360360408110156104cc57600080fd5b506001600160a01b03813" +
-		"5169060200135610f21565b3480156104ee57600080fd5b506102ed610fa2565b348015610503576" +
-		"00080fd5b506102ed6004803603602081101561051a57600080fd5b50356001600160a01b0316610" +
-		"fa9565b34801561053657600080fd5b506102ed610fc8565b34801561054b57600080fd5b5061032" +
-		"96004803603602081101561056257600080fd5b5035610fce565b34801561057557600080fd5b506" +
-		"103296004803603602081101561058c57600080fd5b503561101e565b34801561059f57600080fd5" +
-		"b506102ed600480360360208110156105b657600080fd5b50356001600160a01b031661106e565b3" +
-		"480156105d257600080fd5b506102ed600480360360208110156105e957600080fd5b50356001600" +
-		"160a01b031661108c565b34801561060557600080fd5b506102ed6004803603602081101561061c5" +
-		"7600080fd5b50356001600160a01b03166110a7565b6103ac6004803603604081101561064257600" +
-		"080fd5b506001600160a01b03813516906020013515156110c5565b6101e2611361565b348015610" +
-		"66e57600080fd5b506102886004803603602081101561068557600080fd5b50356113dd565b34801" +
-		"561069857600080fd5b50610490600480360360208110156106af57600080fd5b50356001600160a" +
-		"01b03166113f4565b6101e2600480360360408110156106d557600080fd5b506001600160a01b038" +
-		"135169060200135611431565b3480156106f757600080fd5b5061032960048036036040811015610" +
-		"70e57600080fd5b506001600160a01b0381351690602001356116e0565b34801561073057600080f" +
-		"d5b506102ed611760565b33600154600014156107985761074e81611766565b61079057604080516" +
-		"2461bcd60e51b815260206004820152600e60248201526d139bdd08185d5d1a1bdc9a5cd95960921" +
-		"b604482015290519081900360640190fd5b6107986117d8565b6107a18161184c565b6107aa57600" +
-		"080fd5b6107b38261184c565b1561095a576040518060c00160405280836001600160a01b0316815" +
-		"2602001336001600160a01b031681526020016000815260200160008152602001600060405190808" +
-		"252806020026020018201604052801561081a578160200160208202803883390190505b508152602" +
-		"001600060405190808252806020026020018201604052801561084b5781602001602082028038833" +
-		"90190505b5090526001600160a01b038084166000908152600660209081526040918290208451815" +
-		"49085166001600160a01b03199182161782558583015160018301805491909616911617909355908" +
-		"30151600283015560608301516003830155608083015180516108bf9260058501920190612264565" +
-		"b5060a082015180516108db916006840191602090910190612264565b50506007805460018101825" +
-		"560009182527fa66cc928b5edb82af9bd49922954155ab7b0942694bea4ce44661d9a8736c688018" +
-		"0546001600160a01b0319166001600160a01b03861690811790915560405133935090917f937c015" +
-		"46c667dcb53256c21ac7e955772870fd586a7992595f11b4c739b75be91a36109a8565b604080516" +
-		"0208082526010908201526f139bdd0813db8815da1a5d195b1a5cdd60821b8183015290516001600" +
-		"160a01b038416916000805160206123b9833981519152919081900360600190a25b5050565b60408" +
-		"051602080820184905282518083038201815291830190925280519101206000906109d8906109de5" +
-		"65b92915050565b60006109e98261184c565b806109d857506001541580156109d857506109d8826" +
-		"11766565b6001600160a01b039081166000908152600660205260409020805460018201546002830" +
-		"15460039093015491841694931692565b6001600160a01b031660009081526003602052604090206" +
-		"006015490565b6007546000908210610a985760405162461bcd60e51b81526004018080602001828" +
-		"103825260228152602001806123976022913960400191505060405180910390fd5b6007828154811" +
-		"0610aa557fe5b6000918252602090912001546001600160a01b031692915050565b6001600160a01" +
-		"b0382166000908152600360205260408120600501548210610b195760405162461bcd60e51b81526" +
-		"00401808060200182810382526022815260200180612397602291396040019150506040518091039" +
-		"0fd5b6001600160a01b0383166000908152600360205260409020600501805483908110610b4057f" +
-		"e5b6000918252602090912001546001600160a01b03169392505050565b600080336001546000141" +
-		"5610bbe57610b7481611766565b610bb6576040805162461bcd60e51b815260206004820152600e6" +
-		"0248201526d139bdd08185d5d1a1bdc9a5cd95960921b604482015290519081900360640190fd5b6" +
-		"10bbe6117d8565b610bc78161184c565b610bd057600080fd5b6000925060009150610be18561186" +
-		"c565b15610d99576001600160a01b038581166000908152600660209081526040808320338452600" +
-		"40190915290205416610d94576040805180820182523380825286158015602080850191825260016" +
-		"00160a01b038b8116600090815260068352878120958152600490950190915294909220925183549" +
-		"2516001600160a01b031990931694169390931760ff60a01b1916600160a01b91151591909102179" +
-		"055610cd2576001600160a01b0385166000908152600660209081526040822060028101805460019" +
-		"08101909155600590910180549182018155835291200180546001600160a01b03191633179055610" +
-		"d1a565b6001600160a01b03851660009081526006602081815260408320600381018054600190810" +
-		"190915592018054928301815583529091200180546001600160a01b031916331790555b600160016" +
-		"0a01b038516600081815260066020908152604080832060020154600380845293829020909301548" +
-		"15193845291830191909152805187151593339390927f2cf01cdb8e33f2f3e648142014e69e10160" +
-		"4d11f840b2057081c61454b47f98492918290030190a4610d8e8561188c565b90935091505b610de" +
-		"6565b604080516020808252600b908201526a4e6f74206e6f6d696e656560a81b818301529051600" +
-		"1600160a01b038716916000805160206123b9833981519152919081900360600190a2600192505b8" +
-		"215610df957610df58561184c565b1591505b509250929050565b6001600160a01b0390811660009" +
-		"08152600360208190526040909120805460018201546002830154929093015490841694929093169" +
-		"29091565b6001600160a01b0382166000908152600360205260408120600601548210610e9457604" +
-		"05162461bcd60e51b815260040180806020018281038252602281526020018061239760229139604" +
-		"00191505060405180910390fd5b6001600160a01b038316600090815260036020526040902060060" +
-		"1805483908110610b4057fe5b600080600080610ed2610ecd8661101e565b610e01565b935093509" +
-		"35093509193509193565b600080610eed8361186c565b610ef657610f1c565b50506001600160a01" +
-		"b038116600090815260066020526040902060028101546003909101545b915091565b6001600160a" +
-		"01b0382166000908152600660208190526040822001548210610f7a5760405162461bcd60e51b815" +
-		"26004018080602001828103825260228152602001806123976022913960400191505060405180910" +
-		"390fd5b6001600160a01b038316600090815260066020819052604090912001805483908110610b4" +
-		"057fe5b6002545b90565b6001600160a01b031660009081526006602081905260409091200154905" +
-		"65b60045490565b60025460009082106110115760405162461bcd60e51b815260040180806020018" +
-		"28103825260228152602001806123976022913960400191505060405180910390fd5b60028281548" +
-		"110610aa557fe5b60045460009082106110615760405162461bcd60e51b815260040180806020018" +
-		"28103825260228152602001806123976022913960400191505060405180910390fd5b60048281548" +
-		"110610aa557fe5b6001600160a01b031660009081526003602052604090206005015490565b60016" +
-		"00160a01b031660009081526005602052604090205490565b6001600160a01b03166000908152600" +
-		"6602052604090206005015490565b6000803360015460001415611127576110dd81611766565b611" +
-		"11f576040805162461bcd60e51b815260206004820152600e60248201526d139bdd08185d5d1a1bd" +
-		"c9a5cd95960921b604482015290519081900360640190fd5b6111276117d8565b6111308161184c5" +
-		"65b61113957600080fd5b600092506000915061114a85611a57565b156112fb576001600160a01b0" +
-		"38581166000908152600360209081526040808320338452600401909152902054166112f65760408" +
-		"0518082018252338082528615801560208085019182526001600160a01b038b81166000908152600" +
-		"383528781209581526004909501909152949092209251835492516001600160a01b0319909316941" +
-		"69390931760ff60a01b1916600160a01b9115159190910217905561123b576001600160a01b03851" +
-		"66000908152600360209081526040822060028101805460019081019091556005909101805491820" +
-		"18155835291200180546001600160a01b03191633179055611285565b6001600160a01b038516600" +
-		"09081526003602081815260408320918201805460019081019091556006909201805492830181558" +
-		"3529091200180546001600160a01b031916331790555b6001600160a01b038516600081815260036" +
-		"0208181526040928390206002810154920154835192835290820152815187151593339390927f7d6" +
-		"cf66ed9df169483597e1721e4e5db5596ea6cd9a992cc6f563823bf2fd8ad929081900390910190a" +
-		"46112f085611a77565b90935091505b611348565b604080516020808252600b908201526a4e6f742" +
-		"06e6f6d696e656560a81b8183015290516001600160a01b038716916000805160206123b98339815" +
-		"19152919081900360600190a2600192505b8215610df9576113578561184c565b915050925092905" +
-		"0565b33600154600014156113c05761137681611766565b6113b8576040805162461bcd60e51b815" +
-		"260206004820152600e60248201526d139bdd08185d5d1a1bdc9a5cd95960921b604482015290519" +
-		"081900360640190fd5b6113c06117d8565b6113c98161184c565b6113d257600080fd5b6113da611" +
-		"7d8565b50565b600080600080610ed26113ef86610a55565b610a03565b60008061140083611a575" +
-		"65b61140957610f1c565b50506001600160a01b03166000908152600360208190526040909120600" +
-		"28101549101549091565b61143a8261184c565b15801561144d575061144b82611a57565b155b156" +
-		"11634576040518060c00160405280836001600160a01b03168152602001336001600160a01b03168" +
-		"15260200160008152602001600081526020016000604051908082528060200260200182016040528" +
-		"0156114b4578160200160208202803883390190505b5081526020016000604051908082528060200" +
-		"2602001820160405280156114e5578160200160208202803883390190505b5090526001600160a01" +
-		"b03808416600090815260036020818152604092839020855181549086166001600160a01b0319918" +
-		"21617825586830151600183018054919097169116179094559184015160028401556060840151908" +
-		"30155608083015180516115589260058501920190612264565b5060a082015180516115749160068" +
-		"40191602090910190612264565b505060048054600181019091557f8a35acfbc15ff81a39ae7d344" +
-		"fd709f28e8600b4aa8c65c6b64bfe7fe36bd19b0180546001600160a01b0319166001600160a01b0" +
-		"38516908117909155600081815260056020526040808220859055513393507f9c34c3e7380ed59c1" +
-		"755aadf34cc377bf803ef282f0dfcb52db0f2818f56f3709190a360405181906001600160a01b038" +
-		"416907f1d48c1c80f973622ea182e7afdb4c88d758cb0ee74df1bf4dcba402816a624f090600090a" +
-		"36109a8565b61163d8261184c565b1561169057604080516020808252600c908201526b13db8815d" +
-		"a1a5d195b1a5cdd60a21b8183015290516001600160a01b038416916000805160206123b98339815" +
-		"19152919081900360600190a26109a8565b604080516020808252600f908201526e13db88139bdb5" +
-		"a5b9959481b1a5cdd608a1b8183015290516001600160a01b038416916000805160206123b983398" +
-		"1519152919081900360600190a25050565b6001600160a01b0382166000908152600660205260408" +
-		"1206005015482106117395760405162461bcd60e51b8152600401808060200182810382526022815" +
-		"2602001806123976022913960400191505060405180910390fd5b6001600160a01b0383166000908" +
-		"152600660205260409020600501805483908110610b4057fe5b60075490565b600073edc7cdea9f1" +
-		"a141222e69d73cbbb0f91a50590086001600160a01b03831614806117af575073af81d2398eff176" +
-		"905d06b25369e1d5ddbc083d26001600160a01b038316145b806109d85750506001600160a01b031" +
-		"6731a4c4f2185a72383a4d5d4efdd087f00b30ad32a1490565b6117fe73edc7cdea9f1a141222e69" +
-		"d73cbbb0f91a50590086406e6f6465360dc1b611c3d565b61182473af81d2398eff176905d06b253" +
-		"69e1d5ddbc083d2646e6f64653160d81b611c3d565b61184a731a4c4f2185a72383a4d5d4efdd087" +
-		"f00b30ad32a643737b2329960d91b611c3d565b565b6001600160a01b03908116600090815260208" +
-		"19052604090205416151590565b6001600160a01b039081166000908152600660205260409020541" +
-		"6151590565b6000806118976122c9565b6001600160a01b038085166000908152600660209081526" +
-		"04091829020825160c08101845281548516815260018201549094168483015260028101548484015" +
-		"26003810154606085015260058101805484518185028101850190955280855291936080860193909" +
-		"29083018282801561193957602002820191906000526020600020905b81546001600160a01b03168" +
-		"15260019091019060200180831161191b575b5050505050815260200160068201805480602002602" +
-		"00160405190810160405280929190818152602001828054801561199b57602002820191906000526" +
-		"020600020905b81546001600160a01b0316815260019091019060200180831161197d575b5050505" +
-		"05081525050905060009250600091506000816060015111156119d35780516119c690611d9b565b6" +
-		"0019250600091506119f6565b60018054038160400151106119f65780516119ed90611da4565b600" +
-		"19250600191505b8215611a5157811515846001600160a01b03167fa211df00083ac3d328faedc7e" +
-		"3b66b6936a39a35d92777710edc0069de87552683604001518460600151604051808381526020018" +
-		"281526020019250505060405180910390a35b50915091565b6001600160a01b03908116600090815" +
-		"26003602052604090205416151590565b600080611a826122c9565b6001600160a01b03808516600" +
-		"090815260036020818152604092839020835160c0810185528154861681526001820154909516858" +
-		"30152600281015485850152918201546060850152600582018054845181840281018401909552808" +
-		"552929360808601939092830182828015611b2257602002820191906000526020600020905b81546" +
-		"001600160a01b03168152600190910190602001808311611b04575b5050505050815260200160068" +
-		"201805480602002602001604051908101604052809291908181526020018280548015611b8457602" +
-		"002820191906000526020600020905b81546001600160a01b0316815260019091019060200180831" +
-		"1611b66575b50505050508152505090506000925060009150600081606001511115611bbc5780516" +
-		"11baf90611dad565b6001925060009150611bdd565b600154816040015110611bdd578051611bd49" +
-		"0611db6565b60019250600191505b8215611a5157811515846001600160a01b03167fa23f78a07ca" +
-		"f905f2fb70e67d2bf2c43d02fe4ab47489fbeefdfb7af008fe427836040015184606001516040518" +
-		"08381526020018281526020019250505060405180910390a350915091565b611c468261184c565b6" +
-		"11d4d576040805180820182526001600160a01b03848116808352600060208085018281528383528" +
-		"282528683209551865495166001600160a01b0319958616178655516001958601558454850185556" +
-		"002805495860190557f405787fa12a823e0f2b7631cc41b3ba8828b3321ca811111fa75cd3aa3bb5" +
-		"ace909401805490931682179092556005909252828120849055915183927f1d48c1c80f973622ea1" +
-		"82e7afdb4c88d758cb0ee74df1bf4dcba402816a624f091a36040805160008082526020820152815" +
-		"16001926001600160a01b038616927fa23f78a07caf905f2fb70e67d2bf2c43d02fe4ab47489fbee" +
-		"fdfb7af008fe427929081900390910190a36109a8565b604080516020808252600d908201526c111" +
-		"d5c0815da1a5d195b1a5cdd609a1b8183015290516001600160a01b038416916000805160206123b" +
-		"9833981519152919081900360600190a25050565b6113da81611ea9565b611d9b81611ff5565b611" +
-		"3da8161211d565b611dbf8161184c565b611e50576040805180820182526001600160a01b0380841" +
-		"680835260006020808501828152838352908290529481209351845493166001600160a01b0319938" +
-		"416178455935160019384015560028054808501825594527f405787fa12a823e0f2b7631cc41b3ba" +
-		"8828b3321ca811111fa75cd3aa3bb5ace9093018054909116909217909155805481019055611dad5" +
-		"65b60408051602080825260139082015272105b1c9958591e4815da1a5d195b1a5cdd1959606a1b8" +
-		"183015290516001600160a01b038316916000805160206123b983398151915291908190036060019" +
-		"0a26113da8161211d565b6001600160a01b038116600090815260066020526040812080546001600" +
-		"160a01b031990811682556001820180549091169055600281018290556003810182905590611ef86" +
-		"005830182612311565b611f06600683016000612311565b50600090505b6007548110156109a8578" +
-		"16001600160a01b031660078281548110611f2d57fe5b6000918252602090912001546001600160a" +
-		"01b03161415611fed57600780546000198101908110611f5a57fe5b6000918252602090912001546" +
-		"00780546001600160a01b039092169183908110611f8057fe5b60009182526020909120018054600" +
-		"1600160a01b0319166001600160a01b0392909216919091179055600780546000198101908110611" +
-		"fbb57fe5b600091825260209091200180546001600160a01b03191690556007805490611fe790600" +
-		"019830161232f565b506109a8565b600101611f0c565b611ffe8161184c565b156113da576001600" +
-		"160a01b038116600090815260208190526040812080546001600160a01b031916815560019081018" +
-		"2905580546000190190555b6002548110156109a857816001600160a01b031660028281548110612" +
-		"05b57fe5b6000918252602090912001546001600160a01b031614156121155760028054600019810" +
-		"190811061208857fe5b600091825260209091200154600280546001600160a01b039092169183908" +
-		"1106120ae57fe5b600091825260209091200180546001600160a01b0319166001600160a01b03929" +
-		"092169190911790556002805460001981019081106120e957fe5b600091825260209091200180546" +
-		"001600160a01b03191690556002805490611fe790600019830161232f565b60010161203a565b600" +
-		"1600160a01b0381166000908152600360208190526040822080546001600160a01b0319908116825" +
-		"56001820180549091169055600281018390559081018290559061216d6005830182612311565b612" +
-		"17b600683016000612311565b50600090505b6004548110156109a857816001600160a01b0316600" +
-		"482815481106121a257fe5b6000918252602090912001546001600160a01b0316141561225c57600" +
-		"4805460001981019081106121cf57fe5b600091825260209091200154600480546001600160a01b0" +
-		"390921691839081106121f557fe5b600091825260209091200180546001600160a01b03191660016" +
-		"00160a01b039290921691909117905560048054600019810190811061223057fe5b6000918252602" +
-		"09091200180546001600160a01b03191690556004805490611fe790600019830161232f565b60010" +
-		"1612181565b8280548282559060005260206000209081019282156122b9579160200282015b82811" +
-		"1156122b957825182546001600160a01b0319166001600160a01b039091161782556020909201916" +
-		"00190910190612284565b506122c5929150612358565b5090565b6040518060c0016040528060006" +
-		"001600160a01b0316815260200160006001600160a01b03168152602001600081526020016000815" +
-		"260200160608152602001606081525090565b5080546000825590600052602060002090810190611" +
-		"3da919061237c565b815481835581811115612353576000838152602090206123539181019083016" +
-		"1237c565b505050565b610fa691905b808211156122c55780546001600160a01b031916815560010" +
-		"161235e565b610fa691905b808211156122c5576000815560010161238256fe52657175657374656" +
-		"42061646472657373206973206f7574206f662072616e67652e7a1079ed1747cbf68d85010f01c0c" +
-		"094971bc1ee39527cb890eb32537387e355a265627a7a72315820fe3c4406a5e0ffd9722edb5b5ce" +
-		"6a0cf7d205b7cfef3af7df9ab527e854209b764736f6c634300050b0032"
+    // SolcCompilerVersion is the solc version used to compile this bytecode
+    SolcCompilerVersion = "Version: 0.5.11+commit.22be8592.Linux.g++"
+    
+    // SolcOSVersion is the output of lsb_release -a for the OS used to compile this bytecode
+    SolcOSVersion = "Distributor ID:	Ubuntu;  	Description:	Ubuntu 18.04.3 LTS;  	Release:	18.04;  	Codename:	bionic;  "
 
-	// StandardPOAContractABI is the ABI for the standard POA contract precompiled
-	StandardPOAContractABI = "[\n\t{\n\t\t\"constant\": false,\n\t\t\"inputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\"name\": \"_nomineeAddress\",\n\t\t\t\t\"type\": \"address\"\n\t\t\t}\n\t\t],\n\t\t\"name\": \"submitEviction\",\n\t\t\"outputs\": [],\n\t\t\"payable\": true,\n\t\t\"stateMutability\": \"payable\",\n\t\t\"type\": \"function\"\n\t},\n\t{\n\t\t\"constant\": true,\n\t\t\"inputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"bytes32\",\n\t\t\t\t\"name\": \"_publicKey\",\n\t\t\t\t\"type\": \"bytes32\"\n\t\t\t}\n\t\t],\n\t\t\"name\": \"checkAuthorisedPublicKey\",\n\t\t\"outputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"bool\",\n\t\t\t\t\"name\": \"\",\n\t\t\t\t\"type\": \"bool\"\n\t\t\t}\n\t\t],\n\t\t\"payable\": false,\n\t\t\"stateMutability\": \"view\",\n\t\t\"type\": \"function\"\n\t},\n\t{\n\t\t\"constant\": true,\n\t\t\"inputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\"name\": \"_address\",\n\t\t\t\t\"type\": \"address\"\n\t\t\t}\n\t\t],\n\t\t\"name\": \"checkAuthorised\",\n\t\t\"outputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"bool\",\n\t\t\t\t\"name\": \"\",\n\t\t\t\t\"type\": \"bool\"\n\t\t\t}\n\t\t],\n\t\t\"payable\": false,\n\t\t\"stateMutability\": \"view\",\n\t\t\"type\": \"function\"\n\t},\n\t{\n\t\t\"constant\": true,\n\t\t\"inputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\"name\": \"_address\",\n\t\t\t\t\"type\": \"address\"\n\t\t\t}\n\t\t],\n\t\t\"name\": \"getEvictionElection\",\n\t\t\"outputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\"name\": \"nominee\",\n\t\t\t\t\"type\": \"address\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\"name\": \"proposer\",\n\t\t\t\t\"type\": \"address\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"yesVotes\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"noVotes\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t}\n\t\t],\n\t\t\"payable\": false,\n\t\t\"stateMutability\": \"view\",\n\t\t\"type\": \"function\"\n\t},\n\t{\n\t\t\"constant\": true,\n\t\t\"inputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\"name\": \"_nomineeAddress\",\n\t\t\t\t\"type\": \"address\"\n\t\t\t}\n\t\t],\n\t\t\"name\": \"getNoVoteCount\",\n\t\t\"outputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"count\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t}\n\t\t],\n\t\t\"payable\": false,\n\t\t\"stateMutability\": \"view\",\n\t\t\"type\": \"function\"\n\t},\n\t{\n\t\t\"constant\": true,\n\t\t\"inputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"idx\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t}\n\t\t],\n\t\t\"name\": \"getEvictionAddressFromIdx\",\n\t\t\"outputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\"name\": \"NomineeAddress\",\n\t\t\t\t\"type\": \"address\"\n\t\t\t}\n\t\t],\n\t\t\"payable\": false,\n\t\t\"stateMutability\": \"view\",\n\t\t\"type\": \"function\"\n\t},\n\t{\n\t\t\"constant\": true,\n\t\t\"inputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\"name\": \"_nomineeAddress\",\n\t\t\t\t\"type\": \"address\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"_idx\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t}\n\t\t],\n\t\t\"name\": \"getYesVoterFromIdx\",\n\t\t\"outputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\"name\": \"voter\",\n\t\t\t\t\"type\": \"address\"\n\t\t\t}\n\t\t],\n\t\t\"payable\": false,\n\t\t\"stateMutability\": \"view\",\n\t\t\"type\": \"function\"\n\t},\n\t{\n\t\t\"constant\": false,\n\t\t\"inputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\"name\": \"_nomineeAddress\",\n\t\t\t\t\"type\": \"address\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"internalType\": \"bool\",\n\t\t\t\t\"name\": \"_accepted\",\n\t\t\t\t\"type\": \"bool\"\n\t\t\t}\n\t\t],\n\t\t\"name\": \"castEvictionVote\",\n\t\t\"outputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"bool\",\n\t\t\t\t\"name\": \"decided\",\n\t\t\t\t\"type\": \"bool\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"internalType\": \"bool\",\n\t\t\t\t\"name\": \"voteresult\",\n\t\t\t\t\"type\": \"bool\"\n\t\t\t}\n\t\t],\n\t\t\"payable\": true,\n\t\t\"stateMutability\": \"payable\",\n\t\t\"type\": \"function\"\n\t},\n\t{\n\t\t\"constant\": true,\n\t\t\"inputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\"name\": \"_address\",\n\t\t\t\t\"type\": \"address\"\n\t\t\t}\n\t\t],\n\t\t\"name\": \"getNomineeElection\",\n\t\t\"outputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\"name\": \"nominee\",\n\t\t\t\t\"type\": \"address\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\"name\": \"proposer\",\n\t\t\t\t\"type\": \"address\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"yesVotes\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"noVotes\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t}\n\t\t],\n\t\t\"payable\": false,\n\t\t\"stateMutability\": \"view\",\n\t\t\"type\": \"function\"\n\t},\n\t{\n\t\t\"constant\": true,\n\t\t\"inputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\"name\": \"_nomineeAddress\",\n\t\t\t\t\"type\": \"address\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"_idx\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t}\n\t\t],\n\t\t\"name\": \"getNoVoterFromIdx\",\n\t\t\"outputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\"name\": \"voter\",\n\t\t\t\t\"type\": \"address\"\n\t\t\t}\n\t\t],\n\t\t\"payable\": false,\n\t\t\"stateMutability\": \"view\",\n\t\t\"type\": \"function\"\n\t},\n\t{\n\t\t\"constant\": true,\n\t\t\"inputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"idx\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t}\n\t\t],\n\t\t\"name\": \"getNomineeElectionFromIdx\",\n\t\t\"outputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\"name\": \"nominee\",\n\t\t\t\t\"type\": \"address\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\"name\": \"proposer\",\n\t\t\t\t\"type\": \"address\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"yesVotes\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"noVotes\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t}\n\t\t],\n\t\t\"payable\": false,\n\t\t\"stateMutability\": \"view\",\n\t\t\"type\": \"function\"\n\t},\n\t{\n\t\t\"constant\": true,\n\t\t\"inputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\"name\": \"_address\",\n\t\t\t\t\"type\": \"address\"\n\t\t\t}\n\t\t],\n\t\t\"name\": \"getCurrentEvictionVotes\",\n\t\t\"outputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"yes\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"no\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t}\n\t\t],\n\t\t\"payable\": false,\n\t\t\"stateMutability\": \"view\",\n\t\t\"type\": \"function\"\n\t},\n\t{\n\t\t\"constant\": true,\n\t\t\"inputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\"name\": \"_nomineeAddress\",\n\t\t\t\t\"type\": \"address\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"_idx\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t}\n\t\t],\n\t\t\"name\": \"getEvictionNoVoterFromIdx\",\n\t\t\"outputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\"name\": \"voter\",\n\t\t\t\t\"type\": \"address\"\n\t\t\t}\n\t\t],\n\t\t\"payable\": false,\n\t\t\"stateMutability\": \"view\",\n\t\t\"type\": \"function\"\n\t},\n\t{\n\t\t\"constant\": true,\n\t\t\"inputs\": [],\n\t\t\"name\": \"getWhiteListCount\",\n\t\t\"outputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"count\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t}\n\t\t],\n\t\t\"payable\": false,\n\t\t\"stateMutability\": \"view\",\n\t\t\"type\": \"function\"\n\t},\n\t{\n\t\t\"constant\": true,\n\t\t\"inputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\"name\": \"_nomineeAddress\",\n\t\t\t\t\"type\": \"address\"\n\t\t\t}\n\t\t],\n\t\t\"name\": \"getEvictionNoVoteCount\",\n\t\t\"outputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"count\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t}\n\t\t],\n\t\t\"payable\": false,\n\t\t\"stateMutability\": \"view\",\n\t\t\"type\": \"function\"\n\t},\n\t{\n\t\t\"constant\": true,\n\t\t\"inputs\": [],\n\t\t\"name\": \"getNomineeCount\",\n\t\t\"outputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"count\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t}\n\t\t],\n\t\t\"payable\": false,\n\t\t\"stateMutability\": \"view\",\n\t\t\"type\": \"function\"\n\t},\n\t{\n\t\t\"constant\": true,\n\t\t\"inputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"idx\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t}\n\t\t],\n\t\t\"name\": \"getWhiteListAddressFromIdx\",\n\t\t\"outputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\"name\": \"WhiteListAddress\",\n\t\t\t\t\"type\": \"address\"\n\t\t\t}\n\t\t],\n\t\t\"payable\": false,\n\t\t\"stateMutability\": \"view\",\n\t\t\"type\": \"function\"\n\t},\n\t{\n\t\t\"constant\": true,\n\t\t\"inputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"idx\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t}\n\t\t],\n\t\t\"name\": \"getNomineeAddressFromIdx\",\n\t\t\"outputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\"name\": \"NomineeAddress\",\n\t\t\t\t\"type\": \"address\"\n\t\t\t}\n\t\t],\n\t\t\"payable\": false,\n\t\t\"stateMutability\": \"view\",\n\t\t\"type\": \"function\"\n\t},\n\t{\n\t\t\"constant\": true,\n\t\t\"inputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\"name\": \"_nomineeAddress\",\n\t\t\t\t\"type\": \"address\"\n\t\t\t}\n\t\t],\n\t\t\"name\": \"getYesVoteCount\",\n\t\t\"outputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"count\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t}\n\t\t],\n\t\t\"payable\": false,\n\t\t\"stateMutability\": \"view\",\n\t\t\"type\": \"function\"\n\t},\n\t{\n\t\t\"constant\": true,\n\t\t\"inputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\"name\": \"_address\",\n\t\t\t\t\"type\": \"address\"\n\t\t\t}\n\t\t],\n\t\t\"name\": \"getMoniker\",\n\t\t\"outputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"bytes32\",\n\t\t\t\t\"name\": \"moniker\",\n\t\t\t\t\"type\": \"bytes32\"\n\t\t\t}\n\t\t],\n\t\t\"payable\": false,\n\t\t\"stateMutability\": \"view\",\n\t\t\"type\": \"function\"\n\t},\n\t{\n\t\t\"constant\": true,\n\t\t\"inputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\"name\": \"_nomineeAddress\",\n\t\t\t\t\"type\": \"address\"\n\t\t\t}\n\t\t],\n\t\t\"name\": \"getEvictionYesVoteCount\",\n\t\t\"outputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"count\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t}\n\t\t],\n\t\t\"payable\": false,\n\t\t\"stateMutability\": \"view\",\n\t\t\"type\": \"function\"\n\t},\n\t{\n\t\t\"constant\": false,\n\t\t\"inputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\"name\": \"_nomineeAddress\",\n\t\t\t\t\"type\": \"address\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"internalType\": \"bool\",\n\t\t\t\t\"name\": \"_accepted\",\n\t\t\t\t\"type\": \"bool\"\n\t\t\t}\n\t\t],\n\t\t\"name\": \"castNomineeVote\",\n\t\t\"outputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"bool\",\n\t\t\t\t\"name\": \"decided\",\n\t\t\t\t\"type\": \"bool\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"internalType\": \"bool\",\n\t\t\t\t\"name\": \"voteresult\",\n\t\t\t\t\"type\": \"bool\"\n\t\t\t}\n\t\t],\n\t\t\"payable\": true,\n\t\t\"stateMutability\": \"payable\",\n\t\t\"type\": \"function\"\n\t},\n\t{\n\t\t\"constant\": false,\n\t\t\"inputs\": [],\n\t\t\"name\": \"init\",\n\t\t\"outputs\": [],\n\t\t\"payable\": true,\n\t\t\"stateMutability\": \"payable\",\n\t\t\"type\": \"function\"\n\t},\n\t{\n\t\t\"constant\": true,\n\t\t\"inputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"idx\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t}\n\t\t],\n\t\t\"name\": \"getEvictionElectionFromIdx\",\n\t\t\"outputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\"name\": \"nominee\",\n\t\t\t\t\"type\": \"address\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\"name\": \"proposer\",\n\t\t\t\t\"type\": \"address\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"yesVotes\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"noVotes\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t}\n\t\t],\n\t\t\"payable\": false,\n\t\t\"stateMutability\": \"view\",\n\t\t\"type\": \"function\"\n\t},\n\t{\n\t\t\"constant\": true,\n\t\t\"inputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\"name\": \"_address\",\n\t\t\t\t\"type\": \"address\"\n\t\t\t}\n\t\t],\n\t\t\"name\": \"getCurrentNomineeVotes\",\n\t\t\"outputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"yes\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"no\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t}\n\t\t],\n\t\t\"payable\": false,\n\t\t\"stateMutability\": \"view\",\n\t\t\"type\": \"function\"\n\t},\n\t{\n\t\t\"constant\": false,\n\t\t\"inputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\"name\": \"_nomineeAddress\",\n\t\t\t\t\"type\": \"address\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"internalType\": \"bytes32\",\n\t\t\t\t\"name\": \"_moniker\",\n\t\t\t\t\"type\": \"bytes32\"\n\t\t\t}\n\t\t],\n\t\t\"name\": \"submitNominee\",\n\t\t\"outputs\": [],\n\t\t\"payable\": true,\n\t\t\"stateMutability\": \"payable\",\n\t\t\"type\": \"function\"\n\t},\n\t{\n\t\t\"constant\": true,\n\t\t\"inputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\"name\": \"_nomineeAddress\",\n\t\t\t\t\"type\": \"address\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"_idx\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t}\n\t\t],\n\t\t\"name\": \"getEvictionYesVoterFromIdx\",\n\t\t\"outputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\"name\": \"voter\",\n\t\t\t\t\"type\": \"address\"\n\t\t\t}\n\t\t],\n\t\t\"payable\": false,\n\t\t\"stateMutability\": \"view\",\n\t\t\"type\": \"function\"\n\t},\n\t{\n\t\t\"constant\": true,\n\t\t\"inputs\": [],\n\t\t\"name\": \"getEvictionCount\",\n\t\t\"outputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"count\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t}\n\t\t],\n\t\t\"payable\": false,\n\t\t\"stateMutability\": \"view\",\n\t\t\"type\": \"function\"\n\t},\n\t{\n\t\t\"anonymous\": false,\n\t\t\"inputs\": [\n\t\t\t{\n\t\t\t\t\"indexed\": true,\n\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\"name\": \"_nominee\",\n\t\t\t\t\"type\": \"address\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"indexed\": false,\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"_yesVotes\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"indexed\": false,\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"_noVotes\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"indexed\": true,\n\t\t\t\t\"internalType\": \"bool\",\n\t\t\t\t\"name\": \"_accepted\",\n\t\t\t\t\"type\": \"bool\"\n\t\t\t}\n\t\t],\n\t\t\"name\": \"NomineeDecision\",\n\t\t\"type\": \"event\"\n\t},\n\t{\n\t\t\"anonymous\": false,\n\t\t\"inputs\": [\n\t\t\t{\n\t\t\t\t\"indexed\": true,\n\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\"name\": \"_nominee\",\n\t\t\t\t\"type\": \"address\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"indexed\": true,\n\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\"name\": \"_voter\",\n\t\t\t\t\"type\": \"address\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"indexed\": false,\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"_yesVotes\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"indexed\": false,\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"_noVotes\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"indexed\": true,\n\t\t\t\t\"internalType\": \"bool\",\n\t\t\t\t\"name\": \"_accepted\",\n\t\t\t\t\"type\": \"bool\"\n\t\t\t}\n\t\t],\n\t\t\"name\": \"NomineeVoteCast\",\n\t\t\"type\": \"event\"\n\t},\n\t{\n\t\t\"anonymous\": false,\n\t\t\"inputs\": [\n\t\t\t{\n\t\t\t\t\"indexed\": true,\n\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\"name\": \"_nominee\",\n\t\t\t\t\"type\": \"address\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"indexed\": true,\n\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\"name\": \"_proposer\",\n\t\t\t\t\"type\": \"address\"\n\t\t\t}\n\t\t],\n\t\t\"name\": \"NomineeProposed\",\n\t\t\"type\": \"event\"\n\t},\n\t{\n\t\t\"anonymous\": false,\n\t\t\"inputs\": [\n\t\t\t{\n\t\t\t\t\"indexed\": true,\n\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\"name\": \"_nominee\",\n\t\t\t\t\"type\": \"address\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"indexed\": false,\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"_yesVotes\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"indexed\": false,\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"_noVotes\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"indexed\": true,\n\t\t\t\t\"internalType\": \"bool\",\n\t\t\t\t\"name\": \"_accepted\",\n\t\t\t\t\"type\": \"bool\"\n\t\t\t}\n\t\t],\n\t\t\"name\": \"EvictionDecision\",\n\t\t\"type\": \"event\"\n\t},\n\t{\n\t\t\"anonymous\": false,\n\t\t\"inputs\": [\n\t\t\t{\n\t\t\t\t\"indexed\": true,\n\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\"name\": \"_nominee\",\n\t\t\t\t\"type\": \"address\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"indexed\": true,\n\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\"name\": \"_voter\",\n\t\t\t\t\"type\": \"address\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"indexed\": false,\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"_yesVotes\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"indexed\": false,\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"_noVotes\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"indexed\": true,\n\t\t\t\t\"internalType\": \"bool\",\n\t\t\t\t\"name\": \"_accepted\",\n\t\t\t\t\"type\": \"bool\"\n\t\t\t}\n\t\t],\n\t\t\"name\": \"EvictionVoteCast\",\n\t\t\"type\": \"event\"\n\t},\n\t{\n\t\t\"anonymous\": false,\n\t\t\"inputs\": [\n\t\t\t{\n\t\t\t\t\"indexed\": true,\n\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\"name\": \"_nominee\",\n\t\t\t\t\"type\": \"address\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"indexed\": true,\n\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\"name\": \"_proposer\",\n\t\t\t\t\"type\": \"address\"\n\t\t\t}\n\t\t],\n\t\t\"name\": \"EvictionProposed\",\n\t\t\"type\": \"event\"\n\t},\n\t{\n\t\t\"anonymous\": false,\n\t\t\"inputs\": [\n\t\t\t{\n\t\t\t\t\"indexed\": true,\n\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\"name\": \"_address\",\n\t\t\t\t\"type\": \"address\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"indexed\": true,\n\t\t\t\t\"internalType\": \"bytes32\",\n\t\t\t\t\"name\": \"_moniker\",\n\t\t\t\t\"type\": \"bytes32\"\n\t\t\t}\n\t\t],\n\t\t\"name\": \"MonikerAnnounce\",\n\t\t\"type\": \"event\"\n\t},\n\t{\n\t\t\"anonymous\": false,\n\t\t\"inputs\": [\n\t\t\t{\n\t\t\t\t\"indexed\": true,\n\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\"name\": \"_address\",\n\t\t\t\t\"type\": \"address\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"indexed\": false,\n\t\t\t\t\"internalType\": \"string\",\n\t\t\t\t\"name\": \"_message\",\n\t\t\t\t\"type\": \"string\"\n\t\t\t}\n\t\t],\n\t\t\"name\": \"POA_Error\",\n\t\t\"type\": \"event\"\n\t}\n]"
+
+	// StandardPOAContractByteCode is the bytecode for the standard POA contract precompiled
+	StandardPOAContractByteCode = "" +
+   "6080604052600436106101b75760003560e01c8063937a5b9a116100ec578063d14abf18" +
+   "1161008a578063e9fa930811610064578063e9fa93081461068c578063eab10dd0146106" +
+   "bf578063ed9856a6146106eb578063fc9649f714610724576101b7565b8063d14abf1814" +
+   "61062c578063e1c7392a1461065a578063e87d287a14610662576101b7565b8063bfb8ea" +
+   "d6116100c6578063bfb8ead614610569578063c120f0ed14610593578063c1bd6e801461" +
+   "05c6578063c8f9eb17146105f9576101b7565b8063937a5b9a146104f75780639b1f09be" +
+   "1461052a578063b9fcf2cd1461053f576101b7565b806363578f02116101595780637ba5" +
+   "bee5116101335780637ba5bee514610433578063800b3f921461045d5780638984837214" +
+   "6104a95780638f82b8c4146104e2576101b7565b806363578f021461037e578063655ef2" +
+   "6b146103c757806373fcdb77146103fa576101b7565b8063214b55021161019557806321" +
+   "4b55021461025557806328ec9e99146102ba5780633503e17c146102ff5780633bc95323" +
+   "14610345576101b7565b8063019e4a3e146101bc5780630eefa3ab146101e45780631a3e" +
+   "994514610222575b600080fd5b6101e2600480360360208110156101d257600080fd5b50" +
+   "356001600160a01b0316610739565b005b3480156101f057600080fd5b5061020e600480" +
+   "3603602081101561020757600080fd5b503561094e565b60408051911515825251908190" +
+   "0360200190f35b34801561022e57600080fd5b5061020e60048036036020811015610245" +
+   "57600080fd5b50356001600160a01b0316610980565b34801561026157600080fd5b5061" +
+   "02886004803603602081101561027857600080fd5b50356001600160a01b031661098b56" +
+   "5b604080516001600160a01b039586168152939094166020840152828401919091526060" +
+   "82015290519081900360800190f35b3480156102c657600080fd5b506102ed6004803603" +
+   "60208110156102dd57600080fd5b50356001600160a01b03166109bf565b604080519182" +
+   "52519081900360200190f35b34801561030b57600080fd5b506103296004803603602081" +
+   "101561032257600080fd5b50356109dd565b604080516001600160a01b03909216825251" +
+   "9081900360200190f35b34801561035157600080fd5b5061032960048036036040811015" +
+   "61036857600080fd5b506001600160a01b038135169060200135610a48565b6103ac6004" +
+   "803603604081101561039457600080fd5b506001600160a01b0381351690602001351515" +
+   "610ae4565b60408051921515835290151560208301528051918290030190f35b34801561" +
+   "03d357600080fd5b50610288600480360360208110156103ea57600080fd5b5035600160" +
+   "0160a01b0316610d2b565b34801561040657600080fd5b50610329600480360360408110" +
+   "1561041d57600080fd5b506001600160a01b038135169060200135610d65565b34801561" +
+   "043f57600080fd5b506102886004803603602081101561045657600080fd5b5035610de5" +
+   "565b34801561046957600080fd5b506104906004803603602081101561048057600080fd" +
+   "5b50356001600160a01b0316610e0b565b60408051928352602083019190915280519182" +
+   "90030190f35b3480156104b557600080fd5b50610329600480360360408110156104cc57" +
+   "600080fd5b506001600160a01b038135169060200135610e4b565b3480156104ee576000" +
+   "80fd5b506102ed610ecc565b34801561050357600080fd5b506102ed6004803603602081" +
+   "101561051a57600080fd5b50356001600160a01b0316610ed3565b348015610536576000" +
+   "80fd5b506102ed610ef2565b34801561054b57600080fd5b506103296004803603602081" +
+   "101561056257600080fd5b5035610ef8565b34801561057557600080fd5b506103296004" +
+   "803603602081101561058c57600080fd5b5035610f48565b34801561059f57600080fd5b" +
+   "506102ed600480360360208110156105b657600080fd5b50356001600160a01b0316610f" +
+   "98565b3480156105d257600080fd5b506102ed600480360360208110156105e957600080" +
+   "fd5b50356001600160a01b0316610fb6565b34801561060557600080fd5b506102ed6004" +
+   "803603602081101561061c57600080fd5b50356001600160a01b0316610fd1565b6103ac" +
+   "6004803603604081101561064257600080fd5b506001600160a01b038135169060200135" +
+   "1515610fef565b6101e261122d565b34801561066e57600080fd5b506102886004803603" +
+   "602081101561068557600080fd5b5035611243565b34801561069857600080fd5b506104" +
+   "90600480360360208110156106af57600080fd5b50356001600160a01b031661125a565b" +
+   "6101e2600480360360408110156106d557600080fd5b506001600160a01b038135169060" +
+   "200135611297565b3480156106f757600080fd5b50610329600480360360408110156107" +
+   "0e57600080fd5b506001600160a01b038135169060200135611546565b34801561073057" +
+   "600080fd5b506102ed6115c6565b33610743816115cc565b61074c57600080fd5b610755" +
+   "826115cc565b156108fc576040518060c00160405280836001600160a01b031681526020" +
+   "01336001600160a01b031681526020016000815260200160008152602001600060405190" +
+   "80825280602002602001820160405280156107bc57816020016020820280388339019050" +
+   "5b50815260200160006040519080825280602002602001820160405280156107ed578160" +
+   "200160208202803883390190505b5090526001600160a01b038084166000908152600660" +
+   "20908152604091829020845181549085166001600160a01b031991821617825585830151" +
+   "600183018054919096169116179093559083015160028301556060830151600383015560" +
+   "8083015180516108619260058501920190611e86565b5060a0820151805161087d916006" +
+   "840191602090910190611e86565b50506007805460018101825560009182527fa66cc928" +
+   "b5edb82af9bd49922954155ab7b0942694bea4ce44661d9a8736c6880180546001600160" +
+   "a01b0319166001600160a01b03861690811790915560405133935090917f937c01546c66" +
+   "7dcb53256c21ac7e955772870fd586a7992595f11b4c739b75be91a361094a565b604080" +
+   "5160208082526010908201526f139bdd0813db8815da1a5d195b1a5cdd60821b81830152" +
+   "90516001600160a01b03841691600080516020611fdb8339815191529190819003606001" +
+   "90a25b5050565b6040805160208082018490528251808303820181529183019092528051" +
+   "91012060009061097a90610980565b92915050565b600061097a826115cc565b60016001" +
+   "60a01b039081166000908152600660205260409020805460018201546002830154600390" +
+   "93015491841694931692565b6001600160a01b0316600090815260036020526040902060" +
+   "06015490565b6007546000908210610a205760405162461bcd60e51b8152600401808060" +
+   "200182810382526022815260200180611fb96022913960400191505060405180910390fd" +
+   "5b60078281548110610a2d57fe5b6000918252602090912001546001600160a01b031692" +
+   "915050565b6001600160a01b038216600090815260036020526040812060050154821061" +
+   "0aa15760405162461bcd60e51b8152600401808060200182810382526022815260200180" +
+   "611fb96022913960400191505060405180910390fd5b6001600160a01b03831660009081" +
+   "52600360205260409020600501805483908110610ac857fe5b6000918252602090912001" +
+   "546001600160a01b03169392505050565b60008033610af1816115cc565b610afa576000" +
+   "80fd5b6000925060009150610b0b856115ec565b15610cc3576001600160a01b03858116" +
+   "600090815260066020908152604080832033845260040190915290205416610cbe576040" +
+   "80518082018252338082528615801560208085019182526001600160a01b038b81166000" +
+   "908152600683528781209581526004909501909152949092209251835492516001600160" +
+   "a01b031990931694169390931760ff60a01b1916600160a01b9115159190910217905561" +
+   "0bfc576001600160a01b0385166000908152600660209081526040822060028101805460" +
+   "01908101909155600590910180549182018155835291200180546001600160a01b031916" +
+   "33179055610c44565b6001600160a01b0385166000908152600660208181526040832060" +
+   "0381018054600190810190915592018054928301815583529091200180546001600160a0" +
+   "1b031916331790555b6001600160a01b0385166000818152600660209081526040808320" +
+   "600201546003808452938290209093015481519384529183019190915280518715159333" +
+   "9390927f2cf01cdb8e33f2f3e648142014e69e101604d11f840b2057081c61454b47f984" +
+   "92918290030190a4610cb88561160c565b90935091505b610d10565b6040805160208082" +
+   "52600b908201526a4e6f74206e6f6d696e656560a81b8183015290516001600160a01b03" +
+   "871691600080516020611fdb833981519152919081900360600190a2600192505b821561" +
+   "0d2357610d1f856115cc565b1591505b509250929050565b6001600160a01b0390811660" +
+   "009081526003602081905260409091208054600182015460028301549290930154908416" +
+   "9492909316929091565b6001600160a01b03821660009081526003602052604081206006" +
+   "01548210610dbe5760405162461bcd60e51b815260040180806020018281038252602281" +
+   "5260200180611fb96022913960400191505060405180910390fd5b6001600160a01b0383" +
+   "166000908152600360205260409020600601805483908110610ac857fe5b600080600080" +
+   "610dfc610df786610f48565b610d2b565b93509350935093509193509193565b60008061" +
+   "0e17836115ec565b610e2057610e46565b50506001600160a01b03811660009081526006" +
+   "6020526040902060028101546003909101545b915091565b6001600160a01b0382166000" +
+   "908152600660208190526040822001548210610ea45760405162461bcd60e51b81526004" +
+   "01808060200182810382526022815260200180611fb96022913960400191505060405180" +
+   "910390fd5b6001600160a01b038316600090815260066020819052604090912001805483" +
+   "908110610ac857fe5b6002545b90565b6001600160a01b03166000908152600660208190" +
+   "526040909120015490565b60045490565b6002546000908210610f3b5760405162461bcd" +
+   "60e51b8152600401808060200182810382526022815260200180611fb960229139604001" +
+   "91505060405180910390fd5b60028281548110610a2d57fe5b6004546000908210610f8b" +
+   "5760405162461bcd60e51b8152600401808060200182810382526022815260200180611f" +
+   "b96022913960400191505060405180910390fd5b60048281548110610a2d57fe5b600160" +
+   "0160a01b031660009081526003602052604090206005015490565b6001600160a01b0316" +
+   "60009081526005602052604090205490565b6001600160a01b0316600090815260066020" +
+   "52604090206005015490565b60008033610ffc816115cc565b61100557600080fd5b6000" +
+   "925060009150611016856117d7565b156111c7576001600160a01b038581166000908152" +
+   "600360209081526040808320338452600401909152902054166111c25760408051808201" +
+   "8252338082528615801560208085019182526001600160a01b038b811660009081526003" +
+   "83528781209581526004909501909152949092209251835492516001600160a01b031990" +
+   "931694169390931760ff60a01b1916600160a01b91151591909102179055611107576001" +
+   "600160a01b03851660009081526003602090815260408220600281018054600190810190" +
+   "9155600590910180549182018155835291200180546001600160a01b0319163317905561" +
+   "1151565b6001600160a01b03851660009081526003602081815260408320918201805460" +
+   "0190810190915560069092018054928301815583529091200180546001600160a01b0319" +
+   "16331790555b6001600160a01b0385166000818152600360208181526040928390206002" +
+   "810154920154835192835290820152815187151593339390927f7d6cf66ed9df16948359" +
+   "7e1721e4e5db5596ea6cd9a992cc6f563823bf2fd8ad929081900390910190a46111bc85" +
+   "6117f7565b90935091505b611214565b604080516020808252600b908201526a4e6f7420" +
+   "6e6f6d696e656560a81b8183015290516001600160a01b03871691600080516020611fdb" +
+   "833981519152919081900360600190a2600192505b8215610d2357611223856115cc565b" +
+   "9150509250929050565b33611237816115cc565b61124057600080fd5b50565b60008060" +
+   "0080610dfc611255866109dd565b61098b565b600080611266836117d7565b61126f5761" +
+   "0e46565b50506001600160a01b0316600090815260036020819052604090912060028101" +
+   "549101549091565b6112a0826115cc565b1580156112b357506112b1826117d7565b155b" +
+   "1561149a576040518060c00160405280836001600160a01b031681526020013360016001" +
+   "60a01b031681526020016000815260200160008152602001600060405190808252806020" +
+   "026020018201604052801561131a578160200160208202803883390190505b5081526020" +
+   "01600060405190808252806020026020018201604052801561134b578160200160208202" +
+   "803883390190505b5090526001600160a01b038084166000908152600360208181526040" +
+   "92839020855181549086166001600160a01b031991821617825586830151600183018054" +
+   "919097169116179094559184015160028401556060840151908301556080830151805161" +
+   "13be9260058501920190611e86565b5060a082015180516113da91600684019160209091" +
+   "0190611e86565b505060048054600181019091557f8a35acfbc15ff81a39ae7d344fd709" +
+   "f28e8600b4aa8c65c6b64bfe7fe36bd19b0180546001600160a01b0319166001600160a0" +
+   "1b038516908117909155600081815260056020526040808220859055513393507f9c34c3" +
+   "e7380ed59c1755aadf34cc377bf803ef282f0dfcb52db0f2818f56f3709190a360405181" +
+   "906001600160a01b038416907f1d48c1c80f973622ea182e7afdb4c88d758cb0ee74df1b" +
+   "f4dcba402816a624f090600090a361094a565b6114a3826115cc565b156114f657604080" +
+   "516020808252600c908201526b13db8815da1a5d195b1a5cdd60a21b8183015290516001" +
+   "600160a01b03841691600080516020611fdb833981519152919081900360600190a26109" +
+   "4a565b604080516020808252600f908201526e13db88139bdb5a5b9959481b1a5cdd608a" +
+   "1b8183015290516001600160a01b03841691600080516020611fdb833981519152919081" +
+   "900360600190a25050565b6001600160a01b038216600090815260066020526040812060" +
+   "050154821061159f5760405162461bcd60e51b8152600401808060200182810382526022" +
+   "815260200180611fb96022913960400191505060405180910390fd5b6001600160a01b03" +
+   "83166000908152600660205260409020600501805483908110610ac857fe5b6007549056" +
+   "5b6001600160a01b0390811660009081526020819052604090205416151590565b600160" +
+   "0160a01b0390811660009081526006602052604090205416151590565b60008061161761" +
+   "1eeb565b6001600160a01b03808516600090815260066020908152604091829020825160" +
+   "c08101845281548516815260018201549094168483015260028101548484015260038101" +
+   "546060850152600581018054845181850281018501909552808552919360808601939092" +
+   "908301828280156116b957602002820191906000526020600020905b81546001600160a0" +
+   "1b0316815260019091019060200180831161169b575b5050505050815260200160068201" +
+   "80548060200260200160405190810160405280929190818152602001828054801561171b" +
+   "57602002820191906000526020600020905b81546001600160a01b031681526001909101" +
+   "906020018083116116fd575b505050505081525050905060009250600091506000816060" +
+   "01511115611753578051611746906119bd565b6001925060009150611776565b60018054" +
+   "0381604001511061177657805161176d906119c6565b60019250600191505b82156117d1" +
+   "57811515846001600160a01b03167fa211df00083ac3d328faedc7e3b66b6936a39a35d9" +
+   "2777710edc0069de87552683604001518460600151604051808381526020018281526020" +
+   "019250505060405180910390a35b50915091565b6001600160a01b039081166000908152" +
+   "6003602052604090205416151590565b600080611802611eeb565b6001600160a01b0380" +
+   "8516600090815260036020818152604092839020835160c0810185528154861681526001" +
+   "820154909516858301526002810154858501529182015460608501526005820180548451" +
+   "818402810184019095528085529293608086019390928301828280156118a25760200282" +
+   "0191906000526020600020905b81546001600160a01b0316815260019091019060200180" +
+   "8311611884575b5050505050815260200160068201805480602002602001604051908101" +
+   "604052809291908181526020018280548015611904576020028201919060005260206000" +
+   "20905b81546001600160a01b031681526001909101906020018083116118e6575b505050" +
+   "5050815250509050600092506000915060008160600151111561193c57805161192f9061" +
+   "19cf565b600192506000915061195d565b60015481604001511061195d57805161195490" +
+   "6119d8565b60019250600191505b82156117d157811515846001600160a01b03167fa23f" +
+   "78a07caf905f2fb70e67d2bf2c43d02fe4ab47489fbeefdfb7af008fe427836040015184" +
+   "60600151604051808381526020018281526020019250505060405180910390a350915091" +
+   "565b61124081611acb565b6119bd81611c17565b61124081611d3f565b6119e1816115cc" +
+   "565b611a72576040805180820182526001600160a01b0380841680835260006020808501" +
+   "828152838352908290529481209351845493166001600160a01b03199384161784559351" +
+   "60019384015560028054808501825594527f405787fa12a823e0f2b7631cc41b3ba8828b" +
+   "3321ca811111fa75cd3aa3bb5ace90930180549091169092179091558054810190556119" +
+   "cf565b60408051602080825260139082015272105b1c9958591e4815da1a5d195b1a5cdd" +
+   "1959606a1b8183015290516001600160a01b03831691600080516020611fdb8339815191" +
+   "52919081900360600190a261124081611d3f565b6001600160a01b038116600090815260" +
+   "066020526040812080546001600160a01b03199081168255600182018054909116905560" +
+   "0281018290556003810182905590611b1a6005830182611f33565b611b28600683016000" +
+   "611f33565b50600090505b60075481101561094a57816001600160a01b03166007828154" +
+   "8110611b4f57fe5b6000918252602090912001546001600160a01b03161415611c0f5760" +
+   "0780546000198101908110611b7c57fe5b60009182526020909120015460078054600160" +
+   "0160a01b039092169183908110611ba257fe5b6000918252602090912001805460016001" +
+   "60a01b0319166001600160a01b0392909216919091179055600780546000198101908110" +
+   "611bdd57fe5b600091825260209091200180546001600160a01b03191690556007805490" +
+   "611c09906000198301611f51565b5061094a565b600101611b2e565b611c20816115cc56" +
+   "5b15611240576001600160a01b0381166000908152602081905260408120805460016001" +
+   "60a01b0319168155600190810182905580546000190190555b60025481101561094a5781" +
+   "6001600160a01b031660028281548110611c7d57fe5b6000918252602090912001546001" +
+   "600160a01b03161415611d3757600280546000198101908110611caa57fe5b6000918252" +
+   "60209091200154600280546001600160a01b039092169183908110611cd057fe5b600091" +
+   "825260209091200180546001600160a01b0319166001600160a01b039290921691909117" +
+   "9055600280546000198101908110611d0b57fe5b60009182526020909120018054600160" +
+   "0160a01b03191690556002805490611c09906000198301611f51565b600101611c5c565b" +
+   "6001600160a01b0381166000908152600360208190526040822080546001600160a01b03" +
+   "19908116825560018201805490911690556002810183905590810182905590611d8f6005" +
+   "830182611f33565b611d9d600683016000611f33565b50600090505b6004548110156109" +
+   "4a57816001600160a01b031660048281548110611dc457fe5b6000918252602090912001" +
+   "546001600160a01b03161415611e7e57600480546000198101908110611df157fe5b6000" +
+   "91825260209091200154600480546001600160a01b039092169183908110611e1757fe5b" +
+   "600091825260209091200180546001600160a01b0319166001600160a01b039290921691" +
+   "9091179055600480546000198101908110611e5257fe5b60009182526020909120018054" +
+   "6001600160a01b03191690556004805490611c09906000198301611f51565b600101611d" +
+   "a3565b828054828255906000526020600020908101928215611edb579160200282015b82" +
+   "811115611edb57825182546001600160a01b0319166001600160a01b0390911617825560" +
+   "2090920191600190910190611ea6565b50611ee7929150611f7a565b5090565b60405180" +
+   "60c0016040528060006001600160a01b0316815260200160006001600160a01b03168152" +
+   "602001600081526020016000815260200160608152602001606081525090565b50805460" +
+   "008255906000526020600020908101906112409190611f9e565b81548183558181111561" +
+   "1f7557600083815260209020611f75918101908301611f9e565b505050565b610ed09190" +
+   "5b80821115611ee75780546001600160a01b0319168155600101611f80565b610ed09190" +
+   "5b80821115611ee75760008155600101611fa456fe526571756573746564206164647265" +
+   "7373206973206f7574206f662072616e67652e7a1079ed1747cbf68d85010f01c0c09497" +
+   "1bc1ee39527cb890eb32537387e355a265627a7a723158205ce20a40d365ed7dc9860e1d" +
+    "fcf46e222090dffac4f10c853d3bb6d91f6b8f4d64736f6c634300050b0032" 
+    
+  	// StandardPOAContractABI is the ABI for the standard POA contract precompiled
+	StandardPOAContractABI = "[\n" +
+    "\t{\n" +
+    "\t\t\"payable\" : true,\n" +
+    "\t\t\"type\" : \"function\",\n" +
+    "\t\t\"inputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"type\" : \"address\",\n" +
+    "\t\t\t\t\"name\" : \"_nomineeAddress\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"stateMutability\" : \"payable\",\n" +
+    "\t\t\"name\" : \"submitEviction\",\n" +
+    "\t\t\"outputs\" : [],\n" +
+    "\t\t\"constant\" : false\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"constant\" : true,\n" +
+    "\t\t\"outputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"\",\n" +
+    "\t\t\t\t\"internalType\" : \"bool\",\n" +
+    "\t\t\t\t\"type\" : \"bool\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"name\" : \"checkAuthorisedPublicKey\",\n" +
+    "\t\t\"stateMutability\" : \"view\",\n" +
+    "\t\t\"type\" : \"function\",\n" +
+    "\t\t\"inputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"_publicKey\",\n" +
+    "\t\t\t\t\"internalType\" : \"bytes32\",\n" +
+    "\t\t\t\t\"type\" : \"bytes32\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"payable\" : false\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"inputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"type\" : \"address\",\n" +
+    "\t\t\t\t\"name\" : \"_address\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"type\" : \"function\",\n" +
+    "\t\t\"payable\" : false,\n" +
+    "\t\t\"name\" : \"checkAuthorised\",\n" +
+    "\t\t\"stateMutability\" : \"view\",\n" +
+    "\t\t\"outputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"type\" : \"bool\",\n" +
+    "\t\t\t\t\"name\" : \"\",\n" +
+    "\t\t\t\t\"internalType\" : \"bool\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"constant\" : true\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"type\" : \"function\",\n" +
+    "\t\t\"inputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"type\" : \"address\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"name\" : \"_address\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"payable\" : false,\n" +
+    "\t\t\"name\" : \"getEvictionElection\",\n" +
+    "\t\t\"stateMutability\" : \"view\",\n" +
+    "\t\t\"outputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"type\" : \"address\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"name\" : \"nominee\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"type\" : \"address\",\n" +
+    "\t\t\t\t\"name\" : \"proposer\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"type\" : \"uint256\",\n" +
+    "\t\t\t\t\"name\" : \"yesVotes\",\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"type\" : \"uint256\",\n" +
+    "\t\t\t\t\"name\" : \"noVotes\",\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"constant\" : true\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"payable\" : false,\n" +
+    "\t\t\"type\" : \"function\",\n" +
+    "\t\t\"inputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"type\" : \"address\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"name\" : \"_nomineeAddress\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"stateMutability\" : \"view\",\n" +
+    "\t\t\"name\" : \"getNoVoteCount\",\n" +
+    "\t\t\"outputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"count\",\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
+    "\t\t\t\t\"type\" : \"uint256\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"constant\" : true\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"payable\" : false,\n" +
+    "\t\t\"inputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"idx\",\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
+    "\t\t\t\t\"type\" : \"uint256\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"type\" : \"function\",\n" +
+    "\t\t\"outputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"name\" : \"NomineeAddress\",\n" +
+    "\t\t\t\t\"type\" : \"address\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"constant\" : true,\n" +
+    "\t\t\"stateMutability\" : \"view\",\n" +
+    "\t\t\"name\" : \"getEvictionAddressFromIdx\"\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"payable\" : false,\n" +
+    "\t\t\"inputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"type\" : \"address\",\n" +
+    "\t\t\t\t\"name\" : \"_nomineeAddress\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"type\" : \"uint256\",\n" +
+    "\t\t\t\t\"name\" : \"_idx\",\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"type\" : \"function\",\n" +
+    "\t\t\"stateMutability\" : \"view\",\n" +
+    "\t\t\"name\" : \"getYesVoterFromIdx\",\n" +
+    "\t\t\"constant\" : true,\n" +
+    "\t\t\"outputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"voter\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"type\" : \"address\"\n" +
+    "\t\t\t}\n" +
+    "\t\t]\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"outputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"internalType\" : \"bool\",\n" +
+    "\t\t\t\t\"name\" : \"decided\",\n" +
+    "\t\t\t\t\"type\" : \"bool\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"type\" : \"bool\",\n" +
+    "\t\t\t\t\"internalType\" : \"bool\",\n" +
+    "\t\t\t\t\"name\" : \"voteresult\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"constant\" : false,\n" +
+    "\t\t\"stateMutability\" : \"payable\",\n" +
+    "\t\t\"name\" : \"castEvictionVote\",\n" +
+    "\t\t\"payable\" : true,\n" +
+    "\t\t\"inputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"type\" : \"address\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"name\" : \"_nomineeAddress\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"type\" : \"bool\",\n" +
+    "\t\t\t\t\"internalType\" : \"bool\",\n" +
+    "\t\t\t\t\"name\" : \"_accepted\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"type\" : \"function\"\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"payable\" : false,\n" +
+    "\t\t\"inputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"_address\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"type\" : \"address\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"type\" : \"function\",\n" +
+    "\t\t\"constant\" : true,\n" +
+    "\t\t\"outputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"type\" : \"address\",\n" +
+    "\t\t\t\t\"name\" : \"nominee\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"name\" : \"proposer\",\n" +
+    "\t\t\t\t\"type\" : \"address\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
+    "\t\t\t\t\"name\" : \"yesVotes\",\n" +
+    "\t\t\t\t\"type\" : \"uint256\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"noVotes\",\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
+    "\t\t\t\t\"type\" : \"uint256\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"stateMutability\" : \"view\",\n" +
+    "\t\t\"name\" : \"getNomineeElection\"\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"type\" : \"function\",\n" +
+    "\t\t\"inputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"name\" : \"_nomineeAddress\",\n" +
+    "\t\t\t\t\"type\" : \"address\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"type\" : \"uint256\",\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
+    "\t\t\t\t\"name\" : \"_idx\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"payable\" : false,\n" +
+    "\t\t\"outputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"type\" : \"address\",\n" +
+    "\t\t\t\t\"name\" : \"voter\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"constant\" : true,\n" +
+    "\t\t\"name\" : \"getNoVoterFromIdx\",\n" +
+    "\t\t\"stateMutability\" : \"view\"\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"name\" : \"getNomineeElectionFromIdx\",\n" +
+    "\t\t\"stateMutability\" : \"view\",\n" +
+    "\t\t\"constant\" : true,\n" +
+    "\t\t\"outputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"nominee\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"type\" : \"address\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"proposer\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"type\" : \"address\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"type\" : \"uint256\",\n" +
+    "\t\t\t\t\"name\" : \"yesVotes\",\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"noVotes\",\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
+    "\t\t\t\t\"type\" : \"uint256\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"inputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"idx\",\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
+    "\t\t\t\t\"type\" : \"uint256\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"type\" : \"function\",\n" +
+    "\t\t\"payable\" : false\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"constant\" : true,\n" +
+    "\t\t\"outputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"yes\",\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
+    "\t\t\t\t\"type\" : \"uint256\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"no\",\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
+    "\t\t\t\t\"type\" : \"uint256\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"stateMutability\" : \"view\",\n" +
+    "\t\t\"name\" : \"getCurrentEvictionVotes\",\n" +
+    "\t\t\"payable\" : false,\n" +
+    "\t\t\"inputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"_address\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"type\" : \"address\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"type\" : \"function\"\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"name\" : \"getEvictionNoVoterFromIdx\",\n" +
+    "\t\t\"stateMutability\" : \"view\",\n" +
+    "\t\t\"constant\" : true,\n" +
+    "\t\t\"outputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"voter\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"type\" : \"address\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"type\" : \"function\",\n" +
+    "\t\t\"inputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"type\" : \"address\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"name\" : \"_nomineeAddress\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
+    "\t\t\t\t\"name\" : \"_idx\",\n" +
+    "\t\t\t\t\"type\" : \"uint256\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"payable\" : false\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"stateMutability\" : \"view\",\n" +
+    "\t\t\"name\" : \"getWhiteListCount\",\n" +
+    "\t\t\"constant\" : true,\n" +
+    "\t\t\"outputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
+    "\t\t\t\t\"name\" : \"count\",\n" +
+    "\t\t\t\t\"type\" : \"uint256\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"payable\" : false,\n" +
+    "\t\t\"inputs\" : [],\n" +
+    "\t\t\"type\" : \"function\"\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"payable\" : false,\n" +
+    "\t\t\"type\" : \"function\",\n" +
+    "\t\t\"inputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"type\" : \"address\",\n" +
+    "\t\t\t\t\"name\" : \"_nomineeAddress\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"stateMutability\" : \"view\",\n" +
+    "\t\t\"name\" : \"getEvictionNoVoteCount\",\n" +
+    "\t\t\"constant\" : true,\n" +
+    "\t\t\"outputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
+    "\t\t\t\t\"name\" : \"count\",\n" +
+    "\t\t\t\t\"type\" : \"uint256\"\n" +
+    "\t\t\t}\n" +
+    "\t\t]\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"inputs\" : [],\n" +
+    "\t\t\"type\" : \"function\",\n" +
+    "\t\t\"payable\" : false,\n" +
+    "\t\t\"name\" : \"getNomineeCount\",\n" +
+    "\t\t\"stateMutability\" : \"view\",\n" +
+    "\t\t\"constant\" : true,\n" +
+    "\t\t\"outputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
+    "\t\t\t\t\"name\" : \"count\",\n" +
+    "\t\t\t\t\"type\" : \"uint256\"\n" +
+    "\t\t\t}\n" +
+    "\t\t]\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"constant\" : true,\n" +
+    "\t\t\"outputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"type\" : \"address\",\n" +
+    "\t\t\t\t\"name\" : \"WhiteListAddress\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"name\" : \"getWhiteListAddressFromIdx\",\n" +
+    "\t\t\"stateMutability\" : \"view\",\n" +
+    "\t\t\"type\" : \"function\",\n" +
+    "\t\t\"inputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
+    "\t\t\t\t\"name\" : \"idx\",\n" +
+    "\t\t\t\t\"type\" : \"uint256\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"payable\" : false\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"payable\" : false,\n" +
+    "\t\t\"type\" : \"function\",\n" +
+    "\t\t\"inputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"idx\",\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
+    "\t\t\t\t\"type\" : \"uint256\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"stateMutability\" : \"view\",\n" +
+    "\t\t\"name\" : \"getNomineeAddressFromIdx\",\n" +
+    "\t\t\"outputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"type\" : \"address\",\n" +
+    "\t\t\t\t\"name\" : \"NomineeAddress\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"constant\" : true\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"payable\" : false,\n" +
+    "\t\t\"type\" : \"function\",\n" +
+    "\t\t\"inputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"_nomineeAddress\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"type\" : \"address\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"stateMutability\" : \"view\",\n" +
+    "\t\t\"name\" : \"getYesVoteCount\",\n" +
+    "\t\t\"constant\" : true,\n" +
+    "\t\t\"outputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
+    "\t\t\t\t\"name\" : \"count\",\n" +
+    "\t\t\t\t\"type\" : \"uint256\"\n" +
+    "\t\t\t}\n" +
+    "\t\t]\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"outputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"internalType\" : \"bytes32\",\n" +
+    "\t\t\t\t\"name\" : \"moniker\",\n" +
+    "\t\t\t\t\"type\" : \"bytes32\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"constant\" : true,\n" +
+    "\t\t\"name\" : \"getMoniker\",\n" +
+    "\t\t\"stateMutability\" : \"view\",\n" +
+    "\t\t\"inputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"_address\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"type\" : \"address\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"type\" : \"function\",\n" +
+    "\t\t\"payable\" : false\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"payable\" : false,\n" +
+    "\t\t\"inputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"type\" : \"address\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"name\" : \"_nomineeAddress\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"type\" : \"function\",\n" +
+    "\t\t\"constant\" : true,\n" +
+    "\t\t\"outputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"type\" : \"uint256\",\n" +
+    "\t\t\t\t\"name\" : \"count\",\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"stateMutability\" : \"view\",\n" +
+    "\t\t\"name\" : \"getEvictionYesVoteCount\"\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"name\" : \"castNomineeVote\",\n" +
+    "\t\t\"stateMutability\" : \"payable\",\n" +
+    "\t\t\"constant\" : false,\n" +
+    "\t\t\"outputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"internalType\" : \"bool\",\n" +
+    "\t\t\t\t\"name\" : \"decided\",\n" +
+    "\t\t\t\t\"type\" : \"bool\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"internalType\" : \"bool\",\n" +
+    "\t\t\t\t\"name\" : \"voteresult\",\n" +
+    "\t\t\t\t\"type\" : \"bool\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"inputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"type\" : \"address\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"name\" : \"_nomineeAddress\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"internalType\" : \"bool\",\n" +
+    "\t\t\t\t\"name\" : \"_accepted\",\n" +
+    "\t\t\t\t\"type\" : \"bool\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"type\" : \"function\",\n" +
+    "\t\t\"payable\" : true\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"constant\" : false,\n" +
+    "\t\t\"outputs\" : [],\n" +
+    "\t\t\"stateMutability\" : \"payable\",\n" +
+    "\t\t\"name\" : \"init\",\n" +
+    "\t\t\"payable\" : true,\n" +
+    "\t\t\"type\" : \"function\",\n" +
+    "\t\t\"inputs\" : []\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"name\" : \"getEvictionElectionFromIdx\",\n" +
+    "\t\t\"stateMutability\" : \"view\",\n" +
+    "\t\t\"constant\" : true,\n" +
+    "\t\t\"outputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"name\" : \"nominee\",\n" +
+    "\t\t\t\t\"type\" : \"address\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"type\" : \"address\",\n" +
+    "\t\t\t\t\"name\" : \"proposer\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
+    "\t\t\t\t\"name\" : \"yesVotes\",\n" +
+    "\t\t\t\t\"type\" : \"uint256\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"noVotes\",\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
+    "\t\t\t\t\"type\" : \"uint256\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"inputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"type\" : \"uint256\",\n" +
+    "\t\t\t\t\"name\" : \"idx\",\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"type\" : \"function\",\n" +
+    "\t\t\"payable\" : false\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"stateMutability\" : \"view\",\n" +
+    "\t\t\"name\" : \"getCurrentNomineeVotes\",\n" +
+    "\t\t\"outputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"type\" : \"uint256\",\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
+    "\t\t\t\t\"name\" : \"yes\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"no\",\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
+    "\t\t\t\t\"type\" : \"uint256\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"constant\" : true,\n" +
+    "\t\t\"payable\" : false,\n" +
+    "\t\t\"type\" : \"function\",\n" +
+    "\t\t\"inputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"name\" : \"_address\",\n" +
+    "\t\t\t\t\"type\" : \"address\"\n" +
+    "\t\t\t}\n" +
+    "\t\t]\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"type\" : \"function\",\n" +
+    "\t\t\"inputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"_nomineeAddress\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"type\" : \"address\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"internalType\" : \"bytes32\",\n" +
+    "\t\t\t\t\"name\" : \"_moniker\",\n" +
+    "\t\t\t\t\"type\" : \"bytes32\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"payable\" : true,\n" +
+    "\t\t\"outputs\" : [],\n" +
+    "\t\t\"constant\" : false,\n" +
+    "\t\t\"name\" : \"submitNominee\",\n" +
+    "\t\t\"stateMutability\" : \"payable\"\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"outputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"type\" : \"address\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"name\" : \"voter\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"constant\" : true,\n" +
+    "\t\t\"name\" : \"getEvictionYesVoterFromIdx\",\n" +
+    "\t\t\"stateMutability\" : \"view\",\n" +
+    "\t\t\"type\" : \"function\",\n" +
+    "\t\t\"inputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"type\" : \"address\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"name\" : \"_nomineeAddress\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"type\" : \"uint256\",\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
+    "\t\t\t\t\"name\" : \"_idx\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"payable\" : false\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"payable\" : false,\n" +
+    "\t\t\"type\" : \"function\",\n" +
+    "\t\t\"inputs\" : [],\n" +
+    "\t\t\"stateMutability\" : \"view\",\n" +
+    "\t\t\"name\" : \"getEvictionCount\",\n" +
+    "\t\t\"outputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"type\" : \"uint256\",\n" +
+    "\t\t\t\t\"name\" : \"count\",\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"constant\" : true\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"anonymous\" : false,\n" +
+    "\t\t\"inputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"indexed\" : true,\n" +
+    "\t\t\t\t\"type\" : \"address\",\n" +
+    "\t\t\t\t\"name\" : \"_nominee\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
+    "\t\t\t\t\"name\" : \"_yesVotes\",\n" +
+    "\t\t\t\t\"indexed\" : false,\n" +
+    "\t\t\t\t\"type\" : \"uint256\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"_noVotes\",\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
+    "\t\t\t\t\"type\" : \"uint256\",\n" +
+    "\t\t\t\t\"indexed\" : false\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"internalType\" : \"bool\",\n" +
+    "\t\t\t\t\"name\" : \"_accepted\",\n" +
+    "\t\t\t\t\"type\" : \"bool\",\n" +
+    "\t\t\t\t\"indexed\" : true\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"type\" : \"event\",\n" +
+    "\t\t\"name\" : \"NomineeDecision\"\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"name\" : \"NomineeVoteCast\",\n" +
+    "\t\t\"inputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"indexed\" : true,\n" +
+    "\t\t\t\t\"type\" : \"address\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"name\" : \"_nominee\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"_voter\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"type\" : \"address\",\n" +
+    "\t\t\t\t\"indexed\" : true\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"indexed\" : false,\n" +
+    "\t\t\t\t\"type\" : \"uint256\",\n" +
+    "\t\t\t\t\"name\" : \"_yesVotes\",\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"type\" : \"uint256\",\n" +
+    "\t\t\t\t\"indexed\" : false,\n" +
+    "\t\t\t\t\"name\" : \"_noVotes\",\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"internalType\" : \"bool\",\n" +
+    "\t\t\t\t\"name\" : \"_accepted\",\n" +
+    "\t\t\t\t\"type\" : \"bool\",\n" +
+    "\t\t\t\t\"indexed\" : true\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"type\" : \"event\",\n" +
+    "\t\t\"anonymous\" : false\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"anonymous\" : false,\n" +
+    "\t\t\"inputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"name\" : \"_nominee\",\n" +
+    "\t\t\t\t\"type\" : \"address\",\n" +
+    "\t\t\t\t\"indexed\" : true\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"_proposer\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"type\" : \"address\",\n" +
+    "\t\t\t\t\"indexed\" : true\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"type\" : \"event\",\n" +
+    "\t\t\"name\" : \"NomineeProposed\"\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"name\" : \"EvictionDecision\",\n" +
+    "\t\t\"anonymous\" : false,\n" +
+    "\t\t\"type\" : \"event\",\n" +
+    "\t\t\"inputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"name\" : \"_nominee\",\n" +
+    "\t\t\t\t\"type\" : \"address\",\n" +
+    "\t\t\t\t\"indexed\" : true\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
+    "\t\t\t\t\"name\" : \"_yesVotes\",\n" +
+    "\t\t\t\t\"type\" : \"uint256\",\n" +
+    "\t\t\t\t\"indexed\" : false\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"type\" : \"uint256\",\n" +
+    "\t\t\t\t\"indexed\" : false,\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
+    "\t\t\t\t\"name\" : \"_noVotes\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"_accepted\",\n" +
+    "\t\t\t\t\"internalType\" : \"bool\",\n" +
+    "\t\t\t\t\"type\" : \"bool\",\n" +
+    "\t\t\t\t\"indexed\" : true\n" +
+    "\t\t\t}\n" +
+    "\t\t]\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"name\" : \"EvictionVoteCast\",\n" +
+    "\t\t\"anonymous\" : false,\n" +
+    "\t\t\"inputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"name\" : \"_nominee\",\n" +
+    "\t\t\t\t\"indexed\" : true,\n" +
+    "\t\t\t\t\"type\" : \"address\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"name\" : \"_voter\",\n" +
+    "\t\t\t\t\"indexed\" : true,\n" +
+    "\t\t\t\t\"type\" : \"address\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"indexed\" : false,\n" +
+    "\t\t\t\t\"type\" : \"uint256\",\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
+    "\t\t\t\t\"name\" : \"_yesVotes\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"_noVotes\",\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
+    "\t\t\t\t\"type\" : \"uint256\",\n" +
+    "\t\t\t\t\"indexed\" : false\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"internalType\" : \"bool\",\n" +
+    "\t\t\t\t\"name\" : \"_accepted\",\n" +
+    "\t\t\t\t\"indexed\" : true,\n" +
+    "\t\t\t\t\"type\" : \"bool\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"type\" : \"event\"\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"type\" : \"event\",\n" +
+    "\t\t\"inputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"name\" : \"_nominee\",\n" +
+    "\t\t\t\t\"indexed\" : true,\n" +
+    "\t\t\t\t\"type\" : \"address\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"type\" : \"address\",\n" +
+    "\t\t\t\t\"indexed\" : true,\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"name\" : \"_proposer\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"anonymous\" : false,\n" +
+    "\t\t\"name\" : \"EvictionProposed\"\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"anonymous\" : false,\n" +
+    "\t\t\"inputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"indexed\" : true,\n" +
+    "\t\t\t\t\"type\" : \"address\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"name\" : \"_address\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"indexed\" : true,\n" +
+    "\t\t\t\t\"type\" : \"bytes32\",\n" +
+    "\t\t\t\t\"internalType\" : \"bytes32\",\n" +
+    "\t\t\t\t\"name\" : \"_moniker\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"type\" : \"event\",\n" +
+    "\t\t\"name\" : \"MonikerAnnounce\"\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"name\" : \"POA_Error\",\n" +
+    "\t\t\"anonymous\" : false,\n" +
+    "\t\t\"type\" : \"event\",\n" +
+    "\t\t\"inputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"name\" : \"_address\",\n" +
+    "\t\t\t\t\"indexed\" : true,\n" +
+    "\t\t\t\t\"type\" : \"address\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"indexed\" : false,\n" +
+    "\t\t\t\t\"type\" : \"string\",\n" +
+    "\t\t\t\t\"name\" : \"_message\",\n" +
+    "\t\t\t\t\"internalType\" : \"string\"\n" +
+    "\t\t\t}\n" +
+    "\t\t]\n" +
+    "\t}\n" +
+    "]"  
+
 )
+
