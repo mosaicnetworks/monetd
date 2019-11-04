@@ -16,7 +16,7 @@ const ethereumVersion = 3
 type encryptedKeyJSONV3 struct {
 	Address string              `json:"address"`
 	Crypto  keystore.CryptoJSON `json:"crypto"`
-	Id      string              `json:"id"`
+	ID      string              `json:"id"`
 	Version int                 `json:"version"`
 }
 
@@ -28,7 +28,7 @@ type EncryptedKeyJSONMonet struct {
 	Address   string              `json:"address"`
 	PublicKey string              `json:"pub"`
 	Crypto    keystore.CryptoJSON `json:"crypto"`
-	Id        string              `json:"id"`
+	ID        string              `json:"id"`
 	Version   int                 `json:"version"`
 }
 

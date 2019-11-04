@@ -16,11 +16,11 @@ Retrieve information about any account.
 .. code:: http
 
   GET /account/{address}
-  returns: JsonAccount
+  returns: JSONAccount
 
 .. code:: go
 
-    type JsonAccount struct {
+    type JSONAccount struct {
       Address string   `json:"address"`
       Balance *big.Int `json:"balance"`
       Nonce   uint64   `json:"nonce"`
@@ -63,7 +63,7 @@ state, and the data does NOT need to be signed.
         Nonce    *uint64         `json:"nonce"`
     }
 
-    type JsonCallRes struct {
+    type JSONCallRes struct {
         Data string `json:"data"`
     }
 
@@ -92,17 +92,11 @@ returns the transaction receipt.
 
   POST /rawtx
   data: STRING Hex representation of the raw transaction bytes
-  returns: JSON JsonReceipt
+  returns: JSON JSONReceipt
 
 .. code:: go
 
-    type JsonTxRes struct {
-        TxHash string `json:"txHash"`
-    }
-
-.. code:: go
-
-    type JsonReceipt struct {
+    type JSONReceipt struct {
         Root              common.Hash     `json:"root"`
         TransactionHash   common.Hash     `json:"transactionHash"`
         From              common.Address  `json:"from"`
@@ -145,7 +139,7 @@ use, and the EVM Logs produced by the execution of the transaction.
 .. code:: http
 
   GET /tx/{tx_hash}
-  returns: JSON JsonReceipt
+  returns: JSON JSONReceipt
 
 Example:
 
@@ -205,11 +199,11 @@ Get details of the PoA smart-contract.
 .. code:: http
 
   GET /poa
-  returns: JsonContract
+  returns: JSONContract
 
 .. code:: go
 
-    type JsonContract struct {
+    type JSONContract struct {
         Address common.Address `json:"address"`
         ABI     string         `json:"abi"`
     }

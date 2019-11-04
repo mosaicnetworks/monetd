@@ -7,6 +7,8 @@ import (
 	eth_common "github.com/ethereum/go-ethereum/common"
 )
 
+//GetControllerSoliditySource returns the source for the contract that returns
+//where the POA contract is hosted.
 func GetControllerSoliditySource(contractAddress string) (string, error) {
 
 	const templateSol = `pragma solidity >=0.4.22;

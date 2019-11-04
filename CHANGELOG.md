@@ -6,6 +6,13 @@
 SECURITY:
 FEATURES:
 IMPROVEMENTS:
+- monetd~babble:   Added Suspended state to babble to allow recovery.
+- monetd~evm-lite: Added export endpoint which outputs a genesis.json file for
+                   the current state.
+- monetd~e2e:      Added "rebuild" e2e test which creates a network from the 
+                   state of the current endpoint.
+- monetd~evm-lite: Added support for setting the storage values for contract
+                   in the genesis block.                                     
 BUG FIXES:
 
 ## v0.3.1 (October 25, 2019)

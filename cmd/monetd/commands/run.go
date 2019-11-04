@@ -3,10 +3,13 @@ package commands
 import (
 	"fmt"
 
+	bvers "github.com/mosaicnetworks/babble/src/version"
 	"github.com/mosaicnetworks/evm-lite/src/engine"
+	evers "github.com/mosaicnetworks/evm-lite/src/version"
 	"github.com/mosaicnetworks/monetd/src/babble"
 	"github.com/mosaicnetworks/monetd/src/common"
 	"github.com/mosaicnetworks/monetd/src/configuration"
+	mvers "github.com/mosaicnetworks/monetd/src/version"
 	"github.com/spf13/cobra"
 )
 
@@ -54,6 +57,7 @@ func bindFlags(cmd *cobra.Command) {
 	cmd.Flags().Int("babble.max-pool", configuration.Global.Babble.MaxPool, "max number of pool connections")
 	cmd.Flags().Bool("babble.bootstrap", configuration.Global.Babble.Bootstrap, "bootstrap Babble from database")
 	cmd.Flags().String("babble.moniker", configuration.Global.Babble.Moniker, "friendly name")
+	cmd.Flags().Bool("babble.maintenance-mode", configuration.Global.Babble.MaintenanceMode, "start babble in suspended (non-gossipping) state")
 
 	// Eth config
 	cmd.Flags().Int("eth.cache", configuration.Global.Eth.Cache, "megabytes of memory allocated to internal caching (min 16MB / database forced)")
@@ -66,6 +70,10 @@ READ CONFIG AND RUN
 
 // Run the EVM-Lite / Babble engine
 func runMonet(cmd *cobra.Command, args []string) error {
+
+	// Set component versions in EVM-Lite version files that the endpoint read
+	evers.JSONVersion["babble"] = bvers.Version
+	evers.JSONVersion["monetd"] = mvers.Version
 
 	babble := babble.NewInmemBabble(
 		configuration.Global.ToBabbleConfig(),

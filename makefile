@@ -22,6 +22,10 @@ installgiv:
 docker:
 	$(MAKE) -C docker
 
+
+e2e: 
+	$(MAKE) -C e2e tests    
+
 test: testmonetd testevml testbabble
 
 testmonetd:
@@ -35,5 +39,8 @@ testbabble:
 
 dist:
 	xgo --targets=*/amd64 --dest=build/  ./cmd/monetd/ 
+ 
+lint:
+	glide novendor | xargs golint
 
-.PHONY: all vendor install installd installcli installgiv test update docker testmonetd testevml testbabble
+.PHONY: all vendor install installd installcli installgiv test update docker testmonetd testevml testbabble lint e2e

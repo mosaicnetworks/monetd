@@ -70,7 +70,7 @@ func (p *InmemProxy) CommitBlock(block hashgraph.Block) (proxy.CommitResponse, e
 
 	for i, tx := range block.Transactions() {
 		if err := p.state.ApplyTransaction(tx, i, blockHash, coinbaseAddress); err != nil {
-			p.logger.WithError(err).Errorf("Failed to apply tx %d of %d", i+1 , len(block.Transactions()))
+			p.logger.WithError(err).Errorf("Failed to apply tx %d of %d", i+1, len(block.Transactions()))
 		}
 	}
 
@@ -158,10 +158,13 @@ func (p *InmemProxy) processInternalTransactions(internalTransactions []hashgrap
 }
 
 //TODO - Implement these two functions
+
+//GetSnapshot will generate a snapshot
 func (p *InmemProxy) GetSnapshot(blockIndex int) ([]byte, error) {
 	return []byte{}, nil
 }
 
+//Restore will restore a snapshot
 func (p *InmemProxy) Restore(snapshot []byte) error {
 	return nil
 }

@@ -8,13 +8,14 @@ import (
 )
 
 var (
-	defaultNodeAddr   = fmt.Sprintf("%s:%d", common.GetMyIP(), 1337)
-	defaultHeartbeat  = 200 * time.Millisecond
-	defaultTCPTimeout = 1000 * time.Millisecond
-	defaultCacheSize  = 50000
-	defaultSyncLimit  = 1000
-	defaultBootstrap  = true
-	defaultMaxPool    = 2
+	defaultNodeAddr        = fmt.Sprintf("%s:%d", common.GetMyIP(), 1337)
+	defaultHeartbeat       = 200 * time.Millisecond
+	defaultTCPTimeout      = 1000 * time.Millisecond
+	defaultCacheSize       = 50000
+	defaultSyncLimit       = 1000
+	defaultBootstrap       = true
+	defaultMaxPool         = 2
+	defaultMaintenanceMode = false
 )
 
 // BabbleConfig contains the configuration for the Babble node used by monetd.
@@ -56,6 +57,10 @@ type BabbleConfig struct {
 	// Bootstrap from database
 	Bootstrap bool `mapstructure:"bootstrap"`
 
+	// MaintenanceMode when set to true causes Babble to initialise in a
+	// suspended state. I.e. it does not start gossipping
+	MaintenanceMode bool `mapstructure:"maintenance-mode"`
+
 	// Moniker is a friendly name to indentify this peer
 	Moniker string `mapstructure:"moniker"`
 }
@@ -63,12 +68,13 @@ type BabbleConfig struct {
 // DefaultBabbleConfig returns the default configuration for a Babble node
 func DefaultBabbleConfig() *BabbleConfig {
 	return &BabbleConfig{
-		BindAddr:   defaultNodeAddr,
-		Heartbeat:  defaultHeartbeat,
-		TCPTimeout: defaultTCPTimeout,
-		CacheSize:  defaultCacheSize,
-		SyncLimit:  defaultSyncLimit,
-		MaxPool:    defaultMaxPool,
-		Bootstrap:  defaultBootstrap,
+		BindAddr:        defaultNodeAddr,
+		Heartbeat:       defaultHeartbeat,
+		TCPTimeout:      defaultTCPTimeout,
+		CacheSize:       defaultCacheSize,
+		SyncLimit:       defaultSyncLimit,
+		MaxPool:         defaultMaxPool,
+		Bootstrap:       defaultBootstrap,
+		MaintenanceMode: defaultMaintenanceMode,
 	}
 }

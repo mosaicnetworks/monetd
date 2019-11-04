@@ -1,54 +1,11 @@
-package contract
-
-import (
-	"bytes"
-	"strconv"
-	"strings"
-	"text/template"
-
-	"github.com/mosaicnetworks/babble/src/peers"
-	"github.com/mosaicnetworks/monetd/src/crypto"
-)
-
-//MinimalPeerRecord is used within the contract code where a full peer record is
-//not required.
-type MinimalPeerRecord struct {
-	Address string
-	Moniker string
-}
-
-//GetFinalSoliditySourceFromAddress has the POA contract embedded within the function.
-//This function applies the addresses supplied to the inital white list for
-//the POA contract and returns the Solidity source as a string ready to
-//be compiled.
-func GetFinalSoliditySourceFromAddress(peers []*MinimalPeerRecord) (string, error) {
-
-	var consts, addTo, checks []string
-
-	for i, peer := range peers {
-		addr := peer.Address
-		consts = append(consts, "    address constant initWhitelist"+strconv.Itoa(i)+" = "+addr+";")
-		consts = append(consts, "    bytes32 constant initWhitelistMoniker"+strconv.Itoa(i)+" = \""+peer.Moniker+"\";")
-
-		addTo = append(addTo, "     addToWhitelist(initWhitelist"+strconv.Itoa(i)+", initWhitelistMoniker"+strconv.Itoa(i)+");")
-		checks = append(checks, " ( initWhitelist"+strconv.Itoa(i)+" == _address ) ")
-	}
-
-	solFields := solidityFields{
-		Constants: strings.Join(consts, "\n"),
-		AddTo:     strings.Join(addTo, "\n"),
-		Checks:    strings.Join(checks, "||"),
-	}
-
-	const templateSol = `pragma solidity >=0.4.22;
+pragma solidity >=0.4.22;
 
     /// @title Proof of Authority Whitelist Proof of Concept
     /// @author Jon Knight
     /// @author Mosaic Networks
     /// @notice Copyright Mosaic Networks 2019, released under the MIT license
-    
     contract POA_Genesis {
-    
+
     /// @notice Event emitted when the vote was reached a decision
     /// @param _nominee The address of the nominee
     /// @param _yesVotes The total number of yes votes cast for the nominee to date
@@ -60,7 +17,7 @@ func GetFinalSoliditySourceFromAddress(peers []*MinimalPeerRecord) (string, erro
             uint _noVotes,
             bool indexed _accepted
         );
-    
+
     /// @notice Event emitted when a nominee vote is cast
     /// @param _nominee The address of the nominee
     /// @param _voter The address of the person who cast the vote
@@ -74,7 +31,7 @@ func GetFinalSoliditySourceFromAddress(peers []*MinimalPeerRecord) (string, erro
             uint _noVotes,
             bool indexed _accepted
         );
-    
+
     /// @notice Event emitted when a nominee is proposed
     /// @param _nominee The address of the nominee
     /// @param _proposer The address of the person who proposed the nominee
@@ -167,37 +124,18 @@ func GetFinalSoliditySourceFromAddress(peers []*MinimalPeerRecord) (string, erro
         mapping (address => bytes32) monikerList;
         mapping (address => NomineeElection) evictionList;
         address[] evictionArray;
-        
-
-// GENERATED GENESIS BEGIN
-   {{.Constants}}
-
-   function processGenesisWhitelist() private 
-   { 
-	   {{.AddTo}}
-   }
-   
-   function isGenesisWhitelisted(address _address) pure private returns (bool) {
-	   return ( {{.Checks}} );
-   }
-//GENERATED GENESIS END 
 
 
-/// @notice This is a constructor replacement for contracts placed directly in the genesis block. This is necessary because the constructor does not run in that instance.
+/// @notice This is no longer required, but an empty function prevents older monetcli versions with the poa init command erroring
 function init () public payable checkAuthorisedModifier(msg.sender)
 {
-     processGenesisWhitelist();
+     
 }
 
 
 /// @notice Modifier to check if a sender is on the white list.
 modifier checkAuthorisedModifier(address _address)
 {
-     if (whiteListCount == 0){
-         require(isGenesisWhitelisted(_address), "Not authorised");
-         // This is a modifier on a payable transaction so we can initialise everything.
-         processGenesisWhitelist();
-     }
      require(isWhitelisted(_address));
      _;
 }
@@ -207,7 +145,7 @@ modifier checkAuthorisedModifier(address _address)
 function checkAuthorised(address _address) public view returns (bool)
 {  // needs check on whitelist to allow original validators to be booted.
 
-    return ((isWhitelisted(_address)) || ((whiteListCount == 0)&&(isGenesisWhitelisted(_address)))  );
+    return isWhitelisted(_address);
 }
 
 /// @notice Function exposed for Babble Join authority wraps checkAuthorised
@@ -534,7 +472,7 @@ function isWhitelisted(address _address) private view returns (bool)
  }
 
 
-// Deline nominee from the nomineeList
+// Decline nominee from the nomineeList
 
  ///@notice This private function removes the declined nominee from the nominee list.
  ///@param _nomineeAddress The address of the nominee being removed from the nominee list
@@ -715,8 +653,6 @@ function getNomineeAddressFromIdx(uint idx) public view returns (address Nominee
  }
 
 
-
-
  function getMoniker(address _address) public view returns (bytes32 moniker)
  {
      return (monikerList[_address]);
@@ -735,34 +671,4 @@ function getNomineeAddressFromIdx(uint idx) public view returns (address Nominee
      return (evictionList[_address].yesVotes,evictionList[_address].noVotes);
  }
 
-
-}
-`
-
-	templ, err := template.New("solidity").Parse(templateSol)
-	if err != nil {
-		return "", err
-	}
-	buf := new(bytes.Buffer)
-	templ.Execute(buf, solFields)
-
-	return buf.String(), nil
-}
-
-// GetFinalSoliditySource generates a peer list and passes it to
-// GetFinalSoliditySourceFromAddress, return the full solidity code including
-// the initial whitelist
-func GetFinalSoliditySource(peers []*peers.Peer) (string, error) {
-
-	var miniPeers []*MinimalPeerRecord
-
-	for _, peer := range peers {
-		addr, err := crypto.PublicKeyHexToAddressHex(peer.PubKeyHex)
-		if err != nil {
-			return "", err
-		}
-		miniPeers = append(miniPeers, &MinimalPeerRecord{Address: addr, Moniker: peer.Moniker})
-	}
-
-	return GetFinalSoliditySourceFromAddress(miniPeers)
 }
