@@ -9,6 +9,8 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/mosaicnetworks/monetd/src/version"
+
 	"github.com/ethereum/go-ethereum/common"
 
 	"github.com/mosaicnetworks/monetd/src/genesis"
@@ -114,6 +116,20 @@ func parseGenesis(cmd *cobra.Command, args []string) error {
 		}
 
 		fmt.Printf("%s  %s\n", peer.Address, moniker)
+
+	}
+
+	fmt.Println("")
+
+	if genesisJSON.Poa.Code == genesis.StandardPOAContractByteCode {
+		fmt.Println("POA bytecode matches the standard contract")
+	} else {
+		fmt.Println("Contract does not match the POA bytecode")
+		fmt.Println("This may not be an issue if a different release of Monetd " +
+			"was used to generate the genesis.json file.")
+		fmt.Println("Your version of Monetd is:")
+		fmt.Print(version.FullVersion())
+		fmt.Printf("Solc: %s \n      %s\n", genesis.SolcCompilerVersion, genesis.SolcOSVersion)
 
 	}
 
