@@ -41,7 +41,7 @@ func parseGenesis(cmd *cobra.Command, args []string) error {
 	}
 
 	// Read Genesis file and load into genesisJSON struct
-	genesisJSON := genesis.GenesisFile{}
+	genesisJSON := genesis.JSONGenesisFile{}
 
 	file, err := ioutil.ReadFile(genesisFile)
 	if err != nil {
