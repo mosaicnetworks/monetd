@@ -54,7 +54,7 @@ func GetStorage(peers []*MinimalPeerRecord) (map[string]string, error) {
 	slot5Bytes := common.HexToHash(SLOT5).Bytes()
 
 	for _, peer := range peers {
-		addr := strings.TrimLeft(strings.ToLower(peer.Address), "0x")
+		addr := strings.TrimPrefix(strings.ToLower(peer.Address), "0x")
 
 		// Set the Array and increment the array slot by one
 		storage[fmt.Sprintf("%064x", arraySlotCounter)] = "94" + addr //TODO - why is this 94?
@@ -74,7 +74,7 @@ func GetStorage(peers []*MinimalPeerRecord) (map[string]string, error) {
 			monikerString = monikerString[0:63]
 		}
 
-		//		monikerString = "0a" + strings.TrimLeft(hex.EncodeToString([]byte(monikerString)), "726a")
+		//		monikerString = "0a" + strings.TrimPrefix(hex.EncodeToString([]byte(monikerString)), "726a")
 		monikerString = hex.EncodeToString([]byte(monikerString))
 
 		storage[addrSlot] = monikerString + strings.Repeat("0", 64-len(monikerString))

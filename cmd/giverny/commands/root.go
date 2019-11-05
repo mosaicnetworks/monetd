@@ -3,6 +3,7 @@ package commands
 import (
 	"github.com/mosaicnetworks/monetd/cmd/giverny/commands/keys"
 	"github.com/mosaicnetworks/monetd/cmd/giverny/commands/network"
+	"github.com/mosaicnetworks/monetd/cmd/giverny/commands/parse"
 	"github.com/mosaicnetworks/monetd/cmd/giverny/commands/transactions"
 	"github.com/mosaicnetworks/monetd/src/common"
 
@@ -27,6 +28,7 @@ func init() {
 		keys.KeysCmd,
 		network.NetworkCmd,
 		transactions.TransCmd,
+		parse.ParseCmd,
 		VersionCmd,
 	)
 	//do not print usage when error occurs

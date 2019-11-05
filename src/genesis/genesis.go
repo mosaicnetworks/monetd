@@ -34,8 +34,8 @@ type POA struct {
 	Storage map[string]string `json:"storage,omitempty"`
 }
 
-// file is the structure that a Genesis file gets parsed into.
-type file struct {
+// GenesisFile is the structure that a Genesis file gets parsed into.
+type GenesisFile struct {
 	Alloc      *Alloc `json:"alloc"`
 	Poa        *POA   `json:"poa"`
 	Controller *POA   `json:"controller"`
@@ -51,7 +51,7 @@ type MinimalPeerRecord struct {
 // GenerateGenesisJSON uses a precompiled POA contract
 func GenerateGenesisJSON(outDir, keystore string, peers []*peers.Peer, alloc *Alloc, contractAddress string, controllerAddress string) error {
 
-	var genesis file
+	var genesis GenesisFile
 	var miniPeers []*MinimalPeerRecord
 
 	for _, peer := range peers {
