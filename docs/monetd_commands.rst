@@ -210,28 +210,6 @@ inadvertent deletion of keys.
     $ monetd config clear
     Renaming /home/user/.monet to /home/user/.monet.~1~
 
-Contract
-~~~~~~~~
-
-The ``contract`` subcommand generates the Solidity source for a POA smart
-contract with the supplied node as the sole entry on the initial whitelist.
-This command is not used in the standard workflow, but is provided as a
-convenient mechanism to retrieve the solidity source.
-
-.. include:: _static/includes/monetd_help_config_contract.txt
-    :code: bash
-
-A sample session is as follows. The contract is written to stdout, so you will
-probably wish to redirect it to a file or a pager.
-
-.. code:: bash
-
-    $ monetd config contract node0 | more
-    pragma solidity >=0.4.22;
-
-    /// @title Proof of Authority Whitelist Contract
-
-    ...
 
 Location
 ~~~~~~~~
