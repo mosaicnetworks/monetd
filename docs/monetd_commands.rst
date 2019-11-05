@@ -176,10 +176,11 @@ existing network or to create a new one.
 There are 5 subcommands each described in a separate section below:
 
 - **clear** --- backup and clear configuration folder
-- **contract** --- display poa contract
 - **location** --- show the location of the configuration files
 - **build** --- create the configuration for a single-node network
 - **pull** --- pull the configuration files from a node
+- **whitelist** --- generate the poa/storage key value pairs for a given set of
+                    peers. You should not need to use this command directly
 
 The two most common scenarios are:
 
@@ -189,7 +190,7 @@ The two most common scenarios are:
                  See :ref:`quickstart_rst`.
 
 - config pull - config pull is used to join an existing network. It fetches the
-                configuration from one of the existing nodes. See 
+                configuration from one of the existing nodes. See
                 :ref:`join_rst`.
 
 For more complex scenarios, please refer to :ref:`giverny_rst`, which is a
