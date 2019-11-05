@@ -42,10 +42,10 @@ Download the latest version of monetd:
 
 .. code ::
 
-    wget -O monetd -L "https://dashboard.monet.network/api/downloads/applications/monetd/?os=linux"
+    $ wget -O monetd -L "https://dashboard.monet.network/api/downloads/applications/monetd/?os=linux"
 
-    chmod 751 monetd
-    sudo mv monetd /usr/local/bin/
+    $ chmod 751 monetd
+    $ sudo mv monetd /usr/local/bin/
 
 Please refer to :ref:`monetd systemd<monetd_systemd_rst>` for instructions to
 setup a ``systemd`` service on Linux systems.
@@ -80,16 +80,17 @@ Solidity Compiler
 The Monet Toolchain uses Proof of Authority (PoA) to manage the validator set.
 This is implemented using a smart-contract written in
 `Solidity <https://solidity.readthedocs.io/en/develop/introduction-to-smart-contracts.html>`__,
-with the corresponding EVM bytecode set in the genesis file. For every newly
-defined network, the smart-contract needs to be recompiled because it embeds
-the initial whitelist. Hence, the Solidity compiler (solc) is a requirement to
-define a new network and produce the appropriate genesis file.
+with the corresponding EVM bytecode set in the genesis file. 
 
-Please refer to the `solidity compiler installation
-instructions <https://solidity.readthedocs.io/en/develop/installing-solidity.html>`__.
+A standard precompiled contract is included in ``monetd`` and ``giverny`` and 
+will be included by default in the generated ``genesis.json`` file. If you wish
+to customise the POA smart contract you will need to have the Solidity compiler
+(``solc``) installed. Most users will not need to. If required, please refer to 
+the `solidity compiler installation instructions <https://solidity.readthedocs.io/en/develop/installing-solidity.html>`__.
 
-**Attention**: The Node.js version of the compiler is not supported. **Do not
-install via** ``npm install solc``.
+Previously the Node.js version of the compiler was not supported for compiling
+bytecode. This limitation no longer applies, as solc is no longer embedded in
+the apps, so ``npm install solc`` is now valid.
 
 Other requirements
 ~~~~~~~~~~~~~~~~~~
