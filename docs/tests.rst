@@ -82,11 +82,12 @@ End to End Tests
 ----------------
 
 End to end tests are in the subfolder ``e2e`` of the repository. All tests
-can be run as follows:
+can be run using either of the commands below. Note the different paths:
 
 .. code:: bash
 
     [...]/monetd/e2e$ make tests
+    [...]/monetd$ make e2e
 
 
 An individual test can be run as follows:
@@ -95,7 +96,8 @@ An individual test can be run as follows:
 
     [...]/monetd/e2e$ make test TEST=crowdfundnet
 
-To prevent the test net being destroyed on completion, add ``NOSTOP=nostop``:
+To prevent the test net being destroyed on completion, add ``NOSTOP=nostop``.
+This allows you to interrogate the network after the test has completed:
 
 .. code:: bash
 
