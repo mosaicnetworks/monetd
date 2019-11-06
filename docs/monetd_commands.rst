@@ -3,9 +3,9 @@
 Monetd Reference
 ================
 
-``monetd`` provides the core commands needed to configure and run a node. It has
-context sensitive help accessed either by running ``monetd help`` or by adding a
-``-h`` parameter to the relevant command.
+``monetd`` provides the core commands needed to configure and run a node. It
+has context sensitive help accessed either by running ``monetd help`` or by
+adding a ``-h`` parameter to the relevant command.
 
 .. include:: _static/includes/monetd_help.txt
     :code: bash

@@ -80,12 +80,12 @@ Solidity Compiler
 The Monet Toolchain uses Proof of Authority (PoA) to manage the validator set.
 This is implemented using a smart-contract written in
 `Solidity <https://solidity.readthedocs.io/en/develop/introduction-to-smart-contracts.html>`__,
-with the corresponding EVM bytecode set in the genesis file. 
+with the corresponding EVM bytecode set in the genesis file.
 
-A standard precompiled contract is included in ``monetd`` and ``giverny`` and 
+A standard precompiled contract is included in ``monetd`` and ``giverny`` and
 will be included by default in the generated ``genesis.json`` file. If you wish
 to customise the POA smart contract you will need to have the Solidity compiler
-(``solc``) installed. Most users will not need to. If required, please refer to 
+(``solc``) installed. Most users will not need to. If required, please refer to
 the `solidity compiler installation instructions <https://solidity.readthedocs.io/en/develop/installing-solidity.html>`__.
 
 Previously the Node.js version of the compiler was not supported for compiling

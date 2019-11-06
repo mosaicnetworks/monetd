@@ -26,14 +26,14 @@ each ``giverny`` command.
 Help
 ****
 
-``giverny`` has context sensitive help accessed either by running 
+``giverny`` has context sensitive help accessed either by running
 ``giverny help`` or by adding a ``-h`` parameter to the relevant command.
 
 *******
 Version
 *******
 
-The ``version`` subcommand outputs the version number for ``monetd``, 
+The ``version`` subcommand outputs the version number for ``monetd``,
 ``EVM-Lite``, ``Babble`` and ``Geth``.
 
 If you compile your own tools, the suffices are the GIT branch and the GIT
@@ -51,8 +51,8 @@ The ``keys`` subcommand offers tools to manage keys.
 Keys Flags
 ==========
 
-In addition to the ``--verbose`` flag, the ``keys`` subcommand defines addtional
-flags as follows:
+In addition to the ``--verbose`` flag, the ``keys`` subcommand defines
+addtional flags as follows:
 
 .. include:: _static/includes/giverny_keys_flags.txt
     :code: bash
@@ -141,9 +141,10 @@ Syntax
 Nodes
 -----
 
-The number of nodes in this network is specified by the ``--nodes [int]`` 
+The number of nodes in this network is specified by the ``--nodes [int]``
 parameter. The ``--initial-peers [int]`` parameter specifies the number of
-initial peers. If not set it assumes that all nodes are in the initial peer set.
+initial peers. If not set it assumes that all nodes are in the initial peer
+set.
 
 IP Addresses
 ------------
