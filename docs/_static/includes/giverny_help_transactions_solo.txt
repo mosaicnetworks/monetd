@@ -18,6 +18,6 @@ Flags:
       --surplus int           additional credit to allocate each account from the faucet above the bare minimum (default 1000000)
 
 Global Flags:
-  -d, --dir string        giverny directory (default "/home/martin/.giverny")
-  -k, --keystore string   keystore directory (default "/home/martin/.monet/keystore")
+  -d, --dir string        giverny directory (default "/home/user/.giverny")
+  -k, --keystore string   keystore directory (default "/home/user/.monet/keystore")
   -v, --verbose           verbose messages

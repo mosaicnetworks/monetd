@@ -10,13 +10,14 @@ Flags:
       --babble.bootstrap            bootstrap Babble from database (default true)
       --babble.cache-size int       number of items in LRU caches (default 50000)
       --babble.heartbeat duration   heartbeat timer milliseconds (time between gossips) (default 200ms)
-      --babble.listen string        bind IP:PORT of Babble node (default "192.168.1.3:1337")
+      --babble.listen string        bind IP:PORT of Babble node (default "192.168.1.14:1337")
+      --babble.maintenance-mode     start babble in suspended (non-gossipping) state
       --babble.max-pool int         max number of pool connections (default 2)
       --babble.moniker string       friendly name
       --babble.sync-limit int       max number of Events per sync (default 1000)
       --babble.timeout duration     TCP timeout milliseconds (default 1s)
-  -c, --config string               configuration directory (default "/home/martin/.monet/monetd-config")
-  -d, --data string                 data directory (default "/home/martin/.monet/monetd-data")
+  -c, --config string               configuration directory (default "/home/user/.monet/monetd-config")
+  -d, --data string                 data directory (default "/home/user/.monet/monetd-data")
       --eth.cache int               megabytes of memory allocated to internal caching (min 16MB / database forced) (default 128)
       --eth.min-gas-price string    minimum gasprice of transactions submitted through this node (ex 1K, 1M, 1G, etc.) (default "0")
   -h, --help                        help for run

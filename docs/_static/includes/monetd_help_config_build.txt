@@ -11,10 +11,10 @@ Usage:
   monetd config build [moniker] [flags]
 
 Flags:
-      --address string    IP/hostname of this node (default "192.168.1.3")
-      --config string     output directory (default "/home/martin/.monet/monetd-config")
+      --address string    IP/hostname of this node (default "192.168.1.14")
+      --config string     output directory (default "/home/user/.monet/monetd-config")
   -h, --help              help for build
-      --keystore string   keystore directory (default "/home/martin/.monet/keystore")
+      --keystore string   keystore directory (default "/home/user/.monet/keystore")
       --passfile string   file containing the passphrase
 
 Global Flags:

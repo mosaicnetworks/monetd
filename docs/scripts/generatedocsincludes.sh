@@ -17,7 +17,7 @@ function generatedocinsert() {
  #   echo ".. code:: bash"> $outfile
  #   echo ""  >> $outfile
     echo "[..monetd] \$ $cmd"  > $outfile
-    $cmd  >> $outfile
+    $cmd | sed -e"s?$HOME?/home/user?g" >> $outfile
 }
 
 
@@ -46,7 +46,8 @@ generatedocinsert giverny_help_network_start.txt "giverny help network start"
 generatedocinsert giverny_help_network_stop.txt "giverny help network stop"
 generatedocinsert giverny_help_transactions_solo.txt "giverny help transactions solo"
 
- 
+
+generatedocinsert giverny_parse.txt "giverny help parse" 
 # Special cases
 
 giverny help keys | grep -A10 "Global Flags:" > $outdir"giverny_keys_flags.txt"

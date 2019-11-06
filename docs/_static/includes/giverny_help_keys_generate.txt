@@ -15,5 +15,5 @@ Flags:
       --prefix string    prefix for account monikers (default "Account")
 
 Global Flags:
-  -k, --keystore string   keystore directory (default "/home/martin/.monet/keystore")
+  -k, --keystore string   keystore directory (default "/home/user/.monet/keystore")
   -v, --verbose           verbose messages

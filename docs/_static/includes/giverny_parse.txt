@@ -1,0 +1,12 @@
+[..monetd] $ giverny help parse
+
+The parse command parses a genesis file.
+
+Usage:
+  giverny parse [genesis file] [flags]
+
+Flags:
+  -h, --help   help for parse
+
+Global Flags:
+  -v, --verbose   verbose messages

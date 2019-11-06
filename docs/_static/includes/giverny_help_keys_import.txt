@@ -9,5 +9,5 @@ Flags:
       --passfile string   the file that contains the passphrase for the keyfile
 
 Global Flags:
-  -k, --keystore string   keystore directory (default "/home/martin/.monet/keystore")
+  -k, --keystore string   keystore directory (default "/home/user/.monet/keystore")
   -v, --verbose           verbose messages

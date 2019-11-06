@@ -16,6 +16,6 @@ Flags:
 
 Global Flags:
       --json              output JSON instead of human-readable format
-      --keystore string   keystore directory (default "/home/martin/.monet/keystore")
+      --keystore string   keystore directory (default "/home/user/.monet/keystore")
       --passfile string   file containing the passphrase
   -v, --verbose           verbose output

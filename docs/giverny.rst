@@ -13,6 +13,7 @@ The current subcommands are:
 - **keys** --- key management tools
 - **network** --- configure and build networks
 - **transactions** --- generate test transactions sets
+- **parse** --- parse a genesis file
 
 ***********
 Global Flag
@@ -347,4 +348,35 @@ using the ``solo`` command.
 
 .. include:: _static/includes/giverny_help_transactions_solo.txt
     :code: bash
+
+*****
+parse
+*****
+
+The ``giverny parse`` command parses a given genesis file to report the
+initial whitelist set and whether the bytecode matches the release bytecode for
+your currently installed giverny version.
+
+.. include:: _static/includes/giverny_parse.txt
+    :code: bash
+
+
+An example session is included below:
+
+.. code:: bash
+
+    $ giverny parse $HOME/.giverny/networks/joinleavetest/genesis.json
+
+    POA Address:  0xaabbaabbaabbaabbaabbaabbaabbaabbaabbaabb
+
+    4 peers found
+
+    0xd813b4c2f416bf9cc038b2b3ebbcf8f0bfc6d713  node0
+    0x4a47de4f72810f4f002c254d7270877e8f24e145  node1
+    0xb582c7d8b6c6f496387eae9386d7e7724d96c61f  node2
+    0xd593c5797fbfbcc381c74ad8c9d322d1baa3bc40  node3
+
+    POA bytecode matches the standard contract
+
+
 
