@@ -1,22 +1,28 @@
 
 # Changelog
 
-## Unreleased
+## v0.3.2 (November 7, 2019)
 
-SECURITY:
 FEATURES:
-IMPROVEMENTS:
+
 - monetd~babble:   Added Suspended state to babble to allow recovery.
 - monetd~evm-lite: Added export endpoint which outputs a genesis.json file for
                    the current state.
+- giverny:         Added `giverny parse` command which extracts the peer list
+                   from the POA.Storage section of a genesis.json file. 
+
+IMPROVEMENTS:
+
 - monetd~e2e:      Added "rebuild" e2e test which creates a network from the 
                    state of the current endpoint.
 - monetd~evm-lite: Added support for setting the storage values for a contract
                    in the genesis block.        
 - monetd~poa:      Removed the solc dependency, moving to precompiled bytecode
-- giverny:         Added `giverny parse` command which extracts the peer list
-                   from the POA.Storage section of a genesis.json file.                                                
+                                               
 BUG FIXES:
+
+- monetd~babble:   Fixed store cache issues that prevented nodes to join when
+                   the caches were filled.
 
 ## v0.3.1 (October 25, 2019)
 
