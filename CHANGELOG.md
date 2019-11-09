@@ -4,8 +4,15 @@
 ## Unreleased
 
 SECURITY:
+
 FEATURES:
+
+- monetd~babble: automatically suspend node when undetermined-events since last
+                 run exceed --suspend-limit
+            
+
 IMROVEMENTS:
+
 BUG FIXES:
 
 ## v0.3.2 (November 7, 2019)

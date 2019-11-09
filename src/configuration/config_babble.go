@@ -16,6 +16,7 @@ var (
 	defaultBootstrap       = true
 	defaultMaxPool         = 2
 	defaultMaintenanceMode = false
+	defaultSuspendLimit    = 300
 )
 
 // BabbleConfig contains the configuration for the Babble node used by monetd.
@@ -61,6 +62,10 @@ type BabbleConfig struct {
 	// suspended state. I.e. it does not start gossipping
 	MaintenanceMode bool `mapstructure:"maintenance-mode"`
 
+	// SuspendLimit is the number of undetermined-events produced since the last
+	// run, that will cause the node to be automaitically suspended.
+	SuspendLimit int `mapstructure:"suspend-limit"`
+
 	// Moniker is a friendly name to indentify this peer
 	Moniker string `mapstructure:"moniker"`
 }
@@ -76,5 +81,6 @@ func DefaultBabbleConfig() *BabbleConfig {
 		MaxPool:         defaultMaxPool,
 		Bootstrap:       defaultBootstrap,
 		MaintenanceMode: defaultMaintenanceMode,
+		SuspendLimit:    defaultSuspendLimit,
 	}
 }

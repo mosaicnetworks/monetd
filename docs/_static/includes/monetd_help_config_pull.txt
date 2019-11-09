@@ -21,7 +21,7 @@ Examples:
   monetd config pull "192.168.5.1:8080"
 
 Flags:
-      --address string    IP/hostname of this node (default "192.168.1.14")
+      --address string    IP/hostname of this node (default "192.168.0.13")
       --config string     output directory (default "/home/user/.monet/monetd-config")
   -f, --force             don't prompt before manipulating files
   -h, --help              help for pull

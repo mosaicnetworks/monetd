@@ -11,7 +11,7 @@ Usage:
   monetd config build [moniker] [flags]
 
 Flags:
-      --address string    IP/hostname of this node (default "192.168.1.14")
+      --address string    IP/hostname of this node (default "192.168.0.13")
       --config string     output directory (default "/home/user/.monet/monetd-config")
   -h, --help              help for build
       --keystore string   keystore directory (default "/home/user/.monet/keystore")

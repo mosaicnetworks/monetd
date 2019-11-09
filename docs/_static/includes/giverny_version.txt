@@ -1,5 +1,5 @@
 [..monetd] $ giverny version
-Monetd Version: 0.3.1-develop-282d10f6
-     EVM-Lite Version: 0.3.5-develop
-     Babble Version: 0.5.9-develop
+Monetd Version: 0.3.2-develop-77cd48e4
+     EVM-Lite Version: 0.3.6-develop
+     Babble Version: 0.5.10-develop
      Geth Version: 1.8.27

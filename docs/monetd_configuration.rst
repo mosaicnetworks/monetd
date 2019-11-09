@@ -73,12 +73,14 @@ Options pertaining to the operation of the node are read from the
     Flags:
           --api-listen string           IP:PORT of HTTP API service (default ":8080")
           --babble.advertise string     advertise IP:PORT of Babble node
-          --babble.bootstrap            bootstrap Babble from database
+          --babble.bootstrap            bootstrap Babble from database (default true)
           --babble.cache-size int       number of items in LRU caches (default 50000)
           --babble.heartbeat duration   heartbeat timer milliseconds (time between gossips) (default 200ms)
-          --babble.listen string        bind IP:PORT of Babble node (default "192.168.1.3:1337")
+          --babble.listen string        bind IP:PORT of Babble node (default "192.168.0.13:1337")
+          --babble.maintenance-mode     start babble in suspended (non-gossipping) state
           --babble.max-pool int         max number of pool connections (default 2)
           --babble.moniker string       friendly name
+          --babble.suspend-limit int    number of undetermined-events since last run that will trigger automatic suspension (default 300)
           --babble.sync-limit int       max number of Events per sync (default 1000)
           --babble.timeout duration     TCP timeout milliseconds (default 1s)
       -c, --config string               configuration directory (default "/home/martin/.monet/monetd-config")
@@ -86,7 +88,7 @@ Options pertaining to the operation of the node are read from the
           --eth.cache int               megabytes of memory allocated to internal caching (min 16MB / database forced) (default 128)
           --eth.min-gas-price string    minimum gasprice of transactions submitted through this node (ex 1K, 1M, 1G, etc.) (default "0")
       -h, --help                        help for run
-
+    
     Global Flags:
       -v, --verbose   verbose output
 
