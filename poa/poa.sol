@@ -1,4 +1,4 @@
-pragma solidity >=0.4.22;
+pragma solidity ^0.5.11;
 
     /// @title Proof of Authority Whitelist Proof of Concept
     /// @author Jon Knight
@@ -39,7 +39,7 @@ pragma solidity >=0.4.22;
             address indexed _nominee,
             address indexed _proposer
         );
-    
+
     /// @notice Event emitted when the eviction vote reached a decision
     /// @param _nominee The address of the nominee
     /// @param _yesVotes The total number of yes votes cast for the nominee to date
@@ -51,7 +51,7 @@ pragma solidity >=0.4.22;
             uint _noVotes,
             bool indexed _accepted
         );
-    
+
     /// @notice Event emitted when a eviction vote is cast
     /// @param _nominee The address of the nominee
     /// @param _voter The address of the person who cast the vote
@@ -65,7 +65,7 @@ pragma solidity >=0.4.22;
             uint _noVotes,
             bool indexed _accepted
         );
-    
+
     /// @notice Event emitted when a nominee is proposed
     /// @param _nominee The address of the nominee
     /// @param _proposer The address of the person who proposed the nominee
@@ -73,9 +73,8 @@ pragma solidity >=0.4.22;
             address indexed _nominee,
             address indexed _proposer
         );
-    
-    
-    
+
+
     /// @notice Event emitted to announce a moniker
     /// @param _address The address of the user
     /// @param _moniker The moniker of the user
@@ -92,20 +91,18 @@ pragma solidity >=0.4.22;
             address indexed _address,
             string _message
         );
-    
-    
-    
-    
+
+
         struct WhitelistPerson {
           address person;
           uint  flags;
         }
-    
+
         struct NomineeVote {
           address voter;
           bool  accept;
         }
-    
+
         struct NomineeElection{
           address nominee;
           address proposer;
@@ -115,7 +112,7 @@ pragma solidity >=0.4.22;
           address[] yesArray;
           address[] noArray;
         }
-    
+
         mapping (address => WhitelistPerson) whiteList;
         uint whiteListCount;
         address[] whiteListArray;
@@ -129,14 +126,14 @@ pragma solidity >=0.4.22;
 /// @notice This is no longer required, but an empty function prevents older monetcli versions with the poa init command erroring
 function init () public payable checkAuthorisedModifier(msg.sender)
 {
-     
+
 }
 
 
 /// @notice Modifier to check if a sender is on the white list.
 modifier checkAuthorisedModifier(address _address)
 {
-     require(isWhitelisted(_address));
+     require(isWhitelisted(_address), "sender is not authorised");
      _;
 }
 
@@ -209,8 +206,8 @@ function isWhitelisted(address _address) private view returns (bool)
 /// @param _moniker the moniker of the new nominee as displayed during the voting process
  function submitNominee (address _nomineeAddress, bytes32 _moniker) public payable // checkAuthorisedModifier(msg.sender)
  {
-     if ((! isWhitelisted(_nomineeAddress)) && (! isNominee(_nomineeAddress)) )  
-     {   
+     if ((! isWhitelisted(_nomineeAddress)) && (! isNominee(_nomineeAddress)) )
+     {
         nomineeList[_nomineeAddress] = NomineeElection({nominee: _nomineeAddress, proposer: msg.sender,
                     yesVotes: 0, noVotes: 0, yesArray: new address[](0),noArray: new address[](0) });
         nomineeArray.push(_nomineeAddress);
@@ -221,8 +218,8 @@ function isWhitelisted(address _address) private view returns (bool)
         if (isWhitelisted(_nomineeAddress)) {
             emit POA_Error(_nomineeAddress, "On Whitelist");
         } else {
-            emit POA_Error(_nomineeAddress, "On Nominee list"); 
-        }    
+            emit POA_Error(_nomineeAddress, "On Nominee list");
+        }
      }
  }
 
@@ -232,8 +229,8 @@ function isWhitelisted(address _address) private view returns (bool)
  function submitEviction (address _nomineeAddress) public payable  checkAuthorisedModifier(msg.sender)
  {
 
-    if (isWhitelisted(_nomineeAddress)) 
-    { 
+    if (isWhitelisted(_nomineeAddress))
+    {
             evictionList[_nomineeAddress] = NomineeElection({nominee: _nomineeAddress, proposer: msg.sender,
                         yesVotes: 0, noVotes: 0, yesArray: new address[](0),noArray: new address[](0) });
             evictionArray.push(_nomineeAddress);
@@ -254,7 +251,8 @@ function isWhitelisted(address _address) private view returns (bool)
  ///@param _accepted Whether the vote is to accept (true) or reject (false) them.
  ///@return returns true if the vote has reached a decision, false if not
  ///@return only meaningful if the other return value is true, returns true if the nominee is now on the whitelist. false otherwise.
- function castNomineeVote(address _nomineeAddress, bool _accepted) public payable checkAuthorisedModifier(msg.sender) returns (bool decided, bool voteresult){
+ function castNomineeVote(address _nomineeAddress, bool _accepted)
+        public payable checkAuthorisedModifier(msg.sender) returns (bool decided, bool voteresult){
 
      decided = false;
      voteresult = false;
@@ -287,7 +285,7 @@ function isWhitelisted(address _address) private view returns (bool)
      }
      else
      {   // Not a nominee, so set decided to true
-         emit POA_Error(_nomineeAddress,"Not nominee");   
+         emit POA_Error(_nomineeAddress,"Not nominee");
          decided = true;
      }
 
@@ -304,7 +302,8 @@ function isWhitelisted(address _address) private view returns (bool)
  ///@param _accepted Whether the vote is to evict (true) or remain (false) them.
  ///@return returns true if the vote has reached a decision, false if not
  ///@return only meaningful if the other return value is true, returns true if the nominee is now evicted. false otherwise.
- function castEvictionVote(address _nomineeAddress, bool _accepted) public payable checkAuthorisedModifier(msg.sender) returns (bool decided, bool voteresult){
+ function castEvictionVote(address _nomineeAddress, bool _accepted)
+        public payable checkAuthorisedModifier(msg.sender) returns (bool decided, bool voteresult){
 
      decided = false;
      voteresult = false;
