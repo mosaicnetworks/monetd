@@ -4,16 +4,22 @@
 ## Unreleased
 
 SECURITY:
+FEATURES:
+IMPROVEMENTS:
+BUG FIXES:
+
+## v0.3.3 (November 14, 2019)
 
 FEATURES:
 
-- monetd~babble: automatically suspend node when undetermined-events since last
+- monetd~babble: Automatically suspend node when undetermined-events since last
                  run exceed --suspend-limit
             
-
-IMROVEMENTS:
-
 BUG FIXES:
+
+- monetd~babble: Disable writes to database during bootstrap process. This 
+                 prevents the database from doubling in size each time a node is
+                 bootstrapped.
 
 ## v0.3.2 (November 7, 2019)
 
