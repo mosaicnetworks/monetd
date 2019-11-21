@@ -25,9 +25,10 @@ done
 
 function statusCheck() {
    EXPECTED=$1
-   WHITE=$($MONETCLI  poa whitelist --silent | jq length)
-   NOM=$($MONETCLI  poa nominee list  --silent | jq length)
-   EVICT=$($MONETCLI  poa evictee list  --silent | jq length)
+
+   WHITE=$($MONETCLI  poa whitelist --silent --json | jq length)  # --silent
+   NOM=$($MONETCLI  poa nominee list --silent --json    | jq length)
+   EVICT=$($MONETCLI  poa evictee list --silent --json    | jq length)
 
    ACTUAL="${WHITE}_${NOM}_${EVICT}"
 
@@ -54,13 +55,13 @@ statusCheck 3_1_0 || exit 12
 
 
 #    - Node 0 votes Yes
-$MONETCLI poa nominee vote --verdict true --from node0  --silent  --pwd $mydir/../../networks/pwd.txt ${nodes[3]}
+$MONETCLI poa nominee vote --verdict yes --from node0  --silent  --pwd $mydir/../../networks/pwd.txt ${nodes[3]}
 
 statusCheck 3_1_0 || exit 13
 
 
 #    - Node 0 tries to vote again - should fail
-$MONETCLI poa nominee vote --verdict true --from node0  --silent --pwd $mydir/../../networks/pwd.txt ${nodes[3]}
+$MONETCLI poa nominee vote --verdict yes --from node0  --silent --pwd $mydir/../../networks/pwd.txt ${nodes[3]}
 
 statusCheck 3_1_0 || exit 14
 
@@ -72,7 +73,7 @@ statusCheck 3_1_0 || exit 15
 
 
 #    - Node 1 votes No
-$MONETCLI poa nominee vote --verdict n --from node1 --pwd $mydir/../../networks/pwd.txt ${nodes[3]}
+$MONETCLI poa nominee vote --verdict no --from node1 --pwd $mydir/../../networks/pwd.txt ${nodes[3]}
 
 
 $MONETCLI poa nominee list
@@ -87,19 +88,19 @@ statusCheck 3_1_0 || exit 17
 
 
 #    - Node 0 votes yes - this is the current point of failure
-$MONETCLI poa nominee vote --verdict true --from node0  --silent  --pwd $mydir/../../networks/pwd.txt ${nodes[3]}
+$MONETCLI poa nominee vote --verdict yes --from node0  --silent  --pwd $mydir/../../networks/pwd.txt ${nodes[3]}
 
 statusCheck 3_1_0 || exit 18
 
 
 #    - Node 1 votes yes
-$MONETCLI poa nominee vote --verdict true --from node1  --silent  --pwd $mydir/../../networks/pwd.txt ${nodes[3]}
+$MONETCLI poa nominee vote --verdict yes --from node1  --silent  --pwd $mydir/../../networks/pwd.txt ${nodes[3]}
 
 statusCheck 3_1_0 || exit 19
 
 
 #    - Node 2 votes yes - should be approved
-$MONETCLI poa nominee vote --verdict true --from node2  --silent  --pwd $mydir/../../networks/pwd.txt ${nodes[3]}
+$MONETCLI poa nominee vote --verdict yes --from node2  --silent  --pwd $mydir/../../networks/pwd.txt ${nodes[3]}
 
 statusCheck 4_0_0 || exit 20
 
@@ -116,7 +117,7 @@ $MONETCLI poa evictee new --pwd $mydir/../../networks/pwd.txt  --silent  --from 
 statusCheck 4_0_1 || exit 21
 
 #    - Node 0 votes to evict Node 3
-$MONETCLI poa evictee vote --verdict true --from node0  --silent  --pwd $mydir/../../networks/pwd.txt ${nodes[3]}
+$MONETCLI poa evictee vote --verdict yes --from node0  --silent  --pwd $mydir/../../networks/pwd.txt ${nodes[3]}
 
 statusCheck 4_0_1 || exit 22
 
@@ -126,7 +127,7 @@ $MONETCLI poa evictee new --pwd $mydir/../../networks/pwd.txt  --silent  --from 
 statusCheck 4_0_1 || exit 23
 
 #    - Node 1 votes No
-$MONETCLI poa evictee vote --verdict n --from node1  --silent  --pwd $mydir/../../networks/pwd.txt ${nodes[3]}
+$MONETCLI poa evictee vote --verdict no --from node1  --silent  --pwd $mydir/../../networks/pwd.txt ${nodes[3]}
 
 statusCheck 4_0_0 || exit 24
 
@@ -137,18 +138,18 @@ $MONETCLI poa evictee new --pwd $mydir/../../networks/pwd.txt  --silent  --from 
 statusCheck 4_0_1 || exit 25
 
 #    - Node 0 votes yes - this is the current point of failure
-$MONETCLI poa evictee vote --verdict true --from node0  --silent  --pwd $mydir/../../networks/pwd.txt ${nodes[3]}
+$MONETCLI poa evictee vote --verdict yes --from node0  --silent  --pwd $mydir/../../networks/pwd.txt ${nodes[3]}
 
 statusCheck 4_0_1 || exit 26
 
 #    - Node 1 votes yes
-$MONETCLI poa evictee vote --verdict true --from node1  --silent  --pwd $mydir/../../networks/pwd.txt ${nodes[3]}
+$MONETCLI poa evictee vote --verdict yes --from node1  --silent  --pwd $mydir/../../networks/pwd.txt ${nodes[3]}
 
 
 statusCheck 4_0_1 || exit 27
 
 #    - Node 2 votes yes - should be approved
-$MONETCLI poa evictee vote --verdict true --from node2  --silent  --pwd $mydir/../../networks/pwd.txt ${nodes[3]}
+$MONETCLI poa evictee vote --verdict yes --from node2  --silent  --pwd $mydir/../../networks/pwd.txt ${nodes[3]}
 
 
 statusCheck 3_0_0 || exit 28

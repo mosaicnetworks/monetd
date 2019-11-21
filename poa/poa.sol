@@ -229,7 +229,7 @@ function isWhitelisted(address _address) private view returns (bool)
  function submitEviction (address _nomineeAddress) public payable  checkAuthorisedModifier(msg.sender)
  {
 
-    if (isWhitelisted(_nomineeAddress))
+     if ((isWhitelisted(_nomineeAddress)) && (! isEvictee(_address);(_nomineeAddress)) )
     {
             evictionList[_nomineeAddress] = NomineeElection({nominee: _nomineeAddress, proposer: msg.sender,
                         yesVotes: 0, noVotes: 0, yesArray: new address[](0),noArray: new address[](0) });
@@ -238,8 +238,12 @@ function isWhitelisted(address _address) private view returns (bool)
             emit EvictionProposed(_nomineeAddress,  msg.sender);
         //        emit MonikerAnnounce(_nomineeAddress, _moniker);
     } else {
-        emit POA_Error(_nomineeAddress, "Not On Whitelist");
-    }
+        if (!isWhitelisted(_nomineeAddress)) {
+            emit POA_Error(_nomineeAddress, "Not on Whitelist");
+        } else {
+            emit POA_Error(_nomineeAddress, "On Evictee list");
+        }
+     }
 
  }
 
