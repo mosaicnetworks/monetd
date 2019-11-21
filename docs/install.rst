@@ -32,9 +32,9 @@ Downloads
 
 Download the latest version of monetd:
 
-- `Linux <https://dashboard.monet.network/api/downloads/applications/monetd/?os=linux>`__
-- `Mac <https://dashboard.monet.network/api/downloads/applications/monetd/?os=mac>`__
-- `Windows <https://dashboard.monet.network/api/downloads/applications/monetd/?os=windows>`__
+- `Linux <https://dashboard.monet.network/api/downloads/monetd/?os=linux>`__
+- `Mac <https://dashboard.monet.network/api/downloads/monetd/?os=mac>`__
+- `Windows <https://dashboard.monet.network/api/downloads/monetd/?os=windows>`__
 
 
 
@@ -42,7 +42,7 @@ Download the latest version of monetd:
 
 .. code ::
 
-    $ wget -O monetd -L "https://dashboard.monet.network/api/downloads/applications/monetd/?os=linux"
+    $ wget -O monetd -L "https://dashboard.monet.network/api/downloads/monetd/?os=linux"
 
     $ chmod 751 monetd
     $ sudo mv monetd /usr/local/bin/
