@@ -13,7 +13,7 @@ const (
 
     // GitVersion contains the branch, commit hash, and last commit commit 
     // from when this file was generated
-    GitVersion = "develop 95477dc Eviction Sanity Checks"
+    GitVersion = "develop 8c4c54a Compile Smart Contract with additional checks"
 
 	// StandardPOAContractByteCode is the bytecode for the standard POA contract precompiled
 	StandardPOAContractByteCode = "" +
@@ -279,43 +279,31 @@ const (
   	// StandardPOAContractABI is the ABI for the standard POA contract precompiled
 	StandardPOAContractABI = "[\n" +
     "\t{\n" +
-    "\t\t\"outputs\" : [],\n" +
-    "\t\t\"name\" : \"submitEviction\",\n" +
-    "\t\t\"constant\" : false,\n" +
-    "\t\t\"stateMutability\" : \"payable\",\n" +
-    "\t\t\"type\" : \"function\",\n" +
     "\t\t\"payable\" : true,\n" +
+    "\t\t\"type\" : \"function\",\n" +
+    "\t\t\"stateMutability\" : \"payable\",\n" +
+    "\t\t\"constant\" : false,\n" +
+    "\t\t\"name\" : \"submitEviction\",\n" +
     "\t\t\"inputs\" : [\n" +
     "\t\t\t{\n" +
     "\t\t\t\t\"internalType\" : \"address\",\n" +
     "\t\t\t\t\"type\" : \"address\",\n" +
     "\t\t\t\t\"name\" : \"_nomineeAddress\"\n" +
     "\t\t\t}\n" +
-    "\t\t]\n" +
+    "\t\t],\n" +
+    "\t\t\"outputs\" : []\n" +
     "\t},\n" +
     "\t{\n" +
     "\t\t\"stateMutability\" : \"view\",\n" +
-    "\t\t\"name\" : \"checkAuthorisedPublicKey\",\n" +
-    "\t\t\"outputs\" : [\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"name\" : \"\",\n" +
-    "\t\t\t\t\"internalType\" : \"bool\",\n" +
-    "\t\t\t\t\"type\" : \"bool\"\n" +
-    "\t\t\t}\n" +
-    "\t\t],\n" +
-    "\t\t\"constant\" : true,\n" +
+    "\t\t\"payable\" : false,\n" +
     "\t\t\"type\" : \"function\",\n" +
     "\t\t\"inputs\" : [\n" +
     "\t\t\t{\n" +
-    "\t\t\t\t\"name\" : \"_publicKey\",\n" +
     "\t\t\t\t\"type\" : \"bytes32\",\n" +
-    "\t\t\t\t\"internalType\" : \"bytes32\"\n" +
+    "\t\t\t\t\"internalType\" : \"bytes32\",\n" +
+    "\t\t\t\t\"name\" : \"_publicKey\"\n" +
     "\t\t\t}\n" +
     "\t\t],\n" +
-    "\t\t\"payable\" : false\n" +
-    "\t},\n" +
-    "\t{\n" +
-    "\t\t\"constant\" : true,\n" +
     "\t\t\"outputs\" : [\n" +
     "\t\t\t{\n" +
     "\t\t\t\t\"internalType\" : \"bool\",\n" +
@@ -323,22 +311,34 @@ const (
     "\t\t\t\t\"name\" : \"\"\n" +
     "\t\t\t}\n" +
     "\t\t],\n" +
+    "\t\t\"name\" : \"checkAuthorisedPublicKey\",\n" +
+    "\t\t\"constant\" : true\n" +
+    "\t},\n" +
+    "\t{\n" +
     "\t\t\"name\" : \"checkAuthorised\",\n" +
-    "\t\t\"stateMutability\" : \"view\",\n" +
-    "\t\t\"type\" : \"function\",\n" +
+    "\t\t\"constant\" : true,\n" +
     "\t\t\"inputs\" : [\n" +
     "\t\t\t{\n" +
-    "\t\t\t\t\"name\" : \"_address\",\n" +
     "\t\t\t\t\"type\" : \"address\",\n" +
-    "\t\t\t\t\"internalType\" : \"address\"\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"name\" : \"_address\"\n" +
     "\t\t\t}\n" +
     "\t\t],\n" +
-    "\t\t\"payable\" : false\n" +
+    "\t\t\"outputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"\",\n" +
+    "\t\t\t\t\"type\" : \"bool\",\n" +
+    "\t\t\t\t\"internalType\" : \"bool\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"type\" : \"function\",\n" +
+    "\t\t\"payable\" : false,\n" +
+    "\t\t\"stateMutability\" : \"view\"\n" +
     "\t},\n" +
     "\t{\n" +
     "\t\t\"stateMutability\" : \"view\",\n" +
-    "\t\t\"constant\" : true,\n" +
-    "\t\t\"name\" : \"getEvictionElection\",\n" +
+    "\t\t\"type\" : \"function\",\n" +
+    "\t\t\"payable\" : false,\n" +
     "\t\t\"outputs\" : [\n" +
     "\t\t\t{\n" +
     "\t\t\t\t\"name\" : \"nominee\",\n" +
@@ -351,9 +351,9 @@ const (
     "\t\t\t\t\"name\" : \"proposer\"\n" +
     "\t\t\t},\n" +
     "\t\t\t{\n" +
-    "\t\t\t\t\"type\" : \"uint256\",\n" +
+    "\t\t\t\t\"name\" : \"yesVotes\",\n" +
     "\t\t\t\t\"internalType\" : \"uint256\",\n" +
-    "\t\t\t\t\"name\" : \"yesVotes\"\n" +
+    "\t\t\t\t\"type\" : \"uint256\"\n" +
     "\t\t\t},\n" +
     "\t\t\t{\n" +
     "\t\t\t\t\"name\" : \"noVotes\",\n" +
@@ -361,59 +361,64 @@ const (
     "\t\t\t\t\"internalType\" : \"uint256\"\n" +
     "\t\t\t}\n" +
     "\t\t],\n" +
-    "\t\t\"type\" : \"function\",\n" +
     "\t\t\"inputs\" : [\n" +
     "\t\t\t{\n" +
-    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"name\" : \"_address\",\n" +
     "\t\t\t\t\"type\" : \"address\",\n" +
-    "\t\t\t\t\"name\" : \"_address\"\n" +
-    "\t\t\t}\n" +
-    "\t\t],\n" +
-    "\t\t\"payable\" : false\n" +
-    "\t},\n" +
-    "\t{\n" +
-    "\t\t\"stateMutability\" : \"view\",\n" +
-    "\t\t\"name\" : \"getNoVoteCount\",\n" +
-    "\t\t\"outputs\" : [\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"name\" : \"count\",\n" +
-    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
-    "\t\t\t\t\"type\" : \"uint256\"\n" +
+    "\t\t\t\t\"internalType\" : \"address\"\n" +
     "\t\t\t}\n" +
     "\t\t],\n" +
     "\t\t\"constant\" : true,\n" +
-    "\t\t\"inputs\" : [\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"type\" : \"address\",\n" +
-    "\t\t\t\t\"internalType\" : \"address\",\n" +
-    "\t\t\t\t\"name\" : \"_nomineeAddress\"\n" +
-    "\t\t\t}\n" +
-    "\t\t],\n" +
-    "\t\t\"type\" : \"function\",\n" +
-    "\t\t\"payable\" : false\n" +
+    "\t\t\"name\" : \"getEvictionElection\"\n" +
     "\t},\n" +
     "\t{\n" +
-    "\t\t\"payable\" : false,\n" +
-    "\t\t\"type\" : \"function\",\n" +
     "\t\t\"inputs\" : [\n" +
     "\t\t\t{\n" +
-    "\t\t\t\t\"type\" : \"uint256\",\n" +
-    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
-    "\t\t\t\t\"name\" : \"idx\"\n" +
-    "\t\t\t}\n" +
-    "\t\t],\n" +
-    "\t\t\"constant\" : true,\n" +
-    "\t\t\"name\" : \"getEvictionAddressFromIdx\",\n" +
-    "\t\t\"outputs\" : [\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"name\" : \"NomineeAddress\",\n" +
+    "\t\t\t\t\"name\" : \"_nomineeAddress\",\n" +
     "\t\t\t\t\"internalType\" : \"address\",\n" +
     "\t\t\t\t\"type\" : \"address\"\n" +
     "\t\t\t}\n" +
     "\t\t],\n" +
-    "\t\t\"stateMutability\" : \"view\"\n" +
+    "\t\t\"outputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
+    "\t\t\t\t\"type\" : \"uint256\",\n" +
+    "\t\t\t\t\"name\" : \"count\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"name\" : \"getNoVoteCount\",\n" +
+    "\t\t\"constant\" : true,\n" +
+    "\t\t\"stateMutability\" : \"view\",\n" +
+    "\t\t\"type\" : \"function\",\n" +
+    "\t\t\"payable\" : false\n" +
     "\t},\n" +
     "\t{\n" +
+    "\t\t\"stateMutability\" : \"view\",\n" +
+    "\t\t\"payable\" : false,\n" +
+    "\t\t\"type\" : \"function\",\n" +
+    "\t\t\"inputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"idx\",\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
+    "\t\t\t\t\"type\" : \"uint256\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"outputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"type\" : \"address\",\n" +
+    "\t\t\t\t\"name\" : \"NomineeAddress\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"constant\" : true,\n" +
+    "\t\t\"name\" : \"getEvictionAddressFromIdx\"\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"type\" : \"function\",\n" +
+    "\t\t\"payable\" : false,\n" +
+    "\t\t\"stateMutability\" : \"view\",\n" +
+    "\t\t\"name\" : \"getYesVoterFromIdx\",\n" +
+    "\t\t\"constant\" : true,\n" +
     "\t\t\"outputs\" : [\n" +
     "\t\t\t{\n" +
     "\t\t\t\t\"type\" : \"address\",\n" +
@@ -421,45 +426,27 @@ const (
     "\t\t\t\t\"name\" : \"voter\"\n" +
     "\t\t\t}\n" +
     "\t\t],\n" +
-    "\t\t\"name\" : \"getYesVoterFromIdx\",\n" +
-    "\t\t\"constant\" : true,\n" +
-    "\t\t\"stateMutability\" : \"view\",\n" +
-    "\t\t\"payable\" : false,\n" +
-    "\t\t\"type\" : \"function\",\n" +
     "\t\t\"inputs\" : [\n" +
     "\t\t\t{\n" +
-    "\t\t\t\t\"type\" : \"address\",\n" +
+    "\t\t\t\t\"name\" : \"_nomineeAddress\",\n" +
     "\t\t\t\t\"internalType\" : \"address\",\n" +
-    "\t\t\t\t\"name\" : \"_nomineeAddress\"\n" +
+    "\t\t\t\t\"type\" : \"address\"\n" +
     "\t\t\t},\n" +
     "\t\t\t{\n" +
     "\t\t\t\t\"name\" : \"_idx\",\n" +
-    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
-    "\t\t\t\t\"type\" : \"uint256\"\n" +
+    "\t\t\t\t\"type\" : \"uint256\",\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\"\n" +
     "\t\t\t}\n" +
     "\t\t]\n" +
     "\t},\n" +
     "\t{\n" +
-    "\t\t\"type\" : \"function\",\n" +
-    "\t\t\"payable\" : true,\n" +
-    "\t\t\"inputs\" : [\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"type\" : \"address\",\n" +
-    "\t\t\t\t\"internalType\" : \"address\",\n" +
-    "\t\t\t\t\"name\" : \"_nomineeAddress\"\n" +
-    "\t\t\t},\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"type\" : \"bool\",\n" +
-    "\t\t\t\t\"internalType\" : \"bool\",\n" +
-    "\t\t\t\t\"name\" : \"_accepted\"\n" +
-    "\t\t\t}\n" +
-    "\t\t],\n" +
+    "\t\t\"name\" : \"castEvictionVote\",\n" +
     "\t\t\"constant\" : false,\n" +
     "\t\t\"outputs\" : [\n" +
     "\t\t\t{\n" +
-    "\t\t\t\t\"internalType\" : \"bool\",\n" +
+    "\t\t\t\t\"name\" : \"decided\",\n" +
     "\t\t\t\t\"type\" : \"bool\",\n" +
-    "\t\t\t\t\"name\" : \"decided\"\n" +
+    "\t\t\t\t\"internalType\" : \"bool\"\n" +
     "\t\t\t},\n" +
     "\t\t\t{\n" +
     "\t\t\t\t\"name\" : \"voteresult\",\n" +
@@ -467,323 +454,11 @@ const (
     "\t\t\t\t\"internalType\" : \"bool\"\n" +
     "\t\t\t}\n" +
     "\t\t],\n" +
-    "\t\t\"name\" : \"castEvictionVote\",\n" +
-    "\t\t\"stateMutability\" : \"payable\"\n" +
-    "\t},\n" +
-    "\t{\n" +
-    "\t\t\"stateMutability\" : \"view\",\n" +
-    "\t\t\"constant\" : true,\n" +
-    "\t\t\"outputs\" : [\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"type\" : \"address\",\n" +
-    "\t\t\t\t\"internalType\" : \"address\",\n" +
-    "\t\t\t\t\"name\" : \"nominee\"\n" +
-    "\t\t\t},\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"name\" : \"proposer\",\n" +
-    "\t\t\t\t\"internalType\" : \"address\",\n" +
-    "\t\t\t\t\"type\" : \"address\"\n" +
-    "\t\t\t},\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"name\" : \"yesVotes\",\n" +
-    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
-    "\t\t\t\t\"type\" : \"uint256\"\n" +
-    "\t\t\t},\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
-    "\t\t\t\t\"type\" : \"uint256\",\n" +
-    "\t\t\t\t\"name\" : \"noVotes\"\n" +
-    "\t\t\t}\n" +
-    "\t\t],\n" +
-    "\t\t\"name\" : \"getNomineeElection\",\n" +
-    "\t\t\"type\" : \"function\",\n" +
-    "\t\t\"inputs\" : [\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"name\" : \"_address\",\n" +
-    "\t\t\t\t\"internalType\" : \"address\",\n" +
-    "\t\t\t\t\"type\" : \"address\"\n" +
-    "\t\t\t}\n" +
-    "\t\t],\n" +
-    "\t\t\"payable\" : false\n" +
-    "\t},\n" +
-    "\t{\n" +
     "\t\t\"inputs\" : [\n" +
     "\t\t\t{\n" +
     "\t\t\t\t\"type\" : \"address\",\n" +
     "\t\t\t\t\"internalType\" : \"address\",\n" +
     "\t\t\t\t\"name\" : \"_nomineeAddress\"\n" +
-    "\t\t\t},\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"name\" : \"_idx\",\n" +
-    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
-    "\t\t\t\t\"type\" : \"uint256\"\n" +
-    "\t\t\t}\n" +
-    "\t\t],\n" +
-    "\t\t\"type\" : \"function\",\n" +
-    "\t\t\"payable\" : false,\n" +
-    "\t\t\"stateMutability\" : \"view\",\n" +
-    "\t\t\"name\" : \"getNoVoterFromIdx\",\n" +
-    "\t\t\"outputs\" : [\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"name\" : \"voter\",\n" +
-    "\t\t\t\t\"internalType\" : \"address\",\n" +
-    "\t\t\t\t\"type\" : \"address\"\n" +
-    "\t\t\t}\n" +
-    "\t\t],\n" +
-    "\t\t\"constant\" : true\n" +
-    "\t},\n" +
-    "\t{\n" +
-    "\t\t\"type\" : \"function\",\n" +
-    "\t\t\"payable\" : false,\n" +
-    "\t\t\"inputs\" : [\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"name\" : \"idx\",\n" +
-    "\t\t\t\t\"type\" : \"uint256\",\n" +
-    "\t\t\t\t\"internalType\" : \"uint256\"\n" +
-    "\t\t\t}\n" +
-    "\t\t],\n" +
-    "\t\t\"outputs\" : [\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"name\" : \"nominee\",\n" +
-    "\t\t\t\t\"internalType\" : \"address\",\n" +
-    "\t\t\t\t\"type\" : \"address\"\n" +
-    "\t\t\t},\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"name\" : \"proposer\",\n" +
-    "\t\t\t\t\"type\" : \"address\",\n" +
-    "\t\t\t\t\"internalType\" : \"address\"\n" +
-    "\t\t\t},\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"name\" : \"yesVotes\",\n" +
-    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
-    "\t\t\t\t\"type\" : \"uint256\"\n" +
-    "\t\t\t},\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
-    "\t\t\t\t\"type\" : \"uint256\",\n" +
-    "\t\t\t\t\"name\" : \"noVotes\"\n" +
-    "\t\t\t}\n" +
-    "\t\t],\n" +
-    "\t\t\"name\" : \"getNomineeElectionFromIdx\",\n" +
-    "\t\t\"constant\" : true,\n" +
-    "\t\t\"stateMutability\" : \"view\"\n" +
-    "\t},\n" +
-    "\t{\n" +
-    "\t\t\"stateMutability\" : \"view\",\n" +
-    "\t\t\"constant\" : true,\n" +
-    "\t\t\"name\" : \"getCurrentEvictionVotes\",\n" +
-    "\t\t\"outputs\" : [\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"type\" : \"uint256\",\n" +
-    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
-    "\t\t\t\t\"name\" : \"yes\"\n" +
-    "\t\t\t},\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"name\" : \"no\",\n" +
-    "\t\t\t\t\"type\" : \"uint256\",\n" +
-    "\t\t\t\t\"internalType\" : \"uint256\"\n" +
-    "\t\t\t}\n" +
-    "\t\t],\n" +
-    "\t\t\"payable\" : false,\n" +
-    "\t\t\"type\" : \"function\",\n" +
-    "\t\t\"inputs\" : [\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"name\" : \"_address\",\n" +
-    "\t\t\t\t\"internalType\" : \"address\",\n" +
-    "\t\t\t\t\"type\" : \"address\"\n" +
-    "\t\t\t}\n" +
-    "\t\t]\n" +
-    "\t},\n" +
-    "\t{\n" +
-    "\t\t\"outputs\" : [\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"name\" : \"voter\",\n" +
-    "\t\t\t\t\"internalType\" : \"address\",\n" +
-    "\t\t\t\t\"type\" : \"address\"\n" +
-    "\t\t\t}\n" +
-    "\t\t],\n" +
-    "\t\t\"name\" : \"getEvictionNoVoterFromIdx\",\n" +
-    "\t\t\"constant\" : true,\n" +
-    "\t\t\"stateMutability\" : \"view\",\n" +
-    "\t\t\"payable\" : false,\n" +
-    "\t\t\"type\" : \"function\",\n" +
-    "\t\t\"inputs\" : [\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"internalType\" : \"address\",\n" +
-    "\t\t\t\t\"type\" : \"address\",\n" +
-    "\t\t\t\t\"name\" : \"_nomineeAddress\"\n" +
-    "\t\t\t},\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"name\" : \"_idx\",\n" +
-    "\t\t\t\t\"type\" : \"uint256\",\n" +
-    "\t\t\t\t\"internalType\" : \"uint256\"\n" +
-    "\t\t\t}\n" +
-    "\t\t]\n" +
-    "\t},\n" +
-    "\t{\n" +
-    "\t\t\"name\" : \"getWhiteListCount\",\n" +
-    "\t\t\"outputs\" : [\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"name\" : \"count\",\n" +
-    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
-    "\t\t\t\t\"type\" : \"uint256\"\n" +
-    "\t\t\t}\n" +
-    "\t\t],\n" +
-    "\t\t\"constant\" : true,\n" +
-    "\t\t\"stateMutability\" : \"view\",\n" +
-    "\t\t\"type\" : \"function\",\n" +
-    "\t\t\"inputs\" : [],\n" +
-    "\t\t\"payable\" : false\n" +
-    "\t},\n" +
-    "\t{\n" +
-    "\t\t\"inputs\" : [\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"internalType\" : \"address\",\n" +
-    "\t\t\t\t\"type\" : \"address\",\n" +
-    "\t\t\t\t\"name\" : \"_nomineeAddress\"\n" +
-    "\t\t\t}\n" +
-    "\t\t],\n" +
-    "\t\t\"type\" : \"function\",\n" +
-    "\t\t\"payable\" : false,\n" +
-    "\t\t\"stateMutability\" : \"view\",\n" +
-    "\t\t\"constant\" : true,\n" +
-    "\t\t\"name\" : \"getEvictionNoVoteCount\",\n" +
-    "\t\t\"outputs\" : [\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"name\" : \"count\",\n" +
-    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
-    "\t\t\t\t\"type\" : \"uint256\"\n" +
-    "\t\t\t}\n" +
-    "\t\t]\n" +
-    "\t},\n" +
-    "\t{\n" +
-    "\t\t\"constant\" : true,\n" +
-    "\t\t\"outputs\" : [\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
-    "\t\t\t\t\"type\" : \"uint256\",\n" +
-    "\t\t\t\t\"name\" : \"count\"\n" +
-    "\t\t\t}\n" +
-    "\t\t],\n" +
-    "\t\t\"name\" : \"getNomineeCount\",\n" +
-    "\t\t\"stateMutability\" : \"view\",\n" +
-    "\t\t\"inputs\" : [],\n" +
-    "\t\t\"type\" : \"function\",\n" +
-    "\t\t\"payable\" : false\n" +
-    "\t},\n" +
-    "\t{\n" +
-    "\t\t\"payable\" : false,\n" +
-    "\t\t\"type\" : \"function\",\n" +
-    "\t\t\"inputs\" : [\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
-    "\t\t\t\t\"type\" : \"uint256\",\n" +
-    "\t\t\t\t\"name\" : \"idx\"\n" +
-    "\t\t\t}\n" +
-    "\t\t],\n" +
-    "\t\t\"stateMutability\" : \"view\",\n" +
-    "\t\t\"constant\" : true,\n" +
-    "\t\t\"name\" : \"getWhiteListAddressFromIdx\",\n" +
-    "\t\t\"outputs\" : [\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"name\" : \"WhiteListAddress\",\n" +
-    "\t\t\t\t\"type\" : \"address\",\n" +
-    "\t\t\t\t\"internalType\" : \"address\"\n" +
-    "\t\t\t}\n" +
-    "\t\t]\n" +
-    "\t},\n" +
-    "\t{\n" +
-    "\t\t\"type\" : \"function\",\n" +
-    "\t\t\"inputs\" : [\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"type\" : \"uint256\",\n" +
-    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
-    "\t\t\t\t\"name\" : \"idx\"\n" +
-    "\t\t\t}\n" +
-    "\t\t],\n" +
-    "\t\t\"payable\" : false,\n" +
-    "\t\t\"stateMutability\" : \"view\",\n" +
-    "\t\t\"constant\" : true,\n" +
-    "\t\t\"outputs\" : [\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"name\" : \"NomineeAddress\",\n" +
-    "\t\t\t\t\"type\" : \"address\",\n" +
-    "\t\t\t\t\"internalType\" : \"address\"\n" +
-    "\t\t\t}\n" +
-    "\t\t],\n" +
-    "\t\t\"name\" : \"getNomineeAddressFromIdx\"\n" +
-    "\t},\n" +
-    "\t{\n" +
-    "\t\t\"stateMutability\" : \"view\",\n" +
-    "\t\t\"name\" : \"getYesVoteCount\",\n" +
-    "\t\t\"outputs\" : [\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"type\" : \"uint256\",\n" +
-    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
-    "\t\t\t\t\"name\" : \"count\"\n" +
-    "\t\t\t}\n" +
-    "\t\t],\n" +
-    "\t\t\"constant\" : true,\n" +
-    "\t\t\"type\" : \"function\",\n" +
-    "\t\t\"payable\" : false,\n" +
-    "\t\t\"inputs\" : [\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"name\" : \"_nomineeAddress\",\n" +
-    "\t\t\t\t\"internalType\" : \"address\",\n" +
-    "\t\t\t\t\"type\" : \"address\"\n" +
-    "\t\t\t}\n" +
-    "\t\t]\n" +
-    "\t},\n" +
-    "\t{\n" +
-    "\t\t\"name\" : \"getMoniker\",\n" +
-    "\t\t\"outputs\" : [\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"name\" : \"moniker\",\n" +
-    "\t\t\t\t\"type\" : \"bytes32\",\n" +
-    "\t\t\t\t\"internalType\" : \"bytes32\"\n" +
-    "\t\t\t}\n" +
-    "\t\t],\n" +
-    "\t\t\"constant\" : true,\n" +
-    "\t\t\"stateMutability\" : \"view\",\n" +
-    "\t\t\"inputs\" : [\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"internalType\" : \"address\",\n" +
-    "\t\t\t\t\"type\" : \"address\",\n" +
-    "\t\t\t\t\"name\" : \"_address\"\n" +
-    "\t\t\t}\n" +
-    "\t\t],\n" +
-    "\t\t\"type\" : \"function\",\n" +
-    "\t\t\"payable\" : false\n" +
-    "\t},\n" +
-    "\t{\n" +
-    "\t\t\"inputs\" : [\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"name\" : \"_nomineeAddress\",\n" +
-    "\t\t\t\t\"type\" : \"address\",\n" +
-    "\t\t\t\t\"internalType\" : \"address\"\n" +
-    "\t\t\t}\n" +
-    "\t\t],\n" +
-    "\t\t\"type\" : \"function\",\n" +
-    "\t\t\"payable\" : false,\n" +
-    "\t\t\"stateMutability\" : \"view\",\n" +
-    "\t\t\"outputs\" : [\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"name\" : \"count\",\n" +
-    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
-    "\t\t\t\t\"type\" : \"uint256\"\n" +
-    "\t\t\t}\n" +
-    "\t\t],\n" +
-    "\t\t\"name\" : \"getEvictionYesVoteCount\",\n" +
-    "\t\t\"constant\" : true\n" +
-    "\t},\n" +
-    "\t{\n" +
-    "\t\t\"type\" : \"function\",\n" +
-    "\t\t\"payable\" : true,\n" +
-    "\t\t\"inputs\" : [\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"name\" : \"_nomineeAddress\",\n" +
-    "\t\t\t\t\"type\" : \"address\",\n" +
-    "\t\t\t\t\"internalType\" : \"address\"\n" +
     "\t\t\t},\n" +
     "\t\t\t{\n" +
     "\t\t\t\t\"type\" : \"bool\",\n" +
@@ -791,47 +466,37 @@ const (
     "\t\t\t\t\"name\" : \"_accepted\"\n" +
     "\t\t\t}\n" +
     "\t\t],\n" +
-    "\t\t\"name\" : \"castNomineeVote\",\n" +
-    "\t\t\"outputs\" : [\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"internalType\" : \"bool\",\n" +
-    "\t\t\t\t\"type\" : \"bool\",\n" +
-    "\t\t\t\t\"name\" : \"decided\"\n" +
-    "\t\t\t},\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"internalType\" : \"bool\",\n" +
-    "\t\t\t\t\"type\" : \"bool\",\n" +
-    "\t\t\t\t\"name\" : \"voteresult\"\n" +
-    "\t\t\t}\n" +
-    "\t\t],\n" +
-    "\t\t\"constant\" : false,\n" +
+    "\t\t\"payable\" : true,\n" +
+    "\t\t\"type\" : \"function\",\n" +
     "\t\t\"stateMutability\" : \"payable\"\n" +
     "\t},\n" +
     "\t{\n" +
-    "\t\t\"inputs\" : [],\n" +
+    "\t\t\"payable\" : false,\n" +
     "\t\t\"type\" : \"function\",\n" +
-    "\t\t\"payable\" : true,\n" +
-    "\t\t\"stateMutability\" : \"payable\",\n" +
-    "\t\t\"outputs\" : [],\n" +
-    "\t\t\"name\" : \"init\",\n" +
-    "\t\t\"constant\" : false\n" +
-    "\t},\n" +
-    "\t{\n" +
+    "\t\t\"stateMutability\" : \"view\",\n" +
     "\t\t\"constant\" : true,\n" +
+    "\t\t\"name\" : \"getNomineeElection\",\n" +
+    "\t\t\"inputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"type\" : \"address\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"name\" : \"_address\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
     "\t\t\"outputs\" : [\n" +
     "\t\t\t{\n" +
-    "\t\t\t\t\"name\" : \"nominee\",\n" +
-    "\t\t\t\t\"type\" : \"address\",\n" +
-    "\t\t\t\t\"internalType\" : \"address\"\n" +
-    "\t\t\t},\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"name\" : \"proposer\",\n" +
     "\t\t\t\t\"internalType\" : \"address\",\n" +
-    "\t\t\t\t\"type\" : \"address\"\n" +
+    "\t\t\t\t\"type\" : \"address\",\n" +
+    "\t\t\t\t\"name\" : \"nominee\"\n" +
     "\t\t\t},\n" +
     "\t\t\t{\n" +
-    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"type\" : \"address\",\n" +
+    "\t\t\t\t\"name\" : \"proposer\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
     "\t\t\t\t\"type\" : \"uint256\",\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
     "\t\t\t\t\"name\" : \"yesVotes\"\n" +
     "\t\t\t},\n" +
     "\t\t\t{\n" +
@@ -839,27 +504,81 @@ const (
     "\t\t\t\t\"type\" : \"uint256\",\n" +
     "\t\t\t\t\"name\" : \"noVotes\"\n" +
     "\t\t\t}\n" +
-    "\t\t],\n" +
-    "\t\t\"name\" : \"getEvictionElectionFromIdx\",\n" +
-    "\t\t\"stateMutability\" : \"view\",\n" +
-    "\t\t\"payable\" : false,\n" +
+    "\t\t]\n" +
+    "\t},\n" +
+    "\t{\n" +
     "\t\t\"type\" : \"function\",\n" +
+    "\t\t\"payable\" : false,\n" +
+    "\t\t\"stateMutability\" : \"view\",\n" +
+    "\t\t\"name\" : \"getNoVoterFromIdx\",\n" +
+    "\t\t\"constant\" : true,\n" +
     "\t\t\"inputs\" : [\n" +
     "\t\t\t{\n" +
-    "\t\t\t\t\"name\" : \"idx\",\n" +
+    "\t\t\t\t\"type\" : \"address\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"name\" : \"_nomineeAddress\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
     "\t\t\t\t\"internalType\" : \"uint256\",\n" +
-    "\t\t\t\t\"type\" : \"uint256\"\n" +
+    "\t\t\t\t\"type\" : \"uint256\",\n" +
+    "\t\t\t\t\"name\" : \"_idx\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"outputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"voter\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"type\" : \"address\"\n" +
     "\t\t\t}\n" +
     "\t\t]\n" +
     "\t},\n" +
     "\t{\n" +
     "\t\t\"stateMutability\" : \"view\",\n" +
-    "\t\t\"constant\" : true,\n" +
+    "\t\t\"type\" : \"function\",\n" +
+    "\t\t\"payable\" : false,\n" +
+    "\t\t\"inputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"idx\",\n" +
+    "\t\t\t\t\"type\" : \"uint256\",\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
     "\t\t\"outputs\" : [\n" +
     "\t\t\t{\n" +
-    "\t\t\t\t\"type\" : \"uint256\",\n" +
+    "\t\t\t\t\"name\" : \"nominee\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"type\" : \"address\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"proposer\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"type\" : \"address\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"yesVotes\",\n" +
     "\t\t\t\t\"internalType\" : \"uint256\",\n" +
-    "\t\t\t\t\"name\" : \"yes\"\n" +
+    "\t\t\t\t\"type\" : \"uint256\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"noVotes\",\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
+    "\t\t\t\t\"type\" : \"uint256\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"name\" : \"getNomineeElectionFromIdx\",\n" +
+    "\t\t\"constant\" : true\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"type\" : \"function\",\n" +
+    "\t\t\"payable\" : false,\n" +
+    "\t\t\"stateMutability\" : \"view\",\n" +
+    "\t\t\"constant\" : true,\n" +
+    "\t\t\"name\" : \"getCurrentEvictionVotes\",\n" +
+    "\t\t\"outputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"yes\",\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
+    "\t\t\t\t\"type\" : \"uint256\"\n" +
     "\t\t\t},\n" +
     "\t\t\t{\n" +
     "\t\t\t\t\"name\" : \"no\",\n" +
@@ -867,23 +586,307 @@ const (
     "\t\t\t\t\"type\" : \"uint256\"\n" +
     "\t\t\t}\n" +
     "\t\t],\n" +
-    "\t\t\"name\" : \"getCurrentNomineeVotes\",\n" +
     "\t\t\"inputs\" : [\n" +
     "\t\t\t{\n" +
     "\t\t\t\t\"internalType\" : \"address\",\n" +
     "\t\t\t\t\"type\" : \"address\",\n" +
     "\t\t\t\t\"name\" : \"_address\"\n" +
     "\t\t\t}\n" +
-    "\t\t],\n" +
-    "\t\t\"type\" : \"function\",\n" +
-    "\t\t\"payable\" : false\n" +
+    "\t\t]\n" +
     "\t},\n" +
     "\t{\n" +
+    "\t\t\"type\" : \"function\",\n" +
+    "\t\t\"payable\" : false,\n" +
+    "\t\t\"stateMutability\" : \"view\",\n" +
+    "\t\t\"constant\" : true,\n" +
+    "\t\t\"name\" : \"getEvictionNoVoterFromIdx\",\n" +
+    "\t\t\"inputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"_nomineeAddress\",\n" +
+    "\t\t\t\t\"type\" : \"address\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"_idx\",\n" +
+    "\t\t\t\t\"type\" : \"uint256\",\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"outputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"type\" : \"address\",\n" +
+    "\t\t\t\t\"name\" : \"voter\"\n" +
+    "\t\t\t}\n" +
+    "\t\t]\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"type\" : \"function\",\n" +
+    "\t\t\"payable\" : false,\n" +
+    "\t\t\"stateMutability\" : \"view\",\n" +
+    "\t\t\"name\" : \"getWhiteListCount\",\n" +
+    "\t\t\"constant\" : true,\n" +
+    "\t\t\"inputs\" : [],\n" +
+    "\t\t\"outputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"count\",\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
+    "\t\t\t\t\"type\" : \"uint256\"\n" +
+    "\t\t\t}\n" +
+    "\t\t]\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"constant\" : true,\n" +
+    "\t\t\"name\" : \"getEvictionNoVoteCount\",\n" +
+    "\t\t\"outputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"count\",\n" +
+    "\t\t\t\t\"type\" : \"uint256\",\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
     "\t\t\"inputs\" : [\n" +
     "\t\t\t{\n" +
     "\t\t\t\t\"type\" : \"address\",\n" +
     "\t\t\t\t\"internalType\" : \"address\",\n" +
     "\t\t\t\t\"name\" : \"_nomineeAddress\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"type\" : \"function\",\n" +
+    "\t\t\"payable\" : false,\n" +
+    "\t\t\"stateMutability\" : \"view\"\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"payable\" : false,\n" +
+    "\t\t\"type\" : \"function\",\n" +
+    "\t\t\"stateMutability\" : \"view\",\n" +
+    "\t\t\"name\" : \"getNomineeCount\",\n" +
+    "\t\t\"constant\" : true,\n" +
+    "\t\t\"inputs\" : [],\n" +
+    "\t\t\"outputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"count\",\n" +
+    "\t\t\t\t\"type\" : \"uint256\",\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\"\n" +
+    "\t\t\t}\n" +
+    "\t\t]\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"stateMutability\" : \"view\",\n" +
+    "\t\t\"type\" : \"function\",\n" +
+    "\t\t\"payable\" : false,\n" +
+    "\t\t\"outputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"type\" : \"address\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"name\" : \"WhiteListAddress\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"inputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"idx\",\n" +
+    "\t\t\t\t\"type\" : \"uint256\",\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"constant\" : true,\n" +
+    "\t\t\"name\" : \"getWhiteListAddressFromIdx\"\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"type\" : \"function\",\n" +
+    "\t\t\"payable\" : false,\n" +
+    "\t\t\"stateMutability\" : \"view\",\n" +
+    "\t\t\"name\" : \"getNomineeAddressFromIdx\",\n" +
+    "\t\t\"constant\" : true,\n" +
+    "\t\t\"inputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
+    "\t\t\t\t\"type\" : \"uint256\",\n" +
+    "\t\t\t\t\"name\" : \"idx\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"outputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"NomineeAddress\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"type\" : \"address\"\n" +
+    "\t\t\t}\n" +
+    "\t\t]\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"type\" : \"function\",\n" +
+    "\t\t\"payable\" : false,\n" +
+    "\t\t\"stateMutability\" : \"view\",\n" +
+    "\t\t\"name\" : \"getYesVoteCount\",\n" +
+    "\t\t\"constant\" : true,\n" +
+    "\t\t\"inputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"type\" : \"address\",\n" +
+    "\t\t\t\t\"name\" : \"_nomineeAddress\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"outputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"count\",\n" +
+    "\t\t\t\t\"type\" : \"uint256\",\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\"\n" +
+    "\t\t\t}\n" +
+    "\t\t]\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"type\" : \"function\",\n" +
+    "\t\t\"payable\" : false,\n" +
+    "\t\t\"stateMutability\" : \"view\",\n" +
+    "\t\t\"name\" : \"getMoniker\",\n" +
+    "\t\t\"constant\" : true,\n" +
+    "\t\t\"inputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"_address\",\n" +
+    "\t\t\t\t\"type\" : \"address\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"outputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"type\" : \"bytes32\",\n" +
+    "\t\t\t\t\"internalType\" : \"bytes32\",\n" +
+    "\t\t\t\t\"name\" : \"moniker\"\n" +
+    "\t\t\t}\n" +
+    "\t\t]\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"type\" : \"function\",\n" +
+    "\t\t\"payable\" : false,\n" +
+    "\t\t\"stateMutability\" : \"view\",\n" +
+    "\t\t\"name\" : \"getEvictionYesVoteCount\",\n" +
+    "\t\t\"constant\" : true,\n" +
+    "\t\t\"inputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"_nomineeAddress\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"type\" : \"address\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"outputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"count\",\n" +
+    "\t\t\t\t\"type\" : \"uint256\",\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\"\n" +
+    "\t\t\t}\n" +
+    "\t\t]\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"payable\" : true,\n" +
+    "\t\t\"type\" : \"function\",\n" +
+    "\t\t\"stateMutability\" : \"payable\",\n" +
+    "\t\t\"name\" : \"castNomineeVote\",\n" +
+    "\t\t\"constant\" : false,\n" +
+    "\t\t\"outputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"decided\",\n" +
+    "\t\t\t\t\"internalType\" : \"bool\",\n" +
+    "\t\t\t\t\"type\" : \"bool\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"voteresult\",\n" +
+    "\t\t\t\t\"internalType\" : \"bool\",\n" +
+    "\t\t\t\t\"type\" : \"bool\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"inputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"type\" : \"address\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"name\" : \"_nomineeAddress\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"_accepted\",\n" +
+    "\t\t\t\t\"internalType\" : \"bool\",\n" +
+    "\t\t\t\t\"type\" : \"bool\"\n" +
+    "\t\t\t}\n" +
+    "\t\t]\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"name\" : \"init\",\n" +
+    "\t\t\"constant\" : false,\n" +
+    "\t\t\"outputs\" : [],\n" +
+    "\t\t\"inputs\" : [],\n" +
+    "\t\t\"type\" : \"function\",\n" +
+    "\t\t\"payable\" : true,\n" +
+    "\t\t\"stateMutability\" : \"payable\"\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"outputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"type\" : \"address\",\n" +
+    "\t\t\t\t\"name\" : \"nominee\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"proposer\",\n" +
+    "\t\t\t\t\"type\" : \"address\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"type\" : \"uint256\",\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
+    "\t\t\t\t\"name\" : \"yesVotes\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"noVotes\",\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
+    "\t\t\t\t\"type\" : \"uint256\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"inputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"idx\",\n" +
+    "\t\t\t\t\"type\" : \"uint256\",\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"name\" : \"getEvictionElectionFromIdx\",\n" +
+    "\t\t\"constant\" : true,\n" +
+    "\t\t\"stateMutability\" : \"view\",\n" +
+    "\t\t\"payable\" : false,\n" +
+    "\t\t\"type\" : \"function\"\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"inputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"_address\",\n" +
+    "\t\t\t\t\"type\" : \"address\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"outputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"type\" : \"uint256\",\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
+    "\t\t\t\t\"name\" : \"yes\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"type\" : \"uint256\",\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
+    "\t\t\t\t\"name\" : \"no\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"name\" : \"getCurrentNomineeVotes\",\n" +
+    "\t\t\"constant\" : true,\n" +
+    "\t\t\"stateMutability\" : \"view\",\n" +
+    "\t\t\"type\" : \"function\",\n" +
+    "\t\t\"payable\" : false\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"stateMutability\" : \"payable\",\n" +
+    "\t\t\"payable\" : true,\n" +
+    "\t\t\"type\" : \"function\",\n" +
+    "\t\t\"inputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"_nomineeAddress\",\n" +
+    "\t\t\t\t\"type\" : \"address\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\"\n" +
     "\t\t\t},\n" +
     "\t\t\t{\n" +
     "\t\t\t\t\"name\" : \"_moniker\",\n" +
@@ -891,89 +894,123 @@ const (
     "\t\t\t\t\"internalType\" : \"bytes32\"\n" +
     "\t\t\t}\n" +
     "\t\t],\n" +
-    "\t\t\"type\" : \"function\",\n" +
-    "\t\t\"payable\" : true,\n" +
-    "\t\t\"constant\" : false,\n" +
     "\t\t\"outputs\" : [],\n" +
-    "\t\t\"name\" : \"submitNominee\",\n" +
-    "\t\t\"stateMutability\" : \"payable\"\n" +
+    "\t\t\"constant\" : false,\n" +
+    "\t\t\"name\" : \"submitNominee\"\n" +
     "\t},\n" +
     "\t{\n" +
-    "\t\t\"type\" : \"function\",\n" +
+    "\t\t\"constant\" : true,\n" +
+    "\t\t\"name\" : \"getEvictionYesVoterFromIdx\",\n" +
     "\t\t\"inputs\" : [\n" +
     "\t\t\t{\n" +
-    "\t\t\t\t\"type\" : \"address\",\n" +
     "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"type\" : \"address\",\n" +
     "\t\t\t\t\"name\" : \"_nomineeAddress\"\n" +
     "\t\t\t},\n" +
     "\t\t\t{\n" +
-    "\t\t\t\t\"type\" : \"uint256\",\n" +
     "\t\t\t\t\"internalType\" : \"uint256\",\n" +
+    "\t\t\t\t\"type\" : \"uint256\",\n" +
     "\t\t\t\t\"name\" : \"_idx\"\n" +
     "\t\t\t}\n" +
     "\t\t],\n" +
-    "\t\t\"payable\" : false,\n" +
-    "\t\t\"constant\" : true,\n" +
-    "\t\t\"name\" : \"getEvictionYesVoterFromIdx\",\n" +
     "\t\t\"outputs\" : [\n" +
     "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"voter\",\n" +
     "\t\t\t\t\"internalType\" : \"address\",\n" +
-    "\t\t\t\t\"type\" : \"address\",\n" +
-    "\t\t\t\t\"name\" : \"voter\"\n" +
-    "\t\t\t}\n" +
-    "\t\t],\n" +
-    "\t\t\"stateMutability\" : \"view\"\n" +
-    "\t},\n" +
-    "\t{\n" +
-    "\t\t\"stateMutability\" : \"view\",\n" +
-    "\t\t\"constant\" : true,\n" +
-    "\t\t\"name\" : \"getEvictionCount\",\n" +
-    "\t\t\"outputs\" : [\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"name\" : \"count\",\n" +
-    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
-    "\t\t\t\t\"type\" : \"uint256\"\n" +
+    "\t\t\t\t\"type\" : \"address\"\n" +
     "\t\t\t}\n" +
     "\t\t],\n" +
     "\t\t\"type\" : \"function\",\n" +
     "\t\t\"payable\" : false,\n" +
-    "\t\t\"inputs\" : []\n" +
+    "\t\t\"stateMutability\" : \"view\"\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"inputs\" : [],\n" +
+    "\t\t\"outputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
+    "\t\t\t\t\"type\" : \"uint256\",\n" +
+    "\t\t\t\t\"name\" : \"count\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"constant\" : true,\n" +
+    "\t\t\"name\" : \"getEvictionCount\",\n" +
+    "\t\t\"stateMutability\" : \"view\",\n" +
+    "\t\t\"payable\" : false,\n" +
+    "\t\t\"type\" : \"function\"\n" +
     "\t},\n" +
     "\t{\n" +
     "\t\t\"anonymous\" : false,\n" +
-    "\t\t\"name\" : \"NomineeDecision\",\n" +
     "\t\t\"type\" : \"event\",\n" +
     "\t\t\"inputs\" : [\n" +
     "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"_nominee\",\n" +
+    "\t\t\t\t\"indexed\" : true,\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"type\" : \"address\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
+    "\t\t\t\t\"type\" : \"uint256\",\n" +
+    "\t\t\t\t\"indexed\" : false,\n" +
+    "\t\t\t\t\"name\" : \"_yesVotes\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"_noVotes\",\n" +
+    "\t\t\t\t\"indexed\" : false,\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
+    "\t\t\t\t\"type\" : \"uint256\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"_accepted\",\n" +
+    "\t\t\t\t\"indexed\" : true,\n" +
+    "\t\t\t\t\"type\" : \"bool\",\n" +
+    "\t\t\t\t\"internalType\" : \"bool\"\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"name\" : \"NomineeDecision\"\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"anonymous\" : false,\n" +
+    "\t\t\"type\" : \"event\",\n" +
+    "\t\t\"name\" : \"NomineeVoteCast\",\n" +
+    "\t\t\"inputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"_nominee\",\n" +
+    "\t\t\t\t\"indexed\" : true,\n" +
+    "\t\t\t\t\"type\" : \"address\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
     "\t\t\t\t\"type\" : \"address\",\n" +
     "\t\t\t\t\"internalType\" : \"address\",\n" +
-    "\t\t\t\t\"name\" : \"_nominee\",\n" +
+    "\t\t\t\t\"name\" : \"_voter\",\n" +
     "\t\t\t\t\"indexed\" : true\n" +
     "\t\t\t},\n" +
     "\t\t\t{\n" +
-    "\t\t\t\t\"name\" : \"_yesVotes\",\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
+    "\t\t\t\t\"type\" : \"uint256\",\n" +
     "\t\t\t\t\"indexed\" : false,\n" +
+    "\t\t\t\t\"name\" : \"_yesVotes\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"indexed\" : false,\n" +
+    "\t\t\t\t\"name\" : \"_noVotes\",\n" +
     "\t\t\t\t\"type\" : \"uint256\",\n" +
     "\t\t\t\t\"internalType\" : \"uint256\"\n" +
     "\t\t\t},\n" +
     "\t\t\t{\n" +
-    "\t\t\t\t\"type\" : \"uint256\",\n" +
-    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
-    "\t\t\t\t\"name\" : \"_noVotes\",\n" +
-    "\t\t\t\t\"indexed\" : false\n" +
-    "\t\t\t},\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"internalType\" : \"bool\",\n" +
     "\t\t\t\t\"type\" : \"bool\",\n" +
-    "\t\t\t\t\"indexed\" : true,\n" +
-    "\t\t\t\t\"name\" : \"_accepted\"\n" +
+    "\t\t\t\t\"internalType\" : \"bool\",\n" +
+    "\t\t\t\t\"name\" : \"_accepted\",\n" +
+    "\t\t\t\t\"indexed\" : true\n" +
     "\t\t\t}\n" +
     "\t\t]\n" +
     "\t},\n" +
     "\t{\n" +
-    "\t\t\"name\" : \"NomineeVoteCast\",\n" +
-    "\t\t\"anonymous\" : false,\n" +
     "\t\t\"type\" : \"event\",\n" +
+    "\t\t\"anonymous\" : false,\n" +
+    "\t\t\"name\" : \"NomineeProposed\",\n" +
     "\t\t\"inputs\" : [\n" +
     "\t\t\t{\n" +
     "\t\t\t\t\"type\" : \"address\",\n" +
@@ -982,20 +1019,69 @@ const (
     "\t\t\t\t\"indexed\" : true\n" +
     "\t\t\t},\n" +
     "\t\t\t{\n" +
+    "\t\t\t\t\"indexed\" : true,\n" +
+    "\t\t\t\t\"name\" : \"_proposer\",\n" +
+    "\t\t\t\t\"type\" : \"address\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\"\n" +
+    "\t\t\t}\n" +
+    "\t\t]\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"anonymous\" : false,\n" +
+    "\t\t\"type\" : \"event\",\n" +
+    "\t\t\"name\" : \"EvictionDecision\",\n" +
+    "\t\t\"inputs\" : [\n" +
+    "\t\t\t{\n" +
     "\t\t\t\t\"internalType\" : \"address\",\n" +
     "\t\t\t\t\"type\" : \"address\",\n" +
     "\t\t\t\t\"indexed\" : true,\n" +
-    "\t\t\t\t\"name\" : \"_voter\"\n" +
-    "\t\t\t},\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"name\" : \"_yesVotes\",\n" +
-    "\t\t\t\t\"indexed\" : false,\n" +
-    "\t\t\t\t\"type\" : \"uint256\",\n" +
-    "\t\t\t\t\"internalType\" : \"uint256\"\n" +
+    "\t\t\t\t\"name\" : \"_nominee\"\n" +
     "\t\t\t},\n" +
     "\t\t\t{\n" +
     "\t\t\t\t\"internalType\" : \"uint256\",\n" +
     "\t\t\t\t\"type\" : \"uint256\",\n" +
+    "\t\t\t\t\"indexed\" : false,\n" +
+    "\t\t\t\t\"name\" : \"_yesVotes\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"indexed\" : false,\n" +
+    "\t\t\t\t\"name\" : \"_noVotes\",\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
+    "\t\t\t\t\"type\" : \"uint256\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"name\" : \"_accepted\",\n" +
+    "\t\t\t\t\"indexed\" : true,\n" +
+    "\t\t\t\t\"internalType\" : \"bool\",\n" +
+    "\t\t\t\t\"type\" : \"bool\"\n" +
+    "\t\t\t}\n" +
+    "\t\t]\n" +
+    "\t},\n" +
+    "\t{\n" +
+    "\t\t\"anonymous\" : false,\n" +
+    "\t\t\"type\" : \"event\",\n" +
+    "\t\t\"inputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"type\" : \"address\",\n" +
+    "\t\t\t\t\"indexed\" : true,\n" +
+    "\t\t\t\t\"name\" : \"_nominee\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"indexed\" : true,\n" +
+    "\t\t\t\t\"name\" : \"_voter\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"type\" : \"address\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"indexed\" : false,\n" +
+    "\t\t\t\t\"name\" : \"_yesVotes\",\n" +
+    "\t\t\t\t\"type\" : \"uint256\",\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\"\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"type\" : \"uint256\",\n" +
+    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
     "\t\t\t\t\"indexed\" : false,\n" +
     "\t\t\t\t\"name\" : \"_noVotes\"\n" +
     "\t\t\t},\n" +
@@ -1005,151 +1091,65 @@ const (
     "\t\t\t\t\"type\" : \"bool\",\n" +
     "\t\t\t\t\"internalType\" : \"bool\"\n" +
     "\t\t\t}\n" +
-    "\t\t]\n" +
-    "\t},\n" +
-    "\t{\n" +
-    "\t\t\"inputs\" : [\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"name\" : \"_nominee\",\n" +
-    "\t\t\t\t\"indexed\" : true,\n" +
-    "\t\t\t\t\"type\" : \"address\",\n" +
-    "\t\t\t\t\"internalType\" : \"address\"\n" +
-    "\t\t\t},\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"indexed\" : true,\n" +
-    "\t\t\t\t\"name\" : \"_proposer\",\n" +
-    "\t\t\t\t\"internalType\" : \"address\",\n" +
-    "\t\t\t\t\"type\" : \"address\"\n" +
-    "\t\t\t}\n" +
     "\t\t],\n" +
-    "\t\t\"type\" : \"event\",\n" +
-    "\t\t\"name\" : \"NomineeProposed\",\n" +
-    "\t\t\"anonymous\" : false\n" +
-    "\t},\n" +
-    "\t{\n" +
-    "\t\t\"inputs\" : [\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"name\" : \"_nominee\",\n" +
-    "\t\t\t\t\"indexed\" : true,\n" +
-    "\t\t\t\t\"type\" : \"address\",\n" +
-    "\t\t\t\t\"internalType\" : \"address\"\n" +
-    "\t\t\t},\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"type\" : \"uint256\",\n" +
-    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
-    "\t\t\t\t\"name\" : \"_yesVotes\",\n" +
-    "\t\t\t\t\"indexed\" : false\n" +
-    "\t\t\t},\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"type\" : \"uint256\",\n" +
-    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
-    "\t\t\t\t\"name\" : \"_noVotes\",\n" +
-    "\t\t\t\t\"indexed\" : false\n" +
-    "\t\t\t},\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"internalType\" : \"bool\",\n" +
-    "\t\t\t\t\"type\" : \"bool\",\n" +
-    "\t\t\t\t\"indexed\" : true,\n" +
-    "\t\t\t\t\"name\" : \"_accepted\"\n" +
-    "\t\t\t}\n" +
-    "\t\t],\n" +
-    "\t\t\"type\" : \"event\",\n" +
-    "\t\t\"name\" : \"EvictionDecision\",\n" +
-    "\t\t\"anonymous\" : false\n" +
-    "\t},\n" +
-    "\t{\n" +
-    "\t\t\"inputs\" : [\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"type\" : \"address\",\n" +
-    "\t\t\t\t\"internalType\" : \"address\",\n" +
-    "\t\t\t\t\"name\" : \"_nominee\",\n" +
-    "\t\t\t\t\"indexed\" : true\n" +
-    "\t\t\t},\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"type\" : \"address\",\n" +
-    "\t\t\t\t\"internalType\" : \"address\",\n" +
-    "\t\t\t\t\"name\" : \"_voter\",\n" +
-    "\t\t\t\t\"indexed\" : true\n" +
-    "\t\t\t},\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"indexed\" : false,\n" +
-    "\t\t\t\t\"name\" : \"_yesVotes\",\n" +
-    "\t\t\t\t\"internalType\" : \"uint256\",\n" +
-    "\t\t\t\t\"type\" : \"uint256\"\n" +
-    "\t\t\t},\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"name\" : \"_noVotes\",\n" +
-    "\t\t\t\t\"indexed\" : false,\n" +
-    "\t\t\t\t\"type\" : \"uint256\",\n" +
-    "\t\t\t\t\"internalType\" : \"uint256\"\n" +
-    "\t\t\t},\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"type\" : \"bool\",\n" +
-    "\t\t\t\t\"internalType\" : \"bool\",\n" +
-    "\t\t\t\t\"name\" : \"_accepted\",\n" +
-    "\t\t\t\t\"indexed\" : true\n" +
-    "\t\t\t}\n" +
-    "\t\t],\n" +
-    "\t\t\"type\" : \"event\",\n" +
-    "\t\t\"anonymous\" : false,\n" +
     "\t\t\"name\" : \"EvictionVoteCast\"\n" +
     "\t},\n" +
     "\t{\n" +
     "\t\t\"name\" : \"EvictionProposed\",\n" +
-    "\t\t\"anonymous\" : false,\n" +
-    "\t\t\"type\" : \"event\",\n" +
     "\t\t\"inputs\" : [\n" +
     "\t\t\t{\n" +
-    "\t\t\t\t\"type\" : \"address\",\n" +
-    "\t\t\t\t\"internalType\" : \"address\",\n" +
     "\t\t\t\t\"name\" : \"_nominee\",\n" +
-    "\t\t\t\t\"indexed\" : true\n" +
+    "\t\t\t\t\"indexed\" : true,\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"type\" : \"address\"\n" +
     "\t\t\t},\n" +
     "\t\t\t{\n" +
-    "\t\t\t\t\"type\" : \"address\",\n" +
-    "\t\t\t\t\"internalType\" : \"address\",\n" +
     "\t\t\t\t\"name\" : \"_proposer\",\n" +
-    "\t\t\t\t\"indexed\" : true\n" +
-    "\t\t\t}\n" +
-    "\t\t]\n" +
-    "\t},\n" +
-    "\t{\n" +
-    "\t\t\"inputs\" : [\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"indexed\" : true,\n" +
     "\t\t\t\t\"type\" : \"address\",\n" +
-    "\t\t\t\t\"indexed\" : true,\n" +
-    "\t\t\t\t\"name\" : \"_address\"\n" +
-    "\t\t\t},\n" +
-    "\t\t\t{\n" +
-    "\t\t\t\t\"indexed\" : true,\n" +
-    "\t\t\t\t\"name\" : \"_moniker\",\n" +
-    "\t\t\t\t\"internalType\" : \"bytes32\",\n" +
-    "\t\t\t\t\"type\" : \"bytes32\"\n" +
+    "\t\t\t\t\"internalType\" : \"address\"\n" +
     "\t\t\t}\n" +
     "\t\t],\n" +
     "\t\t\"type\" : \"event\",\n" +
-    "\t\t\"name\" : \"MonikerAnnounce\",\n" +
     "\t\t\"anonymous\" : false\n" +
     "\t},\n" +
     "\t{\n" +
-    "\t\t\"name\" : \"POA_Error\",\n" +
-    "\t\t\"anonymous\" : false,\n" +
+    "\t\t\"inputs\" : [\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"type\" : \"address\",\n" +
+    "\t\t\t\t\"internalType\" : \"address\",\n" +
+    "\t\t\t\t\"name\" : \"_address\",\n" +
+    "\t\t\t\t\"indexed\" : true\n" +
+    "\t\t\t},\n" +
+    "\t\t\t{\n" +
+    "\t\t\t\t\"type\" : \"bytes32\",\n" +
+    "\t\t\t\t\"internalType\" : \"bytes32\",\n" +
+    "\t\t\t\t\"name\" : \"_moniker\",\n" +
+    "\t\t\t\t\"indexed\" : true\n" +
+    "\t\t\t}\n" +
+    "\t\t],\n" +
+    "\t\t\"name\" : \"MonikerAnnounce\",\n" +
+    "\t\t\"type\" : \"event\",\n" +
+    "\t\t\"anonymous\" : false\n" +
+    "\t},\n" +
+    "\t{\n" +
     "\t\t\"inputs\" : [\n" +
     "\t\t\t{\n" +
     "\t\t\t\t\"internalType\" : \"address\",\n" +
     "\t\t\t\t\"type\" : \"address\",\n" +
-    "\t\t\t\t\"indexed\" : true,\n" +
-    "\t\t\t\t\"name\" : \"_address\"\n" +
+    "\t\t\t\t\"name\" : \"_address\",\n" +
+    "\t\t\t\t\"indexed\" : true\n" +
     "\t\t\t},\n" +
     "\t\t\t{\n" +
-    "\t\t\t\t\"type\" : \"string\",\n" +
-    "\t\t\t\t\"internalType\" : \"string\",\n" +
+    "\t\t\t\t\"indexed\" : false,\n" +
     "\t\t\t\t\"name\" : \"_message\",\n" +
-    "\t\t\t\t\"indexed\" : false\n" +
+    "\t\t\t\t\"type\" : \"string\",\n" +
+    "\t\t\t\t\"internalType\" : \"string\"\n" +
     "\t\t\t}\n" +
     "\t\t],\n" +
-    "\t\t\"type\" : \"event\"\n" +
+    "\t\t\"name\" : \"POA_Error\",\n" +
+    "\t\t\"type\" : \"event\",\n" +
+    "\t\t\"anonymous\" : false\n" +
     "\t}\n" +
     "]"  
 

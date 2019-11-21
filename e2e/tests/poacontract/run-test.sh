@@ -127,7 +127,12 @@ $MONETCLI poa evictee new --pwd $mydir/../../networks/pwd.txt  --silent  --from 
 statusCheck 4_0_1 || exit 23
 
 #    - Node 1 votes No
+
+$MONETCLI poa evictee list
+
 $MONETCLI poa evictee vote --verdict no --from node1  --silent  --pwd $mydir/../../networks/pwd.txt ${nodes[3]}
+
+$MONETCLI poa evictee list
 
 statusCheck 4_0_0 || exit 24
 
