@@ -80,6 +80,7 @@ func runMonet(cmd *cobra.Command, args []string) error {
 
 	evers.JSONVersion["solc"] = genesis.SolcCompilerVersion
 	evers.JSONVersion["solc-os"] = genesis.SolcOSVersion
+	evers.JSONVersion["solc-git"] = genesis.GitVersion
 
 	babble := babble.NewInmemBabble(
 		configuration.Global.ToBabbleConfig(),

@@ -19,3 +19,5 @@ The solidity source code for the standard contracts are in the following files:
 ## poa.sol
 
 The compiled POA contract writes to ``src/genesis/bytecode.go``
+
+**Commit poa.sol BEFORE generating bytecode.go**

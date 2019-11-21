@@ -485,6 +485,7 @@ function isWhitelisted(address _address) private view returns (bool)
  ///@param _nomineeAddress The address of the nominee being removed from the nominee list
  function removeNominee(address _nomineeAddress) private
  {
+     removeNomineeVote(_nomineeAddress);
 // Remove from Mapping
      delete(nomineeList[_nomineeAddress]);
 
@@ -500,7 +501,40 @@ function isWhitelisted(address _address) private view returns (bool)
  }
 
 
+ ///@notice This private function clears the vote mapping in a Nominee Election record.
+ ///@param _nomineeAddress The nomineeElection record to be cleansed
+function removeNomineeVote(address _nomineeAddress) private
+{
+    // Iterate through yes and no array and set the addresses in the
+    // records held in the vote mapping to zero address
+    // THis means it is treated as unset by out validity checks.
+    for (uint j = 0 ; j < nomineeList[_nomineeAddress].yesArray.length; j++) {
+        nomineeList[_nomineeAddress].vote[nomineeList[_nomineeAddress].yesArray[j]].voter = address(0);
+    }
+    for (uint j = 0 ; j < nomineeList[_nomineeAddress].noArray.length; j++) {
+        nomineeList[_nomineeAddress].vote[nomineeList[_nomineeAddress].noArray[j]].voter = address(0);
+    }
 
+
+}
+
+
+ ///@notice This private function clears the vote mapping in a Eviction Election record.
+ ///@param _nomineeAddress The nomineeElection record to be cleansed
+function removeEvicteeVote(address _nomineeAddress) private
+{
+    // Iterate through yes and no array and set the addresses in the
+    // records held in the vote mapping to zero address
+    // THis means it is treated as unset by out validity checks.
+    for (uint j = 0 ; j < evictionList[_nomineeAddress].yesArray.length; j++) {
+        evictionList[_nomineeAddress].vote[evictionList[_nomineeAddress].yesArray[j]].voter = address(0);
+    }
+    for (uint j = 0 ; j < evictionList[_nomineeAddress].noArray.length; j++) {
+        evictionList[_nomineeAddress].vote[evictionList[_nomineeAddress].noArray[j]].voter = address(0);
+    }
+
+
+}
 
 
 // Deline evictee from the evictionList
@@ -517,6 +551,9 @@ function isWhitelisted(address _address) private view returns (bool)
  ///@param _nomineeAddress The address of the nominee being removed from the eviction list
  function removeEviction(address _nomineeAddress) private
  {
+
+     removeEvicteeVote(_nomineeAddress);
+
 // Remove from Mapping
      delete(evictionList[_nomineeAddress]);
 

@@ -7,7 +7,7 @@ command -v solc >/dev/null 2>&1 || { echo >&2 "I require solc but it's not insta
 command -v json_pp >/dev/null 2>&1 || { echo >&2 "I require json_pp but it's not installed.  Aborting."; exit 1; }
 
 
-
+GIT="$(git rev-parse --abbrev-ref HEAD) $(git show --oneline -s)"
 SOLCVERSION=$(solc --version | tail -1)
 OSVERSION=$(lsb_release -a 2> /dev/null | sed -e 's/$/;  /g'| paste -s)
 
@@ -42,6 +42,7 @@ const (
     // SolcOSVersion is the output of lsb_release -a for the OS used to compile this bytecode
     SolcOSVersion = "$OSVERSION"
 
+    GitVersion = "$GIT"
 
 	// StandardPOAContractByteCode is the bytecode for the standard POA contract precompiled
 	StandardPOAContractByteCode = "" +

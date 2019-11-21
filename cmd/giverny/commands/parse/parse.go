@@ -130,6 +130,7 @@ func parseGenesis(cmd *cobra.Command, args []string) error {
 		fmt.Println("Your version of Monetd is:")
 		fmt.Print(version.FullVersion())
 		fmt.Printf("Solc: %s \n      %s\n", genesis.SolcCompilerVersion, genesis.SolcOSVersion)
+		fmt.Printf("      %s\n", genesis.GitVersion)
 
 	}
 
