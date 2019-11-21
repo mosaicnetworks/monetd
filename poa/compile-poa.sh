@@ -42,6 +42,8 @@ const (
     // SolcOSVersion is the output of lsb_release -a for the OS used to compile this bytecode
     SolcOSVersion = "$OSVERSION"
 
+    // GitVersion contains the branch, commit hash, and last commit commit 
+    // from when this file was generated
     GitVersion = "$GIT"
 
 	// StandardPOAContractByteCode is the bytecode for the standard POA contract precompiled
