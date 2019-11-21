@@ -229,7 +229,7 @@ function isWhitelisted(address _address) private view returns (bool)
  function submitEviction (address _nomineeAddress) public payable  checkAuthorisedModifier(msg.sender)
  {
 
-     if ((isWhitelisted(_nomineeAddress)) && (! isEvictee(_address);(_nomineeAddress)) )
+     if ((isWhitelisted(_nomineeAddress)) && (! isEvictee(_nomineeAddress)) )
     {
             evictionList[_nomineeAddress] = NomineeElection({nominee: _nomineeAddress, proposer: msg.sender,
                         yesVotes: 0, noVotes: 0, yesArray: new address[](0),noArray: new address[](0) });
