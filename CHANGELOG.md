@@ -1,15 +1,16 @@
 
 # Changelog
 
-## Unreleased
+## v0.3.4 (November 22, 2019)
 
-SECURITY:
-FEATURES:
-IMPROVEMENTS: 
+FEATURES: 
+
 -  giverny:  parse command to explain genesis.json file poa storage section
+
 BUG FIXES:
--  monetd~poa:  Fix an issue that blocked voting for previously rejected 
-                nominees.
+
+-  monetd~poa: Fix an issue that blocked voting for previously rejected 
+               nominees.
 
 
 ## v0.3.3 (November 14, 2019)
