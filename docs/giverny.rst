@@ -354,30 +354,19 @@ using the ``solo`` command.
 parse
 *****
 
-The ``giverny parse`` command parses a given genesis file to report the
-initial whitelist set and whether the bytecode matches the release bytecode for
-your currently installed giverny version.
+The ``giverny parse`` command parses a given genesis file to explain the data
+stored within it.
 
 .. include:: _static/includes/giverny_parse.txt
     :code: bash
 
+The command checks to see if the contract byte matches the standard version
+built into your copy of ``giverny`` -- outputing a warning if not.
 
-An example session is included below:
+It then shows the Smart Contract address and the counts of addresses in the
+White List, the Nominee List and the Eviction List.
 
-.. code:: bash
-
-    $ giverny parse $HOME/.giverny/networks/joinleavetest/genesis.json
-
-    POA Address:  0xaabbaabbaabbaabbaabbaabbaabbaabbaabbaabb
-
-    4 peers found
-
-    0xd813b4c2f416bf9cc038b2b3ebbcf8f0bfc6d713  node0
-    0x4a47de4f72810f4f002c254d7270877e8f24e145  node1
-    0xb582c7d8b6c6f496387eae9386d7e7724d96c61f  node2
-    0xd593c5797fbfbcc381c74ad8c9d322d1baa3bc40  node3
-
-    POA bytecode matches the standard contract
-
-
-
+There is then a data section where each slot has one row of output. The columns
+are tab separated, and we would recommend loading the data into a spreadsheet.
+The columns are slot, raw data, processed data, description, explained boolean
+flag.

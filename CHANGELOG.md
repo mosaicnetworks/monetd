@@ -5,8 +5,12 @@
 
 SECURITY:
 FEATURES:
-IMPROVEMENTS:
+IMPROVEMENTS: 
+-  giverny:  parse command to explain genesis.json file poa storage section
 BUG FIXES:
+-  monetd~poa:  Fix an issue that blocked voting for previously rejected 
+                nominees.
+
 
 ## v0.3.3 (November 14, 2019)
 

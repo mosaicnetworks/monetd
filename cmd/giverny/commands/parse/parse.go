@@ -67,6 +67,19 @@ func parseGenesis(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
+	if genesisJSON.Poa.Code == genesis.StandardPOAContractByteCode {
+		fmt.Println("POA bytecode matches the standard contract")
+	} else {
+		fmt.Println("Contract does not match the POA bytecode")
+		fmt.Println("This may not be an issue if a different release of Monetd " +
+			"was used to generate the genesis.json file.")
+		fmt.Println("Your version of Monetd is:")
+		fmt.Print(version.FullVersion())
+		fmt.Printf("Solc: %s \n      %s\n", genesis.SolcCompilerVersion, genesis.SolcOSVersion)
+		fmt.Printf("      %s\n", genesis.GitVersion)
+
+	}
+
 	fmt.Println("")
 
 	fmt.Printf("POA Address:  0x%s \n", genesisJSON.Poa.Address)
@@ -125,7 +138,7 @@ func parseGenesis(cmd *cobra.Command, args []string) error {
 
 	slotBytes := eth_crypto.Keccak256(common.HexToHash(slot).Bytes())
 	slotHex := strings.TrimPrefix(hexutil.Encode(slotBytes), "0x")
-	fmt.Printf("Slot 2 Whitelist Array base address is at: %s \n", slotHex)
+	//	fmt.Printf("Slot 2 Whitelist Array base address is at: %s \n", slotHex)
 
 	baseSlot := new(big.Int)
 	baseSlot, _ = baseSlot.SetString(slotHex, 16)
@@ -192,7 +205,7 @@ func parseGenesis(cmd *cobra.Command, args []string) error {
 
 	slotBytes = eth_crypto.Keccak256(common.HexToHash(slot).Bytes())
 	slotHex = strings.TrimPrefix(hexutil.Encode(slotBytes), "0x")
-	fmt.Printf("Slot 4 Nominee List Array base address is at: %s \n", slotHex)
+	//	fmt.Printf("Slot 4 Nominee List Array base address is at: %s \n", slotHex)
 
 	baseSlot = new(big.Int)
 	baseSlot, _ = baseSlot.SetString(slotHex, 16)
@@ -260,7 +273,7 @@ func parseGenesis(cmd *cobra.Command, args []string) error {
 
 	slotBytes = eth_crypto.Keccak256(common.HexToHash(slot).Bytes())
 	slotHex = strings.TrimPrefix(hexutil.Encode(slotBytes), "0x")
-	fmt.Printf("Slot 7 Eviction List Array base address is at: %s \n", slotHex)
+	//	fmt.Printf("Slot 7 Eviction List Array base address is at: %s \n", slotHex)
 
 	baseSlot = new(big.Int)
 	baseSlot, _ = baseSlot.SetString(slotHex, 16)
@@ -535,212 +548,11 @@ func parseGenesis(cmd *cobra.Command, args []string) error {
 			fmt.Println(key)
 		}
 	*/
-	return nil
 
-}
-
-func parseGenesisOld(cmd *cobra.Command, args []string) error {
-	genesisFile := args[0]
-
-	verbose := true
-
-	// Check the file exists
-	if !files.CheckIfExists(genesisFile) {
-		return errors.New("cannot find the file " + genesisFile)
-	}
-
-	// Read Genesis file and load into genesisJSON struct
-	genesisJSON := genesis.JSONGenesisFile{}
-
-	file, err := ioutil.ReadFile(genesisFile)
-	if err != nil {
-		fmt.Println("Error loading " + genesisFile)
-		return err
-	}
-
-	err = json.Unmarshal([]byte(file), &genesisJSON)
-	if err != nil {
-		fmt.Println("Error parsing " + genesisFile)
-		return err
-	}
-
-	fmt.Println("")
-
-	fmt.Printf("POA Address:  0x%s \n", genesisJSON.Poa.Address)
-	fmt.Println("")
-	peers := make(map[uint64]genesis.MinimalPeerRecord)
-	nominees := make(map[uint64]genesis.MinimalPeerRecord)
-	evictees := make(map[uint64]genesis.MinimalPeerRecord)
-
-	SLOT2 := fmt.Sprintf("%064d", 2)
-	slot2Bytes := eth_crypto.Keccak256(common.HexToHash(SLOT2).Bytes())
-	SLOT4 := fmt.Sprintf("%064d", 4)
-	slot4Bytes := eth_crypto.Keccak256(common.HexToHash(SLOT4).Bytes())
-	SLOT7 := fmt.Sprintf("%064d", 7)
-	slot7Bytes := eth_crypto.Keccak256(common.HexToHash(SLOT7).Bytes())
-
-	if verbose {
-		fmt.Printf("Array slots:\n  whiteListArray\n    Slot 2: %s\n  nomineeArray\n    Slot 4: %s\n  evictionArray\n    Slot 7: %s\n\n",
-			hexutil.Encode(slot2Bytes), hexutil.Encode(slot4Bytes), hexutil.Encode(slot7Bytes))
-	}
-	// Populate a mapping peers, from the solidity array
-
-	for key, val := range genesisJSON.Poa.Storage {
-		// The hardcoded values corresponds to the solidity array.
-		// Easier to pick up than the mapping.
-
-		// Evictees
-		if key[0:59] == "a66cc928b5edb82af9bd49922954155ab7b0942694bea4ce44661d9a873" {
-			// Parse last 5 hex digits, and rebase to zero
-			// For all practical purposes 10,000 nominee entries is sufficient
-			intkey, err := strconv.ParseUint(key[59:], 16, 64)
-			//	intkey -= 774555 // Rebase intkey to 1 for convenience
-			if err != nil {
-				fmt.Println("Error parsing hex " + key[60:])
-				return err
-			}
-			fmt.Printf("%d\n", intkey)
-			// Actually populate the nominee array
-			peer, ok := evictees[intkey]
-			if !ok {
-				evictees[intkey] = genesis.MinimalPeerRecord{
-					Address: parseAddress(val),
-					Moniker: fmt.Sprintf("Peer %03d", intkey),
-				}
-			} else {
-				peer.Address = parseAddress(val)
-				evictees[intkey] = peer
-			}
-
-		}
-		// Nominees
-		if key[0:59] == "8a35acfbc15ff81a39ae7d344fd709f28e8600b4aa8c65c6b64bfe7fe36" {
-			// Parse last 5 hex digits, and rebase to zero
-			// For all practical purposes 10,000 nominee entries is sufficient
-			intkey, err := strconv.ParseUint(key[59:], 16, 64)
-			intkey -= 774555 // Rebase intkey to 1 for convenience
-			if err != nil {
-				fmt.Println("Error parsing hex " + key[60:])
-				return err
-			}
-			//		fmt.Printf("%d\n", intkey)
-			// Actually populate the nominee array
-			peer, ok := nominees[intkey]
-			if !ok {
-				nominees[intkey] = genesis.MinimalPeerRecord{
-					Address: parseAddress(val),
-					Moniker: fmt.Sprintf("Peer %03d", intkey),
-				}
-			} else {
-				peer.Address = parseAddress(val)
-				nominees[intkey] = peer
-			}
-
-		}
-
-		// Whitelist
-		if key[0:59] == "405787fa12a823e0f2b7631cc41b3ba8828b3321ca811111fa75cd3aa3b" {
-			// Parse last 5 hex digits, and rebase to zero
-			// For all practical purposes 10,000 whitelist entries is sufficient
-			intkey, err := strconv.ParseUint(key[59:], 16, 64)
-			intkey -= 744141 // Rebase intkey to 1 for convenience
-			if err != nil {
-				fmt.Println("Error parsing hex " + key[60:])
-				return err
-			}
-
-			// Actually populate the peer array
-			peer, ok := peers[intkey]
-			if !ok {
-				peers[intkey] = genesis.MinimalPeerRecord{
-					Address: parseAddress(val),
-					Moniker: fmt.Sprintf("Peer %03d", intkey),
-				}
-			} else {
-				peer.Address = parseAddress(val)
-				peers[intkey] = peer
-			}
-		}
-	}
-
-	// Slot 5 is the moniker mapping.
-	SLOT5 := fmt.Sprintf("%064d", 5)
-	slot5Bytes := common.HexToHash(SLOT5).Bytes()
-
-	fmt.Printf("%d peers found \n\n", len(peers))
-	outputAddresses(peers, slot5Bytes, genesisJSON, verbose)
-
-	fmt.Printf("\n%d nominees found \n\n", len(nominees))
-	outputAddresses(nominees, slot5Bytes, genesisJSON, verbose)
-
-	fmt.Printf("\n%d evictees found \n\n", len(evictees))
-	outputAddresses(evictees, slot5Bytes, genesisJSON, verbose)
-
-	fmt.Println("")
-
-	if verbose {
-		fmt.Println("Slot 0 - whiteList mapping")
-		fmt.Println("")
-
-		SLOT0 := fmt.Sprintf("%064d", 0)
-		slot0Bytes := common.HexToHash(SLOT0).Bytes()
-		for _, peer := range peers {
-			addr := strings.TrimPrefix(strings.ToLower(peer.Address), "0x")
-			addrBytes := common.HexToHash(addr).Bytes()
-			// Handle the Moniker mapping
-			addrHash := eth_crypto.Keccak256(append(addrBytes, slot0Bytes...))
-			addrSlot := hex.EncodeToString(addrHash)
-			fmt.Printf("%s  %s  %s\n", addrSlot, peer.Address, "whiteList")
-		}
-
-		fmt.Println("")
-		fmt.Println("Slot 3 - nomineeList mapping")
-		fmt.Println("")
-
-		SLOT3 := fmt.Sprintf("%064d", 3)
-		slot3Bytes := common.HexToHash(SLOT3).Bytes()
-		for _, peer := range nominees {
-			addr := strings.TrimPrefix(strings.ToLower(peer.Address), "0x")
-			addrBytes := common.HexToHash(addr).Bytes()
-			// Handle the Moniker mapping
-			addrHash := eth_crypto.Keccak256(append(addrBytes, slot3Bytes...))
-			addrSlot := hex.EncodeToString(addrHash)
-
-			fmt.Printf("%s  %s  %s\n", addrSlot, peer.Address, "nominees")
-		}
-
-		fmt.Println("")
-		fmt.Println("Slot 6 - evictionList mapping")
-		fmt.Println("")
-
-		SLOT6 := fmt.Sprintf("%064d", 6)
-		slot6Bytes := common.HexToHash(SLOT6).Bytes()
-		for _, peer := range evictees {
-			addr := strings.TrimPrefix(strings.ToLower(peer.Address), "0x")
-			addrBytes := common.HexToHash(addr).Bytes()
-			// Handle the Moniker mapping
-			addrHash := eth_crypto.Keccak256(append(addrBytes, slot6Bytes...))
-			addrSlot := hex.EncodeToString(addrHash)
-
-			fmt.Printf("%s  %s  %s\n", addrSlot, peer.Address, "evictees")
-		}
-
-	}
-
-	if genesisJSON.Poa.Code == genesis.StandardPOAContractByteCode {
-		fmt.Println("POA bytecode matches the standard contract")
-	} else {
-		fmt.Println("Contract does not match the POA bytecode")
-		fmt.Println("This may not be an issue if a different release of Monetd " +
-			"was used to generate the genesis.json file.")
-		fmt.Println("Your version of Monetd is:")
-		fmt.Print(version.FullVersion())
-		fmt.Printf("Solc: %s \n      %s\n", genesis.SolcCompilerVersion, genesis.SolcOSVersion)
-		fmt.Printf("      %s\n", genesis.GitVersion)
-
-	}
+	fmt.Printf("\n\n")
 
 	return nil
+
 }
 
 // Returns slot for Moniker
@@ -754,36 +566,6 @@ func getMonikerSlot(address string) string {
 	addrSlot := hex.EncodeToString(addrHash)
 
 	return addrSlot
-}
-
-func outputAddresses(peers map[uint64]genesis.MinimalPeerRecord, slot5Bytes []byte,
-	genesisJSON genesis.JSONGenesisFile, verbose bool) {
-	for _, peer := range peers {
-		addr := strings.TrimPrefix(strings.ToLower(peer.Address), "0x")
-		addrBytes := common.HexToHash(addr).Bytes()
-		// Handle the Moniker mapping
-		addrHash := eth_crypto.Keccak256(append(addrBytes, slot5Bytes...))
-		addrSlot := hex.EncodeToString(addrHash)
-
-		moniker, ok := genesisJSON.Poa.Storage[addrSlot]
-		if ok {
-			monikerBytes, err := hex.DecodeString(moniker)
-			if err == nil {
-				moniker = string(monikerBytes)
-			} else {
-				moniker = peer.Moniker
-			}
-		} else {
-			moniker = peer.Moniker
-		}
-		if verbose {
-			fmt.Printf("%s  %s  %s\n", addrSlot, peer.Address, moniker)
-
-		} else {
-			fmt.Printf("%s  %s\n", peer.Address, moniker)
-		}
-	}
-
 }
 
 func parseAddress(in string) string {
