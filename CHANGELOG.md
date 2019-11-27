@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Unreleased
+## v0.3.5 (November 26, 2019)
 
 IMPROVEMENTS:
 
@@ -10,8 +10,8 @@ IMPROVEMENTS:
 
 BUG FIXES:
 
-- monetd~babble: Work under Windows.
-- monetd~evm-lite: set account storage and nonce when creating accounts.
+- monetd~babble: Fix for Windows.
+- monetd~evm-lite: Set account storage and nonce when creating accounts.
 
 ## v0.3.4 (November 22, 2019)
 
