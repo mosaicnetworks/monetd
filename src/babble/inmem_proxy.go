@@ -79,7 +79,11 @@ func (p *InmemProxy) CommitBlock(block hashgraph.Block) (proxy.CommitResponse, e
 		return proxy.CommitResponse{}, err
 	}
 
-	receipts := p.processInternalTransactions(block.InternalTransactions())
+	internalTransactionReceipts := p.processInternalTransactions(block.InternalTransactions())
+
+	evictionReceipts := p.processEvictions(block)
+
+	receipts := append(internalTransactionReceipts, evictionReceipts...)
 
 	res := proxy.CommitResponse{
 		StateHash:                   hash.Bytes(),
@@ -120,8 +124,8 @@ func (p *InmemProxy) getCoinbase(block hashgraph.Block) (ethCommon.Address, erro
 }
 
 // processInternalTransactions decides if InternalTransactions should be
-// accepted. For PEER_ADD transactions, it checks the if the peer is authorised
-// in the POA smart-contract. All PEER_REMOVE transactions are accepted
+// accepted. For PEER_ADD transactions, it checks if the peer is authorised in
+// the POA smart-contract. All PEER_REMOVE transactions are accepted.
 func (p *InmemProxy) processInternalTransactions(internalTransactions []hashgraph.InternalTransaction) []hashgraph.InternalTransactionReceipt {
 	receipts := []hashgraph.InternalTransactionReceipt{}
 
@@ -151,6 +155,53 @@ func (p *InmemProxy) processInternalTransactions(internalTransactions []hashgrap
 			}
 		case hashgraph.PEER_REMOVE:
 			receipts = append(receipts, tx.AsAccepted())
+		}
+	}
+
+	return receipts
+}
+
+// processEvictions compares the current validator-set to the whitelist and
+// creates InternalTransactionReceipts to evict any current validator which is
+// not in the whitelist.
+func (p *InmemProxy) processEvictions(block hashgraph.Block) []hashgraph.InternalTransactionReceipt {
+	receipts := []hashgraph.InternalTransactionReceipt{}
+
+	if p.babble != nil {
+		babbleValidators, err := p.babble.Node.GetValidatorSet(block.RoundReceived())
+		if err != nil {
+			p.logger.WithError(err).Error("Error GetValidatorSet")
+			return receipts
+		}
+
+		for _, val := range babbleValidators {
+			pk, err := crypto.UnmarshalPubkey(val.PubKeyBytes())
+			if err != nil {
+				p.logger.Warningf("couldn't unmarshal pubkey bytes: %v", err)
+				continue
+			}
+
+			addr := crypto.PubkeyToAddress(*pk)
+
+			ok, err := p.state.CheckAuthorised(addr)
+
+			if err != nil {
+				p.logger.WithError(err).Error("Error in checkAuthorised")
+			} else {
+				if !ok {
+					p.logger.WithField("addr", addr.String()).Info("Ejected peer")
+					receipts = append(receipts,
+						hashgraph.InternalTransactionReceipt{
+							InternalTransaction: hashgraph.InternalTransaction{
+								Body: hashgraph.InternalTransactionBody{
+									Type: hashgraph.PEER_REMOVE,
+									Peer: *val,
+								},
+							},
+							Accepted: true,
+						})
+				}
+			}
 		}
 	}
 
