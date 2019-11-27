@@ -153,7 +153,7 @@ const checkEviction = async () => {
 };
 
 evictNode1()
-.then(() => sleep(2000))
+.then(() => sleep(4000))
 .then(() => { return checkEviction();})
 .catch(err => console.log(err));
 

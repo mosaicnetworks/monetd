@@ -46,21 +46,21 @@ monetcli --datadir $NETDIR poa nominee new --pwd $NETDIR/keystore/node0.txt --mo
 
 # Node 0 votes for node 3
 monetcli --datadir $NETDIR poa nominee vote --pwd $NETDIR/keystore/node0.txt  --from node0 \
-     -h $HOST -p $PORT --verdict true $addr3 -d 2>&1
+     -h $HOST -p $PORT --verdict yes $addr3 -d 2>&1
 
 # Node 1 votes for node 3
 monetcli --datadir $NETDIR poa nominee vote --pwd $NETDIR/keystore/node1.txt  --from node1 \
-     -h $HOST -p $PORT --verdict true $addr3 2>&1
+     -h $HOST -p $PORT --verdict yes $addr3 2>&1
 
 # Node 2 votes for node 3
 monetcli --datadir $NETDIR poa nominee vote --pwd $NETDIR/keystore/node2.txt  --from node2 \
-     -h $HOST -p $PORT --verdict true $addr3 2>&1
+     -h $HOST -p $PORT --verdict yes $addr3 2>&1
 
 # Node 3 should be decided here
 
 # Node 2 votes for node 4
 monetcli --datadir $NETDIR poa nominee vote --pwd $NETDIR/keystore/node2.txt  --from node2 \
-     -h $HOST -p $PORT --verdict true $addr4 2>&1
+     -h $HOST -p $PORT --verdict yes $addr4 2>&1
 
 
 # Pause to allow join blocks to be committed.

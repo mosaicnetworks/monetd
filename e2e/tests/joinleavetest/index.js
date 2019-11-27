@@ -22,19 +22,9 @@ const node2 = new Node(serverAddress1, serverPort);
 const node3 = new Node(serverAddress2, serverPort);
 const node4 = new Node(serverAddress3, serverPort);
 
-
 // import keystore and datadirectory objects
 const { default:Keystore } = require("evm-lite-keystore");
 const { default:DataDirectory } = require("evm-lite-datadir");
-
-
-
-
-
-
-// set the keystore object as the keystore for datadir object
-
-
 
 const checkWhitelist= async(contract, account, address) => {
  
@@ -46,11 +36,9 @@ const checkWhitelist= async(contract, account, address) => {
     },address);
 
     const checkReceipt = await node.callTx(checkTrans, account)
- //   console.log(checkReceipt)
 
     return checkReceipt;
 }
-
 
 const getWhiteListCount = async(contract, account) => {
  
@@ -62,11 +50,9 @@ const getWhiteListCount = async(contract, account) => {
     });
 
     const checkReceipt = await node.callTx(checkTrans, account)
- //   console.log(checkReceipt)
 
     return checkReceipt.toNumber();
 }
-
 
 const getNomineeCount = async(contract, account) => {
  
@@ -78,11 +64,9 @@ const getNomineeCount = async(contract, account) => {
     });
 
     const checkReceipt = await node.callTx(checkTrans, account)
- //   console.log(checkReceipt)
 
     return checkReceipt.toNumber();
 }
-
 
 const getEvictionCount = async(contract, account) => {
  
@@ -94,13 +78,9 @@ const getEvictionCount = async(contract, account) => {
     });
 
     const checkReceipt = await node.callTx(checkTrans, account)
- //   console.log(checkReceipt)
 
     return checkReceipt.toNumber();
 }
-
-
-
 
 const selfnominate = async(contract, account) => {
  
@@ -112,11 +92,9 @@ const selfnominate = async(contract, account) => {
     }, account.address, account.name);
 
     const checkReceipt = await node.sendTx(checkTrans, account)
- //   console.log(checkReceipt)
 
     return checkReceipt;
 }
-
 
 // submitEviction (address _nomineeAddress)
 const submitEviction = async(contract, account, evictee) => {
@@ -129,17 +107,12 @@ const submitEviction = async(contract, account, evictee) => {
     }, evictee.address);
 
     const checkReceipt = await node.sendTx(checkTrans, account)
- //   console.log(checkReceipt)
 
     return checkReceipt;
 }
 
-
-
 const castvote = async(contract, account, address, vote) => {
  
-    //castNomineeVote(address _nomineeAddress, bool _accepted)
-
     const checkTrans = contract.methods.castNomineeVote({
         from: account.address, 
         gas: defaultGas,
@@ -148,17 +121,12 @@ const castvote = async(contract, account, address, vote) => {
     }, address, vote);
 
     const checkReceipt = await node.sendTx(checkTrans, account)
- //   console.log(checkReceipt)
 
     return checkReceipt;
 }
 
-
-
 const castEvictionVote = async(contract, account, address, vote) => {
  
-    //castNomineeVote(address _nomineeAddress, bool _accepted)
-
     const checkTrans = contract.methods.castEvictionVote({
         from: account.address, 
         gas: defaultGas,
@@ -167,11 +135,10 @@ const castEvictionVote = async(contract, account, address, vote) => {
     }, address, vote);
 
     const checkReceipt = await node.sendTx(checkTrans, account)
- //   console.log(checkReceipt)
+
 
     return checkReceipt;
 }
-
 
 // get account by address and decrypt with pass
 // balance is inaccurate
@@ -181,9 +148,7 @@ const getAccount = async (address, password, datadir) => {
   
     // return the decrypted account
     return Keystore.decrypt(keyfile, password);
-  };
-
-
+};
 
 const join = async () => {
 
@@ -197,7 +162,7 @@ const join = async () => {
    
     console.log(keystore);
 
-// unlock all of the accounts
+    // Unlock all of the accounts
     console.log("Decrypting All Accounts")
     const account0 = await getAccount("node0", password, datadir);
     const account1 = await getAccount("node1", password, datadir);
@@ -205,31 +170,19 @@ const join = async () => {
     const account3 = await getAccount("node3", password, datadir);
     const account4 = await getAccount("node4", password, datadir);
 
-    console.log("Getting POA Contract ABI")
-// Get Contract ABI    
+    // Get Contract ABI
+    console.log("Getting POA Contract ABI")    
     let url = "http://"+serverAddress + ":"+serverPort+"/poa"
     let res = await fetch(url);
     let json = await res.json();
     let abiObj = JSON.parse(json.abi)
 
-// Create Contract and Initialise it   
-
+    // Create Contract
     console.log("Running POA init")
     const contract = Contract.load(abiObj, json.address)
-    const initTrans = contract.methods.init({
-        from: account0.address, 
-        gas: defaultGas,
-        gasPrice: defaultGasPrice,
-        value : 0,
-    })
-
-    const initReceipt = await node.sendTx(initTrans, account0);
-  
- //   TODO uncomment this line   
- //   console.log(initReceipt);
-
-     console.log("Checking Whitelist Status");
- // Check the Whitelist Status Status
+    
+    // Check the Whitelist Status
+    console.log("Checking Whitelist Status");
     let rec0 = await checkWhitelist(contract, account0, account0.address);
     let rec1 = await checkWhitelist(contract, account0, account1.address);
     let rec2 = await checkWhitelist(contract, account0, account2.address);
@@ -237,7 +190,7 @@ const join = async () => {
     let rec4 = await checkWhitelist(contract, account0, account4.address);
 
     if ( ( ! rec0 ) || ( ! rec1 ) || ( ! rec2 ) || ( rec3 )|| ( ! rec4 ) ) {
-        console.log("Whitelist should be TTTFT for nodes 0 to 3. Aborting")
+        console.log("Whitelist should be TTTFT for nodes 0 to 4. Aborting")
         console.log("CheckAuthorised node 0: ", rec0);
         console.log("CheckAuthorised node 1: ", rec1);
         console.log("CheckAuthorised node 2: ", rec2);
@@ -262,14 +215,8 @@ const join = async () => {
         process.exit(103);
     }
 
-
     console.log("Node3 self nominates");
-
     let recnom = await selfnominate(contract, account3);
-
- //   console.log(recnom);
-
-
 
     console.log("Checking Nominee count");
     reccnt = await getNomineeCount(contract, account0);
@@ -285,7 +232,6 @@ const join = async () => {
         console.log("Expected node3 checkAuthorised to be false. Got true. Aborting.")
         process.exit(106);
     }
-
 
     console.log("Node 0 votes for node 3");
     let recvote = await castvote(contract, account0, account3.address, true);
@@ -307,8 +253,6 @@ const join = async () => {
         process.exit(108);
     }
 
-
-
     console.log("Node 1 votes for node 3");
     recvote = await castvote(contract, account1, account3.address, true);
     console.log(recvote);
@@ -327,8 +271,6 @@ const join = async () => {
         console.log("Expected node3 checkAuthorised to be false. Got true. Aborting.")
         process.exit(109);
     }
-
-
    
     console.log("Node 4 votes for node 3");
     recvote = await castvote(contract, account4, account3.address, true);
@@ -353,48 +295,41 @@ const join = async () => {
     recvote = await castvote(contract, account2, account3.address, true);
     console.log(recvote);
 
-
-
     console.log("Checking Whitelist Status");
     // Check the Whitelist Status Status
-       rec0 = await checkWhitelist(contract, account0, account0.address);
-       rec1 = await checkWhitelist(contract, account0, account1.address);
-       rec2 = await checkWhitelist(contract, account0, account2.address);
-       rec3 = await checkWhitelist(contract, account0, account3.address);
+    rec0 = await checkWhitelist(contract, account0, account0.address);
+    rec1 = await checkWhitelist(contract, account0, account1.address);
+    rec2 = await checkWhitelist(contract, account0, account2.address);
+    rec3 = await checkWhitelist(contract, account0, account3.address);
    
-       if ( ( ! rec0 ) || ( ! rec1 ) || ( ! rec2 ) || ( ! rec3 )|| ( ! rec4 )) {
-           console.log("Whitelist should be TTTTT for nodes 0 to 3. Aborting")
-           console.log("CheckAuthorised node 0: ", rec0);
-           console.log("CheckAuthorised node 1: ", rec1);
-           console.log("CheckAuthorised node 2: ", rec2);
-           console.log("CheckAuthorised node 3: ", rec3);
-           console.log("CheckAuthorised node 4: ", rec4);
-           process.exit(111); 
-       }
-   
-       console.log("Checking Whitelist count");
-       reccnt = await getWhiteListCount(contract, account0);
-   
-       if ( reccnt != 5 ) {
-           console.log("Expected Whitelist count of 5, got "+ reccnt+". Aborting");
-           process.exit(112);
-       }
-   
+    if ( ( ! rec0 ) || ( ! rec1 ) || ( ! rec2 ) || ( ! rec3 )|| ( ! rec4 )) {
+        console.log("Whitelist should be TTTTT for nodes 0 to 3. Aborting")
+        console.log("CheckAuthorised node 0: ", rec0);
+        console.log("CheckAuthorised node 1: ", rec1);
+        console.log("CheckAuthorised node 2: ", rec2);
+        console.log("CheckAuthorised node 3: ", rec3);
+        console.log("CheckAuthorised node 4: ", rec4);
+        process.exit(111); 
+    }
 
-       console.log("Checking Nominee count");
-       reccnt = await getNomineeCount(contract, account0);
-   
-       if ( reccnt != 0 ) {
-           console.log("Expected Nominee count of 0, got "+ reccnt+". Aborting");
-           process.exit(103);
-       }
-   
+    console.log("Checking Whitelist count");
+    reccnt = await getWhiteListCount(contract, account0);
 
+    if ( reccnt != 5 ) {
+        console.log("Expected Whitelist count of 5, got "+ reccnt+". Aborting");
+        process.exit(112);
+    }
 
+    console.log("Checking Nominee count");
+    reccnt = await getNomineeCount(contract, account0);
+
+    if ( reccnt != 0 ) {
+        console.log("Expected Nominee count of 0, got "+ reccnt+". Aborting");
+        process.exit(103);
+    }
+   
     return "done"
 };
-
-
 
 const leave = async () => {
 
@@ -462,12 +397,8 @@ const leave = async () => {
     }
 
 
-    console.log("Node3 self nominates");
-
+    console.log("Node4 self nominates for eviction");
     let recnom = await submitEviction(contract, account0, account4);
-
- //   console.log(recnom);
-
 
 
     console.log("Checking Evictee count");
@@ -485,11 +416,9 @@ const leave = async () => {
         process.exit(106);
     }
 
-
     console.log("Node 0 votes for node 4");
     let recvote = await castEvictionVote(contract, account0, account4.address, true);
     console.log(recvote);
-
 
     console.log("Checking Evction count");
     reccnt = await getEvictionCount(contract, account0);
@@ -505,8 +434,6 @@ const leave = async () => {
         console.log("Expected node4 checkAuthorised to be true. Got false. Aborting.")
         process.exit(108);
     }
-
-
 
     console.log("Node 1 votes for node 4");
     recvote = await castEvictionVote(contract, account1, account4.address, true);
@@ -527,8 +454,6 @@ const leave = async () => {
         process.exit(108);
     }
 
-   
-
     console.log("Node 2 votes for node 4");
     recvote = await castEvictionVote(contract, account2, account4.address, true);
     console.log(recvote);
@@ -548,8 +473,6 @@ const leave = async () => {
         process.exit(108);
     }
 
-   
-
     console.log("Node 3 votes for node 4");
     recvote = await castEvictionVote(contract, account3, account4.address, true);
     console.log(recvote);
@@ -562,9 +485,8 @@ const leave = async () => {
         process.exit(107);
     }
 
-
     console.log("Checking Whitelist Status");
-    // Check the Whitelist Status Status
+        // Check the Whitelist Status
        rec0 = await checkWhitelist(contract, account0, account0.address);
        rec1 = await checkWhitelist(contract, account0, account1.address);
        rec2 = await checkWhitelist(contract, account0, account2.address);
@@ -597,15 +519,8 @@ const leave = async () => {
            process.exit(103);
        }
    
-
-
     return "done"
 };
-
-
-
-
-
 
 const posttests = async () => {
 
