@@ -3,10 +3,15 @@
 
 ## Unreleased
 
-SECURITY:
-FEATURES:
 IMPROVEMENTS:
+
+- monetd~babble: Suspend node when the validator is evicted.
+- monetd~babble: Enable joining with hostname, not just numeric IP. 
+
 BUG FIXES:
+
+- monetd~babble: Work under Windows.
+- monetd~evm-lite: set account storage and nonce when creating accounts.
 
 ## v0.3.4 (November 22, 2019)
 
