@@ -48,5 +48,18 @@ called using ``monetcli``.
 
 ``monetcli nominee vote`` is used to cast a vote for a nomination.
 
+Evicting Validators
+-------------------
+
+A similar voting mechanism exists for removing addresses from the whitelist:
+
+``monetcli evictee list``
+``monetcli evictee new``
+``monetcli evictee vote``
+
+With the dirrence that when an address is removed from the whitelist, the 
+corresponding Babble validator is automatically removed from the validator-set
+and suspended.
+
 
 
