@@ -1,9 +1,9 @@
 package: github.com/mosaicnetworks/monetd
 import:
 - package: github.com/mosaicnetworks/babble
-  version: =0.6.0
+  version: develop
 - package: github.com/mosaicnetworks/evm-lite
-  version: =0.3.7
+  version: develop
 - package: github.com/ethereum/go-ethereum
   version: =1.8.27
 - package: github.com/sirupsen/logrus
