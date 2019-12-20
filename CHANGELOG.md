@@ -1,12 +1,12 @@
 
 # Changelog
 
-## Unreleased
+## v0.3.6 (December 20, 2019)
 
-SECURITY:
-FEATURES:
-IMPROVEMENTS:
 BUG FIXES:
+
+- monetd~babble: Change stopping-condition in updateAncestorsFirstDescendants.
+- monetd~babble: Change eviction-condition in checkSuspend.
 
 ## v0.3.5 (November 26, 2019)
 

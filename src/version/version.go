@@ -11,7 +11,7 @@ import (
 
 var (
 	//Version is the full version string
-	Version = "0.3.5"
+	Version = "0.3.6"
 
 	// GitCommit is set with --ldflags "-X main.gitCommit=$(git rev-parse HEAD)"
 	GitCommit string
