@@ -14,7 +14,7 @@
 		"evm-lite-core": "^1.3.1",
 		"evm-lite-datadir": "^1.3.2",
 		"evm-lite-keystore": "^1.3.1",
-		"json-bigint": "^0.3.0",
+		"json-bigint": "^1.0.0",
 		"minimist": "^1.2.0",
 		"node-fetch": "^2.6.0",
 		"prompt": "^1.0.0",
